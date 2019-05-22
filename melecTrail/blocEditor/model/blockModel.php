@@ -25,13 +25,13 @@ class BlockModel
         }
     }
 
-    public function findByIdPage($pageId)
+    public function findByIdPage($idPage)
     {
         $dbConn = DBModel::getConnection();
         $stmt = $dbConn->prepare('
-            SELECT * FROM block WHERE pageId = :pageId
+            SELECT * FROM block WHERE idPage = :idPage
         ');
-        $stmt->bindParam(':pageId', $pageId);
+        $stmt->bindParam(':idPage', $idPage);
         $stmt->execute();
         $stmt->setFetchMode(PDO::FETCH_CLASS, 'BlockModel');
         return $stmt->fetchAll();
