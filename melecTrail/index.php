@@ -28,7 +28,7 @@ if ($path_split === '/') {
      *Assigning Object of Class Init to a Variable, to make it Usable
      *@return Method Name;
      */
-    $req_method="";
+    $req_method = "";
     $method = $req_method;
     /**
      *Check if Controller Exist is not empty, then performs an
@@ -69,36 +69,15 @@ if ($path_split === '/') {
      *Check if Controller Exist
      *@return void;
      */
-    $req_controller_exists = __DIR__ . '/controller/' . $req_controller . 'Controller.php';
-    if (file_exists($req_controller_exists)) {
-        /**
-         *Requiring all the files needed i.e The Corresponding Model and Controller
-         *@return corresponding class respectively;
-         */
-        require_once __DIR__ . '/model/' . $req_model . 'Model.php';
-        require_once __DIR__ . '/controller/' . $req_controller . 'Controller.php';
-        /**
-         *Model and Controller assignment with first letter as UPPERCASE
-         *@return Class;
-         */
-        $model = ucfirst($req_model) . 'Model';
+    if ($req_controller == "page") {
+        $req_controller_exist =  __DIR__ . '/blocEditor/controller/' . $req_controller . 'Controller.php';
+        require_once __DIR__ . '/blocEditor/model/' . $req_controller . 'Model.php';
+        require_once __DIR__ . '/blocEditor/controller/' . $req_controller . 'Controller.php';
+        $model = ucfirst($req_controller) . 'Model';
         $controller = ucfirst($req_controller) . 'Controller';
-        /**
-         *Creating an Instance of the the model and the controller each
-         *@return Object;
-         */
         $ModelObj = new $model;
-        $ControllerObj = new $controller(ucfirst($req_model . 'Model'));
-        /**
-         *Assigning Object of Class Init to a Variable, to make it Usable
-         *@return Method Name;
-         */
+        $ControllerObj = new $controller(ucfirst($req_controller . 'Model'));
         $method = $req_method;
-        /**
-         *Check if Controller Exist is not empty, then performs an
-         *action on the method;
-         *@return true;
-         */
         if ($req_method != '') {
             /**
              *Outputs The Required controller and the req *method respectively
@@ -112,8 +91,54 @@ if ($path_split === '/') {
              */
             print $ControllerObj->index();
         }
+
     } else {
-        header('HTTP/1.1 404 Not Found');
-        die('404 - The file was not found');
+        $req_controller_exists = __DIR__ . '/controller/' . $req_controller . 'Controller.php';
+        if (file_exists($req_controller_exists)) {
+            /**
+             *Requiring all the files needed i.e The Corresponding Model and Controller
+             *@return corresponding class respectively;
+             */
+            require_once __DIR__ . '/model/' . $req_model . 'Model.php';
+            require_once __DIR__ . '/controller/' . $req_controller . 'Controller.php';
+            /**
+             *Model and Controller assignment with first letter as UPPERCASE
+             *@return Class;
+             */
+            $model = ucfirst($req_model) . 'Model';
+            $controller = ucfirst($req_controller) . 'Controller';
+            /**
+             *Creating an Instance of the the model and the controller each
+             *@return Object;
+             */
+            $ModelObj = new $model;
+            $ControllerObj = new $controller(ucfirst($req_model . 'Model'));
+            /**
+             *Assigning Object of Class Init to a Variable, to make it Usable
+             *@return Method Name;
+             */
+            $method = $req_method;
+            /**
+             *Check if Controller Exist is not empty, then performs an
+             *action on the method;
+             *@return true;
+             */
+            if ($req_method != '') {
+                /**
+                 *Outputs The Required controller and the req *method respectively
+                 *@return Required Method;
+                 */
+                print $ControllerObj->$method($req_param);
+            } else {
+                /**
+                 *This works in only when the Url doesnt have a parameter
+                 *@return void;
+                 */
+                print $ControllerObj->index();
+            }
+        } else {
+            header('HTTP/1.1 404 Not Found');
+            die('404 - The file was not found');
+        }
     }
 }
