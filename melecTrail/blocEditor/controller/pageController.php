@@ -22,7 +22,6 @@ class PageController
 
     function index(){
         try {
-            $tab_jog = JoggingModel::findAll();
             require(__DIR__ . '/../view/editorView.php');
         } catch (Exception $e) {
             echo e;
