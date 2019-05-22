@@ -2,7 +2,7 @@
 
 require_once $_SERVER['DOCUMENT_ROOT'] . "/model/DBModel.php";
 
-class Page
+class PageModel
 {
     public $id;
     public $name;
@@ -32,7 +32,7 @@ class Page
             SELECT * FROM page
         ');
         $stmt->execute();
-        $stmt->setFetchMode(PDO::FETCH_CLASS, 'Page');
+        $stmt->setFetchMode(PDO::FETCH_CLASS, 'PageModel');
         return $stmt->fetchAll();
     }
 
@@ -61,7 +61,7 @@ class Page
         ');
         $stmt->bindParam(':id', $id);
         $stmt->execute();
-        $stmt->setFetchMode(PDO::FETCH_CLASS, 'Page');
+        $stmt->setFetchMode(PDO::FETCH_CLASS, 'PageModel');
         return $stmt->fetch();
     }
 
@@ -80,7 +80,7 @@ class Page
         ');
         $stmt->bindParam(':name', $name);
         $stmt->execute();
-        $stmt->setFetchMode(PDO::FETCH_CLASS, 'Page');
+        $stmt->setFetchMode(PDO::FETCH_CLASS, 'PageModel');
         return $stmt->fetchAll();
     }
 
