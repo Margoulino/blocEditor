@@ -5,6 +5,7 @@ CREATE TABLE IF NOT EXISTS `block` (
   `type` varchar(50) NOT NULL,
   `content` varchar(500) NOT NULL,
   `pageId` int(11) NOT NULL,
+  `order` int(11) DEFAULT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1;
 
