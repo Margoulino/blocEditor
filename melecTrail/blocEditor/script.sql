@@ -12,6 +12,7 @@ CREATE TABLE IF NOT EXISTS `block` (
 DROP TABLE IF EXISTS `page`;
 CREATE TABLE IF NOT EXISTS `page` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
+  `name` varchar(50) NOT NULL,
   `parentId` int(11) NOT NULL,
   `editable` tinyint(1) DEFAULT NULL,
   PRIMARY KEY (`id`)
