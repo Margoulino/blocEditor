@@ -1,14 +1,18 @@
+$(document).on('click', '#setPageTree', function () {
+    $("#treeModal").modal('show');
+});
+
 $('#addPage').click(function () {
-    $('.page').append("<div class='form-row'><div class='col'><input type='text' class='form-control' name='name' placeholder='nom de lapage' id='pagename' required /></div><div class='col'><input type='text' class='form-control' name='parent' placeholder='nom de la page parent' id='parentname' required /></div></div>");
+    $('.page').append("<div class='form-row'><div class='col'><input type='text' class='form-control' name='name' placeholder='nom de lapage' id='pagename' required /></div><div class='col'><input type='text' class='form-control' name='parent' placeholder='nom de la page parente' id='parentname' required /></div></div>");
 })
 
 $('#tree_form').on('submit', function () {
     var treeForm = $(this);
     var form_data = JSON.stringify(treeForm.serializeObject());
     $.ajax({
-        url="edit/setTree",
-        type="POST",
-        contentType= 'application/json',
+        url:"edit/setTree",
+        type:"POST",
+        contentType: 'application/json',
         data: form_data,
         success: function (result) {
             console.log(result);
