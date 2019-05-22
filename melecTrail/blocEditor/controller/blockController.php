@@ -34,13 +34,32 @@ class BlockController
         $block->content = $data->content;
         $block->order = $data->order;
         $block->idPage = $data->idPage;
-        
         $targetPage = PageModel::findByid($data->idPage);
-
-        BlockModel::save($block);
-        http_response_code(200);
-        echo json_encode(array("message" => "Block succesfully added to base"));
+        if(count($targetPage) == 0) {
+            http_response_code(404);
+            echo json_encode(array("message" => "The page you are trying to add a block on does not exists. Block not added to base."));
+        } else {
+            BlockModel::save($block);
+            http_response_code(200);
+            echo json_encode(array("message" => "Block succesfully added to base"));
+        }
     }
 
-
+    /**
+     * Removes a block from db/page
+     */
+    public function deleteBlock()
+    {
+        $this->setHeader();
+        $data = json_decode(file_get_contents("php://input"));
+        $blocToDelete = BlocModel::findById($data->id);
+        if(count($blocToDelete) == 0) {
+            http_response_code(404);
+            echo json_encode(array("message" => "Block not found, can't be deleted."));
+        } else {
+            BlocModel::delete($data->id);
+            http_response_code(200);
+            echo json_encode(array("message" => "Block deleted succesfully"));
+        }
+    }
 }

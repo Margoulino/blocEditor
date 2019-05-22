@@ -25,6 +25,18 @@ class BlockModel
         }
     }
 
+    public static function findById($id)
+    {
+        $dbConn = DBModel::getConnection();
+        $stmt = $dbConn->prepare('
+            SELECT * FROM block WHERE id = :id
+        ');
+        $stmt->bindParam(':id', $id);
+        $stmt->execute();
+        $stmt->setFetchMode(PDO::FETCH_CLASS, 'BlockModel');
+        return $stmt->fetchAll();
+    }
+
     public static function findByIdPage($idPage)
     {
         $dbConn = DBModel::getConnection();
