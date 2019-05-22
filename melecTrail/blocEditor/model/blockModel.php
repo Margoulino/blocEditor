@@ -25,7 +25,7 @@ class BlockModel
         }
     }
 
-    public function findByIdPage($idPage)
+    public static function findByIdPage($idPage)
     {
         $dbConn = DBModel::getConnection();
         $stmt = $dbConn->prepare('

@@ -25,7 +25,7 @@ class ImageModel
         }
     }
 
-    public function findById($id)
+    public static function findById($id)
     {
         $dbConn = DBModel::getConnection();
         $stmt = $dbConn->prepare('
