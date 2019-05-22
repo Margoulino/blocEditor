@@ -28,7 +28,7 @@
     </nav>
 
 
-    <div id="treeModal" class="modal fade">
+<div id="treeModal" class="modal fade">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
@@ -37,12 +37,18 @@
             </div>
             <div class="modal-body">
                 <form id='tree_form'>
-                    <div class="form-group">
-                        <label for="username">Nom d'utilisateur</label>
-                        <input type="text" class="form-control" name="username" id="username" required />
-                        
+                    <div class="page">
+                        <div class="form-row">
+                            <div class="col">
+                                <input type="text" class="form-control" name="name" placeholder="nom de lapage" id="pagename" required />
+                            </div>  
+                            <div class="col">
+                                <input type="text" class="form-control" name="parent" placeholder="nom de la page parent" id="parentname" required />
+                            </div>
+                        </div>
                     </div>
-                    <button type='submit' class='btn btn-primary'>Enregistrer</button>
+                    <button class="btn btn-primary fas fa-plus-square" id="addPage"></button>
+                    <button type='submit' class='btn btn-primary' id="saveTree">Enregistrer</button>
                     <i class="fas fa-spinner fa-spin" style="display: none"></i>
                 </form>
             </div>
