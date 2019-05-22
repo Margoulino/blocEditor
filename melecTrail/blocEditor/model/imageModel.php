@@ -1,6 +1,6 @@
 <?php
 
-require_once __DIR__ . "/DBModel.php";
+require_once __DIR__ . "/../../model/DBModel.php";
 
 class ImageModel
 {
