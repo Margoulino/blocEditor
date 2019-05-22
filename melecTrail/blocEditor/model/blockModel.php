@@ -88,4 +88,19 @@ class BlockModel
         $stmt->bindParam(':id', $this->id);
         return $stmt->execute();
     }
+
+    /**
+     * Delete function
+     * Deletes a block from Database
+     * 
+     */
+    public static function delete($id)
+    {
+        $dbConn = DBModel::getConnection();
+        $stmt = $dbConn->prepare('
+            DELETE FROM block WHERE id = :id;
+        ');
+        $stmt->bindParam(':id', $id);
+        $stmt->execute();
+    }
 }
