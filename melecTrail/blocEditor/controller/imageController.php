@@ -45,9 +45,12 @@ class ImageController
             http_response_code(404);
             echo json_encode(array("message" => "Image not found, can't be deleted."));
         } else {
-            $imageToDelete->delete($data->id);
+            ImageModel::delete($data->id);
             http_response_code(200);
             echo json_encode(array("message" => "Image deleted succesfully"));
         }
     }
+
+    public function getImages()
+    {}
 }

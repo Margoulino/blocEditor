@@ -37,6 +37,28 @@ class ImageModel
         return $stmt->fetchAll();
     }
 
+    public static function findAll()
+    {
+        $dbConn = DBModel::getConnection();
+        $stmt = $dbConn->prepare('
+            SELECT * FROM image;
+        ');
+        $stmt->execute();
+        $stmt->setFetchMode(PDO::FETCH_CLASS, 'ImageModel');
+        return $stmt->fetchAll();
+    }
+
+    public static function findByName($name)
+    {
+        $dbConn = DBModel::getConnection();
+        $stmt = $dbConn->prepare('
+            SELECT * FROM image WHERE name = :name;
+        ');
+        $stmt->bindParam(':name', $name);
+        $stmt->execute();
+        return $stmt->fetchAll();
+    }
+
     /** 
      * Save function :
      * Creates and saves a image in the database
