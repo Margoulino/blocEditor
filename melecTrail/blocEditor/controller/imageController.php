@@ -30,10 +30,15 @@ class ImageController
         $image->height = $data->height;
         $image->width = $data->width;
         $image->extension = $data->extension;
-        //lister les extensions autoriser et n'enregistrer que ces extensions précises
-        ImageModel::save($image);
-        http_response_code(200);
-        echo json_encode(array("message" => "Image successfully added to base"));
+        $allowedExt = ["jpg", "jpeg", "png", "gif"];
+        if(in_array($image->extension, $allowedExt)) {
+            ImageModel::save($image);
+            http_response_code(200);
+            echo json_encode(array("message" => "Image successfully added to base"));
+        } else {
+            http_response_code(403);
+            echo json_encode(array("message" => "File extension not allowed, types allowed : jpg, jpeg, png, gif"));
+        }
     }
 
     public function deleteImage()
@@ -53,4 +58,10 @@ class ImageController
 
     public function getImages()
     {}
+
+    public function gestion()
+    {
+        $imagesToDisplay = ImageModel::findAll();
+        require(__DIR__ . '/../view/imageManagerView.php');
+    }
 }
