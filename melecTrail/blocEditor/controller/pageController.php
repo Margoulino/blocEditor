@@ -68,21 +68,35 @@ class PageController
             $treePages = $this->buildTree($pages);
             //echo json_encode(array("message" => $pages[0]->name));
 
-            require(__DIR__ . '/../view/editorView.php');
+            require(__DIR__ . '/../view/indexEditor.php');
         } catch (Exception $e) {
             echo e;
         }
     }
 
-    /** 
-     * Validate Json Web Token function :
-     * Checks if the given JWT is valid and decodes it 
-     * 
-     */
-    function validateJWT($jwt)
+    function rsearch($folder, $pattern)
     {
-        if ($decoded = JWT::decode($jwt, "63-trUY^f4ER", array('HS256'))) {
-            return $decoded->data->username;
-        } else return null;
+        $dir = new RecursiveDirectoryIterator($folder);
+        $ite = new RecursiveIteratorIterator($dir);
+        $files = new RegexIterator($ite, $pattern, RegexIterator::GET_MATCH);
+        $fileList = array();
+        foreach ($files as $file) {
+            $fileList = array_merge($fileList, $file);
+        }
+        return $fileList;
+    }
+
+    function editPage()
+    {
+        $data = json_decode(file_get_contents("php://input"));
+        try {
+            $page = PageModel::findById($data->id);
+            $pagePath = $this->rsearch($_SERVER['DOCUMENT_ROOT'],'/^.+\\'.$page->name.'.php$/');
+        } catch (Exception $e) {
+            http_response_code(403);
+            echo $e;
+        }
+        http_response_code(200);
+        require($_SERVER['DOCUMENT_ROOT'] . '/blocEditor/view/pageEditor.php');
     }
 }

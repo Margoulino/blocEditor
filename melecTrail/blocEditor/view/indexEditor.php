@@ -28,26 +28,26 @@
     </nav>
     <br clear="all">
     <br />
-    <div id="pageTree"></div>
-    <?php
-    function displayTree(array $elements, $parentId = 0)
-    {
-        echo '<ul>';
-        foreach ($elements as $e) {
-            echo '<li id="' . $e['name'] . '">' . $e['name'] . '</li>';
-            if (array_key_exists('children', $e)) {
-                displayTree($e['children']);
+    <div id="pageTree">
+        <?php
+        function displayTree(array $elements, $parentId = 0)
+        {
+            echo '<ul>';
+            foreach ($elements as $e) {
+                echo '<li><a href="#" id="' . $e['id'] . '">' . $e['name'] . '</a></li>';
+                if (array_key_exists('children', $e)) {
+                    displayTree($e['children']);
+                }
             }
+            echo '</ul>';
         }
-        echo '</ul>';
-    }
-    if ($pages == null) {
-        echo '<h3> Arborescence non créée </h3>';
-    } else {
-        //echo $treePages[0]['name'];
-        displayTree($treePages);
-    }
-    ?>
+        if ($pages == null) {
+            echo '<h3> Arborescence non créée </h3>';
+        } else {
+            //echo $treePages[0]['name'];
+            displayTree($treePages);
+        }
+        ?>
     </div>
 
     <div id="treeModal" class="modal fade">
