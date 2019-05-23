@@ -35,7 +35,11 @@
     <div class="container">
         <div class="row">
             <div class="col">
-                grille des images
+                <?php
+                foreach ($imagesToDisplay as $img) {
+                    echo "<img src='" . $img->path . "'/>";
+                }
+                ?>
             </div>
         </div>
     </div>
@@ -53,22 +57,54 @@
                 <div class="modal-body">
                     <form>
                         <div class="form-group">
-                            <input class="form-control" type="text" placeholder="Nom de l'image">
+                            <input id="imgName" class="form-control" type="text" placeholder="Nom de l'image">
                             <hr>
                             <label for="exampleFormControlFile1">Selectionnez un fichier image (jpg, jpeg, png, gif)</label>
-                            <input type="file" class="form-control-file" id="exampleFormControlFile1">
+                            <input id="imgInput" type="file" class="form-control-file" id="exampleFormControlFile1">
                         </div>
                     </form>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Annuler</button>
-                    <button type="button" class="btn btn-primary">Enregistrer</button>
+                    <button id="sendImg" type="button" class="btn btn-primary">Enregistrer</button>
                 </div>
             </div>
         </div>
     </div>
     <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+    <script>
+        function saveImg() {
+            // Sending and receiving data in JSON format using POST method
+            var xhr = new XMLHttpRequest();
+            var nameTyped = document.getElementById("imgName").value.replace(" ", "_");
+            var fileExtension = document.getElementById("imgInput").value.split(".").pop();
+            var url = "/image/addImage";
+            var path = "<?php $_SERVER['DOCUMENT_ROOT'] ?>/blocEditor/img/" + nameTyped + "." + fileExtension;
+            xhr.open("POST", url, true);
+            xhr.setRequestHeader("Content-Type", "application/json");
+
+            var data = JSON.stringify({
+                "name": nameTyped.replace(" ", "_"),
+                "path": path,
+                "height": "height",
+                "width": "width",
+                "extension": fileExtension
+            });
+
+            xhr.onreadystatechange = function() { // Call a function when the state changes.
+                if (this.readyState === XMLHttpRequest.DONE && this.status === 200) {
+                    $('#exampleModal').modal('hide');
+                }
+            }
+
+            xhr.send(data);
+        }
+        var sendImgBtn = document.getElementById("sendImg");
+        sendImgBtn.addEventListener("click", function() {
+            saveImg();
+        });
+    </script>
 </body>
 
 </html>
