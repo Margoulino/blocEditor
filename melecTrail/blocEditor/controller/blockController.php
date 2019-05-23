@@ -52,8 +52,8 @@ class BlockController
     {
         $this->setHeader();
         $data = json_decode(file_get_contents("php://input"));
-        $blocToDelete = BlocModel::findById($data->id);
-        if(count($blocToDelete) == 0) {
+        $blockToDelete = BlocModel::findById($data->id);
+        if(count($blockToDelete) == 0) {
             http_response_code(404);
             echo json_encode(array("message" => "Block not found, can't be deleted."));
         } else {
@@ -62,4 +62,35 @@ class BlockController
             echo json_encode(array("message" => "Block deleted succesfully"));
         }
     }
+
+    /**
+     * Updates a block in a page/in DB
+     */
+    public function updateBlock()
+    {
+        $this->setHeader();
+        $data  = json_decode(file_get_contents("php://input"));
+        $blockToUpdate = BlockModel::findById($data->id);
+        if(count($blockToUpdate) == 0) {
+            http_response_code(404);
+            echo json_encode(array("message" => "Block not found, can't be updated."));
+        } else {
+            $block = new BlockModel();
+            $block->name = $data->name;
+            $block->type = $data->type;
+            $block->content = $data->content;
+            $block->order = $data->order;
+            $block->idPage = $data->idPage;
+            $targetPage = PageModel::findByid($data->idPage);
+            if(count($targetPage) == 0) {
+                http_response_code(404);
+                echo json_encode(array("message" => "The page you are trying to update a block on does not exists. Block not updated to base."));
+            } else {
+                $block->update();
+                http_response_code(200);
+                echo json_encode(array("message" => "Block successfully updated"));
+            }
+        }
+    }
+
 }
