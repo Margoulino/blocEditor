@@ -15,20 +15,20 @@
 <body>
 
     <br clear="all">
-
-    <?php include_once(__DIR__ . '/../header.php') ?>
-
+    <div class="phpTag">
+        <?php include_once(__DIR__ . '/../header.php') ?>
+    </div>
     <br clear="all">
 
     <div class="ui-widget">
 
         <div class="container">
-            
+
             <p>rechercher par période : </p>
             <div class='datepicker col-md-4'>
                 <div class="form-group">
                     <div class='input-group date' id='datetimepicker6'>
-                        <input type='text' class="form-control" name="startDate"/>
+                        <input type='text' class="form-control" name="startDate" />
                         <a class="btn btn-success" href="#">
                             <span class="input-group-addon">
                                 <span class="far fa-calendar-alt"></span>
@@ -41,7 +41,7 @@
             <div class='datepicker col-md-4'>
                 <div class="form-group">
                     <div class='input-group date' id='datetimepicker7'>
-                        <input type='text' class="form-control" name="endDate"/>
+                        <input type='text' class="form-control" name="endDate" />
                         <a class="btn btn-success" href="#">
                             <span class="input-group-addon">
                                 <i class="far fa-calendar-alt"></i>
@@ -66,10 +66,11 @@
             </tr>
         </thead>
         <tbody id="jogsTab">
-            <?php
-            foreach ($tab_jog as $t) {
-                echo
-                    '<tr class="jogs">
+            <div class="phpTag">
+                <?php
+                foreach ($tab_jog as $t) {
+                    echo
+                        '<tr class="jogs">
                         <td scope="row" class="departure">' . $t["departure"] . '</td>
                         <td scope="row"class="dateJogs">' . date("l d F Y", strtotime($t["date"])) . '</td>
                         <td> <button type="button" class="btn btn-info btn-xs glyphicon glyphicon-info-sign" data-toggle="modal" data-target="#detailModal" 
@@ -79,8 +80,9 @@
                              </button>
                         </td>
                     </tr>';
-            };
-            ?>
+                };
+                ?>
+            </div>
         </tbody>
     </table>
     <p>

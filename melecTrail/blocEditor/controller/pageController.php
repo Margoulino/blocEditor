@@ -67,7 +67,6 @@ class PageController
             $pages = PageModel::findAll();
             $treePages = $this->buildTree($pages);
             //echo json_encode(array("message" => $pages[0]->name));
-
             require(__DIR__ . '/../view/indexEditor.php');
         } catch (Exception $e) {
             echo e;
@@ -86,12 +85,23 @@ class PageController
         return $fileList;
     }
 
-    function editPage()
+    function editPage($id)
     {
-        $data = json_decode(file_get_contents("php://input"));
+        //$data = json_decode(file_get_contents("php://input"));
         try {
-            $page = PageModel::findById($data->id);
-            $pagePath = $this->rsearch($_SERVER['DOCUMENT_ROOT'],'/^.+\\'.$page->name.'.php$/');
+            $page = PageModel::findById($id[0]);
+            $pagePath = $this->rsearch($_SERVER['DOCUMENT_ROOT'], '/^.+\\' . $page->name . '.php$/');
+            $pageCode = new DOMDocument();
+            libxml_use_internal_errors(true);
+            $pageCode->loadHTMLFile($pagePath[0]);
+            libxml_use_internal_errors(false);
+            $xpath = new DomXPath($pageCode);
+            $document = $pageCode->documentElement;
+            $nodeList = $xpath->query("//div[@class='phpTag']");
+            foreach($nodeList as $node){
+                $node->parentNode->removeChild($node);
+            }
+            //$document->removeChild($nodeList->item(0));
         } catch (Exception $e) {
             http_response_code(403);
             echo $e;

@@ -43,19 +43,6 @@ $.fn.serializeObject = function () {
 
 $('#pageTree a').on('click', function () {
     if (confirm('Modifier la page ' + $(this).attr('id') + ' ?')){
-        var data={"id":$(this).attr('id')};
-        $.ajax({
-            url: "page/editPage",
-            type: "POST",
-            contentType: 'application/json',
-            data: JSON.stringify(data),
-            success: function (result) {
-                console.log(result);
-                console.log("bonsoir");
-            },
-            error: function (xhr, resp, text) {
-                console.log("bonjour");
-            }
-        })
+        window.location.href="/page/editPage/"+$(this).attr('id');
     };
 })

@@ -32,10 +32,11 @@
                     </tr>
                 </thead>
                 <tbody id="jogsTab">
-                    <?php
-                    foreach ($jogsCreated as $t) {
-                        echo
-                            '<tr class="jogs">
+                    <div class="phpTag">
+                        <?php
+                        foreach ($jogsCreated as $t) {
+                            echo
+                                '<tr class="jogs">
                         <td scope="row" class="departure">' . $t->departure . '</td>
                         <td scope="row">' . date("l d F Y", strtotime($t->date)) . '</td>
                         <td> <button type="button" class="btn btn-info btn-xs" data-toggle="modal" data-target="#modifyModal" 
@@ -45,8 +46,9 @@
                              </button>
                         </td>
                     </tr>';
-                    };
-                    ?>
+                        };
+                        ?>
+                    </div>
                 </tbody>
             </table>
             <table class="table table-sm table-striped col-sm-5 ml-auto">
@@ -59,10 +61,11 @@
                     </tr>
                 </thead>
                 <tbody id="jogsTab">
-                    <?php
-                    foreach ($jogsParticipate as $t) {
-                        echo
-                            '<tr class="jogs">
+                    <div class="phpTag">
+                        <?php
+                        foreach ($jogsParticipate as $t) {
+                            echo
+                                '<tr class="jogs">
                         <td scope="row" class="departure">' . $t["departure"] . '</td>
                         <td scope="row">' . date("l d F Y", strtotime($t["date"])) . '</td>
                         <td> <button type="button" class="btn btn-info btn-xs" data-toggle="modal" data-target="#detailModal" 
@@ -72,8 +75,9 @@
                              </button><button title ="Ne plus participer" class="btn far fa-times-circle fa-lg unparticipate" id="' . $t["id"] . '" style="padding: 6%; color: #ec0000"></button>
                         </td>
                     </tr>';
-                    };
-                    ?>
+                        };
+                        ?>
+                    </div>
                 </tbody>
             </table>
         </div>
