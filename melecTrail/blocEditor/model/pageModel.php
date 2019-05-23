@@ -36,6 +36,15 @@ class PageModel
         return $stmt->fetchAll();
     }
 
+    public static function emptyTable()
+    {
+        $dbConn = DBModel::getConnection();
+        $stmt = $dbConn->prepare('
+            DELETE FROM `page`;
+        ');
+        $stmt->execute();
+    }
+
     public static function delete($id)
     {
         $dbConn = DBModel::getConnection();
@@ -91,21 +100,22 @@ class PageModel
      */
     public static function save(\PageModel $page)
     {
-        if (isset($page->id)) {
-            return update($page);
-        }
+        // if (isset($page->id)) {
+        //     return update($page);
+        // }
         $dbConn = DBModel::getConnection();
         $stmt = $dbConn->prepare('
             INSERT INTO page 
-                (name, parentId, editable) 
+                (id, name, parentId, editable) 
             VALUES 
-                (:name, :parentId, :editable)
+                (:id, :name, :parentId, :editable)
         ');
+        $stmt->bindParam(':id', $page->id);
         $stmt->bindParam(':name', $page->name);
         $stmt->bindParam(':parentId', $page->parentId);
         $stmt->bindParam(':editable', $page->editable);
 
-    
+
         return $stmt->execute();
     }
 

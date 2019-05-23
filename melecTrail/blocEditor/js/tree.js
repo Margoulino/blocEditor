@@ -3,7 +3,7 @@ $(document).on('click', '#setPageTree', function () {
 });
 
 $('#addPage').click(function () {
-    $('.page').append("<div class='form-row'><div class='col'><input type='text' class='form-control' name='name' placeholder='nom de lapage' id='pagename' required /></div><div class='col'><input type='text' class='form-control' name='parent' placeholder='nom de la page parente' id='parentname' required /></div></div>");
+    $('.page').append("<div class='form-row'><div class='col'><input type='number' class='form-control' name='id' placeholder='id de la page' id='pageid' required /></div><div class='col'><input type='text' class='form-control' name='name' placeholder='nom de la page' id='pagename' required /></div><div class='col'><input type='text' class='form-control' name='parent' placeholder='nom de la page parente' id='parentname' required /></div></div>");
 })
 
 $('#tree_form').on('submit', function () {
@@ -16,6 +16,7 @@ $('#tree_form').on('submit', function () {
         data: form_data,
         success: function (result) {
             console.log(result);
+            window.location.reload();
         },
         error: function (xhr, resp, text) {
             console.log(resp);

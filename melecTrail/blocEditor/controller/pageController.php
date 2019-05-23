@@ -22,18 +22,14 @@ class PageController
 
     function setTree()
     {
-        $this->setHeader();
-        $data = json_decode(file_get_contents("php://input"));
-        // try {
-        //     $user = $this->validateJWT($data->jwt);
-        // } catch (Exception $e) {
-        //     http_response_code(403);
-        //     echo "bad credentials";
-        //     return;
-        // }
         try {
+            $this->setHeader();
+            $data = json_decode(file_get_contents("php://input"));
+            PageModel::emptyTable();
             for ($i = 0; $i < count($data->name); $i++) {
+
                 $page = new PageModel();
+                $page->id = $data->id[$i];
                 $page->name = $data->name[$i];
                 $page->parentId = $data->parent[$i];
                 PageModel::save($page);
@@ -42,11 +38,15 @@ class PageController
             http_response_code(418);
             echo json_encode(array("message" => $e));
         }
+
+        http_response_code(200);
+        echo json_encode(array("Message" => "arborescence construite"));
     }
 
-    function buildTree(array $elements, $parentId = 0) {
+    function buildTree(array $elements, $parentId = 0)
+    {
         $branch = array();
-    
+
         foreach ($elements as $element) {
             if ($element['parentId'] == $parentId) {
                 $children = $this->buildTree($elements, $element['id']);
@@ -56,7 +56,7 @@ class PageController
                 $branch[] = $element;
             }
         }
-    
+
         return $branch;
     }
 
@@ -67,7 +67,7 @@ class PageController
             $pages = PageModel::findAll();
             $treePages = $this->buildTree($pages);
             //echo json_encode(array("message" => $pages[0]->name));
-            
+
             require(__DIR__ . '/../view/editorView.php');
         } catch (Exception $e) {
             echo e;

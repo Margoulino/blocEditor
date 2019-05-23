@@ -10,7 +10,7 @@
 
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous" />
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.2/css/all.css" integrity="sha384-oS3vJWv+0UjzBfQzYUhtDYW+Pj2yciDJxpsK1OYPAYjqT085Qq/1cq5FLXAZQ7Ay" crossorigin="anonymous">
-   
+
 </head>
 
 <body>
@@ -49,9 +49,9 @@
     }
     ?>
     </div>
-    
+
     <div id="treeModal" class="modal fade">
-        <div class="modal-dialog">
+        <div class="modal-dialog modal-lg">
             <div class="modal-content">
                 <div class="modal-header">
                     <h5 class="modal-title">Structure du site</h5>
@@ -62,10 +62,24 @@
                         <div class="page">
                             <div class="form-row">
                                 <div class="col">
-                                    <input type="text" class="form-control" name="name" placeholder="nom de lapage" id="pagename" required />
+                                    <input type="number" class="form-control" name="id" placeholder="id de la page" id="pageid" required />
                                 </div>
                                 <div class="col">
-                                    <input type="text" class="form-control" name="parent" placeholder="nom de la page parente" id="parentname" required />
+                                    <input type="text" class="form-control" name="name" placeholder="nom de la page" id="pagename" required />
+                                </div>
+                                <div class="col">
+                                    <input type="number" class="form-control" name="parent" placeholder="nom de la page parente" id="parentname" required />
+                                </div>
+                            </div>
+                            <div class="form-row">
+                                <div class="col">
+                                    <input type="number" class="form-control" name="id" placeholder="id de la page" id="pageid" required />
+                                </div>
+                                <div class="col">
+                                    <input type="text" class="form-control" name="name" placeholder="nom de la page" id="pagename" required />
+                                </div>
+                                <div class="col">
+                                    <input type="number" class="form-control" name="parent" placeholder="nom de la page parente" id="parentname" required />
                                 </div>
                             </div>
                         </div><br />
