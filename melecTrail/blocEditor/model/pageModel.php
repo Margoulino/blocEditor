@@ -32,7 +32,7 @@ class PageModel
             SELECT * FROM page
         ');
         $stmt->execute();
-        $stmt->setFetchMode(PDO::FETCH_CLASS, 'PageModel');
+        $stmt->setFetchMode(PDO::FETCH_CLASS, 'Page');
         return $stmt->fetchAll();
     }
 
@@ -89,7 +89,7 @@ class PageModel
      * Creates and saves a jogging in the database
      * 
      */
-    public static function save(\Page $page)
+    public static function save(\PageModel $page)
     {
         if (isset($page->id)) {
             return update($page);

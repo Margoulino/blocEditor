@@ -10,8 +10,8 @@ $('#tree_form').on('submit', function () {
     var treeForm = $(this);
     var form_data = JSON.stringify(treeForm.serializeObject());
     $.ajax({
-        url:"edit/setTree",
-        type:"POST",
+        url: "page/setTree",
+        type: "POST",
         contentType: 'application/json',
         data: form_data,
         success: function (result) {
@@ -39,3 +39,4 @@ $.fn.serializeObject = function () {
     });
     return o;
 };
+
