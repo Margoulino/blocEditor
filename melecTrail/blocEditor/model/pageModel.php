@@ -20,7 +20,7 @@ class PageModel
 
     /** 
      * Find all function :
-     * Selects all the existing joggings
+     * Selects all the existing pages
      * 
      */
     public static function findAll()
@@ -55,7 +55,7 @@ class PageModel
 
     /** 
      * Find by id function :
-     * Selects a jogging according to the given id 
+     * Selects a page according to the given id 
      * 
      */
     public static function findById($id)
@@ -74,7 +74,7 @@ class PageModel
 
     /** 
      * Find by name function :
-     * Selects a jogging according to its name
+     * Selects a page according to its name
      * 
      */
     public static function findByname($name)
@@ -93,20 +93,20 @@ class PageModel
 
     /** 
      * Save function :
-     * Creates and saves a jogging in the database
+     * Creates and saves a page in the database
      * 
      */
     public static function save(\PageModel $page)
     {
-        // if (isset($page->id)) {
-        //     return update($page);
-        // }
+        if (isset($page->id)) {
+            return update($page);
+        }
         $dbConn = DBModel::getConnection();
         $stmt = $dbConn->prepare('
             INSERT INTO page 
-                (id, name, public) 
+                (name, public) 
             VALUES 
-                (:id, :name, :public)
+                (:name, :public)
         ');
         $stmt->bindParam(':id', $page->id);
         $stmt->bindParam(':name', $page->name);
