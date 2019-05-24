@@ -108,7 +108,6 @@ class PageModel
             VALUES 
                 (:name, :public)
         ');
-        $stmt->bindParam(':id', $page->id);
         $stmt->bindParam(':name', $page->name);
         $stmt->bindParam(':public', $page->public);
 
