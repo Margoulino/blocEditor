@@ -35,7 +35,7 @@ class BlockModel
     {
         $dbConn = DBModel::getConnection();
         $stmt = $dbConn->prepare('
-            SELECT * FROM block WHERE id = :id
+            SELECT * FROM edit_block WHERE id = :id
         ');
         $stmt->bindParam(':id', $id);
         $stmt->execute();
@@ -47,7 +47,7 @@ class BlockModel
     {
         $dbConn = DBModel::getConnection();
         $stmt = $dbConn->prepare('
-            SELECT * FROM block WHERE idPage = :idPage
+            SELECT * FROM edit_block WHERE idPage = :idPage
         ');
         $stmt->bindParam(':idPage', $idPage);
         $stmt->execute();
@@ -67,7 +67,7 @@ class BlockModel
         }
         $dbConn = DBModel::getConnection();
         $stmt = $dbConn->prepare('
-            INSERT INTO block 
+            INSERT INTO edit_block 
                 (name, content, pageId, order, idBlockType, dateCreation, nombreCol, innerBlocks) 
             VALUES 
                 (:name, :content, :pageId, :order, :idBlockType, :dateCreation, :nombreCol, :innerBlocks)
@@ -77,7 +77,7 @@ class BlockModel
         $stmt->bindParam(':pageId', $block->pageId);
         $stmt->bindParam(':order', $block->order);
         $stmt->bindParam(':idBlockType', $block->idBlockType);
-        $stmt->bindParam(':dateCreation', $block->dateCreation);
+        //$stmt->bindParam(':dateCreation', $block->dateCreation);
         $stmt->bindParam(':nombreCol', $block->nombreCol);
         $stmt->bindParam(':innerBlocks', $block->innerBlocks);
         return $stmt->execute();
@@ -93,13 +93,12 @@ class BlockModel
         $dbConn = DBModel::getConnection();
         $stmt = $dbConn->prepare(
             '
-        UPDATE `block`
+        UPDATE `edit_block`
          SET `name`           = :name,
              `content`        = :content,
              `idPage`         = :pageId,
              `order`          = :order,
              `idBlockType`    = :idBlockType,
-             `dateCreation`   = :dateCreation,
              `nombreCol`      = :nombreCol,
              `innerBlocks`    = :innerBlocks
          WHERE `id` = :id'
@@ -109,7 +108,6 @@ class BlockModel
         $stmt->bindParam(':pageId', $this->pageId);
         $stmt->bindParam(':order', $this->order);
         $stmt->bindParam(':idBlockType', $this->idBlockType);
-        $stmt->bindParam(':dateCreation', $this->dateCreation);
         $stmt->bindParam(':nombreCol', $this->nombreCol);
         $stmt->bindParam(':innerBlocks', $this->innerBlocks);
         $stmt->bindParam(':id', $this->id);
@@ -125,7 +123,7 @@ class BlockModel
     {
         $dbConn = DBModel::getConnection();
         $stmt = $dbConn->prepare('
-            DELETE FROM block WHERE id = :id;
+            DELETE FROM edit_block WHERE id = :id;
         ');
         $stmt->bindParam(':id', $id);
         $stmt->execute();
