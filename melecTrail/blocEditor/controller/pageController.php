@@ -20,44 +20,32 @@ class PageController
         header("Access-Control-Allow-Headers: Content-Type, Access-Control-Allow-Headers, Authorization, X-Requested-With");
     }
 
-    function setTree()
+    // function setTree()
+    // {
+    //     try {
+    //         $this->setHeader();
+    //         $data = json_decode(file_get_contents("php://input"));
+    //         PageModel::emptyTable();
+    //         for ($i = 0; $i < count($data->name); $i++) {
+
+    //             $page = new PageModel();
+    //             $page->id = $data->id[$i];
+    //             $page->name = $data->name[$i];
+    //             $page->parentId = $data->parent[$i];
+    //             PageModel::save($page);
+    //         }
+    //     } catch (Exception $e) {
+    //         http_response_code(418);
+    //         echo json_encode(array("message" => $e));
+    //     }
+
+    //     http_response_code(200);
+    //     echo json_encode(array("Message" => "arborescence construite"));
+    // }
+
+    function sortViews()
     {
-        try {
-            $this->setHeader();
-            $data = json_decode(file_get_contents("php://input"));
-            PageModel::emptyTable();
-            for ($i = 0; $i < count($data->name); $i++) {
-
-                $page = new PageModel();
-                $page->id = $data->id[$i];
-                $page->name = $data->name[$i];
-                $page->parentId = $data->parent[$i];
-                PageModel::save($page);
-            }
-        } catch (Exception $e) {
-            http_response_code(418);
-            echo json_encode(array("message" => $e));
-        }
-
-        http_response_code(200);
-        echo json_encode(array("Message" => "arborescence construite"));
-    }
-
-    function buildTree(array $elements, $parentId = 0)
-    {
-        $branch = array();
-
-        foreach ($elements as $element) {
-            if ($element['parentId'] == $parentId) {
-                $children = $this->buildTree($elements, $element['id']);
-                if ($children) {
-                    $element['children'] = $children;
-                }
-                $branch[] = $element;
-            }
-        }
-
-        return $branch;
+        $categories = null;
     }
 
     function index()
