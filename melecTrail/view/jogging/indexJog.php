@@ -161,19 +161,6 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.8.0/locales/bootstrap-datepicker.fr.min.js"></script>
     <script src="../../template/header.js"></script>
     <script src="../../template/jogging.js"></script>
-    <script>
-        var availableTags = [
-            <?php
-            for ($i = 0; $i < (sizeof($tab_jog) - 1); $i++) {
-                echo '"' . $tab_jog[$i]['departure'] . '"' . ',';
-            }
-            echo '"' . $tab_jog[$i]['departure'] . '"';
-            ?>
-        ];
-        $("#searchInput").autocomplete({
-            source: availableTags
-        });
-    </script>
 </body>
 
 </html>

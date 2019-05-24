@@ -10,7 +10,7 @@ $('#tree_form').on('submit', function () {
     var treeForm = $(this);
     var form_data = JSON.stringify(treeForm.serializeObject());
     $.ajax({
-        url: "page/setTree",
+        url: "/page/setTree",
         type: "POST",
         contentType: 'application/json',
         data: form_data,

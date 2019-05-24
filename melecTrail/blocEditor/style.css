@@ -2,4 +2,13 @@
     border-width: 10px;
     border-style: solid;
     border-color: #7da9af;
+    min-height: 100%;
+}
+html, body {
+    height: 100%;
+    margin: 0;
+}
+
+#pageTree {
+    padding: 20px;
 }

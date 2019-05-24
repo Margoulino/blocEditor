@@ -87,7 +87,6 @@ class PageController
 
     function editPage($id)
     {
-        //$data = json_decode(file_get_contents("php://input"));
         try {
             $page = PageModel::findById($id[0]);
             $pagePath = $this->rsearch($_SERVER['DOCUMENT_ROOT'], '/^.+\\' . $page->name . '.php$/');
@@ -101,7 +100,6 @@ class PageController
             foreach($nodeList as $node){
                 $node->parentNode->removeChild($node);
             }
-            //$document->removeChild($nodeList->item(0));
         } catch (Exception $e) {
             http_response_code(403);
             echo $e;

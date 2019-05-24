@@ -10,7 +10,8 @@
 
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous" />
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.2/css/all.css" integrity="sha384-oS3vJWv+0UjzBfQzYUhtDYW+Pj2yciDJxpsK1OYPAYjqT085Qq/1cq5FLXAZQ7Ay" crossorigin="anonymous">
-
+    <link rel="stylesheet" href="/blocEditor/style.css">
+    <link rel="stylesheet" href="https://cdn.metroui.org.ua/v4/css/metro-all.min.css">
 </head>
 
 <body>
@@ -29,25 +30,27 @@
     <br clear="all">
     <br />
     <div id="pageTree">
-        <?php
-        function displayTree(array $elements, $parentId = 0)
-        {
-            echo '<ul>';
-            foreach ($elements as $e) {
-                echo '<li><a href="#" id="' . $e['id'] . '">' . $e['name'] . '</a></li>';
-                if (array_key_exists('children', $e)) {
-                    displayTree($e['children']);
+        <ul data-role="treeview">
+            <?php
+            function displayTree(array $elements, $parentId = 0)
+            {
+                echo '<ul>';
+                foreach ($elements as $e) {
+                    echo '<li><i class="fas fa-angle-right"></i><a href="#" id="' . $e['id'] . '"> ' . $e['name'] . '</a></li>';
+                    if (array_key_exists('children', $e)) {
+                        displayTree($e['children']);
+                    }
                 }
+                echo '</ul>';
             }
-            echo '</ul>';
-        }
-        if ($pages == null) {
-            echo '<h3> Arborescence non créée </h3>';
-        } else {
-            //echo $treePages[0]['name'];
-            displayTree($treePages);
-        }
-        ?>
+            if ($pages == null) {
+                echo '<h3> Arborescence non créée </h3>';
+            } else {
+                //echo $treePages[0]['name'];
+                displayTree($treePages);
+            }
+            ?>
+        </ul>
     </div>
 
     <div id="treeModal" class="modal fade">
@@ -95,6 +98,7 @@
     <script src="https://code.jquery.com/jquery-3.4.1.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
     <script src="/blocEditor/js/tree.js"></script>
+    <script src="https://cdn.metroui.org.ua/v4/js/metro.min.js"></script>
 </body>
 
 </html>

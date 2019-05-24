@@ -15,7 +15,7 @@
 
 <body>
     <nav class="navbar navbar-expand-md navbar-dark bg-dark fixed-top">
-        <a class="navbar-brand" href="#">Edition de page</a>
+        <a class="navbar-brand pagename" href="#">Edition de page</a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
         </button>
@@ -26,16 +26,19 @@
             </div>
         </div>
     </nav>
+    
+    <br clear="all">
 
     <div class="container-fluid editionBox">
-
-    <br clear="all">
 
     <?php echo $pageCode->saveHTML();; ?>
 
     <br clear="all">
     </div>
     <script src="/blocEditor/js/tree.js"></script>
+    <script>
+        $('.pagename').text("Edition de la page : <?php echo $page->name; ?>");
+    </script>
 </body>
 
 </html>
