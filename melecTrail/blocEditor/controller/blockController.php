@@ -30,11 +30,13 @@ class BlockController
         $data = json_decode(file_get_contents("php://input"));
         $block = new BlockModel();
         $block->name = $data->name;
-        $block->type = $data->type;
         $block->content = $data->content;
+        $block->pageId = $data->pageId;
         $block->order = $data->order;
-        $block->idPage = $data->idPage;
-        $targetPage = PageModel::findByid($data->idPage);
+        $block->idBlockType = $data->idBlockType;
+        $block->nombreCol = $data->nombreCol;
+        $block->innerBlocks = $data->innerBlocks;
+        $targetPage = PageModel::findById($data->pageId);
         if(count($targetPage) == 0) {
             http_response_code(404);
             echo json_encode(array("message" => "The page you are trying to add a block on does not exists. Block not added to base."));
@@ -76,12 +78,15 @@ class BlockController
             echo json_encode(array("message" => "Block not found, can't be updated."));
         } else {
             $block = new BlockModel();
+            $block->id = $data->id;
             $block->name = $data->name;
-            $block->type = $data->type;
             $block->content = $data->content;
+            $block->pageId = $data->pageId;
             $block->order = $data->order;
-            $block->idPage = $data->idPage;
-            $targetPage = PageModel::findByid($data->idPage);
+            $block->idBlockType = $data->idBlockType;
+            $block->nombreCol = $data->nombreCol;
+            $block->innerBlocks = $data->innerBlocks;
+            $targetPage = PageModel::findByid($data->pageId);
             if(count($targetPage) == 0) {
                 http_response_code(404);
                 echo json_encode(array("message" => "The page you are trying to update a block on does not exists. Block not updated to base."));
