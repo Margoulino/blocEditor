@@ -6,10 +6,13 @@ class BlockModel
 {
     public $id;
     public $name;
-    public $type;
     public $content;
-    public $idPage;
+    public $pageId;
     public $order;
+    public $idBlockType;
+    public $dateCreation;
+    public $nombreCol;
+    public $innerBlocks;
 
     public function __construct($data = null)
     {
@@ -17,10 +20,13 @@ class BlockModel
             if (isset($data['id'])) {
                 $this->id = $data['id'];
                 $this->name = $data['name'];
-                $this->type = $data['type'];
                 $this->content = $data['content'];
-                $this->idPage = $data['idPage'];
+                $this->pageId = $data['pageId'];
                 $this->order = $data['order'];
+                $this->idBlockType = $data['idBlockType'];
+                $this->dateCreation = $data['dateCreation'];
+                $this->nombreCol = $data['nombreCol'];
+                $this->innerBlocks = $data['innerBlocks'];
             }
         }
     }
@@ -62,15 +68,18 @@ class BlockModel
         $dbConn = DBModel::getConnection();
         $stmt = $dbConn->prepare('
             INSERT INTO block 
-                (name, type, content, idPage, order) 
+                (name, content, pageId, order, idBlockType, dateCreation, nombreCol, innerBlocks) 
             VALUES 
-                (:name, :type, :content, :idPage, :order)
+                (:name, :content, :pageId, :order, :idBlockType, :dateCreation, :nombreCol, :innerBlocks)
         ');
         $stmt->bindParam(':name', $block->name);
-        $stmt->bindParam(':type', $block->type);
         $stmt->bindParam(':content', $block->content);
-        $stmt->bindParam(':idPage', $block->idPage);
+        $stmt->bindParam(':pageId', $block->pageId);
         $stmt->bindParam(':order', $block->order);
+        $stmt->bindParam(':idBlockType', $block->idBlockType);
+        $stmt->bindParam(':dateCreation', $block->dateCreation);
+        $stmt->bindParam(':nombreCol', $block->nombreCol);
+        $stmt->bindParam(':innerBlocks', $block->innerBlocks);
         return $stmt->execute();
     }
 
@@ -85,18 +94,24 @@ class BlockModel
         $stmt = $dbConn->prepare(
             '
         UPDATE `block`
-         SET `name`    = :name,
-             `type`    = :type,
-             `content` = :content,
-             `idPage`  = :idPage,
-             `order`   = :order
+         SET `name`           = :name,
+             `content`        = :content,
+             `idPage`         = :pageId,
+             `order`          = :order,
+             `idBlockType`    = :idBlockType,
+             `dateCreation`   = :dateCreation,
+             `nombreCol`      = :nombreCol,
+             `innerBlocks`    = :innerBlocks
          WHERE `id` = :id'
         );
         $stmt->bindParam(':name', $this->name);
-        $stmt->bindParam(':type', $this->type);
         $stmt->bindParam(':content', $this->content);
-        $stmt->bindParam(':idPage', $this->idPage);
+        $stmt->bindParam(':pageId', $this->pageId);
         $stmt->bindParam(':order', $this->order);
+        $stmt->bindParam(':idBlockType', $this->idBlockType);
+        $stmt->bindParam(':dateCreation', $this->dateCreation);
+        $stmt->bindParam(':nombreCol', $this->nombreCol);
+        $stmt->bindParam(':innerBlocks', $this->innerBlocks);
         $stmt->bindParam(':id', $this->id);
         return $stmt->execute();
     }

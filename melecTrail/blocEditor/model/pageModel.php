@@ -6,8 +6,7 @@ class PageModel
 {
     public $id;
     public $name;
-    public $parentId;
-    public $editable;
+    public $public;
 
 
     public function __construct($data = null)
@@ -15,9 +14,8 @@ class PageModel
         if (is_array($data)) {
             if (isset($data['id'])) $this->id = $data['id'];
             $this->name = $data['name'];
-            $this->parentId = $data['parentId'];
+            $this->parentId = $data['public'];
         }
-        $this->editable = 0;
     }
 
     /** 
@@ -32,7 +30,7 @@ class PageModel
             SELECT * FROM page
         ');
         $stmt->execute();
-        $stmt->setFetchMode(PDO::FETCH_CLASS, 'Page');
+        $stmt->setFetchMode(PDO::FETCH_CLASS, 'PageModel');
         return $stmt->fetchAll();
     }
 
@@ -106,14 +104,13 @@ class PageModel
         $dbConn = DBModel::getConnection();
         $stmt = $dbConn->prepare('
             INSERT INTO page 
-                (id, name, parentId, editable) 
+                (id, name, public) 
             VALUES 
-                (:id, :name, :parentId, :editable)
+                (:id, :name, :public)
         ');
         $stmt->bindParam(':id', $page->id);
         $stmt->bindParam(':name', $page->name);
-        $stmt->bindParam(':parentId', $page->parentId);
-        $stmt->bindParam(':editable', $page->editable);
+        $stmt->bindParam(':public', $page->public);
 
 
         return $stmt->execute();
@@ -130,15 +127,39 @@ class PageModel
         $stmt = $dbConn->prepare(
             '
         UPDATE `page`
-         SET `parentId`    = :parentId,
-             `editable`    = :editable,
+         SET `public`    = :public,
              `name`      = :name
          WHERE `id` = :id'
         );
         $stmt->bindParam(':name', $this->name);
-        $stmt->bindParam(':parentId', $this->parentId);
-        $stmt->bindParam(':editable', $this->editable);
+        $stmt->bindParam(':public', $this->public);
         $stmt->bindParam(':id', $this->id);
+        return $stmt->execute();
+    }
+
+    public function publish()
+    {
+        $dbConn = DBModel::getConnection();
+        $stmt = $dbConn->prepare('
+            UPDATE `page`
+            SET `public` = :public
+            WHERE `id` = :id
+        ');
+        $stmt->bindParam(':public', 1);
+        $stmt->bindParam(':id', $this->public);
+        return $stmt->execute();
+    }
+
+    public function depublish()
+    {
+        $dbConn = DBModel::getConnection();
+        $stmt = $dbConn->prepare('
+            UPDATE `page`
+            SET `public` = :public
+            WHERE `id` = :id
+        ');
+        $stmt->bindParam(':public', 0);
+        $stmt->bindParam(':id', $this->public);
         return $stmt->execute();
     }
 }
