@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Hôte : 127.0.0.1:3306
--- Généré le :  ven. 24 mai 2019 à 13:20
+-- Généré le :  ven. 24 mai 2019 à 13:41
 -- Version du serveur :  5.7.24
 -- Version de PHP :  7.2.14
 
@@ -25,11 +25,11 @@ SET time_zone = "+00:00";
 -- --------------------------------------------------------
 
 --
--- Structure de la table `block`
+-- Structure de la table `edit_block`
 --
 
-DROP TABLE IF EXISTS `block`;
-CREATE TABLE IF NOT EXISTS `block` (
+DROP TABLE IF EXISTS `edit_block`;
+CREATE TABLE IF NOT EXISTS `edit_block` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `name` varchar(100) NOT NULL,
   `content` longtext NOT NULL,
@@ -48,11 +48,11 @@ CREATE TABLE IF NOT EXISTS `block` (
 -- --------------------------------------------------------
 
 --
--- Structure de la table `blocktype`
+-- Structure de la table `edit_blocktype`
 --
 
-DROP TABLE IF EXISTS `blocktype`;
-CREATE TABLE IF NOT EXISTS `blocktype` (
+DROP TABLE IF EXISTS `edit_blocktype`;
+CREATE TABLE IF NOT EXISTS `edit_blocktype` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `name` varchar(100) NOT NULL,
   `templateBlock` longtext NOT NULL,
@@ -65,61 +65,61 @@ CREATE TABLE IF NOT EXISTS `blocktype` (
 -- --------------------------------------------------------
 
 --
--- Structure de la table `category`
+-- Structure de la table `edit_category`
 --
 
-DROP TABLE IF EXISTS `category`;
-CREATE TABLE IF NOT EXISTS `category` (
+DROP TABLE IF EXISTS `edit_category`;
+CREATE TABLE IF NOT EXISTS `edit_category` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `name` varchar(100) NOT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `id` (`id`),
   UNIQUE KEY `name` (`name`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
 
 --
--- Structure de la table `page`
+-- Structure de la table `edit_page`
 --
 
-DROP TABLE IF EXISTS `page`;
-CREATE TABLE IF NOT EXISTS `page` (
+DROP TABLE IF EXISTS `edit_page`;
+CREATE TABLE IF NOT EXISTS `edit_page` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `name` varchar(100) NOT NULL,
   `public` tinyint(1) NOT NULL DEFAULT '0',
   PRIMARY KEY (`id`),
   UNIQUE KEY `id` (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
 
 --
--- Structure de la table `pagecategory`
+-- Structure de la table `edit_pagecategory`
 --
 
-DROP TABLE IF EXISTS `pagecategory`;
-CREATE TABLE IF NOT EXISTS `pagecategory` (
+DROP TABLE IF EXISTS `edit_pagecategory`;
+CREATE TABLE IF NOT EXISTS `edit_pagecategory` (
   `idPage` int(11) NOT NULL,
   `idCategory` int(11) NOT NULL,
   PRIMARY KEY (`idPage`,`idCategory`),
   KEY `idCategory` (`idCategory`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
 
 --
--- Structure de la table `pageuser`
+-- Structure de la table `edit_pageuser`
 --
 
-DROP TABLE IF EXISTS `pageuser`;
-CREATE TABLE IF NOT EXISTS `pageuser` (
+DROP TABLE IF EXISTS `edit_pageuser`;
+CREATE TABLE IF NOT EXISTS `edit_pageuser` (
   `idPage` int(11) NOT NULL,
   `idUser` int(11) NOT NULL,
   `dateModif` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`idPage`,`idUser`),
   KEY `idUser` (`idUser`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
 
@@ -136,32 +136,25 @@ CREATE TABLE IF NOT EXISTS `user` (
   `password` varchar(150) NOT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `id` (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
 -- Contraintes pour les tables déchargées
 --
 
 --
--- Contraintes pour la table `block`
+-- Contraintes pour la table `edit_pagecategory`
 --
-ALTER TABLE `block`
-  ADD CONSTRAINT `block_ibfk_1` FOREIGN KEY (`pageId`) REFERENCES `page` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
-  ADD CONSTRAINT `block_ibfk_2` FOREIGN KEY (`idBlockType`) REFERENCES `blocktype` (`id`);
+ALTER TABLE `edit_pagecategory`
+  ADD CONSTRAINT `edit_pagecategory_ibfk_1` FOREIGN KEY (`idCategory`) REFERENCES `edit_category` (`id`),
+  ADD CONSTRAINT `edit_pagecategory_ibfk_2` FOREIGN KEY (`idPage`) REFERENCES `edit_page` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
--- Contraintes pour la table `pagecategory`
+-- Contraintes pour la table `edit_pageuser`
 --
-ALTER TABLE `pagecategory`
-  ADD CONSTRAINT `pagecategory_ibfk_1` FOREIGN KEY (`idCategory`) REFERENCES `category` (`id`),
-  ADD CONSTRAINT `pagecategory_ibfk_2` FOREIGN KEY (`idPage`) REFERENCES `page` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
-
---
--- Contraintes pour la table `pageuser`
---
-ALTER TABLE `pageuser`
-  ADD CONSTRAINT `pageuser_ibfk_1` FOREIGN KEY (`idPage`) REFERENCES `page` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
-  ADD CONSTRAINT `pageuser_ibfk_2` FOREIGN KEY (`idUser`) REFERENCES `user` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
+ALTER TABLE `edit_pageuser`
+  ADD CONSTRAINT `edit_pageuser_ibfk_1` FOREIGN KEY (`idPage`) REFERENCES `edit_page` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `edit_pageuser_ibfk_2` FOREIGN KEY (`idUser`) REFERENCES `user` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
