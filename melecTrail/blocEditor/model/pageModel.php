@@ -27,7 +27,7 @@ class PageModel
     {
         $dbConn = DBModel::getConnection();
         $stmt = $dbConn->prepare('
-            SELECT * FROM page
+            SELECT * FROM edit_page
         ');
         $stmt->execute();
         $stmt->setFetchMode(PDO::FETCH_CLASS, 'PageModel');
@@ -38,7 +38,7 @@ class PageModel
     {
         $dbConn = DBModel::getConnection();
         $stmt = $dbConn->prepare('
-            DELETE FROM `page`;
+            DELETE FROM `edit_page`;
         ');
         $stmt->execute();
     }
@@ -47,7 +47,7 @@ class PageModel
     {
         $dbConn = DBModel::getConnection();
         $stmt = $dbConn->prepare('
-            DELETE FROM page WHERE id = :id;
+            DELETE FROM edit_page WHERE id = :id;
         ');
         $stmt->bindParam(':id', $id);
         $stmt->execute();
@@ -63,7 +63,7 @@ class PageModel
         $dbConn = DBModel::getConnection();
         $stmt = $dbConn->prepare('
             SELECT * 
-             FROM page
+             FROM edit_page
              WHERE id = :id
         ');
         $stmt->bindParam(':id', $id);
@@ -82,7 +82,7 @@ class PageModel
         $dbConn = DBModel::getConnection();
         $stmt = $dbConn->prepare('
             SELECT * 
-             FROM page
+             FROM edit_page
              WHERE name = :name
         ');
         $stmt->bindParam(':name', $name);
@@ -103,7 +103,7 @@ class PageModel
         }
         $dbConn = DBModel::getConnection();
         $stmt = $dbConn->prepare('
-            INSERT INTO page 
+            INSERT INTO edit_page 
                 (name, public) 
             VALUES 
                 (:name, :public)
@@ -126,7 +126,7 @@ class PageModel
         $dbConn = DBModel::getConnection();
         $stmt = $dbConn->prepare(
             '
-        UPDATE `page`
+        UPDATE `edit_page`
          SET `public`    = :public,
              `name`      = :name
          WHERE `id` = :id'
@@ -141,7 +141,7 @@ class PageModel
     {
         $dbConn = DBModel::getConnection();
         $stmt = $dbConn->prepare('
-            UPDATE `page`
+            UPDATE `edit_page`
             SET `public` = :public
             WHERE `id` = :id
         ');
@@ -154,7 +154,7 @@ class PageModel
     {
         $dbConn = DBModel::getConnection();
         $stmt = $dbConn->prepare('
-            UPDATE `page`
+            UPDATE `edit_page`
             SET `public` = :public
             WHERE `id` = :id
         ');
