@@ -50,4 +50,15 @@ class PageCategoryModel
 
         return $stmt->execute();
     }
+
+    public static function delete($idPage,$idCat)
+    {
+        $dbConn = DBModel::getConnection();
+        $stmt = $dbConn->prepare('
+            DELETE FROM edit_pagecategory WHERE idPage = :idPage AND idCategory = :idCat;
+        ');
+        $stmt->bindParam(':idPage', $idPage);
+        $stmt->bindParam('idCat',$idCat);
+        $stmt->execute();
+    }
 }

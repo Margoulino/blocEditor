@@ -45,9 +45,9 @@
                     <?php
                     $keys = array_keys($sortedViews);
                     foreach ($keys as $cat) {
-                        echo '<div class="tab-pane fade" id="list-' . $cat . '" role="tabpanel" aria-labelledby="' . $cat . '"><ul>';
+                        echo '<div class="tab-pane fade" id="list-' . $cat . '" role="tabpanel" aria-labelledby="' . $cat . '"><ul class="' . $cat . '">';
                         foreach ($sortedViews[$cat] as $view) {
-                            echo '<li><a id="' . $view . '" href="#"> ' . $view . '</a></li>';
+                            echo '<li><a id="' . $view . '" href="#"> ' . $view . '   </a><i class="fas fa-times fa-sm deletePage" id="' . $view . '"></i></li>';
                         }
                         echo '</ul><br /><button class="btn btn-outline-secondary addPage" id="' . $cat . '"><i class="fas fa-plus"></i> Ajouter une page</button></div>';
                     }

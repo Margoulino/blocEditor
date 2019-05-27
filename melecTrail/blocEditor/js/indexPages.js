@@ -34,6 +34,27 @@ $(document).ready(function() {
     $("#nav-tabContent div").first().addClass("show active");
 });
 
+$('.deletePage').on('click', function(){
+    var view = $(this).attr('id');
+    var cat = $(this).parent().parent().attr('class');
+    if(confirm("Confirmer la suppression de la page " + view + " ?")){
+        $.ajax({
+            url: "/page/deletepage",
+            type: "POST",
+            contentType: 'application/json',
+            data: JSON.stringify({"page" : view,"category": cat}),
+            success: function (result) {
+                window.location.reload();
+            },
+            error: function (xhr, resp, text) {
+                window.alert("Erreur lors de l'ajout, veuillez réessayer.");
+                signup_form.find('input').val('');
+            }
+        });
+    }
+});
+
+
 $(document).on('submit', '#tree_form', function () {
     var signup_form = $(this);
     var form_data = JSON.stringify(signup_form.serializeObject());
@@ -43,7 +64,6 @@ $(document).on('submit', '#tree_form', function () {
         contentType: 'application/json',
         data: form_data,
         success: function (result) {
-            //$('#responseModal').html("<div class='alert alert-success'>Inscription réussie, veuillez vous connecter</div>");
             window.location.reload();
         },
         error: function (xhr, resp, text) {

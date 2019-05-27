@@ -12,3 +12,7 @@ html, body {
 #pageView {
     padding: 20px;
 }
+
+.fa-times {
+    color: #e91818;
+}

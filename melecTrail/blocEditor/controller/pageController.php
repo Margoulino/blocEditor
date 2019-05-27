@@ -82,6 +82,21 @@ class PageController
         }
         http_response_code(200);
     }
+
+    function deletepage(){
+        $data = json_decode(file_get_contents("php://input"));
+        try{
+            $page = PageModel::findByname($data->page);
+            $category = CategoryModel::findByname($data->category);
+            PageCategoryModel::delete($page[0]->id,$category[0]->id);
+            PageModel::delete($page[0]->id);
+        } catch (Exception $e) {
+            http_response_code(404);
+            echo json_encode(array('message'=>'error'.$e));
+        }
+        http_response_code(200);
+    }
+
     function editPage($name)
     {
         try {
