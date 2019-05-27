@@ -11,7 +11,6 @@
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous" />
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.2/css/all.css" integrity="sha384-oS3vJWv+0UjzBfQzYUhtDYW+Pj2yciDJxpsK1OYPAYjqT085Qq/1cq5FLXAZQ7Ay" crossorigin="anonymous">
     <link rel="stylesheet" href="/blocEditor/style.css">
-    <link rel="stylesheet" href="https://cdn.metroui.org.ua/v4/css/metro-all.min.css">
 </head>
 
 <body>
@@ -29,35 +28,42 @@
     </nav>
     <br clear="all">
     <br />
-    <div id="pageTree">
-        <ul data-role="treeview">
-            <?php
-            function displayTree(array $elements, $parentId = 0)
-            {
-                echo '<ul>';
-                foreach ($elements as $e) {
-                    echo '<li><i class="fas fa-angle-right"></i><a href="#" id="' . $e['id'] . '"> ' . $e['name'] . '</a></li>';
-                    if (array_key_exists('children', $e)) {
-                        displayTree($e['children']);
+    <div id="pageView">
+        <div class="row">
+            <div class="col-4">
+                <div class="list-group" id="list-tab" role="tablist">
+                    <?php
+                    $keys = array_keys($sortedViews);
+                    foreach ($keys as $catname) {
+                        echo '<a class="list-group-item list-group-item-action" id="' . $catname . '" data-toggle="list" href="#list-' . $catname . '" role="tab" aria-controls="' . $catname . '"><div class="d-inline-flex p-2">' . $catname . '</div></a>';
                     }
-                }
-                echo '</ul>';
-            }
-            if ($pages == null) {
-                echo '<h3> Arborescence non créée </h3>';
-            } else {
-                //echo $treePages[0]['name'];
-                displayTree($treePages);
-            }
-            ?>
-        </ul>
-    </div>
+                    ?>
+                </div>
+            </div>
+            <div class="col-8">
+                <div class="tab-content" id="nav-tabContent">
+                    <?php
+                    $keys = array_keys($sortedViews);
+                    foreach ($keys as $cat) {
+                        echo '<div class="tab-pane fade" id="list-' . $cat . '" role="tabpanel" aria-labelledby="' . $cat . '"><ul>';
 
-    <div id="treeModal" class="modal fade">
+                        foreach ($sortedViews[$cat] as $view) {
+                            echo '<li><a id="' . $view . '" href="#"> ' . $view . '</a></li>';
+                        }
+                        echo '</ul><br /><button class="btn btn-outline-secondary addPage" id="' . $cat . '"><i class="fas fa-plus"></i> Ajouter une page</button></div>';
+                    }
+                    ?>
+                </div>
+            </div>
+        </div>
+        <br />
+        <button class="btn btn-light"><i class="fas fa-plus"></i> Ajouter une catégorie</button>
+    </div>
+    <div id="addPageModal" class="modal fade">
         <div class="modal-dialog modal-lg">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title">Structure du site</h5>
+                    <h5 class="modal-title">Ajouter une page</h5>
                     <button type="button" class="close" data-dismiss="modal">&times;</button>
                 </div>
                 <div class="modal-body">
@@ -65,28 +71,11 @@
                         <div class="page">
                             <div class="form-row">
                                 <div class="col">
-                                    <input type="number" class="form-control" name="id" placeholder="id de la page" id="pageid" required />
-                                </div>
-                                <div class="col">
                                     <input type="text" class="form-control" name="name" placeholder="nom de la page" id="pagename" required />
-                                </div>
-                                <div class="col">
-                                    <input type="number" class="form-control" name="parent" placeholder="nom de la page parente" id="parentname" required />
-                                </div>
-                            </div>
-                            <div class="form-row">
-                                <div class="col">
-                                    <input type="number" class="form-control" name="id" placeholder="id de la page" id="pageid" required />
-                                </div>
-                                <div class="col">
-                                    <input type="text" class="form-control" name="name" placeholder="nom de la page" id="pagename" required />
-                                </div>
-                                <div class="col">
-                                    <input type="number" class="form-control" name="parent" placeholder="nom de la page parente" id="parentname" required />
+                                    <input type="hidden" id="catnameinput" name="category" value="" />
                                 </div>
                             </div>
                         </div><br />
-                        <button class="btn btn-primary fas fa-plus-square" id="addPage"></button><br /><br />
                         <button type='submit' class='btn btn-primary' id="saveTree">Enregistrer</button>
                         <i class="fas fa-spinner fa-spin" style="display: none"></i>
                     </form>
@@ -95,9 +84,10 @@
         </div>
     </div>
 
+
     <script src="https://code.jquery.com/jquery-3.4.1.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
-    <script src="/blocEditor/js/tree.js"></script>
+    <script src="/blocEditor/js/indexPages.js"></script>
     <script src="https://cdn.metroui.org.ua/v4/js/metro.min.js"></script>
 </body>
 

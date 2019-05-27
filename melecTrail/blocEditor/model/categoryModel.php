@@ -53,4 +53,44 @@ class CategoryModel
 
         return $stmt->execute();
     }
+
+    /** 
+     * Find by id function :
+     * Selects a category according to the given id 
+     * 
+     */
+    public static function findById($id)
+    {
+        $dbConn = DBModel::getConnection();
+        $stmt = $dbConn->prepare('
+            SELECT * 
+             FROM edit_category
+             WHERE id = :id
+        ');
+        $stmt->bindParam(':id', $id);
+        $stmt->execute();
+        $stmt->setFetchMode(PDO::FETCH_CLASS, 'CategoryModel');
+        return $stmt->fetch();
+    }
+
+    /** 
+     * Find by name function :
+     * Selects a page according to its name
+     * 
+     */
+    public static function findByname($name)
+    {
+        $dbConn = DBModel::getConnection();
+        $stmt = $dbConn->prepare('
+            SELECT * 
+             FROM edit_category
+             WHERE name = :name
+        ');
+        $stmt->bindParam(':name', $name);
+        $stmt->execute();
+        $stmt->setFetchMode(PDO::FETCH_CLASS, 'CategoryModel');
+        return $stmt->fetchAll();
+    }
+
+
 }

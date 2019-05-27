@@ -1,6 +1,8 @@
 <?php
 
 require_once $_SERVER['DOCUMENT_ROOT'] . '/blocEditor/model/pageModel.php';
+require_once $_SERVER['DOCUMENT_ROOT'] . '/blocEditor/model/pageCategoryModel.php';
+require_once $_SERVER['DOCUMENT_ROOT'] . '/blocEditor/model/categoryModel.php';
 require $_SERVER['DOCUMENT_ROOT'] . '/vendor/autoload.php';
 use \Firebase\JWT\JWT;
 
@@ -20,32 +22,21 @@ class PageController
         header("Access-Control-Allow-Headers: Content-Type, Access-Control-Allow-Headers, Authorization, X-Requested-With");
     }
 
-    // function setTree()
-    // {
-    //     try {
-    //         $this->setHeader();
-    //         $data = json_decode(file_get_contents("php://input"));
-    //         PageModel::emptyTable();
-    //         for ($i = 0; $i < count($data->name); $i++) {
-
-    //             $page = new PageModel();
-    //             $page->id = $data->id[$i];
-    //             $page->name = $data->name[$i];
-    //             $page->parentId = $data->parent[$i];
-    //             PageModel::save($page);
-    //         }
-    //     } catch (Exception $e) {
-    //         http_response_code(418);
-    //         echo json_encode(array("message" => $e));
-    //     }
-
-    //     http_response_code(200);
-    //     echo json_encode(array("Message" => "arborescence construite"));
-    // }
-
     function sortViews()
     {
-        $categories = null;
+        $categories = CategoryModel::findAll();
+        $pageByCategory = PageCategoryModel::findAll();
+        $sortedPages = array();
+        foreach ($categories as $cat) {
+            $sortedPages[$cat->name] = array();
+            foreach ($pageByCategory as $pc) {
+                if ($cat->id == $pc->idCategory) {
+                    $page = PageModel::findById($pc->idPage);
+                    array_push($sortedPages[$cat->name], $page->name);
+                }
+            }
+        }
+        return $sortedPages;
     }
 
     function index()
@@ -53,11 +44,11 @@ class PageController
         $pages = null;
         try {
             $pages = PageModel::findAll();
-            $treePages = $this->buildTree($pages);
+            $sortedViews = $this->sortViews();
             //echo json_encode(array("message" => $pages[0]->name));
             require(__DIR__ . '/../view/indexEditor.php');
         } catch (Exception $e) {
-            echo e;
+            echo $e;
         }
     }
 
@@ -73,11 +64,29 @@ class PageController
         return $fileList;
     }
 
-    function editPage($id)
+    function addpage()
+    {
+        $data = json_decode(file_get_contents("php://input"));
+        try {
+            $newpage = new PageModel;
+            $newpage->name=$data->name;
+            PageModel::save($newpage);
+            $pageCat = new PageCategoryModel;
+            $pageCat->idPage=PageModel::findByname($newpage->name)[0]->id;
+            $pageCat->idCategory=CategoryModel::findByname($data->category)[0]->id;
+            var_dump($pageCat);
+            PageCategoryModel::save($pageCat);
+        } catch (Exception $e) {
+            http_response_code(404);
+            echo json_encode(array('message'=>'an error ocurred when adding the page'));
+        }
+        http_response_code(200);
+    }
+    function editPage($name)
     {
         try {
-            $page = PageModel::findById($id[0]);
-            $pagePath = $this->rsearch($_SERVER['DOCUMENT_ROOT'], '/^.+\\' . $page->name . '.php$/');
+            $page = PageModel::findByname($name[0]);
+            $pagePath = $this->rsearch($_SERVER['DOCUMENT_ROOT'], '/^.+\\' . $page[0]->name . '.php$/');
             $pageCode = new DOMDocument();
             libxml_use_internal_errors(true);
             $pageCode->loadHTMLFile($pagePath[0]);
@@ -85,7 +94,7 @@ class PageController
             $xpath = new DomXPath($pageCode);
             $document = $pageCode->documentElement;
             $nodeList = $xpath->query("//div[@class='phpTag']");
-            foreach($nodeList as $node){
+            foreach ($nodeList as $node) {
                 $node->parentNode->removeChild($node);
             }
         } catch (Exception $e) {

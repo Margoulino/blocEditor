@@ -14,7 +14,7 @@ class PageModel
         if (is_array($data)) {
             if (isset($data['id'])) $this->id = $data['id'];
             $this->name = $data['name'];
-            $this->parentId = $data['public'];
+            $this->public=0;
         }
     }
 
@@ -104,12 +104,12 @@ class PageModel
         $dbConn = DBModel::getConnection();
         $stmt = $dbConn->prepare('
             INSERT INTO edit_page 
-                (name, public) 
+                (name) 
             VALUES 
-                (:name, :public)
+                (:name)
         ');
         $stmt->bindParam(':name', $page->name);
-        $stmt->bindParam(':public', $page->public);
+        
 
 
         return $stmt->execute();

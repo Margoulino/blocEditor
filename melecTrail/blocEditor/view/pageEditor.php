@@ -26,18 +26,18 @@
             </div>
         </div>
     </nav>
-    
+
     <br clear="all">
 
     <div class="container-fluid editionBox">
 
-    <?php echo $pageCode->saveHTML();; ?>
+        <?php echo $pageCode->saveHTML(); ?>
 
-    <br clear="all">
+        <br clear="all">
     </div>
-    <script src="/blocEditor/js/tree.js"></script>
+    <script src="/blocEditor/js/indexPages.js"></script>
     <script>
-        $('.pagename').text("Edition de la page : <?php echo $page->name; ?>");
+        $('.pagename').text("Edition de la page : <?php echo $page[0]->name; ?>");
     </script>
 </body>
 
