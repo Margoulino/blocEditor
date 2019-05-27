@@ -119,4 +119,9 @@ class PageController
         http_response_code(200);
         require($_SERVER['DOCUMENT_ROOT'] . '/blocEditor/view/pageEditor.php');
     }
+
+    public function editionPage($name)
+    {
+        require($_SERVER['DOCUMENT_ROOT'] . '/blocEditor/view/pageEdit.php');
+    }
 }
