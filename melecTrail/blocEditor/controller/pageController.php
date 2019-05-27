@@ -64,23 +64,35 @@ class PageController
         return $fileList;
     }
 
-    function addpage()
-    {
+    public function addPage() {
+        $this->setHeader();
         $data = json_decode(file_get_contents("php://input"));
         try {
             $newpage = new PageModel;
             $newpage->name=$data->name;
-            PageModel::save($newpage);
-            $pageCat = new PageCategoryModel;
-            $pageCat->idPage=PageModel::findByname($newpage->name)[0]->id;
-            $pageCat->idCategory=CategoryModel::findByname($data->category)[0]->id;
-            var_dump($pageCat);
-            PageCategoryModel::save($pageCat);
+            $pageCat = new PageCategoryModel();
+            if(count(PageModel::findByname($data->name)) == 0) {
+                if(PageModel::save($newpage)) {
+                    $pageCat->idPage=PageModel::findByname($newpage->name)[0]->id;
+                    $pageCat->idCategory=CategoryModel::findByname($data->category)[0]->id;
+                    if(PageCategoryModel::save($pageCat)) {
+                        http_response_code(200);
+                        echo json_encode(array("message" => "new page saved"));
+                    } else {
+                        throw new Exception("error while saving the category");
+                        //Suppression de la page pour ne pas conserver la page sans la catégorie voulue
+                        PageModel::delete(PageModel::findByName($data->name)[0]->id);
+                    }
+                } else {
+                    throw new Exception("error while saving the page");
+                }
+            } else {
+                throw new Exception("another page already has this name");
+            }
         } catch (Exception $e) {
             http_response_code(404);
-            echo json_encode(array('message'=>'an error ocurred when adding the page'));
+            echo json_encode(array('message'=> $e->getMessage()));
         }
-        http_response_code(200);
     }
 
     function deletepage(){
