@@ -145,7 +145,7 @@ class PageModel
             WHERE `id` = :id
         ');
         $stmt->bindParam(':public', 1);
-        $stmt->bindParam(':id', $this->public);
+        $stmt->bindParam(':id', $this->id);
         return $stmt->execute();
     }
 
@@ -158,7 +158,7 @@ class PageModel
             WHERE `id` = :id
         ');
         $stmt->bindParam(':public', 0);
-        $stmt->bindParam(':id', $this->public);
+        $stmt->bindParam(':id', $this->id);
         return $stmt->execute();
     }
 }
