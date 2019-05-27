@@ -25,6 +25,10 @@ $('#nav-tabContent a').on('click', function () {
     };
 })
 
+$('.addCat').on('click',function(){
+    $('#addCategoryModal').modal('show');
+})
+
 $(document).ready(function() {
     $("#list-tab a").first().addClass("active");
     $("#nav-tabContent div").first().addClass("show active");
@@ -50,3 +54,22 @@ $(document).on('submit', '#tree_form', function () {
     return false;
 });
 
+$(document).on('submit', '#cat_form', function() {
+    var cat_form=$(this);
+    var form_data = JSON.stringify(cat_form.serializeObject());
+    $.ajax({
+        url: "/category/addcategory" , 
+        type: "POST",
+        contentType: "application/json",
+        data: form_data,
+        success: function(result){
+            window.location.reload();
+        },
+        error: function(xhr, resp, text) {
+            window.alert("Erreur lors de l'ajout, veuillez réessayer.")
+            cat_form.find('input').val('');
+            console.log(resp);
+        }
+    });
+    return false;
+});

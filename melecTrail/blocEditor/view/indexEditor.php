@@ -46,7 +46,6 @@
                     $keys = array_keys($sortedViews);
                     foreach ($keys as $cat) {
                         echo '<div class="tab-pane fade" id="list-' . $cat . '" role="tabpanel" aria-labelledby="' . $cat . '"><ul>';
-
                         foreach ($sortedViews[$cat] as $view) {
                             echo '<li><a id="' . $view . '" href="#"> ' . $view . '</a></li>';
                         }
@@ -57,7 +56,7 @@
             </div>
         </div>
         <br />
-        <button class="btn btn-light"><i class="fas fa-plus"></i> Ajouter une catégorie</button>
+        <button class="btn btn-light addCat"><i class="fas fa-plus"></i> Ajouter une catégorie</button>
     </div>
     <div id="addPageModal" class="modal fade">
         <div class="modal-dialog modal-lg">
@@ -77,6 +76,29 @@
                             </div>
                         </div><br />
                         <button type='submit' class='btn btn-primary' id="saveTree">Enregistrer</button>
+                        <i class="fas fa-spinner fa-spin" style="display: none"></i>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="addCategoryModal" class="modal fade">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Ajouter une catégorie</h5>
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                </div>
+                <div class="modal-body">
+                    <form id='cat_form'>
+                        <div class="form-row">
+                            <div class="col">
+                                <input type="text" class="form-control" name="name" placeholder="nom de la catégorie" id="catname" required />
+                            </div>
+                        </div>
+                        <br />
+                        <button type='submit' class='btn btn-primary' id="saveCat">Enregistrer</button>
                         <i class="fas fa-spinner fa-spin" style="display: none"></i>
                     </form>
                 </div>
