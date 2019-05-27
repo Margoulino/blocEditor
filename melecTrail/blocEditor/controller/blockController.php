@@ -54,12 +54,12 @@ class BlockController
     {
         $this->setHeader();
         $data = json_decode(file_get_contents("php://input"));
-        $blockToDelete = BlocModel::findById($data->id);
+        $blockToDelete = BlockModel::findById($data->id);
         if(count($blockToDelete) == 0) {
             http_response_code(404);
             echo json_encode(array("message" => "Block not found, can't be deleted."));
         } else {
-            BlocModel::delete($data->id);
+            BlockModel::delete($data->id);
             http_response_code(200);
             echo json_encode(array("message" => "Block deleted succesfully"));
         }
