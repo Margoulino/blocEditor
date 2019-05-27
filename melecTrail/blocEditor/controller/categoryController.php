@@ -1,0 +1,23 @@
+<?php
+
+require_once $_SERVER['DOCUMENT_ROOT'] . '/blocEditor/model/pageModel.php';
+require_once $_SERVER['DOCUMENT_ROOT'] . '/blocEditor/model/pageCategoryModel.php';
+require_once $_SERVER['DOCUMENT_ROOT'] . '/blocEditor/model/categoryModel.php';
+require $_SERVER['DOCUMENT_ROOT'] . '/vendor/autoload.php';
+use \Firebase\JWT\JWT;
+
+class CategoryController
+{
+    function addcategory(){
+        $data = json_decode(file_get_contents("php://input"));
+        try {
+            $newcat = new CategoryModel;
+            $newcat->name = $data->name;
+            CategoryModel::save($newcat);
+        } catch (Exception $e) {
+            http_response_code(404);
+            echo json_encode(array('message'=>'an error ocurred when adding the category'));
+        }
+        http_response_code(200);
+    }
+}
