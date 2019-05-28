@@ -37,7 +37,7 @@ class BlockController
         $block->nombreCol = $data->nombreCol;
         $block->innerBlocks = $data->innerBlocks;
         $targetPage = PageModel::findById($data->pageId);
-        if(!empty($targetPage) == 0) {
+        if (!empty($targetPage) == 0) {
             http_response_code(404);
             echo json_encode(array("message" => "The page you are trying to add a block on does not exists. Block not added to base."));
         } else {
@@ -55,7 +55,7 @@ class BlockController
         $this->setHeader();
         $data = json_decode(file_get_contents("php://input"));
         $blockToDelete = BlockModel::findById($data->id);
-        if(count($blockToDelete) == 0) {
+        if (count($blockToDelete) == 0) {
             http_response_code(404);
             echo json_encode(array("message" => "Block not found, can't be deleted."));
         } else {
@@ -73,7 +73,7 @@ class BlockController
         $this->setHeader();
         $data  = json_decode(file_get_contents("php://input"));
         $blockToUpdate = BlockModel::findById($data->id);
-        if(count($blockToUpdate) == 0) {
+        if (count($blockToUpdate) == 0) {
             http_response_code(404);
             echo json_encode(array("message" => "Block not found, can't be updated."));
         } else {
@@ -87,7 +87,7 @@ class BlockController
             $block->nombreCol = $data->nombreCol;
             $block->innerBlocks = $data->innerBlocks;
             $targetPage = PageModel::findByid($data->pageId);
-            if(count($targetPage) == 0) {
+            if (count($targetPage) == 0) {
                 http_response_code(404);
                 echo json_encode(array("message" => "The page you are trying to update a block on does not exists. Block not updated to base."));
             } else {
@@ -98,4 +98,21 @@ class BlockController
         }
     }
 
+    public function uploadImage()
+    {
+        $storeFolder = $_SERVER['DOCUMENT_ROOT'] . '/blocEditor/img/';
+        if (!empty($_FILES)) {
+            try {
+
+                $tempFile = $_FILES['file']['tmp_name'];
+                $targetFile =  $storeFolder . $_FILES['file']['name'];
+                move_uploaded_file($tempFile, $targetFile);
+
+                header('Content-type: application/json');
+                echo json_encode(['target_file' => $_FILES['file']['name']]);
+            } catch (Exception $e) {
+                echo $e;
+            }
+        }
+    }
 }

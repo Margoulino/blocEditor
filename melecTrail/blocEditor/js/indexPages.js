@@ -95,3 +95,56 @@ $(document).on('submit', '#cat_form', function () {
     });
     return false;
 });
+
+$('#image').on('click', function () {
+    $('#uploadImageModal').modal('show');
+})
+
+Dropzone.autoDiscover = false;
+$(document).ready(function () {
+    var myDropzone = new Dropzone("#myDropzone", {
+        url: "/block/uploadImage",
+        paramName: "file",
+        autoProcessQueue: false,
+        uploadMultiple: false, 
+        parallelUploads: 100, 
+        maxFilesize: 1, 
+        maxFiles: 1,
+        acceptedFiles: ".jpg, .jpeg, .png, .gif",
+        addRemoveLinks: true,
+        dictFileTooBig: "File is to big ({{filesize}}mb). Max allowed file size is {{maxFilesize}}mb",
+        dictInvalidFileType: "Invalid File Type",
+        dictCancelUpload: "Cancel",
+        dictRemoveFile: "Remove",
+        dictMaxFilesExceeded: "Only {{maxFiles}} file is allowed",
+        dictDefaultMessage: "Drop files here to upload",
+    });
+});
+
+Dropzone.options.myDropzone = {
+    init: function () {
+        var myDropzone = this;
+        $("#dropzoneSubmit").on("click", function (e) {
+            e.preventDefault();
+            e.stopPropagation();
+            if (myDropzone.files != "") {
+                myDropzone.processQueue();
+            } else {
+                $("#myDropzone").submit();
+            }
+        });
+        this.on("addedfile", function (file) {
+            console.log(file);
+        });
+
+        this.on("error", function (file, response) {
+            console.log(response);
+        });
+        this.on("success", function (file,response) {
+            console.log(response.target_file);
+            $('.imageCollection').append('<img src="../img/' + response.target_file + '>');
+        })
+    }
+}
+
+
