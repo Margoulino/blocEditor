@@ -77,7 +77,7 @@ class PageModel
      * Selects a page according to its name
      * 
      */
-    public static function findByname($name)
+    public static function findByName($name)
     {
         $dbConn = DBModel::getConnection();
         $stmt = $dbConn->prepare('
@@ -160,5 +160,22 @@ class PageModel
         $stmt->bindParam(':public', 0);
         $stmt->bindParam(':id', $this->id);
         return $stmt->execute();
+    }
+
+    public static function getAllBlocksByIdPage($idPage) {
+        $dbConn = DBModel::getConnection();
+        $stmt = $dbConn->prepare('
+            SELECT edit_block.id,
+                   edit_block.content,
+                   edit_block.pageId,
+                   edit_block.order,
+                   edit_block.idBlockType,
+                   edit_block.dateCreation,
+                   edit_block.nombreCol,
+                   edit_block.innerBlocks
+            FROM edit_page INNER JOIN 
+            edit_block on edit_page.id = edit_block.pageId
+            ORDER BY edit_block.order;
+        ');
     }
 }

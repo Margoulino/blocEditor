@@ -71,9 +71,9 @@ class PageController
             $newpage = new PageModel;
             $newpage->name=$data->name;
             $pageCat = new PageCategoryModel();
-            if(count(PageModel::findByname($data->name)) == 0) {
+            if(count(PageModel::findByName($data->name)) == 0) {
                 if(PageModel::save($newpage)) {
-                    $pageCat->idPage=PageModel::findByname($newpage->name)[0]->id;
+                    $pageCat->idPage=PageModel::findByName($newpage->name)[0]->id;
                     $pageCat->idCategory=CategoryModel::findByname($data->category)[0]->id;
                     if(PageCategoryModel::save($pageCat)) {
                         http_response_code(200);
@@ -98,7 +98,7 @@ class PageController
     function deletepage(){
         $data = json_decode(file_get_contents("php://input"));
         try{
-            $page = PageModel::findByname($data->page);
+            $page = PageModel::findByName($data->page);
             $category = CategoryModel::findByname($data->category);
             PageCategoryModel::delete($page[0]->id,$category[0]->id);
             PageModel::delete($page[0]->id);
@@ -112,7 +112,7 @@ class PageController
     function editPage($name)
     {
         try {
-            $page = PageModel::findByname($name[0]);
+            $page = PageModel::findByName($name[0]);
             $pagePath = $this->rsearch($_SERVER['DOCUMENT_ROOT'], '/^.+\\' . $page[0]->name . '.php$/');
             $pageCode = new DOMDocument();
             libxml_use_internal_errors(true);
@@ -134,6 +134,18 @@ class PageController
 
     public function editionPage($name)
     {
+        try {
+            $page = PageModel::findByName($name[0]);
+            if(!empty($page)) {
+                $blocks = PageModel::getAllBlocksByIdPage($page[0]->id);
+            } else {
+                throw new Exception("Page does not exists, you must create it first");
+            }
+        } catch(Exception $e) {
+            $blocks = NULL;
+            http_response_code(404);
+            echo json_encode(array('message' => $e->getMessage()));
+        }
         require($_SERVER['DOCUMENT_ROOT'] . '/blocEditor/view/pageEdit.php');
     }
 }

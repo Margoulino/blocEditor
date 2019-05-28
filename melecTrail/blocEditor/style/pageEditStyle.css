@@ -25,9 +25,24 @@
 }
 
 .blockMenu .closebtn {
-    position: absolute;
-    top: 40px;
-    right: 25px;
     font-size: 36px;
-    margin-left: 50px;
+}
+
+.menuOptions {
+    background-color: #17a2b8;
+    padding: 10px;
+    margin: 10px;
+    border-radius: 5px;
+    transition: 0.3s;
+}
+.menuOptions:hover {
+    background-color: #117585;
+}
+.menuIcons {
+    font-size: 5rem;
+    color: white;
+}
+
+#blockSave {
+    margin-top: 8px;
 }

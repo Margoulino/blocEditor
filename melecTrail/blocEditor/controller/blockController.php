@@ -37,7 +37,7 @@ class BlockController
         $block->nombreCol = $data->nombreCol;
         $block->innerBlocks = $data->innerBlocks;
         $targetPage = PageModel::findById($data->pageId);
-        if(count($targetPage) == 0) {
+        if(!empty($targetPage) == 0) {
             http_response_code(404);
             echo json_encode(array("message" => "The page you are trying to add a block on does not exists. Block not added to base."));
         } else {
