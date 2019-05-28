@@ -142,7 +142,14 @@ Dropzone.options.myDropzone = {
         });
         this.on("success", function (file,response) {
             console.log(response.target_file);
-            $('.imageCollection').append('<img src="../img/' + response.target_file + '>');
+            var img = document.createElement("img");
+            var div = document.createElement("div");
+            div.className="prevImg";
+            img.src="/blocEditor/img/"+response.target_file;
+            img.className="img-preview";
+            img.id=response.target_file;
+            document.querySelector('.imageCollection').appendChild(div);
+            div.appendChild(img);
         })
     }
 }

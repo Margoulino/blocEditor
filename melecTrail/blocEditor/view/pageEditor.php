@@ -48,7 +48,14 @@
                     <div class="row">
                         <form id="myDropzone" action="/block/uploadImage" enctype="multipart/form-data" class="dropzone col-md-6" method="post"></form>
                         <div class="col-md-6 imageCollection">
-                            
+                            <?php
+                            foreach (scandir('./blocEditor/img') as $file) {
+                                if ($file != "." && $file != "..") {
+                                    echo '<div class="prevImg">';
+                                    echo '<img class="img-preview" src="/blocEditor/img/' . $file . '"></div>';
+                                }
+                            }
+                            ?>
                         </div>
                     </div>
                     <button id="dropzoneSubmit" class="btn btn-primary">Enregistrer</button>

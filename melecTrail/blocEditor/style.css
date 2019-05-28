@@ -16,3 +16,31 @@ html, body {
 .fa-times {
     color: #e91818;
 }
+
+.imageCollection {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: flex-start;
+    align-content: flex-start;
+}
+
+.imageCollection {
+    display: flex;
+    height: 400px;
+    flex-wrap: wrap;
+    align-content: flex-start;
+    justify-content: space-between;
+    overflow-y: scroll;
+}
+
+.prevImg{
+    flex-grow: 1;
+    flex-basis: 125px;
+    max-width: 300px;
+    margin: 5px;
+}
+
+.prevImg img{
+    height: 100%;
+    width: 100%;
+}
