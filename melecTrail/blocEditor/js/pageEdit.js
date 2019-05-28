@@ -37,7 +37,7 @@ document.querySelector("#blockSave").addEventListener("click", () => {
         "name": "nomBloc",
         "content": content,
         "pageId": idCourse,
-        "order": 1,
+        "orderBlock": 1,
         "idBlockType": 1,
         "nombreCol": 1,
         "innerBlocks": ""

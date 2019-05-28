@@ -32,7 +32,7 @@ class BlockController
         $block->name = $data->name;
         $block->content = $data->content;
         $block->pageId = $data->pageId;
-        $block->order = $data->order;
+        $block->orderBlock = $data->orderBlock;
         $block->idBlockType = $data->idBlockType;
         $block->nombreCol = $data->nombreCol;
         $block->innerBlocks = $data->innerBlocks;
@@ -82,7 +82,7 @@ class BlockController
             $block->name = $data->name;
             $block->content = $data->content;
             $block->pageId = $data->pageId;
-            $block->order = $data->order;
+            $block->orderBlock = $data->orderBlock;
             $block->idBlockType = $data->idBlockType;
             $block->nombreCol = $data->nombreCol;
             $block->innerBlocks = $data->innerBlocks;
