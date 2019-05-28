@@ -33,7 +33,7 @@ blockTextButton.addEventListener("click", function() {
             JSON.stringify({
                 name: "nomBloc",
                 content: content,
-                pageId: idCourse,
+                pageId: pageId,
                 orderBlock: idNewBlock,
                 idBlockType: 1,
                 nombreCol: 1,

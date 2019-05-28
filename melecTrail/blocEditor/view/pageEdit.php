@@ -65,7 +65,7 @@
         </div>
     </div>
     <script>
-        var idCourse = <?php echo $page[0]->id?>;
+        var pageId = <?php echo $page[0]->id?>;
         var idNewBlock = <?php echo count($blocks);?> + 1;
     </script>
     <script src="/blocEditor/js/pageEdit.js"></script>

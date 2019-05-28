@@ -162,7 +162,7 @@ class PageModel
         return $stmt->execute();
     }
 
-    public static function getAllBlocksByIdPage($idPage) {
+    public static function getAllBlocksByIdPage($pageId) {
         $dbConn = DBModel::getConnection();
         $stmt = $dbConn->prepare('
             SELECT edit_block.id,
@@ -175,8 +175,10 @@ class PageModel
                    edit_block.innerBlocks
             FROM edit_page INNER JOIN 
             edit_block on edit_page.id = edit_block.pageId
+            WHERE edit_block.pageId = :pageId
             ORDER BY edit_block.orderBlock;
         ');
+        $stmt->bindParam(":pageId", $pageId);
         $stmt->execute();
         $stmt->setFetchMode(PDO::FETCH_CLASS, 'BlockModel');
         return $stmt->fetchAll();
