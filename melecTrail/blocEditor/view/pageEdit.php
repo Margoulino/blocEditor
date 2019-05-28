@@ -49,7 +49,7 @@
                 foreach ($blocks as $block) {
                     echo '
                         <div class="block-unit">
-                            ' . $block->content . '
+                            ' . $block['content'] . '
                         </div>
                         ';
                 }

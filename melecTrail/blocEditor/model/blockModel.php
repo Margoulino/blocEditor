@@ -8,7 +8,7 @@ class BlockModel
     public $name;
     public $content;
     public $pageId;
-    public $order;
+    public $orderBlock;
     public $idBlockType;
     public $dateCreation;
     public $nombreCol;
@@ -22,7 +22,7 @@ class BlockModel
                 $this->name = $data['name'];
                 $this->content = $data['content'];
                 $this->pageId = $data['pageId'];
-                $this->order = $data['order'];
+                $this->orderBlock = $data['orderBlock'];
                 $this->idBlockType = $data['idBlockType'];
                 $this->dateCreation = $data['dateCreation'];
                 $this->nombreCol = $data['nombreCol'];
@@ -68,14 +68,14 @@ class BlockModel
         $dbConn = DBModel::getConnection();
         $stmt = $dbConn->prepare('
             INSERT INTO edit_block 
-                (name, content, pageId, order, idBlockType, nombreCol, innerBlocks) 
+                (name, content, pageId, orderBlock, idBlockType, nombreCol, innerBlocks) 
             VALUES 
-                (:name, :content, :pageId, :order, :idBlockType, :nombreCol, :innerBlocks)
+                (:name, :content, :pageId, :orderBlock, :idBlockType, :nombreCol, :innerBlocks)
         ');
         $stmt->bindParam(':name', $block->name);
         $stmt->bindParam(':content', $block->content);
         $stmt->bindParam(':pageId', $block->pageId);
-        $stmt->bindParam(':order', $block->order);
+        $stmt->bindParam(':orderBlock', $block->orderBlock);
         $stmt->bindParam(':idBlockType', $block->idBlockType);
         $stmt->bindParam(':nombreCol', $block->nombreCol);
         $stmt->bindParam(':innerBlocks', $block->innerBlocks);
@@ -96,7 +96,7 @@ class BlockModel
          SET `name`           = :name,
              `content`        = :content,
              `idPage`         = :pageId,
-             `order`          = :order,
+             `orderBlock`          = :orderBlock,
              `idBlockType`    = :idBlockType,
              `nombreCol`      = :nombreCol,
              `innerBlocks`    = :innerBlocks
@@ -105,7 +105,7 @@ class BlockModel
         $stmt->bindParam(':name', $this->name);
         $stmt->bindParam(':content', $this->content);
         $stmt->bindParam(':pageId', $this->pageId);
-        $stmt->bindParam(':order', $this->order);
+        $stmt->bindParam(':orderBlock', $this->orderBlock);
         $stmt->bindParam(':idBlockType', $this->idBlockType);
         $stmt->bindParam(':nombreCol', $this->nombreCol);
         $stmt->bindParam(':innerBlocks', $this->innerBlocks);

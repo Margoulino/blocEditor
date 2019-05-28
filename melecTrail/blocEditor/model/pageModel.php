@@ -168,14 +168,17 @@ class PageModel
             SELECT edit_block.id,
                    edit_block.content,
                    edit_block.pageId,
-                   edit_block.order,
+                   edit_block.orderBlock,
                    edit_block.idBlockType,
                    edit_block.dateCreation,
                    edit_block.nombreCol,
                    edit_block.innerBlocks
             FROM edit_page INNER JOIN 
             edit_block on edit_page.id = edit_block.pageId
-            ORDER BY edit_block.order;
+            ORDER BY edit_block.orderBlock;
         ');
+        $stmt->execute();
+        $stmt->setFetchMode(PDO::FETCH_CLASS, 'BlockModel');
+        return $stmt->fetchAll();
     }
 }

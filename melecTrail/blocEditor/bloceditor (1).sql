@@ -34,7 +34,7 @@ CREATE TABLE IF NOT EXISTS `edit_block` (
   `name` varchar(100) NOT NULL,
   `content` longtext NOT NULL,
   `pageId` int(11) NOT NULL,
-  `order` int(11) NOT NULL,
+  `orderBlock` int(11) NOT NULL,
   `idBlockType` int(11) NOT NULL,
   `dateCreation` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `nombreCol` int(11) NOT NULL,
