@@ -14,35 +14,35 @@ $.fn.serializeObject = function () {
     });
     return o;
 };
-$('.addPage').on('click', function() {
-    var idcat=$(this).attr('id');
+$('.addPage').on('click', function () {
+    var idcat = $(this).attr('id');
     $('#addPageModal').modal('show');
     $('#addPageModal').find('#catnameinput').val(idcat);
 });
 $('#nav-tabContent a').on('click', function () {
-    if (confirm('Modifier la page ' + $(this).attr('id') + ' ?')){
-        window.location.href="/page/editPage/"+$(this).attr('id');
+    if (confirm('Modifier la page ' + $(this).attr('id') + ' ?')) {
+        window.location.href = "/page/editPage/" + $(this).attr('id');
     };
 })
 
-$('.addCat').on('click',function(){
+$('.addCat').on('click', function () {
     $('#addCategoryModal').modal('show');
 })
 
-$(document).ready(function() {
+$(document).ready(function () {
     $("#list-tab a").first().addClass("active");
     $("#nav-tabContent div").first().addClass("show active");
 });
 
-$('.deletePage').on('click', function(){
+$('.deletePage').on('click', function () {
     var view = $(this).attr('id');
     var cat = $(this).parent().parent().attr('class');
-    if(confirm("Confirmer la suppression de la page " + view + " ?")){
+    if (confirm("Confirmer la suppression de la page " + view + " ?")) {
         $.ajax({
             url: "/page/deletepage",
             type: "POST",
             contentType: 'application/json',
-            data: JSON.stringify({"page" : view,"category": cat}),
+            data: JSON.stringify({ "page": view, "category": cat }),
             success: function (result) {
                 window.location.reload();
             },
@@ -74,21 +74,23 @@ $(document).on('submit', '#tree_form', function () {
     return false;
 });
 
-$(document).on('submit', '#cat_form', function() {
-    var cat_form=$(this);
+$(document).on('submit', '#cat_form', function () {
+    var cat_form = $(this);
     var form_data = JSON.stringify(cat_form.serializeObject());
     $.ajax({
-        url: "/category/addcategory" , 
+        url: "/category/addcategory",
         type: "POST",
         contentType: "application/json",
         data: form_data,
-        success: function(result){
+        success: function (result) {
             window.location.reload();
         },
-        error: function(xhr, resp, text) {
-            window.alert("Erreur lors de l'ajout, veuillez réessayer.")
-            cat_form.find('input').val('');
-            console.log(resp);
+        error: function (xhr, resp, text) {
+            if (xhr.status == 409) {
+                window.alert("Cette catégorie existe déjà veuillez spécifier un autre nom.");
+            } else {
+                window.alert("Erreur lors de l'ajout, veuillez réessayer.")
+            } cat_form.find('input').val('');
         }
     });
     return false;

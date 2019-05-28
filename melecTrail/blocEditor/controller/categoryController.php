@@ -10,6 +10,11 @@ class CategoryController
 {
     function addcategory(){
         $data = json_decode(file_get_contents("php://input"));
+        if(CategoryModel::findByname($data->name)){
+            http_response_code(409);
+            echo json_encode(array('message' => 'name already taken'));
+            return;
+        }
         try {
             $newcat = new CategoryModel;
             $newcat->name = $data->name;
