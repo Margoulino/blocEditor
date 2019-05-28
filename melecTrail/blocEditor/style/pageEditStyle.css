@@ -1,8 +1,12 @@
+body {
+    margin-top: 56px;
+}
+
 .blockMenu {
     height: 100%;
     width: 0;
     position: fixed;
-    z-index: 1;
+    z-index: 2;
     top: 0;
     left: 0;
     background-color: rgb(52, 58, 64);;
@@ -37,12 +41,24 @@
 }
 .menuOptions:hover {
     background-color: #117585;
+    cursor: pointer;
 }
 .menuIcons {
     font-size: 5rem;
     color: white;
 }
 
+.block-unit {
+    border: 1px dotted #818181;
+    padding: 8px;
+    margin-bottom: 16px;
+    border-radius: 4px;
+}
+
 #blockSave {
     margin-top: 8px;
+}
+
+.interface-block {
+    margin-bottom: 16px;
 }

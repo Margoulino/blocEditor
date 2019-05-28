@@ -15,7 +15,7 @@
 </head>
 
 <body>
-    <nav class="navbar navbar-expand-md navbar-dark bg-dark">
+    <nav class="navbar navbar-expand-md navbar-dark bg-dark fixed-top">
         <a class="navbar-brand pagename" href="#">Edition de page</a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
@@ -38,8 +38,8 @@
                     </div>
                 </div>
                 <div class="row">
-                    <p class="col menuOptions"><i class="fas fa-align-left menuIcons"></i></p>
-                    <p class="col menuOptions"><i class="fas fa-image menuIcons"></i></p>
+                    <p id="textOption" class="col menuOptions"><i class="fas fa-align-left menuIcons"></i></p>
+                    <p id="imgOption" class="col menuOptions"><i class="fas fa-image menuIcons"></i></p>
                 </div>
             </div>
         </div>
@@ -58,26 +58,16 @@
         </div>
         <div class="row">
             <div class="col">
-                <div class="interface-bloc">
-                    <div class="card">
-                        <div class="card-body">
-                            <div class="row">
-                                <div class="col">
-                                    <textarea name="content" id="editor"></textarea>
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="col">
-                                    <a id="blockSave" class="btn btn-success" href="#">Sauvegarder le bloc</a>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+                <div class="interface-block">
+
                 </div>
             </div>
         </div>
     </div>
-    <script>var idCourse = <?php echo $page[0]->id?>;</script>
+    <script>
+        var idCourse = <?php echo $page[0]->id?>;
+        var idNewBlock = <?php echo count($blocks);?> + 1;
+    </script>
     <script src="/blocEditor/js/pageEdit.js"></script>
 </body>
 
