@@ -13,6 +13,7 @@
     <script src="https://code.jquery.com/jquery-3.4.1.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
     <script src="https://cdn.ckeditor.com/ckeditor5/12.1.0/classic/ckeditor.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/dropzone/5.5.1/dropzone.css" />
     <link rel="stylesheet" href="/blocEditor/style/pageEditStyle.css">
 </head>
 
@@ -66,6 +67,34 @@
             </div>
         </div>
     </div>
+    <button id="image">upload image</button>
+    <div id="uploadImageModal" class="modal fade">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Ajouter une image</h5>
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                </div>
+                <div class="modal-body">
+                    <div class="row">
+                        <form id="myDropzone" action="/block/uploadImage" enctype="multipart/form-data" class="dropzone col-md-6" method="post"></form>
+                        <div class="col-md-6 imageCollection">
+                            <?php
+                            foreach (scandir('./blocEditor/img') as $file) {
+                                if ($file != "." && $file != "..") {
+                                    echo '<div class="prevImg">';
+                                    echo '<img class="img-preview" src="/blocEditor/img/' . $file . '"></div>';
+                                }
+                            }
+                            ?>
+                        </div>
+                    </div>
+                    <button id="dropzoneSubmit" class="btn btn-primary">Enregistrer</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <script>
         var pageId = <?php echo $page[0]->id?>;
         var idNewBlock = <?php echo count($blocks);?> + 1;
@@ -73,6 +102,7 @@
         var previousBlocks = <?php echo json_encode($blocks); ?>;
         console.log(previousBlocks);
     </script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/dropzone/5.5.1/dropzone.js"></script>
     <script src="/blocEditor/js/pageEdit.js"></script>
 </body>
 

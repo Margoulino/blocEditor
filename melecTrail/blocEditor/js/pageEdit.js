@@ -100,3 +100,62 @@ function openNav() {
 function closeNav() {
     document.querySelector(".blockMenu").style.width = "0";
 }
+
+
+$('#imgOption').on('click', function () {
+    $('#uploadImageModal').modal('show');
+    closeNav();
+})
+
+Dropzone.autoDiscover = false;
+$(document).ready(function () {
+    var myDropzone = new Dropzone("#myDropzone", {
+        url: "/block/uploadImage",
+        paramName: "file",
+        autoProcessQueue: false,
+        uploadMultiple: false, 
+        parallelUploads: 100, 
+        maxFilesize: 1, 
+        maxFiles: 1,
+        acceptedFiles: ".jpg, .jpeg, .png",
+        addRemoveLinks: true,
+        dictFileTooBig: "Le fichier est trop volumineux ({{filesize}}mb). La taille maximale est {{maxFilesize}}mb",
+        dictInvalidFileType: "Type de fichier invalide",
+        dictCancelUpload: "Annuler",
+        dictRemoveFile: "Supprimer",
+        dictMaxFilesExceeded: "Enregistrez les fichiers un par un",
+        dictDefaultMessage: "Déposez un fichier ici ou cliquez.",
+    });
+});
+
+Dropzone.options.myDropzone = {
+    init: function () {
+        var myDropzone = this;
+        $("#dropzoneSubmit").on("click", function (e) {
+            e.preventDefault();
+            e.stopPropagation();
+            if (myDropzone.files != "") {
+                myDropzone.processQueue();
+            } else {
+                $("#myDropzone").submit();
+            }
+        });
+        this.on("error", function (file, response) {
+            console.log(response);
+            window.alert("Erreur lors de l'ajout veuillez réessayer.");
+            $('#uploadImageModal').modal('toggle');
+
+        });
+        this.on("success", function (file,response) {
+            console.log(response.target_file);
+            var img = document.createElement("img");
+            var div = document.createElement("div");
+            div.className="prevImg";
+            img.src="/blocEditor/img/"+response.target_file;
+            img.className="img-preview";
+            img.id=response.target_file;
+            document.querySelector('.imageCollection').appendChild(div);
+            div.appendChild(img);
+        })
+    }
+}
