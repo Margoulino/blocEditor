@@ -33,7 +33,10 @@ function htmlEditorInit(targetElement, operation, previousContent) {
         .catch(error => {
             console.error(error);
         });
-
+        document.querySelector("#editor" + blockId).scrollIntoView({
+            behavior: "smooth",
+            block: 'start'
+        });
     document.querySelector("#blockSave").addEventListener("click", () => {
         var content = editor.getData();
 
