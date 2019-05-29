@@ -11,7 +11,9 @@
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous" />
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.2/css/all.css" integrity="sha384-oS3vJWv+0UjzBfQzYUhtDYW+Pj2yciDJxpsK1OYPAYjqT085Qq/1cq5FLXAZQ7Ay" crossorigin="anonymous">
     <link rel="stylesheet" href="/blocEditor/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/image-picker/0.3.1/image-picker.css" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/dropzone/5.5.1/dropzone.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/lightbox2/2.11.0/css/lightbox.min.css" />
 </head>
 
 <body>
@@ -47,23 +49,35 @@
                 <div class="modal-body">
                     <div class="row">
                         <form id="myDropzone" action="/block/uploadImage" enctype="multipart/form-data" class="dropzone col-md-6" method="post"></form>
-                        <div class="col-md-6 imageCollection">
-                            <?php
-                            foreach (scandir('./blocEditor/img') as $file) {
-                                if ($file != "." && $file != "..") {
-                                    echo '<div class="prevImg">';
-                                    echo '<img class="img-preview" src="/blocEditor/img/' . $file . '"></div>';
+                        <div class="col-md-6">
+                            <select class="image-picker">
+                                <?php
+                                foreach (scandir('./blocEditor/img') as $file) {
+                                    if ($file != "." && $file != "..") {
+                                        echo '<option data-img-src="/blocEditor/img/' . $file . '" value="' . $file . '"></option>';
+                                    }
                                 }
-                            }
-                            ?>
+                                ?>
+                            </select>
                         </div>
                     </div>
-                    <button id="dropzoneSubmit" class="btn btn-primary">Enregistrer</button>
+                    <br />
+                    <div class="row">
+                        <div class="col">
+                            <button id="dropzoneSubmit" class="btn btn-primary">Enregistrer</button>
+                        </div>
+                        <div class="col align-self-end">
+                            <button id="selectImg" class="btn btn-info">Sélectionner</button>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/dropzone/5.5.1/dropzone.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/image-picker/0.3.1/image-picker.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/lightbox2/2.11.0/js/lightbox.min.js"></script>
+    <script src="https://unpkg.com/interactjs/dist/interact.min.js"></script>
     <script src="/blocEditor/js/indexPages.js"></script>
 
     <script>

@@ -58,6 +58,10 @@
                             ' . $block['content'] . '
                         </div>
                         ';
+                        if($block['idBlockType'] == 2){
+                            echo '<button class="btn btn-xs btn-info resizebtn">Redimensionner</button>';
+                        }
+                        echo '    </div>';
                 }
             }
             ?>
@@ -71,7 +75,7 @@
         </div>
         <a id="pagePreview" class="btn btn-info" href="/page/previewPage/<?php echo $page[0]->name; ?>">Prévisualiser</a>
     </div>
-    <button id="image">upload image</button>
+
     <div id="uploadImageModal" class="modal fade">
         <div class="modal-dialog modal-lg">
             <div class="modal-content">
@@ -94,7 +98,15 @@
                             </select>
                         </div>
                     </div>
-                    <button id="dropzoneSubmit" class="btn btn-primary">Enregistrer</button>
+                    <br />
+                    <div class="row">
+                        <div class="col">
+                            <button id="dropzoneSubmit" class="btn btn-primary">Enregistrer</button>
+                        </div>
+                        <div class="col align-self-end">
+                            <button id="selectImg" class="btn btn-info">Sélectionner</button>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
