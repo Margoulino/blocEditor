@@ -20,7 +20,7 @@ function htmlEditorInit(targetElement, operation, previousContent) {
     targetElement.innerHTML =
         '<div class="card"><div class="card-body"><div class="row"><div class="col"><textarea name="content" id="editor' +
         blockId +
-        '"></textarea></div></div><div class="row"><div class="col"><a id="blockSave" class="btn btn-success" href="#">Sauvegarder le bloc</a></div></div></div></div>';
+        '"></textarea></div></div><div class="row"><div class="col"><a id="blockSave" class="btn btn-success" href="#">Sauvegarder le bloc</a><a class="btn btn-danger" id="blockDelete" href="#" role="button">Supprimer le bloc</a></div></div></div></div>';
     let editor;
 
     ClassicEditor.create(document.querySelector("#editor" + blockId))
@@ -83,6 +83,22 @@ function htmlEditorInit(targetElement, operation, previousContent) {
                 }
             });
 
+        }
+    });
+
+    document.getElementById("blockDelete").addEventListener("click", function(e) {
+        if(blockId !== undefined && blockId !== "") {
+            var xhr = new XMLHttpRequest();
+
+            xhr.onreadystatechange = function() {
+                if (this.readyState === XMLHttpRequest.DONE && this.status === 200) {
+                    location.reload();
+                }
+            };
+
+            xhr.open("POST", "/block/deleteBlock", true);
+            xhr.setRequestHeader("Content-type", "application/json");
+            xhr.send(JSON.stringify({id: blockId}));
         }
     });
 }
