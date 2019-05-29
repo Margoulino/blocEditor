@@ -187,15 +187,19 @@ Dropzone.options.myDropzone = {
 
 $("select").imagepicker()
 $("#selectImg").on('click', function () {
-    addImgBlock($('.interfaceBlock'), "save");
+    addImgBlock(interfaceBlock, "save","");
 });
 
 function addImgBlock(targetElement, operation, previousContent) {
     $('#uploadImageModal').modal('show');
     var blockId = targetElement.getAttribute("id");
-    targetElement.innerHTML = '<a href="' + $('.image_picker_selector .selected img').attr('src') + '" data-lightbox="' + $('.image_picker_selector .selected img').attr('src') + '" class="imgBlock"></a><div class="row"><div class="col"><a id="blockSave" class="btn btn-success" href="#">Sauvegarder le bloc</a></div></div>';
-
+    targetElement.innerHTML = '<a href="' + $('.image_picker_selector .selected img').attr('src') + '" data-lightbox="' + $('.image_picker_selector .selected img').attr('src') + '" class="imgBlock"><img src="' + $('.image_picker_selector .selected img').attr('src') + '" id="' + blockId + '"/></a><div class="row"><div class="col"><a id="blockSave" class="btn btn-success" href="#">Sauvegarder le bloc</a></div></div>';
+    let cont;
+    cont = $('.imgBlock').last()[0];
+    console.log(cont);
     document.querySelector("#blockSave").addEventListener("click", () => {
+        console.log(cont.outerHTML);
+        
         var xhr = new XMLHttpRequest();
 
         xhr.onreadystatechange = function () {
@@ -206,13 +210,13 @@ function addImgBlock(targetElement, operation, previousContent) {
             }
         };
         if (operation === "save") {
-            var content = targetElement.innerHTML;
+            console.log(String(cont));
             xhr.open("POST", "/block/addBlockToPage", true);
             xhr.setRequestHeader("Content-type", "application/json");
             xhr.send(
                 JSON.stringify({
                     name: nomPage + "_" + idNewBlock,
-                    content: content,
+                    content: cont.outerHTML,
                     pageId: pageId,
                     orderBlock: idNewBlock,
                     idBlockType: 2,
@@ -252,9 +256,11 @@ lightbox.option({
     'wrapAround': true
 })
 
-$('.bloc-unit').on('dblclick', function () {
-    var resized = $(this).find('a');
-    interact(resized).resizable({
+$('.resizebtn').on('click', function () {
+    var resized = $(this).parent();
+    var str = '"#'+resized.attr('id')+' img"';
+    console.log(str);
+    interact(str).resizable({
         edges: { left: true, right: true, bottom: true, top: true },
         modifiers: [
             interact.modifiers.restrictEdges({
@@ -267,6 +273,6 @@ $('.bloc-unit').on('dblclick', function () {
         ],
         inertia: true
     });
-    addImgBlock($(this),"update",$(this).innerHTML);
+    //addImgBlock($(this),"update",$(this).innerHTML);
 })
 
