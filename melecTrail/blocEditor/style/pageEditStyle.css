@@ -68,7 +68,7 @@ body {
     margin-bottom: 16px;
 }
 
-.imageCollection {
+.image_picker_selector {
     display: flex;
     height: 400px;
     flex-wrap: wrap;
@@ -78,21 +78,21 @@ body {
     align-items: flex-start;
 }
 
-.prevImg{
+.thumbnail{
     flex-grow: 1;
     flex-basis: 125px;
     max-width: 300px;
     margin: 5px;
 }
 
-.prevImg img{
+.thumbnail img{
     height: 100%;
     width: 100%;
 }
+
 .dropzone .dz-preview .dz-error-message {
     top: 150px!important;
 }
-
 [id^=order]:hover {
     color: #17a2b8;
     cursor: pointer;

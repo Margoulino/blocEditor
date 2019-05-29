@@ -14,6 +14,8 @@
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
     <script src="https://cdn.ckeditor.com/ckeditor5/12.1.0/classic/ckeditor.js"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/dropzone/5.5.1/dropzone.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/lightbox2/2.11.0/css/lightbox.min.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/image-picker/0.3.1/image-picker.css" />
     <link rel="stylesheet" href="/blocEditor/style/pageEditStyle.css">
 </head>
 
@@ -51,8 +53,8 @@
             if ($blocks != NULL) {
                 foreach ($blocks as $block) {
                     echo '
-                        <div><i id="orderUp'. $block['id'] .'" i class="fas fa-arrow-up"></i>   <i id="orderDown'. $block['id'] .'"class="fas fa-arrow-down"></i></div>
-                        <div id="'. $block['id'] .'" class="block-unit">
+                        <div><i id="orderUp' . $block['id'] . '" i class="fas fa-arrow-up"></i>   <i id="orderDown' . $block['id'] . '"class="fas fa-arrow-down"></i></div>
+                        <div id="' . $block['id'] . '" class="block-unit">
                             ' . $block['content'] . '
                         </div>
                         ';
@@ -67,7 +69,7 @@
                 </div>
             </div>
         </div>
-        <a id="pagePreview" class="btn btn-info" href="/page/previewPage/<?php echo $page[0]->name;?>">Prévisualiser</a>
+        <a id="pagePreview" class="btn btn-info" href="/page/previewPage/<?php echo $page[0]->name; ?>">Prévisualiser</a>
     </div>
     <button id="image">upload image</button>
     <div id="uploadImageModal" class="modal fade">
@@ -80,15 +82,16 @@
                 <div class="modal-body">
                     <div class="row">
                         <form id="myDropzone" action="/block/uploadImage" enctype="multipart/form-data" class="dropzone col-md-6" method="post"></form>
-                        <div class="col-md-6 imageCollection">
-                            <?php
-                            foreach (scandir('./blocEditor/img') as $file) {
-                                if ($file != "." && $file != "..") {
-                                    echo '<div class="prevImg">';
-                                    echo '<img class="img-preview" src="/blocEditor/img/' . $file . '"></div>';
+                        <div class="col-md-6">
+                            <select class="image-picker">
+                                <?php
+                                foreach (scandir('./blocEditor/img') as $file) {
+                                    if ($file != "." && $file != "..") {
+                                        echo '<option data-img-src="/blocEditor/img/' . $file . '" value="' . $file . '"></option>';
+                                    }
                                 }
-                            }
-                            ?>
+                                ?>
+                            </select>
                         </div>
                     </div>
                     <button id="dropzoneSubmit" class="btn btn-primary">Enregistrer</button>
@@ -98,12 +101,15 @@
     </div>
 
     <script>
-        var pageId = <?php echo $page[0]->id?>;
-        var idNewBlock = <?php echo count($blocks);?> + 1;
-        var nomPage = "<?php echo $page[0]->name;?>";
+        var pageId = <?php echo $page[0]->id ?>;
+        var idNewBlock = <?php echo count($blocks); ?> + 1;
+        var nomPage = "<?php echo $page[0]->name; ?>";
         var previousBlocks = <?php echo json_encode($blocks); ?>;
     </script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/dropzone/5.5.1/dropzone.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/image-picker/0.3.1/image-picker.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/lightbox2/2.11.0/js/lightbox.min.js"></script>
+    <script src="https://unpkg.com/interactjs/dist/interact.min.js"></script>
     <script src="/blocEditor/js/pageEdit.js"></script>
 </body>
 

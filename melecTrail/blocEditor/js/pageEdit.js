@@ -126,15 +126,16 @@ $('#imgOption').on('click', function () {
     closeNav();
 })
 
+
 Dropzone.autoDiscover = false;
 $(document).ready(function () {
     var myDropzone = new Dropzone("#myDropzone", {
         url: "/block/uploadImage",
         paramName: "file",
         autoProcessQueue: false,
-        uploadMultiple: false, 
-        parallelUploads: 100, 
-        maxFilesize: 1, 
+        uploadMultiple: false,
+        parallelUploads: 100,
+        maxFilesize: 1,
         maxFiles: 1,
         acceptedFiles: ".jpg, .jpeg, .png",
         addRemoveLinks: true,
@@ -162,19 +163,110 @@ Dropzone.options.myDropzone = {
         this.on("error", function (file, response) {
             console.log(response);
             window.alert("Erreur lors de l'ajout veuillez réessayer.");
-            $('#uploadImageModal').modal('toggle');
-
         });
-        this.on("success", function (file,response) {
+        this.on("success", function (file, response) {
             console.log(response.target_file);
-            var img = document.createElement("img");
             var div = document.createElement("div");
-            div.className="prevImg";
-            img.src="/blocEditor/img/"+response.target_file;
-            img.className="img-preview";
-            img.id=response.target_file;
-            document.querySelector('.imageCollection').appendChild(div);
-            div.appendChild(img);
+            div.className = "thumbnail";
+            var img = document.createElement("img");
+            img.className = "image_picker_image";
+            img.src = "/blocEditor/img/" + response.target_file;
+            var li = document.createElement("li");
+            div.appendChild(img)
+            li.appendChild(div);
+            document.querySelector('.thumbnails').appendChild(li);
+
+            var option = document.createElement("option");
+            option.setAttribute("data-img-src", img.src);
+            option.setAttribute("value", response.target_file);
+            document.querySelector(".image-picker").appendChild(option);
+            $("select").imagepicker();
         })
     }
 }
+
+$("select").imagepicker()
+$("#selectImg").on('click', function () {
+    addImgBlock($('.interfaceBlock'), "save");
+});
+
+function addImgBlock(targetElement, operation, previousContent) {
+    $('#uploadImageModal').modal('show');
+    var blockId = targetElement.getAttribute("id");
+    targetElement.innerHTML = '<a href="' + $('.image_picker_selector .selected img').attr('src') + '" data-lightbox="' + $('.image_picker_selector .selected img').attr('src') + '" class="imgBlock"></a><div class="row"><div class="col"><a id="blockSave" class="btn btn-success" href="#">Sauvegarder le bloc</a></div></div>';
+
+    document.querySelector("#blockSave").addEventListener("click", () => {
+        var xhr = new XMLHttpRequest();
+
+        xhr.onreadystatechange = function () {
+            // Call a function when the state changes.
+            if (this.readyState === XMLHttpRequest.DONE && this.status === 200) {
+                console.log("enregistrement du bloc effectué");
+                location.reload();
+            }
+        };
+        if (operation === "save") {
+            var content = targetElement.innerHTML;
+            xhr.open("POST", "/block/addBlockToPage", true);
+            xhr.setRequestHeader("Content-type", "application/json");
+            xhr.send(
+                JSON.stringify({
+                    name: nomPage + "_" + idNewBlock,
+                    content: content,
+                    pageId: pageId,
+                    orderBlock: idNewBlock,
+                    idBlockType: 2,
+                    nombreCol: 1,
+                    innerBlocks: ""
+                })
+            );
+        } else if (operation === "update") {
+            var content = previousContent;
+            var currentBlock = "";
+            previousBlocks.forEach(block => {
+                if (blockId == block.id) {
+                    currentBlock = block;
+                    xhr.open("POST", "/block/updateBlock", true);
+                    xhr.setRequestHeader("Content-type", "application/json");
+                    xhr.send(
+                        JSON.stringify({
+                            id: blockId,
+                            name: block.name,
+                            content: content,
+                            pageId: pageId,
+                            orderBlock: block.orderBlock,
+                            idBlockType: block.idBlockType,
+                            nombreCol: block.nombreCol,
+                            innerBlocks: block.innerBlocks
+                        })
+                    );
+                }
+            });
+
+        }
+    });
+}
+
+lightbox.option({
+    'resizeDuration': 200,
+    'wrapAround': true
+})
+
+$('.bloc-unit').on('dblclick', function () {
+    var resized = $(this).find('a');
+    interact(resized).resizable({
+        edges: { left: true, right: true, bottom: true, top: true },
+        modifiers: [
+            interact.modifiers.restrictEdges({
+                outer: 'parent',
+                endOnly: true,
+            }),
+            interact.modifiers.restrictSize({
+                min: { width: 100, height: 50 },
+            }),
+        ],
+        inertia: true
+    });
+    addImgBlock($(this),"update",$(this).innerHTML);
+})
+
