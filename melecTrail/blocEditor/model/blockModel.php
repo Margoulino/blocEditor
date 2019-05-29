@@ -95,8 +95,8 @@ class BlockModel
         UPDATE `edit_block`
          SET `name`           = :name,
              `content`        = :content,
-             `idPage`         = :pageId,
-             `orderBlock`          = :orderBlock,
+             `pageId`         = :pageId,
+             `orderBlock`     = :orderBlock,
              `idBlockType`    = :idBlockType,
              `nombreCol`      = :nombreCol,
              `innerBlocks`    = :innerBlocks

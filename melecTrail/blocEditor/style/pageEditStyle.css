@@ -12,7 +12,7 @@ body {
     background-color: rgb(52, 58, 64);;
     overflow-x: hidden;
     padding-top: 60px;
-    transition: 0.5s;
+    transition: 0.2s;
 }
 
 .blockMenu a {

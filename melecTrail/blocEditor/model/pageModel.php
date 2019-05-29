@@ -166,6 +166,7 @@ class PageModel
         $dbConn = DBModel::getConnection();
         $stmt = $dbConn->prepare('
             SELECT edit_block.id,
+                   edit_block.name,
                    edit_block.content,
                    edit_block.pageId,
                    edit_block.orderBlock,
