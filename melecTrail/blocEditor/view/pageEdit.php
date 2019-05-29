@@ -66,6 +66,7 @@
                 </div>
             </div>
         </div>
+        <a id="pagePreview" class="btn btn-info" href="/page/previewPage/<?php echo $page[0]->name;?>">Prévisualiser</a>
     </div>
     <button id="image">upload image</button>
     <div id="uploadImageModal" class="modal fade">
@@ -100,7 +101,6 @@
         var idNewBlock = <?php echo count($blocks);?> + 1;
         var nomPage = "<?php echo $page[0]->name;?>";
         var previousBlocks = <?php echo json_encode($blocks); ?>;
-        console.log(previousBlocks);
     </script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/dropzone/5.5.1/dropzone.js"></script>
     <script src="/blocEditor/js/pageEdit.js"></script>

@@ -149,4 +149,22 @@ class PageController
             require($_SERVER['DOCUMENT_ROOT'] . '/blocEditor/view/pageEdit.php');
         }
     }
+
+    public function previewPage($name)
+    {
+        try {
+            $page = PageModel::findByName($name[0]);
+            if(!empty($page)) {
+                $blocks = PageModel::getAllBlocksByIdPage($page[0]->id);
+                require($_SERVER['DOCUMENT_ROOT'] . '/blocEditor/view/pagePreview.php');
+            } else {
+                throw new Exception("Page does not exists, you must create it first");
+            }
+        } catch(Exception $e) {
+            $blocks = NULL;
+            http_response_code(404);
+            echo json_encode(array('message' => $e->getMessage()));
+            require($_SERVER['DOCUMENT_ROOT'] . '/blocEditor/view/pagePreview.php');
+        }
+    }
 }

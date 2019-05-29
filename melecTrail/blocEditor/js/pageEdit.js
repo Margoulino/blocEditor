@@ -3,11 +3,14 @@ var interfaceBlock = document.querySelector(".interface-block");
 
 var blockUnits = document.querySelectorAll(".block-unit");
 
-blockUnits.forEach(blockUnit => {
+/*blockUnits.forEach(blockUnit => {
     blockUnit.addEventListener("dblclick", function(e) {
         htmlEditorInit(blockUnit, "update", blockUnit.innerHTML);
-        e.target.removeEventListener(e.type, arguments.callee);
+        e.target.removeEventListener("dblclick", arguments.callee);
     });
+});*/
+$(".block-unit").one("dblclick",function() {
+    htmlEditorInit(this, "update", this.innerHTML);
 });
 
 blockTextButton.addEventListener("click", function() {
