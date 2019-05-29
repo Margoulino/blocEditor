@@ -53,8 +53,8 @@
             if ($blocks != NULL) {
                 foreach ($blocks as $block) {
                     echo '
-                        <div><i id="orderUp' . $block['id'] . '" i class="fas fa-arrow-up"></i>   <i id="orderDown' . $block['id'] . '"class="fas fa-arrow-down"></i></div>
-                        <div id="' . $block['id'] . '" class="block-unit">
+                    <div id="' . $block['id'] . '" class="block-unit">
+                    <div><i id="orderUp' . $block['id'] . '" i class="fas fa-arrow-up"></i>   <i id="orderDown' . $block['id'] . '"class="fas fa-arrow-down"></i></div>
                             ' . $block['content'] . '
                         </div>
                         ';
