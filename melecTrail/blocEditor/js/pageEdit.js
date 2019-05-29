@@ -350,6 +350,7 @@ Dropzone.options.myDropzone = {
 
 $("select").imagepicker()
 $("#selectImg").on('click', function () {
+    $('#uploadImageModal').modal('toggle');
     addImgBlock(interfaceBlock, "save","");
 });
 
@@ -421,7 +422,7 @@ lightbox.option({
 
 $('.resizebtn').on('click', function () {
     var resized = $(this).parent();
-    var str = '"#'+resized.attr('id')+' img"';
+    var str = '#'+resized.attr('id')+' img';
     console.log(str);
     interact(str).resizable({
         edges: { left: true, right: true, bottom: true, top: true },
