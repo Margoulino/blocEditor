@@ -34,4 +34,17 @@ class BlockTypeModel
         $stmt->setFetchMode(PDO::FETCH_CLASS, 'BlockTypeModel');
         return $stmt->fetchAll();
     }
+
+    public static function findByName($name){
+        $dbConn = DBModel::getConnection();
+        $stmt = $dbConn->prepare('
+            SELECT * 
+             FROM edit_blocktype
+             WHERE name = :name
+        ');
+        $stmt->bindParam(':name', $name);
+        $stmt->execute();
+        $stmt->setFetchMode(PDO::FETCH_CLASS, 'BlockTypeModel');
+        return $stmt->fetchAll();
+    }
 }

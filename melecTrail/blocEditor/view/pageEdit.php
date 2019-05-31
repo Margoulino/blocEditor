@@ -46,6 +46,7 @@
                 <div class="row">
                     <p id="textOption" class="col menuOptions"><i class="fas fa-align-left menuIcons"></i></p>
                     <p id="imgOption" class="col menuOptions"><i class="fas fa-image menuIcons"></i></p>
+                    <p id="2colOption" class="col menuOptions"><i class="fas fa-columns menuIcons"></i></p>
                 </div>
             </div>
         </div>
@@ -123,6 +124,9 @@
     <script src="https://unpkg.com/interactjs/dist/interact.min.js"></script>
     <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
     <script src="/blocEditor/js/pageEdit.js"></script>
+    <script src="/blocEditor/js/imageHandler.js"></script>
+    <script src="/blocEditor/js/columnHandler.js"></script>
+
 </body>
 
 </html>

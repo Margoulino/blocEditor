@@ -69,7 +69,7 @@ if ($path_split === '/') {
      *Check if Controller Exist
      *@return void;
      */
-    if ($req_controller == "page" || $req_controller == "image" || $req_controller == "category" || $req_controller == "block") {
+    if ($req_controller == "page" || $req_controller == "image" || $req_controller == "category" || $req_controller == "block" || $req_controller == "blockType") {
         $req_controller_exist =  __DIR__ . '/blocEditor/controller/' . $req_controller . 'Controller.php';
         require_once __DIR__ . '/blocEditor/model/' . $req_controller . 'Model.php';
         require_once __DIR__ . '/blocEditor/controller/' . $req_controller . 'Controller.php';
