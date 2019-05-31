@@ -56,11 +56,11 @@
                     echo '
                     <div id="' . $block['id'] . '" class="block-unit">
                     <div><i id="orderUp' . $block['id'] . '" i class="fas fa-arrow-up"></i>   <i id="orderDown' . $block['id'] . '"class="fas fa-arrow-down"></i></div>
-                            ' . $block['content'].'</div>';
+                            ' . $block['content'];
                         if($block['idBlockType'] == 2){
                             echo '<button class="btn btn-xs btn-info resizebtn">Redimensionner</button>';
-                            
                         }
+                        echo '</div>';
                 }
             }
             ?>

@@ -367,6 +367,7 @@ function editImgBlock(targetElement, operation, previousContent) {
     if (operation == "save") {
         targetElement.innerHTML = '<a href="' + $('.image_picker_selector .selected img').attr('src') + '" data-lightbox="' + $('.image_picker_selector .selected img').attr('src') + '" class="imgBlock"><img src="' + $('.image_picker_selector .selected img').attr('src') + '" id="' + blockId + '"/></a><div class="row"><div class="col"><a id="blockSave" class="btn btn-success" href="#">Sauvegarder le bloc</a></div></div>';
     } else {
+        $(targetElement).find('button').remove();
         targetElement.innerHTML = targetElement.innerHTML + '<div class="row"><div class="col"><a id="blockSave" class="btn btn-success" href="#">Sauvegarder le bloc</a></div></div>';
     }
     let cont;
@@ -436,6 +437,6 @@ $('.resizebtn').on('click', function () {
     console.log(resized.parent().html());
     //resized.resizable();
     $(this).toggle();
-    editImgBlock(this.previousSibling, "update", this.previousSibling.innerHTML);
+    editImgBlock(this.parentElement, "update", this.parentElement.innerHTML);
 })
 
