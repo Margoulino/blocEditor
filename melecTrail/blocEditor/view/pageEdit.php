@@ -17,6 +17,7 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/lightbox2/2.11.0/css/lightbox.min.css" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/image-picker/0.3.1/image-picker.css" />
     <link rel="stylesheet" href="/blocEditor/style/pageEditStyle.css">
+    <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
 </head>
 
 <body>
@@ -55,13 +56,11 @@
                     echo '
                     <div id="' . $block['id'] . '" class="block-unit">
                     <div><i id="orderUp' . $block['id'] . '" i class="fas fa-arrow-up"></i>   <i id="orderDown' . $block['id'] . '"class="fas fa-arrow-down"></i></div>
-                            ' . $block['content'];
-                        
-                        
+                            ' . $block['content'].'</div>';
                         if($block['idBlockType'] == 2){
                             echo '<button class="btn btn-xs btn-info resizebtn">Redimensionner</button>';
+                            
                         }
-                        echo '    </div>';
                 }
             }
             ?>
@@ -122,6 +121,7 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/image-picker/0.3.1/image-picker.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/lightbox2/2.11.0/js/lightbox.min.js"></script>
     <script src="https://unpkg.com/interactjs/dist/interact.min.js"></script>
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
     <script src="/blocEditor/js/pageEdit.js"></script>
 </body>
 

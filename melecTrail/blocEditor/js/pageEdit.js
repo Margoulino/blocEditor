@@ -4,11 +4,16 @@ var interfaceBlock = document.querySelector(".interface-block");
 var blockUnits = document.querySelectorAll(".block-unit");
 
 //Ajout de l'editeur html à une div block-unit qui permet d'éditer le contenu d'un block
-$(".block-unit").one("dblclick",function() {
-    htmlEditorInit(this, "update", this.innerHTML);
+$(".block-unit").one("dblclick", function () {
+    if ($(this).children().next().prop("tagName") == "A") {
+        return;
+    } else {
+        console.log("txt");
+        htmlEditorInit(this, "update", this.innerHTML);
+    }
 });
 
-blockTextButton.addEventListener("click", function() {
+blockTextButton.addEventListener("click", function () {
     htmlEditorInit(interfaceBlock, "save", "");
     closeNav();
 });
@@ -33,16 +38,16 @@ function htmlEditorInit(targetElement, operation, previousContent) {
         .catch(error => {
             console.error(error);
         });
-        document.querySelector("#editor" + blockId).scrollIntoView({
-            behavior: "smooth",
-            block: 'start'
-        });
+    document.querySelector("#editor" + blockId).scrollIntoView({
+        behavior: "smooth",
+        block: 'start'
+    });
     document.querySelector("#blockSave").addEventListener("click", () => {
         var content = editor.getData();
 
         var xhr = new XMLHttpRequest();
 
-        xhr.onreadystatechange = function() {
+        xhr.onreadystatechange = function () {
             // Call a function when the state changes.
             if (this.readyState === XMLHttpRequest.DONE && this.status === 200) {
                 console.log("enregistrement du bloc effectué");
@@ -67,7 +72,7 @@ function htmlEditorInit(targetElement, operation, previousContent) {
         } else if (operation === "update") {
             var currentBlock = "";
             previousBlocks.forEach(block => {
-                if(blockId == block.id) {
+                if (blockId == block.id) {
                     currentBlock = block;
                     xhr.open("POST", "/block/updateBlock", true);
                     xhr.setRequestHeader("Content-type", "application/json");
@@ -88,11 +93,11 @@ function htmlEditorInit(targetElement, operation, previousContent) {
         }
     });
 
-    document.getElementById("blockDelete").addEventListener("click", function(e) {
-        if(blockId !== undefined && blockId !== "") {
+    document.getElementById("blockDelete").addEventListener("click", function (e) {
+        if (blockId !== undefined && blockId !== "") {
             var xhr = new XMLHttpRequest();
 
-            xhr.onreadystatechange = function() {
+            xhr.onreadystatechange = function () {
                 if (this.readyState === XMLHttpRequest.DONE && this.status === 200) {
                     location.reload();
                 }
@@ -100,7 +105,7 @@ function htmlEditorInit(targetElement, operation, previousContent) {
 
             xhr.open("POST", "/block/deleteBlock", true);
             xhr.setRequestHeader("Content-type", "application/json");
-            xhr.send(JSON.stringify({id: blockId}));
+            xhr.send(JSON.stringify({ id: blockId }));
         }
     });
 }
@@ -133,17 +138,17 @@ function moveBlockDown(event) {
     //Anciens ordre par id de block
     var orders = {};
     previousBlocks.forEach(prevBlock => {
-        if(prevBlock.id === blockToMoveId) {
+        if (prevBlock.id === blockToMoveId) {
             blockToMovePrev = prevBlock;
             orders[blockToMoveId] = prevBlock.orderBlock;
         }
-        if(prevBlock.id === nextBlockId) {
+        if (prevBlock.id === nextBlockId) {
             nextBlockPrev = prevBlock;
             orders[nextBlockId] = prevBlock.orderBlock;
         }
     });
 
-    if(nextBlock !== undefined) {
+    if (nextBlock !== undefined) {
         //Déplacement des blocks dans l'interface
         insertAfter(blockToMove, nextBlock);
         //Changement des ordres des blocks dans les objets previousBlocks
@@ -153,10 +158,10 @@ function moveBlockDown(event) {
         //Update des blocks
         var xhr = new XMLHttpRequest();
 
-        xhr.onreadystatechange = function() {
+        xhr.onreadystatechange = function () {
             if (this.readyState === XMLHttpRequest.DONE && this.status === 200) {
                 var xhr2 = new XMLHttpRequest();
-                xhr2.onreadystatechange = function() {
+                xhr2.onreadystatechange = function () {
                     if (this.readyState === XMLHttpRequest.DONE && this.status === 200) {
                         location.reload();
                     }
@@ -195,90 +200,90 @@ function moveBlockDown(event) {
 }
 
 function moveBlockUp(event) {
-        //En cliquant sur la fleche on cherche la div complète du block (la div block unit) ici celle qui est déplacée
-        var blockToMove = event.target.parentElement.parentElement;
-        var blockToMoveId = blockToMove.getAttribute("id");
-        var blockToMovePrev;
-    
-        //Récuperration de div block unit directement suivante
-        var antecBlock = blockToMove.previousElementSibling;
-        var antecBlockId = antecBlock.getAttribute("id");
-        var antecBlockPrev;
-    
-        //Anciens ordre par id de block
-        var orders = {};
-        previousBlocks.forEach(prevBlock => {
-            if(prevBlock.id === blockToMoveId) {
-                blockToMovePrev = prevBlock;
-                orders[blockToMoveId] = prevBlock.orderBlock;
-            }
-            if(prevBlock.id === antecBlockId) {
-                antecBlockPrev = prevBlock;
-                orders[antecBlockId] = prevBlock.orderBlock;
-            }
-        });
-    
-        if(antecBlock !== undefined) {
-            //Déplacement des blocks dans l'interface
-            insertAfter(blockToMove, antecBlock);
-            //Changement des ordres des blocks dans les objets previousBlocks
-            blockToMovePrev.orderBlock = orders[antecBlockId];
-            antecBlockPrev.orderBlock = orders[blockToMoveId];
-    
-            //Update des blocks
-            var xhr = new XMLHttpRequest();
-    
-            xhr.onreadystatechange = function() {
-                if (this.readyState === XMLHttpRequest.DONE && this.status === 200) {
-                    var xhr2 = new XMLHttpRequest();
-                    xhr2.onreadystatechange = function() {
-                        if (this.readyState === XMLHttpRequest.DONE && this.status === 200) {
-                            location.reload();
-                        }
-                    }
-                    xhr2.open("POST", "/block/updateBlock", true);
-                    xhr2.setRequestHeader("Content-type", "application/json");
-                    xhr2.send(
-                        JSON.stringify({
-                            id: antecBlockPrev.id,
-                            name: antecBlockPrev.name,
-                            content: antecBlockPrev.content,
-                            pageId: antecBlockPrev.pageId,
-                            orderBlock: antecBlockPrev.orderBlock,
-                            idBlockType: antecBlockPrev.idBlockType,
-                            nombreCol: antecBlockPrev.nombreCol,
-                            innerBlocks: antecBlockPrev.innerBlocks
-                        })
-                    );
-                }
-            };
-            xhr.open("POST", "/block/updateBlock", true);
-            xhr.setRequestHeader("Content-type", "application/json");
-            xhr.send(
-                JSON.stringify({
-                    id: blockToMovePrev.id,
-                    name: blockToMovePrev.name,
-                    content: blockToMovePrev.content,
-                    pageId: blockToMovePrev.pageId,
-                    orderBlock: blockToMovePrev.orderBlock,
-                    idBlockType: blockToMovePrev.idBlockType,
-                    nombreCol: blockToMovePrev.nombreCol,
-                    innerBlocks: blockToMovePrev.innerBlocks
-                })
-            );
+    //En cliquant sur la fleche on cherche la div complète du block (la div block unit) ici celle qui est déplacée
+    var blockToMove = event.target.parentElement.parentElement;
+    var blockToMoveId = blockToMove.getAttribute("id");
+    var blockToMovePrev;
+
+    //Récuperration de div block unit directement suivante
+    var antecBlock = blockToMove.previousElementSibling;
+    var antecBlockId = antecBlock.getAttribute("id");
+    var antecBlockPrev;
+
+    //Anciens ordre par id de block
+    var orders = {};
+    previousBlocks.forEach(prevBlock => {
+        if (prevBlock.id === blockToMoveId) {
+            blockToMovePrev = prevBlock;
+            orders[blockToMoveId] = prevBlock.orderBlock;
         }
+        if (prevBlock.id === antecBlockId) {
+            antecBlockPrev = prevBlock;
+            orders[antecBlockId] = prevBlock.orderBlock;
+        }
+    });
+
+    if (antecBlock !== undefined) {
+        //Déplacement des blocks dans l'interface
+        insertAfter(blockToMove, antecBlock);
+        //Changement des ordres des blocks dans les objets previousBlocks
+        blockToMovePrev.orderBlock = orders[antecBlockId];
+        antecBlockPrev.orderBlock = orders[blockToMoveId];
+
+        //Update des blocks
+        var xhr = new XMLHttpRequest();
+
+        xhr.onreadystatechange = function () {
+            if (this.readyState === XMLHttpRequest.DONE && this.status === 200) {
+                var xhr2 = new XMLHttpRequest();
+                xhr2.onreadystatechange = function () {
+                    if (this.readyState === XMLHttpRequest.DONE && this.status === 200) {
+                        location.reload();
+                    }
+                }
+                xhr2.open("POST", "/block/updateBlock", true);
+                xhr2.setRequestHeader("Content-type", "application/json");
+                xhr2.send(
+                    JSON.stringify({
+                        id: antecBlockPrev.id,
+                        name: antecBlockPrev.name,
+                        content: antecBlockPrev.content,
+                        pageId: antecBlockPrev.pageId,
+                        orderBlock: antecBlockPrev.orderBlock,
+                        idBlockType: antecBlockPrev.idBlockType,
+                        nombreCol: antecBlockPrev.nombreCol,
+                        innerBlocks: antecBlockPrev.innerBlocks
+                    })
+                );
+            }
+        };
+        xhr.open("POST", "/block/updateBlock", true);
+        xhr.setRequestHeader("Content-type", "application/json");
+        xhr.send(
+            JSON.stringify({
+                id: blockToMovePrev.id,
+                name: blockToMovePrev.name,
+                content: blockToMovePrev.content,
+                pageId: blockToMovePrev.pageId,
+                orderBlock: blockToMovePrev.orderBlock,
+                idBlockType: blockToMovePrev.idBlockType,
+                nombreCol: blockToMovePrev.nombreCol,
+                innerBlocks: blockToMovePrev.innerBlocks
+            })
+        );
+    }
 }
 
 var downArrows = document.querySelectorAll("[id^=orderDown]");
 downArrows.forEach(arrow => {
-    arrow.addEventListener("click", function(e) {
+    arrow.addEventListener("click", function (e) {
         moveBlockDown(e);
     });
 });
 
 var upArrows = document.querySelectorAll("[id^=orderUp]");
 upArrows.forEach(arrow => {
-    arrow.addEventListener("click", function(e) {
+    arrow.addEventListener("click", function (e) {
         moveBlockUp(e);
     });
 });
@@ -354,19 +359,21 @@ Dropzone.options.myDropzone = {
 $("select").imagepicker()
 $("#selectImg").on('click', function () {
     $('#uploadImageModal').modal('toggle');
-    addImgBlock(interfaceBlock, "save","");
+    editImgBlock(interfaceBlock, "save", null);
 });
 
-function addImgBlock(targetElement, operation, previousContent) {
-    $('#uploadImageModal').modal('show');
+function editImgBlock(targetElement, operation, previousContent) {
     var blockId = targetElement.getAttribute("id");
-    targetElement.innerHTML = '<a href="' + $('.image_picker_selector .selected img').attr('src') + '" data-lightbox="' + $('.image_picker_selector .selected img').attr('src') + '" class="imgBlock"><img src="' + $('.image_picker_selector .selected img').attr('src') + '" id="' + blockId + '"/></a><div class="row"><div class="col"><a id="blockSave" class="btn btn-success" href="#">Sauvegarder le bloc</a></div></div>';
+    if (operation == "save") {
+        targetElement.innerHTML = '<a href="' + $('.image_picker_selector .selected img').attr('src') + '" data-lightbox="' + $('.image_picker_selector .selected img').attr('src') + '" class="imgBlock"><img src="' + $('.image_picker_selector .selected img').attr('src') + '" id="' + blockId + '"/></a><div class="row"><div class="col"><a id="blockSave" class="btn btn-success" href="#">Sauvegarder le bloc</a></div></div>';
+    } else {
+        targetElement.innerHTML = targetElement.innerHTML + '<div class="row"><div class="col"><a id="blockSave" class="btn btn-success" href="#">Sauvegarder le bloc</a></div></div>';
+    }
     let cont;
+    $(targetElement).find('img').resizable();
     cont = $('.imgBlock').last()[0];
-    console.log(cont);
     document.querySelector("#blockSave").addEventListener("click", () => {
-        console.log(cont.outerHTML);
-        
+        $(targetElement).find('img').resizable('destroy');
         var xhr = new XMLHttpRequest();
 
         xhr.onreadystatechange = function () {
@@ -377,7 +384,6 @@ function addImgBlock(targetElement, operation, previousContent) {
             }
         };
         if (operation === "save") {
-            console.log(String(cont));
             xhr.open("POST", "/block/addBlockToPage", true);
             xhr.setRequestHeader("Content-type", "application/json");
             xhr.send(
@@ -392,7 +398,9 @@ function addImgBlock(targetElement, operation, previousContent) {
                 })
             );
         } else if (operation === "update") {
-            var content = previousContent;
+
+            $(targetElement).find('a').prev().remove();
+            $(targetElement).find('a').next().remove();
             var currentBlock = "";
             previousBlocks.forEach(block => {
                 if (blockId == block.id) {
@@ -403,7 +411,7 @@ function addImgBlock(targetElement, operation, previousContent) {
                         JSON.stringify({
                             id: blockId,
                             name: block.name,
-                            content: content,
+                            content: targetElement.innerHTML,
                             pageId: pageId,
                             orderBlock: block.orderBlock,
                             idBlockType: block.idBlockType,
@@ -424,22 +432,10 @@ lightbox.option({
 })
 
 $('.resizebtn').on('click', function () {
-    var resized = $(this).parent();
-    var str = '#'+resized.attr('id')+' img';
-    console.log(str);
-    interact(str).resizable({
-        edges: { left: true, right: true, bottom: true, top: true },
-        modifiers: [
-            interact.modifiers.restrictEdges({
-                outer: 'parent',
-                endOnly: true,
-            }),
-            interact.modifiers.restrictSize({
-                min: { width: 100, height: 50 },
-            }),
-        ],
-        inertia: true
-    });
-    //addImgBlock($(this),"update",$(this).innerHTML);
+    var resized = $(this).prev().find('img');
+    console.log(resized.parent().html());
+    //resized.resizable();
+    $(this).toggle();
+    editImgBlock(this.previousSibling, "update", this.previousSibling.innerHTML);
 })
 
