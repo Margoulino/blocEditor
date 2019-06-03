@@ -127,4 +127,17 @@ class BlockModel
         $stmt->bindParam(':id', $id);
         $stmt->execute();
     }
+
+    public static function getBlocksByPageIdOrderGt($pageId, $orderBlock)
+    {
+        $dbConn = DBModel::getConnection();
+        $stmt = $dbConn->prepare('
+            SELECT * FROM edit_block WHERE pageId = :pageId AND orderBlock > :orderBlock;
+        ');
+        $stmt->bindParam(':pageId', $pageId);
+        $stmt->bindParam(':orderBlock', $orderBlock);
+        $stmt->execute();
+        $stmt->setFetchMode(PDO::FETCH_CLASS, 'BlockModel');
+        return $stmt->fetchAll();
+    }
 }
