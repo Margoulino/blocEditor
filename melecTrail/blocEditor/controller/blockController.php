@@ -60,6 +60,13 @@ class BlockController
             echo json_encode(array("message" => "Block not found, can't be deleted."));
         } else {
             BlockModel::delete($data->id);
+            $nextBlocks = BlockModel::getBlocksByPageIdOrderGt($blockToDelete[0]->pageId, $blockToDelete[0]->orderBlock);
+            if(count($nextBlocks) > 0) {
+                foreach ($nextBlocks as $nextBlock) {
+                    $nextBlock->orderBlock = $nextBlock->orderBlock-1;
+                    $nextBlock->update();
+                }
+            }
             http_response_code(200);
             echo json_encode(array("message" => "Block deleted succesfully"));
         }

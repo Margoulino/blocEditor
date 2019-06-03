@@ -1,5 +1,5 @@
 var blockTextButton = document.getElementById("textOption");
-var interfaceBlock = document.querySelectorAll(".interface-block");
+var interfaceBlock = document.querySelector(".interface-block");
 
 var blockUnits = document.querySelectorAll(".block-unit");
 
