@@ -37,6 +37,7 @@ function blockEditorInit(targetElement, operation, previousContent, template) {
             // Call a function when the state changes.
             if (this.readyState === XMLHttpRequest.DONE && this.status === 200) {
                 console.log("enregistrement du bloc effectué");
+                console.log(this.response);
                 location.reload();
             }
         };
@@ -80,35 +81,55 @@ function blockEditorInit(targetElement, operation, previousContent, template) {
     })
 };
 
+function columnEdit(colBlockId, colPosition, toAddId) {
+    console.log(colBlockId)
+    console.log(colPosition)
+    $.ajax({
+        url: "/block/addBlockToColumn",
+        type: "POST",
+        contentType: 'application/json',
+        data: JSON.stringify({
+            "toAddId": toAddId,
+            "colPosition": colPosition,
+            "id": colBlockId
+        }),
+        success: function (result) {
+            console.log(result);
+        },
+        error: function (xhr, resp, text) {
+            window.alert("Erreur lors de l'ajout, veuillez réessayer.");
+            console.log(resp);
+        }
+    });
+}
+
 $(document).ready(function () {
     previousBlocks.forEach(block => {
-        var innerTab = block.innerBlocks.split(" ; ");
-        if (innerTab.length > 1) {
-            for (var i = 0; i < innerTab.length; i++) {
-                console.log(innerTab[i])
-                var node = $('#'+innerTab[i]);
-                var parent = $('#'+block.id + ' .block').children();
-                console.log(node.find('div').next());
-                $(parent[i]).append(node.find('div').next());
-                console.log(parent[i])
+        if (block.innerBlocks != "") {
+            innerTab = JSON.parse(block.innerBlocks);
+            Object.keys(innerTab).forEach(function (k) {
+                console.log(k + ' - ' + innerTab[k]);
+                var node = $('#' + innerTab[k]);
+                var parent = $('#' + block.id + ' .block').children();
+                $(parent[k-1]).append(node.find('div').next());
                 node.remove();
-
-            }
-
-
+            });
         }
     })
+
     $('.column').each(function () {
         if ($(this).children().length == 0) {
             this.innerHTML = '<div class="text-center" style="padding-top: 1.5em;"><button class="btn btn-xs btn-outline-info addBlockCol"><i class="fas fa-plus"></i></button></div>';
-        } else {
-            console.log("1");
         }
     })
 
     $('.addBlockCol').on('click', function () {
-        //$(this).parent().parent().addClass('interface-block');
-        openNav();
+        $(this).parent().parent().addClass('edited-col');
+        $('#innerBlockModal').modal('show');
+        $('#textBlock').on('click', function () {
+            htmlEditorInit(document.querySelector('.edited-col'), "addToCol", null);
+            $('#innerBlockModal').modal('toggle');
+        })
     });
 
     // $.each(previousBlocks, function (index, value) {
@@ -121,6 +142,7 @@ $(document).ready(function () {
     //     }
     // });
 });
+
 
 
 
