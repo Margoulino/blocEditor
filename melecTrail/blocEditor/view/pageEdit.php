@@ -60,7 +60,7 @@
                             ' . $block['content'];
                         if($block['idBlockType'] == 2){
                             echo '<button class="btn btn-xs btn-info resizebtn">Redimensionner</button>';
-                        }
+                        } 
                         echo '</div>';
                 }
             }

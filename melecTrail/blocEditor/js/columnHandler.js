@@ -1,4 +1,5 @@
 $('#2colOption').on('click', function () {
+    closeNav();
     $.ajax({
         url: "/blockType/loadTemplate",
         type: "POST",
@@ -24,7 +25,7 @@ function blockEditorInit(targetElement, operation, previousContent, template) {
     var blockId = targetElement.getAttribute("id");
     targetElement.innerHTML = "";
     targetElement.innerHTML = template;
-    targetElement.firstChild.setAttribute('id',blockId);
+    targetElement.firstChild.setAttribute('id', blockId);
     targetElement.innerHTML = targetElement.innerHTML + '<div class="row"><div class="col"><a id="blockSave" class="btn btn-success" href="#">Sauvegarder le bloc</a><a class="btn btn-danger" id="blockDelete" href="#" role="button">Supprimer le bloc</a></div></div>';
     document.querySelector("#blockSave").addEventListener("click", () => {
         console.log("rentré");
@@ -78,3 +79,30 @@ function blockEditorInit(targetElement, operation, previousContent, template) {
         }
     })
 };
+
+$(document).ready(function () {
+    $('.column').each(function () {
+        if ($(this).children().length == 0) {
+            this.innerHTML = '<div class="text-center" style="padding-top: 1.5em;"><button class="btn btn-xs btn-outline-info addBlockCol"><i class="fas fa-plus"></i></button></div>';
+        } else {
+            console.log("1");
+        }
+    })
+    $('.addBlockCol').on('click', function () {
+        //$(this).parent().parent().addClass('interface-block');
+        openNav();
+    });
+
+    $.each(previousBlocks, function (index, value) {
+        if(value.innerBlocks.length > 0){
+            value.innerBlocks.forEach(element => {
+                var inner = document.querySelector('#'+element);
+                var outer = document.querySelector('#'+value.id);
+            });
+            var inner = document.querySelector('#');
+        }
+    });
+});
+
+
+

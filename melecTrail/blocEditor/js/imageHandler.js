@@ -64,10 +64,11 @@ Dropzone.options.myDropzone = {
 $("select").imagepicker()
 $("#selectImg").on('click', function () {
     $('#uploadImageModal').modal('toggle');
-    editImgBlock(interfaceBlock, "save", null);
+    editImgBlock(interfaceBlock[0], "save", null);
 });
 
 function editImgBlock(targetElement, operation, previousContent) {
+    console.log(targetElement.outerHTML);
     var blockId = targetElement.getAttribute("id");
     if (operation == "save") {
         targetElement.innerHTML = '<a href="' + $('.image_picker_selector .selected img').attr('src') + '" data-lightbox="' + $('.image_picker_selector .selected img').attr('src') + '" class="imgBlock"><img src="' + $('.image_picker_selector .selected img').attr('src') + '" id="' + blockId + '"/></a><div class="row"><div class="col"><a id="blockSave" class="btn btn-success" href="#">Sauvegarder le bloc</a></div></div>';
