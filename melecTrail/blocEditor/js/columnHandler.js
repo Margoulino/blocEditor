@@ -81,6 +81,23 @@ function blockEditorInit(targetElement, operation, previousContent, template) {
 };
 
 $(document).ready(function () {
+    previousBlocks.forEach(block => {
+        var innerTab = block.innerBlocks.split(" ; ");
+        if (innerTab.length > 1) {
+            for (var i = 0; i < innerTab.length; i++) {
+                console.log(innerTab[i])
+                var node = $('#'+innerTab[i]);
+                var parent = $('#'+block.id + ' .block').children();
+                console.log(node.find('div').next());
+                $(parent[i]).append(node.find('div').next());
+                console.log(parent[i])
+                node.remove();
+
+            }
+
+
+        }
+    })
     $('.column').each(function () {
         if ($(this).children().length == 0) {
             this.innerHTML = '<div class="text-center" style="padding-top: 1.5em;"><button class="btn btn-xs btn-outline-info addBlockCol"><i class="fas fa-plus"></i></button></div>';
@@ -88,20 +105,21 @@ $(document).ready(function () {
             console.log("1");
         }
     })
+
     $('.addBlockCol').on('click', function () {
         //$(this).parent().parent().addClass('interface-block');
         openNav();
     });
 
-    $.each(previousBlocks, function (index, value) {
-        if(value.innerBlocks.length > 0){
-            value.innerBlocks.forEach(element => {
-                var inner = document.querySelector('#'+element);
-                var outer = document.querySelector('#'+value.id);
-            });
-            var inner = document.querySelector('#');
-        }
-    });
+    // $.each(previousBlocks, function (index, value) {
+    //     if (value.innerBlocks.length > 0) {
+    //         value.innerBlocks.forEach(element => {
+    //             var inner = document.querySelector('#' + element);
+    //             var outer = document.querySelector('#' + value.id);
+    //         });
+    //         var inner = document.querySelector('#');
+    //     }
+    // });
 });
 
 
