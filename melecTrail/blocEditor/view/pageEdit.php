@@ -54,7 +54,7 @@
             <?php
             if ($blocks != NULL) {
                 foreach ($blocks as $block) {
-                    if($block['idBlockType'] === '1') {
+                    if($block['idBlockType'] === '1' || $block['idBlockType'] === '2') {
                         echo '<div id="' . $block['id'] . '" class="block-unit">';
                     } else {
                         echo '<div id="' . $block['id'] . '" class="block-unit-complex">';
