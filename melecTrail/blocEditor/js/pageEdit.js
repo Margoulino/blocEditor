@@ -44,7 +44,6 @@ function htmlEditorInit(targetElement, operation, previousContent) {
     });
     document.querySelector("#blockSave").addEventListener("click", () => {
         var content = editor.getData();
-
         var xhr = new XMLHttpRequest();
 
         xhr.onreadystatechange = function () {
@@ -53,7 +52,7 @@ function htmlEditorInit(targetElement, operation, previousContent) {
                 console.log("enregistrement du bloc effectué");
                 if(operation == "addToCol"){
                     var result = JSON.parse(xhr.response);
-                    console.log($(targetElement).parent().parent().attr('id'))
+                    $(targetElement).find('p').first().attr('id',result.id);
                     columnEdit($(targetElement).parent().parent().attr('id'),$(targetElement).attr('id'),result.id);
                 }
                 location.reload();

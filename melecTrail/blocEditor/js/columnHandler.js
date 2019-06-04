@@ -51,7 +51,7 @@ function blockEditorInit(targetElement, operation, previousContent, template) {
                     content: content,
                     pageId: pageId,
                     orderBlock: idNewBlock,
-                    idBlockType: 1,
+                    idBlockType: 3,
                     nombreCol: 1,
                     innerBlocks: ""
                 })
@@ -82,6 +82,10 @@ function blockEditorInit(targetElement, operation, previousContent, template) {
 };
 
 function columnEdit(colBlockId, colPosition, toAddId) {
+    console.log(colBlockId)
+    console.log(colPosition)
+    console.log(toAddId);
+    
     $.ajax({
         url: "/block/addBlockToColumn",
         type: "POST",
@@ -109,15 +113,29 @@ $(document).ready(function () {
                 var node = $('#' + innerTab[k]);
                 var parent = $('#' + block.id + ' .block').children();
                 var tag = $(node).find('div').next().prop('tagName');
-                $(parent[k - 1]).append(node.find('div').next());
-                if (tag == "A") {
-                    parent[k-1].innerHTML = parent[k-1].innerHTML + '<button class="btn btn-xs btn-info resizebtn">Redimensionner</button>';
-                }
+                $(node).find("div").remove();
+                parent[k-1].innerHTML=node[0].outerHTML;
                 node.remove();
             });
         }
     })
 
+    $(".block-unit").one("dblclick", function () {
+        if ($(this).children().next().prop("tagName") == "A") {
+            return;
+        } else {
+            console.log("txt");
+            htmlEditorInit(this, "update", this.innerHTML);
+        }
+    });
+
+    $('.resizebtn').on('click', function () {
+        var resized = $(this).prev().find('img');
+        console.log(resized.parent().html());
+        //resized.resizable();
+        $(this).toggle();
+        editImgBlock(this.parentElement, "update", this.parentElement.innerHTML);
+    })
     $('.column').each(function () {
         if ($(this).children().length == 0) {
             this.innerHTML = '<div class="text-center" style="padding-top: 1.5em;"><button class="btn btn-xs btn-outline-info addBlockCol"><i class="fas fa-plus"></i></button></div>';
@@ -132,6 +150,7 @@ $(document).ready(function () {
             $('#innerBlockModal').modal('toggle');
         })
         $('#imgBlock').on('click', function () {
+            $('#innerBlockModal').modal('toggle');
             $('#uploadImageModal').modal('show');
             $("#selectImg").off();
             $("#selectImg").on('click', function () {

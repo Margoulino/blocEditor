@@ -83,8 +83,8 @@ function editImgBlock(targetElement, operation, previousContent) {
         cont = $('.edited-col a')[0];
     }
     document.querySelector("#blockSave").addEventListener("click", () => {
-        
         $(targetElement).find('img').resizable('destroy');
+        console.log(cont);
         var xhr = new XMLHttpRequest();
         xhr.onreadystatechange = function () {
             // Call a function when the state changes.
@@ -116,6 +116,7 @@ function editImgBlock(targetElement, operation, previousContent) {
 
             $(targetElement).find('a').prev().remove();
             $(targetElement).find('a').next().remove();
+            console.log(targetElement.innerHTML)
             var currentBlock = "";
             previousBlocks.forEach(block => {
                 if (blockId == block.id) {
@@ -146,10 +147,4 @@ lightbox.option({
     'wrapAround': true
 })
 
-$('.resizebtn').on('click', function () {
-    var resized = $(this).prev().find('img');
-    console.log(resized.parent().html());
-    //resized.resizable();
-    $(this).toggle();
-    editImgBlock(this.parentElement, "update", this.parentElement.innerHTML);
-})
+
