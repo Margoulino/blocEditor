@@ -82,8 +82,6 @@ function blockEditorInit(targetElement, operation, previousContent, template) {
 };
 
 function columnEdit(colBlockId, colPosition, toAddId) {
-    console.log(colBlockId)
-    console.log(colPosition)
     $.ajax({
         url: "/block/addBlockToColumn",
         type: "POST",
@@ -108,10 +106,13 @@ $(document).ready(function () {
         if (block.innerBlocks != "") {
             innerTab = JSON.parse(block.innerBlocks);
             Object.keys(innerTab).forEach(function (k) {
-                console.log(k + ' - ' + innerTab[k]);
                 var node = $('#' + innerTab[k]);
                 var parent = $('#' + block.id + ' .block').children();
-                $(parent[k-1]).append(node.find('div').next());
+                var tag = $(node).find('div').next().prop('tagName');
+                $(parent[k - 1]).append(node.find('div').next());
+                if (tag == "A") {
+                    parent[k-1].innerHTML = parent[k-1].innerHTML + '<button class="btn btn-xs btn-info resizebtn">Redimensionner</button>';
+                }
                 node.remove();
             });
         }
@@ -129,6 +130,15 @@ $(document).ready(function () {
         $('#textBlock').on('click', function () {
             htmlEditorInit(document.querySelector('.edited-col'), "addToCol", null);
             $('#innerBlockModal').modal('toggle');
+        })
+        $('#imgBlock').on('click', function () {
+            $('#uploadImageModal').modal('show');
+            $("#selectImg").off();
+            $("#selectImg").on('click', function () {
+                editImgBlock(document.querySelector('.edited-col'), "addToCol", null)
+                $('#uploadImageModal').modal('toggle');
+            });
+
         })
     });
 

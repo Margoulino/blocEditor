@@ -64,13 +64,12 @@ Dropzone.options.myDropzone = {
 $("select").imagepicker()
 $("#selectImg").on('click', function () {
     $('#uploadImageModal').modal('toggle');
-    editImgBlock(interfaceBlock[0], "save", null);
+    editImgBlock(interfaceBlock, "save", null);
 });
 
 function editImgBlock(targetElement, operation, previousContent) {
-    console.log(targetElement.outerHTML);
     var blockId = targetElement.getAttribute("id");
-    if (operation == "save") {
+    if (operation == "save" || operation == "addToCol") {
         targetElement.innerHTML = '<a href="' + $('.image_picker_selector .selected img').attr('src') + '" data-lightbox="' + $('.image_picker_selector .selected img').attr('src') + '" class="imgBlock"><img src="' + $('.image_picker_selector .selected img').attr('src') + '" id="' + blockId + '"/></a><div class="row"><div class="col"><a id="blockSave" class="btn btn-success" href="#">Sauvegarder le bloc</a></div></div>';
     } else {
         $(targetElement).find('button').remove();
@@ -78,19 +77,28 @@ function editImgBlock(targetElement, operation, previousContent) {
     }
     let cont;
     $(targetElement).find('img').resizable();
-    cont = $('.imgBlock').last()[0];
+    if(operation != "addToCol"){
+        cont = $('.imgBlock').last()[0];
+    } else {
+        cont = $('.edited-col a')[0];
+    }
     document.querySelector("#blockSave").addEventListener("click", () => {
+        
         $(targetElement).find('img').resizable('destroy');
         var xhr = new XMLHttpRequest();
-
         xhr.onreadystatechange = function () {
             // Call a function when the state changes.
             if (this.readyState === XMLHttpRequest.DONE && this.status === 200) {
                 console.log("enregistrement du bloc effectué");
+                if(operation == "addToCol"){
+                    var result = JSON.parse(xhr.response);
+                    columnEdit($(targetElement).parent().parent().attr('id'),$(targetElement).attr('id'),result.id);
+                }
                 location.reload();
             }
         };
-        if (operation === "save") {
+        if (operation === "save" || operation === "addToCol") {
+            
             xhr.open("POST", "/block/addBlockToPage", true);
             xhr.setRequestHeader("Content-type", "application/json");
             xhr.send(
