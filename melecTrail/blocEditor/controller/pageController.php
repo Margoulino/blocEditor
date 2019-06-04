@@ -138,6 +138,9 @@ class PageController
             $page = PageModel::findByName($name[0]);
             if(!empty($page)) {
                 $blocks = PageModel::getAllBlocksByIdPage($page[0]->id);
+                foreach($blocks as $b){
+                    $b['innerBlocks'] = json_decode($b['innerBlocks']);
+                }
                 require($_SERVER['DOCUMENT_ROOT'] . '/blocEditor/view/pageEdit.php');
             } else {
                 throw new Exception("Page does not exists, you must create it first");

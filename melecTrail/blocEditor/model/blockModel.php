@@ -55,6 +55,18 @@ class BlockModel
         return $stmt->fetchAll();
     }
 
+    public static function findByName($name)
+    {
+        $dbConn = DBModel::getConnection();
+        $stmt = $dbConn->prepare('
+            SELECT * FROM edit_block WHERE name = :name
+        ');
+        $stmt->bindParam(':name', $name);
+        $stmt->execute();
+        $stmt->setFetchMode(PDO::FETCH_CLASS, 'BlockModel');
+        return $stmt->fetchAll();
+    }
+
     /** 
      * Save function :
      * Creates and saves a block in the database

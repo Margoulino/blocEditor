@@ -42,8 +42,12 @@ class BlockController
             echo json_encode(array("message" => "The page you are trying to add a block on does not exists. Block not added to base."));
         } else {
             BlockModel::save($block);
+            $id = BlockModel::findByName($block->name)[0]->id;
             http_response_code(200);
-            echo json_encode(array("message" => "Block succesfully added to base"));
+            echo json_encode(array(
+                "message" => "Block succesfully added to base",
+                "id" => $id
+            ));
         }
     }
 
@@ -61,9 +65,9 @@ class BlockController
         } else {
             BlockModel::delete($data->id);
             $nextBlocks = BlockModel::getBlocksByPageIdOrderGt($blockToDelete[0]->pageId, $blockToDelete[0]->orderBlock);
-            if(count($nextBlocks) > 0) {
+            if (count($nextBlocks) > 0) {
                 foreach ($nextBlocks as $nextBlock) {
-                    $nextBlock->orderBlock = $nextBlock->orderBlock-1;
+                    $nextBlock->orderBlock = $nextBlock->orderBlock - 1;
                     $nextBlock->update();
                 }
             }
@@ -121,5 +125,38 @@ class BlockController
                 echo $e;
             }
         }
+    }
+
+    public function addBlockToColumn()
+    {
+        $data  = json_decode(file_get_contents("php://input"));
+        try {
+            $blockToUpdate = BlockModel::findById($data->id);
+            if ($blockToUpdate[0]->innerBlocks == "") {
+                $inner = json_decode("{}");
+            } else {
+                $inner = json_decode($blockToUpdate[0]->innerBlocks);
+            }
+            switch ($data->colPosition) {
+                case 1:
+                    $inner->{'1'} = $data->toAddId;
+                    break;
+                case 2:
+                    $inner->{'2'} = $data->toAddId;
+                    break;
+                case 3:
+                    $inner->{'3'} = $data->toAddId;
+                    break;
+            }
+            $blockToUpdate[0]->innerBlocks = json_encode($inner);
+            $blockToUpdate[0]->update();
+        } catch (Exception $e) {
+            http_response_code(404);
+            echo json_encode(array("message" => "Error"));
+            return;
+        }
+        http_response_code(200);
+        echo json_encode(array("message" => "block added"));
+        return;
     }
 }

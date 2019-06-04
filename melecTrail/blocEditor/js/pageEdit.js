@@ -51,11 +51,16 @@ function htmlEditorInit(targetElement, operation, previousContent) {
             // Call a function when the state changes.
             if (this.readyState === XMLHttpRequest.DONE && this.status === 200) {
                 console.log("enregistrement du bloc effectué");
+                if(operation == "addToCol"){
+                    var result = JSON.parse(xhr.response);
+                    console.log($(targetElement).parent().parent().attr('id'))
+                    columnEdit($(targetElement).parent().parent().attr('id'),$(targetElement).attr('id'),result.id);
+                }
                 location.reload();
             }
         };
 
-        if (operation === "save") {
+        if (operation === "save" || operation === "addToCol") {
             xhr.open("POST", "/block/addBlockToPage", true);
             xhr.setRequestHeader("Content-type", "application/json");
             xhr.send(
