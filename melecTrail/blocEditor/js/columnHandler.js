@@ -128,14 +128,14 @@ $(document).ready(function () {
         $(this).parent().parent().addClass('edited-col');
         $('#innerBlockModal').modal('show');
         $('#textBlock').on('click', function () {
-            htmlEditorInit(document.querySelector('.edited-col'), "addToCol", null);
+            htmlEditorInit(document.querySelector('.edited-col'), "addToCol", '');
             $('#innerBlockModal').modal('toggle');
         })
         $('#imgBlock').on('click', function () {
             $('#uploadImageModal').modal('show');
             $("#selectImg").off();
             $("#selectImg").on('click', function () {
-                editImgBlock(document.querySelector('.edited-col'), "addToCol", null)
+                editImgBlock(document.querySelector('.edited-col'), "addToCol", '')
                 $('#uploadImageModal').modal('toggle');
             });
 

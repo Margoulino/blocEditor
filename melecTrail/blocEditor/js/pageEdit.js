@@ -99,7 +99,7 @@ function htmlEditorInit(targetElement, operation, previousContent) {
     });
 
     document.getElementById("blockDelete").addEventListener("click", function (e) {
-        if (blockId !== undefined && blockId !== "") {
+        if (blockId !== undefined && blockId !== "" && blockId !== null) {
             var xhr = new XMLHttpRequest();
 
             xhr.onreadystatechange = function () {
@@ -111,6 +111,8 @@ function htmlEditorInit(targetElement, operation, previousContent) {
             xhr.open("POST", "/block/deleteBlock", true);
             xhr.setRequestHeader("Content-type", "application/json");
             xhr.send(JSON.stringify({ id: blockId }));
+        } else {
+            location.reload();
         }
     });
 }
