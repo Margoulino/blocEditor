@@ -112,7 +112,6 @@ $(document).ready(function () {
             Object.keys(innerTab).forEach(function (k) {
                 var node = $('#' + innerTab[k]);
                 var parent = $('#' + block.id + ' .block').children();
-                var tag = $(node).find('div').next().prop('tagName');
                 $(node).find("div").remove();
                 parent[k-1].innerHTML=node[0].outerHTML;
                 node.remove();
