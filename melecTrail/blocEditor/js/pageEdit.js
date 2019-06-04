@@ -32,7 +32,7 @@ function htmlEditorInit(targetElement, operation, previousContent) {
         .then(newEditor => {
             editor = newEditor;
             if (previousContent !== undefined && previousContent !== "") {
-                editor.setData(previousContent);
+                editor.setData(previousContent.trim());
             }
         })
         .catch(error => {

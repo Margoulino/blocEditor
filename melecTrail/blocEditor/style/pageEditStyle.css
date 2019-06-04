@@ -51,7 +51,7 @@ body {
     color: white;
 }
 
-.block-unit {
+.block-unit, .block-unit-complex{
     border: 1px dotted #818181;
     padding: 8px;
     margin-bottom: 16px;
@@ -100,6 +100,17 @@ body {
 [id^=order]:hover {
     color: #17a2b8;
     cursor: pointer;
+}
+
+#col1, #col2 {
+    border: 1px dotted grey;
+    height: 200px;
+    margin: 0;
+    border-radius: 4px;
+}
+
+#block2cols {
+    margin: 0;
 }
 
 .block {
