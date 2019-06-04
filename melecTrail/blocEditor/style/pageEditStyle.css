@@ -109,10 +109,6 @@ body {
     border-radius: 4px;
 }
 
-#block2cols {
-    margin: 0;
-}
-
 .block {
     display: flex;
     justify-content: flex-start;
