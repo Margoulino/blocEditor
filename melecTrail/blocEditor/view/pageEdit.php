@@ -16,6 +16,7 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/dropzone/5.5.1/dropzone.css" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/lightbox2/2.11.0/css/lightbox.min.css" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/image-picker/0.3.1/image-picker.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.9.0/slick.css" />
     <link rel="stylesheet" href="/blocEditor/style/pageEditStyle.css">
     <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
 </head>
@@ -47,6 +48,7 @@
                     <p id="textOption" class="col menuOptions"><i class="fas fa-align-left menuIcons"></i></p>
                     <p id="imgOption" class="col menuOptions"><i class="fas fa-image menuIcons"></i></p>
                     <p id="2colOption" class="col menuOptions"><i class="fas fa-columns menuIcons"></i></p>
+                    <p id="sliderOption" class ="col menuOptions"><i class="fas fa-images menuIcons"></i></p>
                 </div>
             </div>
         </div>
@@ -140,6 +142,7 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/lightbox2/2.11.0/js/lightbox.min.js"></script>
     <script src="https://unpkg.com/interactjs/dist/interact.min.js"></script>
     <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.9.0/slick.js"></script>
     <script src="/blocEditor/js/pageEdit.js"></script>
     <script src="/blocEditor/js/imageHandler.js"></script>
     <script src="/blocEditor/js/columnHandler.js"></script>

@@ -52,18 +52,6 @@ class PageController
         }
     }
 
-    function rsearch($folder, $pattern)
-    {
-        $dir = new RecursiveDirectoryIterator($folder);
-        $ite = new RecursiveIteratorIterator($dir);
-        $files = new RegexIterator($ite, $pattern, RegexIterator::GET_MATCH);
-        $fileList = array();
-        foreach ($files as $file) {
-            $fileList = array_merge($fileList, $file);
-        }
-        return $fileList;
-    }
-
     public function addPage() {
         $this->setHeader();
         $data = json_decode(file_get_contents("php://input"));

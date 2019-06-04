@@ -12,7 +12,7 @@ $(document).ready(function () {
         uploadMultiple: false,
         parallelUploads: 100,
         maxFilesize: 1,
-        maxFiles: 1,
+        maxFiles: 3,
         acceptedFiles: ".jpg, .jpeg, .png",
         addRemoveLinks: true,
         dictFileTooBig: "Le fichier est trop volumineux ({{filesize}}mb). La taille maximale est {{maxFilesize}}mb",
@@ -137,7 +137,6 @@ function editImgBlock(targetElement, operation, previousContent) {
                     );
                 }
             });
-
         }
     });
 }
@@ -147,4 +146,17 @@ lightbox.option({
     'wrapAround': true
 })
 
+//************ CAROUSSEL SLIDER **************//
 
+$('#sliderOption').on('click', function() {
+    $('#uploadImageModal').modal('show');
+    closeNav();
+    $("select").attr('multiple','multiple');
+    $("#selectImg").on('click', function () {
+        $('#uploadImageModal').modal('toggle');
+        editImgBlock(interfaceBlock, "save", null);
+        
+    });
+    $("select").removeAttr('multiple');
+
+})
