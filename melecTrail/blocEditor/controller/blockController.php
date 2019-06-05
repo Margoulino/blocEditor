@@ -54,22 +54,36 @@ class BlockController
     /**
      * Removes a block from db/page
      */
-    public function deleteBlock()
+    public function deleteBlock($subId = null)
     {
-        $this->setHeader();
-        $data = json_decode(file_get_contents("php://input"));
-        $blockToDelete = BlockModel::findById($data->id);
+        if ($subId == null) {
+            $data = json_decode(file_get_contents("php://input"));
+            $subId = $data->id;
+        }
+        $blockToDelete = BlockModel::findById($subId);
         if (count($blockToDelete) == 0) {
             http_response_code(404);
             echo json_encode(array("message" => "Block not found, can't be deleted."));
+            return;
         } else {
-            BlockModel::delete($data->id);
-            $nextBlocks = BlockModel::getBlocksByPageIdOrderGt($blockToDelete[0]->pageId, $blockToDelete[0]->orderBlock);
-            if (count($nextBlocks) > 0) {
-                foreach ($nextBlocks as $nextBlock) {
-                    $nextBlock->orderBlock = $nextBlock->orderBlock - 1;
-                    $nextBlock->update();
+            try {
+                if ($blockToDelete[0]->idBlockType == 3 && $blockToDelete[0]->innerBlocks != "") {
+                    $inner = json_decode($blockToDelete[0]->innerBlocks, true);
+                    foreach ($inner as $i) {
+                        $this->deleteBlock($i);
+                    }
                 }
+                BlockModel::delete($subId);
+                $nextBlocks = BlockModel::getBlocksByPageIdOrderGt($blockToDelete[0]->pageId, $blockToDelete[0]->orderBlock);
+                if (count($nextBlocks) > 0) {
+                    foreach ($nextBlocks as $nextBlock) {
+                        $nextBlock->orderBlock = $nextBlock->orderBlock - 1;
+                        $nextBlock->update();
+                    }
+                }
+            } catch (Exception $e) {
+                http_response_code(404);
+                echo json_encode(array("message" => "an error occured."));
             }
             http_response_code(200);
             echo json_encode(array("message" => "Block deleted succesfully"));

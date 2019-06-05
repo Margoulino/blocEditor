@@ -61,7 +61,7 @@
                     } else {
                         echo '<div id="' . $block['id'] . '" class="block-unit-complex">';
                     }
-                    echo '<div><i id="orderUp' . $block['id'] . '" i class="fas fa-arrow-up"></i>   <i id="orderDown' . $block['id'] . '"class="fas fa-arrow-down"></i></div>' . $block['content'];
+                    echo '<div><i id="orderUp' . $block['id'] . '" i class="fas fa-arrow-up"></i>   <i id="orderDown' . $block['id'] . '"class="fas fa-arrow-down"></i><i class="float-right deleteBlock fas fa-times"></i></div>' . $block['content'];
                     if ($block['idBlockType'] == 2) {
                         echo '<button class="btn btn-xs btn-info resizebtn">Redimensionner</button>';
                     }

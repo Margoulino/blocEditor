@@ -8,7 +8,6 @@ $(".block-unit").one("dblclick", function () {
     if ($(this).children().next().prop("tagName") == "A") {
         return;
     } else {
-        console.log("txt");
         htmlEditorInit(this, "update", this.innerHTML);
     }
 });
@@ -18,6 +17,25 @@ blockTextButton.addEventListener("click", function () {
     closeNav();
 });
 
+$('.deleteBlock').on('click', function() {
+    if (confirm("Confirmer la suppression du bloc ?")) {
+        $.ajax({
+            url: "/block/deleteBlock",
+            type: "POST",
+            contentType: 'application/json',
+            data: JSON.stringify({ "id": $(this).parent().parent().attr('id') }),
+            success: function (result) {
+                console.log(result);
+                window.location.reload();
+            },
+            error: function (xhr, resp, text) {
+                window.alert("Erreur lors de l'ajout, veuillez réessayer.");
+                console.log(xhr);
+            }
+        });
+    }
+
+})
 //Ajout de l'editeur html à la div
 function htmlEditorInit(targetElement, operation, previousContent) {
     var blockId = targetElement.getAttribute("id");
