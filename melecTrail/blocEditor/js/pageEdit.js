@@ -17,25 +17,29 @@ blockTextButton.addEventListener("click", function () {
     closeNav();
 });
 
-$('.deleteBlock').on('click', function() {
-    if (confirm("Confirmer la suppression du bloc ?")) {
-        $.ajax({
-            url: "/block/deleteBlock",
-            type: "POST",
-            contentType: 'application/json',
-            data: JSON.stringify({ "id": $(this).parent().parent().attr('id') }),
-            success: function (result) {
-                console.log(result);
-                window.location.reload();
-            },
-            error: function (xhr, resp, text) {
-                window.alert("Erreur lors de l'ajout, veuillez réessayer.");
-                console.log(xhr);
-            }
-        });
+$('.deleteBlock').on('click', function () {
+    if(confirm("Confirmer la suppression du bloc ?")){
+        deleteBlock($(this).parent().parent());
     }
+    
+});
 
-})
+function deleteBlock(node) {
+    $.ajax({
+        url: "/block/deleteBlock",
+        type: "POST",
+        contentType: 'application/json',
+        data: JSON.stringify({ "id": $(node).attr('id') }),
+        success: function (result) {
+            console.log(result);
+            window.location.reload();
+        },
+        error: function (xhr, resp, text) {
+            window.alert("Erreur lors de l'ajout, veuillez réessayer.");
+            console.log(xhr);
+        }
+    });
+}
 //Ajout de l'editeur html à la div
 function htmlEditorInit(targetElement, operation, previousContent) {
     var blockId = targetElement.getAttribute("id");
@@ -68,10 +72,10 @@ function htmlEditorInit(targetElement, operation, previousContent) {
             // Call a function when the state changes.
             if (this.readyState === XMLHttpRequest.DONE && this.status === 200) {
                 console.log("enregistrement du bloc effectué");
-                if(operation == "addToCol"){
+                if (operation == "addToCol") {
                     var result = JSON.parse(xhr.response);
-                    $(targetElement).find('p').first().attr('id',result.id);
-                    columnEdit($(targetElement).parent().parent().attr('id'),$(targetElement).attr('id'),result.id);
+                    $(targetElement).find('p').first().attr('id', result.id);
+                    columnEdit($(targetElement).parent().parent().attr('id'), $(targetElement).attr('id'), result.id);
                 }
                 location.reload();
             }
@@ -116,12 +120,12 @@ function htmlEditorInit(targetElement, operation, previousContent) {
     });
 
     document.getElementById("blockDelete").addEventListener("click", function (e) {
-        if($('#'+blockId).parent().attr('class') != "blocks-viewer"){
+        if ($('#' + blockId).parent().attr('class') != "blocks-viewer") {
             $.ajax({
                 url: "/block/deleteFromCol",
                 type: "POST",
                 contentType: 'application/json',
-                data: JSON.stringify({ "idParent": $('#'+blockId).parent().parent().parent().attr('id'), "idChild": blockId }),
+                data: JSON.stringify({ "idParent": $('#' + blockId).parent().parent().parent().attr('id'), "idChild": blockId }),
                 success: function (result) {
                     console.log(result);
                 },

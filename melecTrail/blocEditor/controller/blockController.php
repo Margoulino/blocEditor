@@ -185,7 +185,6 @@ class BlockController
                 return;
             }
             $inner = json_decode($block[0]->innerBlocks, true);
-            var_dump($inner);
             unset($inner[array_keys($inner, $data->idChild)[0]]);
             if (json_encode($inner) == "[]") {
                 $block[0]->innerBlocks = "";

@@ -8,7 +8,7 @@ $('#2colOption').on('click', function () {
         success: function (result) {
             var intBlock = document.querySelector('.interface-block');
             var result = JSON.parse(result);
-            blockEditorInit(intBlock, "save", null, result.html);
+            blockEditorInit(intBlock, "save", 3, result.html);
         },
         error: function (xhr, resp, text) {
             if (xhr.status == 409) {
@@ -21,7 +21,7 @@ $('#2colOption').on('click', function () {
     return false;
 });
 
-function blockEditorInit(targetElement, operation, previousContent, template) {
+function blockEditorInit(targetElement, operation, idBlockType, template) {
     var blockId = targetElement.getAttribute("id");
     targetElement.innerHTML = "";
     targetElement.innerHTML = template;
@@ -31,7 +31,6 @@ function blockEditorInit(targetElement, operation, previousContent, template) {
         $(targetElement).find('.row').last().remove();
         var content = targetElement.innerHTML;
         var xhr = new XMLHttpRequest();
-
         xhr.onreadystatechange = function () {
             // Call a function when the state changes.
             if (this.readyState === XMLHttpRequest.DONE && this.status === 200) {
@@ -39,7 +38,6 @@ function blockEditorInit(targetElement, operation, previousContent, template) {
                 location.reload();
             }
         };
-
         if (operation === "save") {
             xhr.open("POST", "/block/addBlockToPage", true);
             xhr.setRequestHeader("Content-type", "application/json");
@@ -49,7 +47,7 @@ function blockEditorInit(targetElement, operation, previousContent, template) {
                     content: content,
                     pageId: pageId,
                     orderBlock: idNewBlock,
-                    idBlockType: 3,
+                    idBlockType: idBlockType,
                     nombreCol: 1,
                     innerBlocks: ""
                 })
@@ -83,7 +81,7 @@ function columnEdit(colBlockId, colPosition, toAddId) {
     console.log(colBlockId)
     console.log(colPosition)
     console.log(toAddId);
-    
+
     $.ajax({
         url: "/block/addBlockToColumn",
         type: "POST",
@@ -110,11 +108,31 @@ $(document).ready(function () {
             Object.keys(innerTab).forEach(function (k) {
                 var node = $('#' + innerTab[k]);
                 var parent = $('#' + block.id + ' .block').children();
+                if ($(node).children().first().next().prop('tagName') == "A") {
+                    node[0].innerHTML = '<i class="float-right deleteImgFromCol fas fa-times"></i>' + node[0].innerHTML;
+                }
                 $(node).find("div").remove();
-
-                parent[k-1].innerHTML=node[0].outerHTML;
+                parent[k - 1].innerHTML = node[0].outerHTML;
                 node.remove();
             });
+        }
+    })
+    $('.deleteImgFromCol').on('click', function () {
+        if (confirm("Confirmer la suppression du bloc ?")) {
+            $.ajax({
+                url: "/block/deleteFromCol",
+                type: "POST",
+                contentType: 'application/json',
+                data: JSON.stringify({ "idParent": $(this).closest('.block-unit-complex').attr('id'), "idChild": $(this).parent().attr('id') }),
+                success: function (result) {
+                    console.log(result);
+                },
+                error: function (xhr, resp, text) {
+                    window.alert("Erreur lors de l'ajout, veuillez réessayer.");
+                    console.log(xhr);
+                }
+            });
+            deleteBlock($(this).parent());
         }
     })
     $(".block-unit").one("dblclick", function () {

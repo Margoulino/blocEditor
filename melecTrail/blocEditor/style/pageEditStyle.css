@@ -128,6 +128,13 @@ body {
     box-sizing: border-box;
 }
 
-.deleteBlock {
-    color: #eb0000;
+.fa-times {
+    color: #eb0000
+}
+
+.block-unit-complex {
+    width: 75%;
+}
+#pageView {
+    padding: 20px;
 }
