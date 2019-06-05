@@ -98,6 +98,21 @@ function htmlEditorInit(targetElement, operation, previousContent) {
     });
 
     document.getElementById("blockDelete").addEventListener("click", function (e) {
+        if($('#'+blockId).parent().attr('class') != "blocks-viewer"){
+            $.ajax({
+                url: "/block/deleteFromCol",
+                type: "POST",
+                contentType: 'application/json',
+                data: JSON.stringify({ "idParent": $('#'+blockId).parent().parent().parent().attr('id'), "idChild": blockId }),
+                success: function (result) {
+                    console.log(result);
+                },
+                error: function (xhr, resp, text) {
+                    window.alert("Erreur lors de l'ajout, veuillez réessayer.");
+                    console.log(xhr);
+                }
+            });
+        }
         if (blockId !== undefined && blockId !== "" && blockId !== null) {
             var xhr = new XMLHttpRequest();
 

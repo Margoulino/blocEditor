@@ -28,7 +28,6 @@ function blockEditorInit(targetElement, operation, previousContent, template) {
     targetElement.firstChild.setAttribute('id', blockId);
     targetElement.innerHTML = targetElement.innerHTML + '<div class="row"><div class="col"><a id="blockSave" class="btn btn-success" href="#">Sauvegarder le bloc</a><a class="btn btn-danger" id="blockDelete" href="#" role="button">Supprimer le bloc</a></div></div>';
     document.querySelector("#blockSave").addEventListener("click", () => {
-        console.log("rentré");
         $(targetElement).find('.row').last().remove();
         var content = targetElement.innerHTML;
         var xhr = new XMLHttpRequest();
@@ -37,7 +36,6 @@ function blockEditorInit(targetElement, operation, previousContent, template) {
             // Call a function when the state changes.
             if (this.readyState === XMLHttpRequest.DONE && this.status === 200) {
                 console.log("enregistrement du bloc effectué");
-                console.log(this.response);
                 location.reload();
             }
         };
@@ -113,24 +111,22 @@ $(document).ready(function () {
                 var node = $('#' + innerTab[k]);
                 var parent = $('#' + block.id + ' .block').children();
                 $(node).find("div").remove();
+
                 parent[k-1].innerHTML=node[0].outerHTML;
                 node.remove();
             });
         }
     })
-
     $(".block-unit").one("dblclick", function () {
         if ($(this).children().next().prop("tagName") == "A") {
             return;
         } else {
-            console.log("txt");
             htmlEditorInit(this, "update", this.innerHTML);
         }
     });
 
     $('.resizebtn').on('click', function () {
         var resized = $(this).prev().find('img');
-        console.log(resized.parent().html());
         //resized.resizable();
         $(this).toggle();
         editImgBlock(this.parentElement, "update", this.parentElement.innerHTML);

@@ -159,4 +159,31 @@ class BlockController
         echo json_encode(array("message" => "block added"));
         return;
     }
+
+    public function deleteFromCol()
+    {
+        $data  = json_decode(file_get_contents("php://input"));
+        try {
+            $block = BlockModel::findById($data->idParent);
+            if ($block[0]->innerBlocks == "" || $block[0]->innerBlocks == "{}") {
+                http_response_code(412);
+                echo json_encode(array("message" => "le bloc parent est deja vide."));
+                return;
+            }
+            $inner = json_decode($block[0]->innerBlocks, true);
+            var_dump($inner);
+            unset($inner[array_keys($inner, $data->idChild)[0]]);
+            if (json_encode($inner) == "[]") {
+                $block[0]->innerBlocks = "";
+            } else {
+                $block[0]->innerBlocks = json_encode($inner);
+            }
+            $block[0]->update();
+            http_response_code(200);
+            echo json_encode(array("message" => "colonne vide."));
+        } catch (Exception $e) {
+            http_response_code(404);
+            echo json_encode(array("message" => $e));
+        }
+    }
 }

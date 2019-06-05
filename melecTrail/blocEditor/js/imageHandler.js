@@ -155,7 +155,6 @@ $('#sliderOption').on('click', function() {
     $("#selectImg").on('click', function () {
         $('#uploadImageModal').modal('toggle');
         editImgBlock(interfaceBlock, "save", null);
-        
     });
     $("select").removeAttr('multiple');
 
