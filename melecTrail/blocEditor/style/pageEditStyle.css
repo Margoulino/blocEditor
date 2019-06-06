@@ -132,9 +132,16 @@ body {
     color: #eb0000
 }
 
-.block-unit-complex {
-    width: 75%;
-}
+
 #pageView {
     padding: 20px;
+}
+
+.owl-carousel .owl-stage {
+    display: flex;
+}
+
+.owl-carousel .owl-item img {
+    width: auto;
+    height: 100%;
 }

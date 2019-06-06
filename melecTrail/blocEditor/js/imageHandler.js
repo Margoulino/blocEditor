@@ -148,42 +148,58 @@ lightbox.option({
 
 //************ CAROUSSEL SLIDER **************//
 
-// $('#sliderOption').on('click', function () {
-//     $('#uploadImageModal').modal('show');
-//     closeNav();
-//     $("select").attr('multiple', 'multiple');
-//     $("select").imagepicker()
-//     console.log($('select')[0]);$('#selectImg').off();
-//     $("#selectImg").on('click', function () {
-//         $('#uploadImageModal').modal('toggle');
-//         var divC = document.createElement('div');
-//         $(divC).addClass('carousel');
-//         $('.image_picker_selector .selected img').each(function (index) {
-//             var a = document.createElement('a');
-//             var div = document.createElement('div');
-//             $(a).addClass('imgBlock');
-//             $(a).attr('href',$(this).attr('src'));
-//             $(a).attr('data-lightbox',$(this).attr('src'));
-//             a.appendChild(this);
-//             div.appendChild(a);
-//             divC.appendChild(div);
-//         })
-//         blockEditorInit(document.querySelector('.interface-block'), "save", 4, divC.outerHTML);
-//         $("select").removeAttr('multiple');
-//     });
-// })
+$('#sliderOption').on('click', function () {
+    $('#uploadImageModal').modal('show');
+    closeNav();
+    $("select").attr('multiple', 'multiple');
+    $("select").imagepicker()
+    console.log($('select')[0]);
+    $('#selectImg').off();
+    $("#selectImg").on('click', function () {
+        $('#uploadImageModal').modal('toggle');
+        var divC = document.createElement('div');
+        $(divC).addClass('owl-carousel');
+        $(divC).addClass('owl-theme');
+        $('.image_picker_selector .selected img').each(function (index) {
+            var a = document.createElement('a');
+            var div = document.createElement('div');
+            $(a).addClass('imgBlock');
+            $(a).attr('href', $(this).attr('src'));
+            $(a).attr('data-lightbox', $(this).attr('src'));
+            a.appendChild(this);
+            div.appendChild(a);
+            divC.appendChild(div);
+        })
+        blockEditorInit(document.querySelector('.interface-block'), "save", 4, divC.outerHTML);
+        $("select").removeAttr('multiple');
+    });
+})
 
-// window.addEventListener('load', function(){
-
-//     var slider = document.querySelector('.carousel').parentNode;
-//     slider.innerHTML = slider.innerHTML + '  <button role="button" aria-label="Previous" class="glider-prev"><i class="fas fa-chevron-left"></i></button><button role="button" aria-label="Next" class="glider-next"><i class="fas fa-chevron-right"></i></button><div role="tablist" class="dots"></div>';
- 
-//     new Glider(document.querySelector('.carousel'), {
-//         draggable: true,
-//         dots: '.dots',
-//         arrows: {
-//           prev: '.glider-prev',
-//           next: '.glider-next'
-//         }
-//     })
-//  })
+window.addEventListener('load', function () {
+    if (document.querySelector('.owl-carousel') != null) {
+        var slider = document.querySelectorAll('.owl-carousel');
+        slider.forEach(carousel => {
+            $(carousel).owlCarousel({
+                loop:true,
+                margin:10,
+                nav: true,
+                autoplay:true,
+                autoplayTimeout:1000,
+                autoplayHoverPause:true,
+                autoWidth:true,
+                navText:['<i class="fas fa-chevron-left"></i>','<i class="fas fa-chevron-right"></i>'],
+                responsive:{
+                    0:{
+                        items:1
+                    },
+                    600:{
+                        items:3
+                    },
+                    1000:{
+                        items:4
+                    }
+                }
+            })
+        } )
+    }
+})
