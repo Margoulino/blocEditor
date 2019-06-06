@@ -19,7 +19,7 @@ $(document).ready(function () {
         dictInvalidFileType: "Type de fichier invalide",
         dictCancelUpload: "Annuler",
         dictRemoveFile: "Supprimer",
-        dictMaxFilesExceeded: "Enregistrez les fichiers un par un",
+        dictMaxFilesExceeded: "Limite de fichier atteinte",
         dictDefaultMessage: "Déposez un fichier ici ou cliquez.",
     });
 });
@@ -149,8 +149,12 @@ lightbox.option({
 //************ CAROUSSEL SLIDER **************//
 
 $('#sliderOption').on('click', function () {
-    $('#uploadImageModal').modal('show');
     closeNav();
+    initCarousel(document.querySelector('.interface-block'),"save");
+})
+
+function initCarousel(outerNode,operation){
+    $('#uploadImageModal').modal('show');
     $("select").attr('multiple', 'multiple');
     $("select").imagepicker()
     console.log($('select')[0]);
@@ -170,36 +174,55 @@ $('#sliderOption').on('click', function () {
             div.appendChild(a);
             divC.appendChild(div);
         })
-        blockEditorInit(document.querySelector('.interface-block'), "save", 4, divC.outerHTML);
+        blockEditorInit(outerNode, operation, 4, divC.outerHTML);
         $("select").removeAttr('multiple');
     });
-})
+}
 
 window.addEventListener('load', function () {
     if (document.querySelector('.owl-carousel') != null) {
         var slider = document.querySelectorAll('.owl-carousel');
         slider.forEach(carousel => {
             $(carousel).owlCarousel({
-                loop:true,
-                margin:10,
-                nav: true,
-                autoplay:true,
-                autoplayTimeout:1000,
+                center:true,
+                loop: true,
+                margin: 10,
+                slideSpeed: 300,
+                paginationSpeed: 400,
+                autoplay: true,
                 autoplayHoverPause:true,
-                autoWidth:true,
-                navText:['<i class="fas fa-chevron-left"></i>','<i class="fas fa-chevron-right"></i>'],
-                responsive:{
-                    0:{
-                        items:1
+                items: 1,
+                animateIn: 'fadeIn', // add this
+                animateOut: 'fadeOut', // and this
+                responsiveClass: true,
+                responsive: {
+                    0: {
+                        items: 1
+                        // nav:true
                     },
-                    600:{
-                        items:3
+                    600: {
+                        items: 1,
+                        nav: true
                     },
-                    1000:{
-                        items:4
+                    1000: {
+                        items: 1,
+                        nav: true
+                        // loop:false
                     }
-                }
+                },
+                navText: ['<i class="fas fa-chevron-left"></i>', '<i class="fas fa-chevron-right"></i>']
+         
             })
-        } )
+        })
     }
+
+    $('.sliderEdit').on('click', function() {
+        $(this).toggle();
+        $(this).next().show();
+        $(this).siblings('.contentSlider').show();
+    })
+    $('.resizeSlider').on('click', function() {
+        //blockEditorInit($(this).siblings('.owl-carousel')[0],"update",4,null);
+        console.log("test");
+    })
 })

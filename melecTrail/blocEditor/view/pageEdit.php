@@ -61,8 +61,12 @@
                         echo '<div id="' . $block['id'] . '" class="block-unit-complex">';
                     }
                     echo '<div><i id="orderUp' . $block['id'] . '" i class="fas fa-arrow-up"></i>   <i id="orderDown' . $block['id'] . '"class="fas fa-arrow-down"></i><i class="float-right deleteBlock fas fa-times"></i></div>' . $block['content'];
-                    if ($block['idBlockType'] == 2) {
+                    if ($block['idBlockType'] === '2') {
                         echo '<button class="btn btn-xs btn-info resizebtn">Redimensionner</button>';
+                    } elseif ($block['idBlockType'] === '4' ) {
+                        echo '<button class="btn btn-xs btn-info sliderEdit">Modifier</button>
+                              <button class="btn btn-xs btn-outline-primary resizeSlider" style="display: none;">Redimensionner</button>
+                              <button class="btn btn-xs btn-outline-info contentSlider" style="display: none;">Ajouter/Supprimer une image</button>';
                     }
                     echo '</div>';
                 }
@@ -124,6 +128,7 @@
                     <div class="row">
                         <button id="textBlock" class="col btn btn-info menuOptions"><i class="fas fa-align-left fa-5x"></i></button>
                         <button id="imgBlock" class="col btn btn-info menuOptions"><i class="fas fa-image fa-5x"></i></button>
+                        <button id="carouselBlock" class="col btn btn-info menuOptions"><i class="fas fa-5x fa-images"></i></button>
                     </div>
                 </div>
             </div>

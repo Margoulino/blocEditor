@@ -35,10 +35,14 @@ function blockEditorInit(targetElement, operation, idBlockType, template) {
             // Call a function when the state changes.
             if (this.readyState === XMLHttpRequest.DONE && this.status === 200) {
                 console.log("enregistrement du bloc effectué");
+                if (operation == "addToCol") {
+                    var result = JSON.parse(xhr.response);
+                    columnEdit($(targetElement).parent().parent().attr('id'), $(targetElement).attr('id'), result.id);
+                }
                 location.reload();
             }
         };
-        if (operation === "save") {
+        if (operation === "save" || operation === "addToCol") {
             xhr.open("POST", "/block/addBlockToPage", true);
             xhr.setRequestHeader("Content-type", "application/json");
             xhr.send(
@@ -78,10 +82,6 @@ function blockEditorInit(targetElement, operation, idBlockType, template) {
 };
 
 function columnEdit(colBlockId, colPosition, toAddId) {
-    console.log(colBlockId)
-    console.log(colPosition)
-    console.log(toAddId);
-
     $.ajax({
         url: "/block/addBlockToColumn",
         type: "POST",
@@ -92,11 +92,10 @@ function columnEdit(colBlockId, colPosition, toAddId) {
             "id": colBlockId
         }),
         success: function (result) {
-            console.log(result);
+            console.log("Colonne éditée avec succès.");
         },
         error: function (xhr, resp, text) {
-            window.alert("Erreur lors de l'ajout, veuillez réessayer.");
-            console.log(resp);
+            window.alert("Erreur lors de la modification.");
         }
     });
 }
@@ -110,8 +109,8 @@ $(document).ready(function () {
                 var parent = $('#' + block.id + ' .block').children();
                 if ($(node).children().first().next().prop('tagName') == "A") {
                     node[0].innerHTML = '<i class="float-right deleteImgFromCol fas fa-times"></i>' + node[0].innerHTML;
-                }
-                $(node).find("div").remove();
+                } 
+                $(node).find("div").first().remove();
                 parent[k - 1].innerHTML = node[0].outerHTML;
                 node.remove();
             });
@@ -125,17 +124,16 @@ $(document).ready(function () {
                 contentType: 'application/json',
                 data: JSON.stringify({ "idParent": $(this).closest('.block-unit-complex').attr('id'), "idChild": $(this).parent().attr('id') }),
                 success: function (result) {
-                    console.log(result);
+                    console.log("image supprimée");
                 },
                 error: function (xhr, resp, text) {
-                    window.alert("Erreur lors de l'ajout, veuillez réessayer.");
-                    console.log(xhr);
+                    window.alert("Erreur lors de la modification.");
                 }
             });
             deleteBlock($(this).parent());
         }
     })
-    $(".block-unit").one("dblclick", function () {
+    $(".block-unit-complex .block-unit").one("dblclick", function () {
         if ($(this).children().next().prop("tagName") == "A") {
             return;
         } else {
@@ -144,8 +142,6 @@ $(document).ready(function () {
     });
 
     $('.resizebtn').on('click', function () {
-        var resized = $(this).prev().find('img');
-        //resized.resizable();
         $(this).toggle();
         editImgBlock(this.parentElement, "update", this.parentElement.innerHTML);
     })
@@ -171,6 +167,10 @@ $(document).ready(function () {
                 $('#uploadImageModal').modal('toggle');
             });
 
+        })
+        $('#carouselBlock').on('click', function () {
+            $('#innerBlockModal').modal('toggle');
+            initCarousel(document.querySelector('.edited-col'),"addToCol");
         })
     });
 
