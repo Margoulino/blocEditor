@@ -1,8 +1,10 @@
+// Show the upload/select image modal to add an image block
 $('#imgOption').on('click', function () {
     $('#uploadImageModal').modal('show');
     closeNav();
 })
 
+// Set the dropzone's basic config in the upload image modal
 Dropzone.autoDiscover = false;
 $(document).ready(function () {
     var myDropzone = new Dropzone("#myDropzone", {
@@ -23,6 +25,7 @@ $(document).ready(function () {
         dictDefaultMessage: "Déposez un fichier ici ou cliquez.",
     });
 });
+
 
 Dropzone.options.myDropzone = {
     init: function () {
@@ -61,12 +64,17 @@ Dropzone.options.myDropzone = {
     }
 }
 
+// When an image's selection is confirmed, call the storing function associated.
 $("select").imagepicker()
 $("#selectImg").on('click', function () {
     $('#uploadImageModal').modal('toggle');
     editImgBlock(interfaceBlock, "save", null);
 });
 
+// Single image storing/updating function : 
+//  -Add the template and save/delete button
+//  -Set the image to resizable 
+//  -When the user saves the block, the function stores its content into the DB
 function editImgBlock(targetElement, operation, previousContent) {
     var blockId = targetElement.getAttribute("id");
     if (operation == "save" || operation == "addToCol") {
@@ -87,7 +95,6 @@ function editImgBlock(targetElement, operation, previousContent) {
         console.log(cont);
         var xhr = new XMLHttpRequest();
         xhr.onreadystatechange = function () {
-            // Call a function when the state changes.
             if (this.readyState === XMLHttpRequest.DONE && this.status === 200) {
                 console.log("enregistrement du bloc effectué");
                 if (operation == "addToCol") {
@@ -113,7 +120,6 @@ function editImgBlock(targetElement, operation, previousContent) {
                 })
             );
         } else if (operation === "update") {
-
             $(targetElement).find('a').prev().remove();
             $(targetElement).find('a').next().remove();
             console.log(targetElement.innerHTML)
@@ -141,6 +147,7 @@ function editImgBlock(targetElement, operation, previousContent) {
     });
 }
 
+// Set the lightbox's basic config
 lightbox.option({
     'resizeDuration': 200,
     'wrapAround': true
@@ -148,11 +155,13 @@ lightbox.option({
 
 //************ CAROUSSEL SLIDER **************//
 
+// Call the carousel's init function when the button is triggered
 $('#sliderOption').on('click', function () {
     closeNav();
     initCarousel(document.querySelector('.interface-block'), "save");
 })
 
+// Create the DOM elements according to the previously selected images
 function initCarouselContent(divC) {
     $('.image_picker_selector .selected img').each(function (index) {
         var a = document.createElement('a');
@@ -166,11 +175,11 @@ function initCarouselContent(divC) {
     })
 }
 
+// Show the upload image modal and allow users to select multiple images to append them in the slider
 function initCarousel(outerNode, operation) {
     $('#uploadImageModal').modal('show');
     $("select").attr('multiple', 'multiple');
     $("select").imagepicker()
-
     $('#selectImg').off();
     $("#selectImg").on('click', function () {
         $('#uploadImageModal').modal('toggle');
@@ -183,6 +192,7 @@ function initCarousel(outerNode, operation) {
     });
 }
 
+// Set the basic configuration for the carousel slider
 function startCarousel() {
     var slider = document.querySelectorAll('.owl-carousel');
     slider.forEach(carousel => {
@@ -218,10 +228,11 @@ function startCarousel() {
     })
 }
 window.addEventListener('load', function () {
+    // Search for carousel divs and initiate them
     if (document.querySelector('.owl-carousel') != null) {
         startCarousel();
     }
-
+    // Show the carousel's edition button 
     $('.sliderEdit').on('click', function () {
         $(this).toggle();
         $(this).next().show();
@@ -230,6 +241,8 @@ window.addEventListener('load', function () {
     // $('.resizeSlider').on('click', function () {
     //     blockEditorInit($(this).parent()[0],"resizeSlider",4,$(this).parent()[0].innerHTML);
     // })
+    
+    // Show the carousel's content edition menu to add or delete images
     $('.contentSlider').on('click', function () {
         var button = $(this);
         $('#uploadImageModal').modal('show');
@@ -249,6 +262,7 @@ window.addEventListener('load', function () {
     })
 })
 
+// Automatically select images in the upload image modal
 function multipleSelect(button) {
     $("select").attr('multiple', 'multiple');
     $("select").imagepicker();

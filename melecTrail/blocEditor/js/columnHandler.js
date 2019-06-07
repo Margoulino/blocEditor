@@ -165,7 +165,6 @@ $(document).ready(function () {
                 editImgBlock(document.querySelector('.edited-col'), "addToCol", '')
                 $('#uploadImageModal').modal('toggle');
             });
-
         })
         $('#carouselBlock').on('click', function () {
             $('#innerBlockModal').modal('toggle');
