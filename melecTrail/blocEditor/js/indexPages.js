@@ -3,6 +3,23 @@ $('.addPage').on('click', function () {
     $('#addPageModal').modal('show');
     $('#addPageModal').find('#catnameinput').val(idcat);
 });
+
+$.fn.serializeObject = function () {
+    var o = {};
+    var a = this.serializeArray();
+    $.each(a,function() {
+        if(o[this.name] !== undefined) {
+            if(!o[this.name].push) {
+                o[this.name] = [o[this.name]];
+            }
+            o[this.name].push(this.value || '');
+        } else {
+            o[this.name] = this.value || '';
+        }
+    });
+    return o;
+}
+
 $('#nav-tabContent a').on('click', function () {
     if (confirm('Modifier la page ' + $(this).attr('id') + ' ?')) {
         window.location.href = "/page/editionPage/" + $(this).attr('id');
