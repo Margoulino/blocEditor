@@ -32,12 +32,12 @@
         </div>
     </nav>
     <div class="row">
-        <div class="col-md-7">
-        <?php
+        <div id="previewDisplay" class="col-md-7">
+            <?php
             if ($blocks != NULL) {
                 foreach ($blocks as $block) {
                     echo '
-                        <div id="'. $block['id'] .'">
+                        <div id="' . $block['id'] . '">
                             ' . $block['content'] . '
                         </div>
                         ';
@@ -55,5 +55,9 @@
             </ul>
         </div>
     </div>
+    <script>
+        var innerBlocks = <?php echo json_encode($innerBlocks); ?>;
+        var blocks = <?php echo json_encode($innerBlocks); ?>;
+    </script>
 </body>
 </html>

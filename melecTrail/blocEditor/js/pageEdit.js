@@ -77,7 +77,9 @@ function htmlEditorInit(targetElement, operation, previousContent) {
                     $(targetElement).find('p').first().attr('id', result.id);
                     columnEdit($(targetElement).parent().parent().attr('id'), $(targetElement).attr('id'), result.id);
                 }
-                location.reload();
+                setTimeout(() => {
+                    location.reload();
+                }, 200);
             }
         };
 
