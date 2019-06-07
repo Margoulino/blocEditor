@@ -150,79 +150,115 @@ lightbox.option({
 
 $('#sliderOption').on('click', function () {
     closeNav();
-    initCarousel(document.querySelector('.interface-block'),"save");
+    initCarousel(document.querySelector('.interface-block'), "save");
 })
 
-function initCarousel(outerNode,operation){
+function initCarouselContent(divC) {
+    $('.image_picker_selector .selected img').each(function (index) {
+        var a = document.createElement('a');
+        var div = document.createElement('div');
+        $(a).addClass('imgBlock');
+        $(a).attr('href', $(this).attr('src'));
+        $(a).attr('data-lightbox', $(this).attr('src'));
+        a.appendChild(this);
+        div.appendChild(a);
+        divC.appendChild(div);
+    })
+}
+
+function initCarousel(outerNode, operation) {
     $('#uploadImageModal').modal('show');
     $("select").attr('multiple', 'multiple');
     $("select").imagepicker()
-    console.log($('select')[0]);
+
     $('#selectImg').off();
     $("#selectImg").on('click', function () {
         $('#uploadImageModal').modal('toggle');
         var divC = document.createElement('div');
         $(divC).addClass('owl-carousel');
         $(divC).addClass('owl-theme');
-        $('.image_picker_selector .selected img').each(function (index) {
-            var a = document.createElement('a');
-            var div = document.createElement('div');
-            $(a).addClass('imgBlock');
-            $(a).attr('href', $(this).attr('src'));
-            $(a).attr('data-lightbox', $(this).attr('src'));
-            a.appendChild(this);
-            div.appendChild(a);
-            divC.appendChild(div);
-        })
+        initCarouselContent(divC);
+        console.log(divC.outerHTML);
         blockEditorInit(outerNode, operation, 4, divC.outerHTML);
         $("select").removeAttr('multiple');
     });
 }
 
+function startCarousel() {
+    var slider = document.querySelectorAll('.owl-carousel');
+    slider.forEach(carousel => {
+        $(carousel).owlCarousel({
+            center: true,
+            loop: true,
+            margin: 10,
+            slideSpeed: 300,
+            paginationSpeed: 400,
+            autoplay: true,
+            autoplayHoverPause: true,
+            items: 1,
+            animateIn: 'fadeIn', // add this
+            animateOut: 'fadeOut', // and this
+            responsiveClass: true,
+            responsive: {
+                0: {
+                    items: 1
+                    // nav:true
+                },
+                600: {
+                    items: 1,
+                    nav: true
+                },
+                1000: {
+                    items: 1,
+                    nav: true
+                    // loop:false
+                }
+            },
+            navText: ['<i class="fas fa-chevron-left"></i>', '<i class="fas fa-chevron-right"></i>']
+        })
+    })
+}
 window.addEventListener('load', function () {
     if (document.querySelector('.owl-carousel') != null) {
-        var slider = document.querySelectorAll('.owl-carousel');
-        slider.forEach(carousel => {
-            $(carousel).owlCarousel({
-                center:true,
-                loop: true,
-                margin: 10,
-                slideSpeed: 300,
-                paginationSpeed: 400,
-                autoplay: true,
-                autoplayHoverPause:true,
-                items: 1,
-                animateIn: 'fadeIn', // add this
-                animateOut: 'fadeOut', // and this
-                responsiveClass: true,
-                responsive: {
-                    0: {
-                        items: 1
-                        // nav:true
-                    },
-                    600: {
-                        items: 1,
-                        nav: true
-                    },
-                    1000: {
-                        items: 1,
-                        nav: true
-                        // loop:false
-                    }
-                },
-                navText: ['<i class="fas fa-chevron-left"></i>', '<i class="fas fa-chevron-right"></i>']
-         
-            })
-        })
+        startCarousel();
     }
 
-    $('.sliderEdit').on('click', function() {
+    $('.sliderEdit').on('click', function () {
         $(this).toggle();
         $(this).next().show();
         $(this).siblings('.contentSlider').show();
     })
-    $('.resizeSlider').on('click', function() {
+    $('.resizeSlider').on('click', function () {
         //blockEditorInit($(this).siblings('.owl-carousel')[0],"update",4,null);
         console.log("test");
     })
+    $('.contentSlider').on('click', function () {
+        var button = $(this);
+        $('#uploadImageModal').modal('show');
+        multipleSelect(button);
+        $('#dropzoneSubmit').on('click', function () {
+            setTimeout(function () { multipleSelect(button) }, 500);
+        })
+        $('#selectImg').off();
+        $("#selectImg").on('click', function () {
+            $('#uploadImageModal').modal('toggle');
+            var divC = document.createElement('div');
+            $(divC).addClass('owl-carousel');
+            $(divC).addClass('owl-theme');
+            initCarouselContent(divC);
+            blockEditorInit($(button).parent()[0], "update", 4, divC.outerHTML);
+        })
+    })
 })
+
+function multipleSelect(button) {
+    $("select").attr('multiple', 'multiple');
+    $("select").imagepicker();
+    $(".image_picker_selector .image_picker_image").each(function (index, option) {
+        $(button).parent().find("img").each(function (index, img) {
+            if (option.src === img.src) {
+                $(option).parent().addClass('selected');
+            }
+        })
+    })
+}

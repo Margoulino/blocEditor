@@ -27,6 +27,9 @@ function blockEditorInit(targetElement, operation, idBlockType, template) {
     targetElement.innerHTML = template;
     targetElement.firstChild.setAttribute('id', blockId);
     targetElement.innerHTML = targetElement.innerHTML + '<div class="row"><div class="col"><a id="blockSave" class="btn btn-success" href="#">Sauvegarder le bloc</a><a class="btn btn-danger" id="blockDelete" href="#" role="button">Supprimer le bloc</a></div></div>';
+    // if (idBlockType === 4) {
+    //     startCarousel();
+    // }
     document.querySelector("#blockSave").addEventListener("click", () => {
         $(targetElement).find('.row').last().remove();
         var content = targetElement.innerHTML;
@@ -109,7 +112,7 @@ $(document).ready(function () {
                 var parent = $('#' + block.id + ' .block').children();
                 if ($(node).children().first().next().prop('tagName') == "A") {
                     node[0].innerHTML = '<i class="float-right deleteImgFromCol fas fa-times"></i>' + node[0].innerHTML;
-                } 
+                }
                 $(node).find("div").first().remove();
                 parent[k - 1].innerHTML = node[0].outerHTML;
                 node.remove();
@@ -170,19 +173,9 @@ $(document).ready(function () {
         })
         $('#carouselBlock').on('click', function () {
             $('#innerBlockModal').modal('toggle');
-            initCarousel(document.querySelector('.edited-col'),"addToCol");
+            initCarousel(document.querySelector('.edited-col'), "addToCol");
         })
     });
-
-    // $.each(previousBlocks, function (index, value) {
-    //     if (value.innerBlocks.length > 0) {
-    //         value.innerBlocks.forEach(element => {
-    //             var inner = document.querySelector('#' + element);
-    //             var outer = document.querySelector('#' + value.id);
-    //         });
-    //         var inner = document.querySelector('#');
-    //     }
-    // });
 });
 
 
