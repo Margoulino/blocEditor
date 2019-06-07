@@ -56,7 +56,9 @@ function htmlEditorInit(targetElement, operation, previousContent) {
                     console.log($(targetElement).parent().parent().attr('id'))
                     columnEdit($(targetElement).parent().parent().attr('id'),$(targetElement).attr('id'),result.id);
                 }
-                location.reload();
+                setTimeout(() => {
+                    location.reload();
+                }, 200);
             }
         };
 
