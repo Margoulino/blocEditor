@@ -163,3 +163,10 @@ body {
 .owl-carousel .owl-item {
     text-align: center;
 }
+
+.ui-resizable {
+    border: 1px dotted #818181;
+    padding: 8px;
+    margin-bottom: 16px;
+    border-radius: 4px;
+}

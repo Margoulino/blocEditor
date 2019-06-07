@@ -1,25 +1,14 @@
 $('#2colOption').on('click', function () {
     closeNav();
-    $.ajax({
-        url: "/blockType/loadTemplate",
-        type: "POST",
-        contentType: "application/json",
-        data: JSON.stringify({ "name": "twoColumns" }),
-        success: function (result) {
-            var intBlock = document.querySelector('.interface-block');
-            var result = JSON.parse(result);
-            blockEditorInit(intBlock, "save", 3, result.html);
-        },
-        error: function (xhr, resp, text) {
-            if (xhr.status == 409) {
-                window.alert("Cette catégorie existe déjà veuillez spécifier un autre nom.");
-            } else {
-                window.alert("Erreur lors de l'ajout, veuillez réessayer.")
-            } cat_form.find('input').val('');
-        }
-    });
-    return false;
+    template = '<div class="row block"><div class="column col" id="1"></div><div class="column col" id="2"></div></div>';
+    blockEditorInit(document.querySelector('.interface-block'), "save", 3, template);
 });
+
+$('#3colOption').on('click', function() {
+    closeNav();
+    template = '<div class="row block"><div class="column col" id="1"></div><div class="column col" id="2"></div><div class="column col" id="3"></div></div>';
+    blockEditorInit(document.querySelector('.interface-block'), "save", 5, template);
+})
 
 function blockEditorInit(targetElement, operation, idBlockType, template) {
     var blockId = targetElement.getAttribute("id");
@@ -27,12 +16,21 @@ function blockEditorInit(targetElement, operation, idBlockType, template) {
     targetElement.innerHTML = template;
     targetElement.firstChild.setAttribute('id', blockId);
     targetElement.innerHTML = targetElement.innerHTML + '<div class="row"><div class="col"><a id="blockSave" class="btn btn-success" href="#">Sauvegarder le bloc</a><a class="btn btn-danger" id="blockDelete" href="#" role="button">Supprimer le bloc</a></div></div>';
-    // if (idBlockType === 4) {
-    //     startCarousel();
+    // if (operation === "resizeSlider") {
+    //     $(targetElement).find('img').resizable();
     // }
     document.querySelector("#blockSave").addEventListener("click", () => {
+        // if (operation === "resizeSlider") { 
+        //     $(targetElement).find('img').resizable('destroy'); 
+        //     operation = "update"; 
+        //     $(targetElement).find('.owl-carousel').owlCarousel('destroy');
+        //     $(targetElement).find('button').remove();
+        //     $(targetElement).children().first().remove();
+        // }
+        console.log(targetElement.innerHTML);
         $(targetElement).find('.row').last().remove();
         var content = targetElement.innerHTML;
+        
         var xhr = new XMLHttpRequest();
         xhr.onreadystatechange = function () {
             // Call a function when the state changes.
@@ -60,10 +58,8 @@ function blockEditorInit(targetElement, operation, idBlockType, template) {
                 })
             );
         } else if (operation === "update") {
-            var currentBlock = "";
             previousBlocks.forEach(block => {
                 if (blockId == block.id) {
-                    currentBlock = block;
                     xhr.open("POST", "/block/updateBlock", true);
                     xhr.setRequestHeader("Content-type", "application/json");
                     xhr.send(

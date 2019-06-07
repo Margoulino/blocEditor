@@ -178,7 +178,6 @@ function initCarousel(outerNode, operation) {
         $(divC).addClass('owl-carousel');
         $(divC).addClass('owl-theme');
         initCarouselContent(divC);
-        console.log(divC.outerHTML);
         blockEditorInit(outerNode, operation, 4, divC.outerHTML);
         $("select").removeAttr('multiple');
     });
@@ -228,10 +227,9 @@ window.addEventListener('load', function () {
         $(this).next().show();
         $(this).siblings('.contentSlider').show();
     })
-    $('.resizeSlider').on('click', function () {
-        //blockEditorInit($(this).siblings('.owl-carousel')[0],"update",4,null);
-        console.log("test");
-    })
+    // $('.resizeSlider').on('click', function () {
+    //     blockEditorInit($(this).parent()[0],"resizeSlider",4,$(this).parent()[0].innerHTML);
+    // })
     $('.contentSlider').on('click', function () {
         var button = $(this);
         $('#uploadImageModal').modal('show');
