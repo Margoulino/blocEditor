@@ -12,14 +12,14 @@ $(document).ready(function () {
         uploadMultiple: false,
         parallelUploads: 100,
         maxFilesize: 1,
-        maxFiles: 1,
+        maxFiles: 3,
         acceptedFiles: ".jpg, .jpeg, .png",
         addRemoveLinks: true,
         dictFileTooBig: "Le fichier est trop volumineux ({{filesize}}mb). La taille maximale est {{maxFilesize}}mb",
         dictInvalidFileType: "Type de fichier invalide",
         dictCancelUpload: "Annuler",
         dictRemoveFile: "Supprimer",
-        dictMaxFilesExceeded: "Enregistrez les fichiers un par un",
+        dictMaxFilesExceeded: "Limite de fichier atteinte",
         dictDefaultMessage: "Déposez un fichier ici ou cliquez.",
     });
 });
@@ -77,28 +77,28 @@ function editImgBlock(targetElement, operation, previousContent) {
     }
     let cont;
     $(targetElement).find('img').resizable();
-    if(operation != "addToCol"){
+    if (operation != "addToCol") {
         cont = $('.imgBlock').last()[0];
     } else {
         cont = $('.edited-col a')[0];
     }
     document.querySelector("#blockSave").addEventListener("click", () => {
-        
         $(targetElement).find('img').resizable('destroy');
+        console.log(cont);
         var xhr = new XMLHttpRequest();
         xhr.onreadystatechange = function () {
             // Call a function when the state changes.
             if (this.readyState === XMLHttpRequest.DONE && this.status === 200) {
                 console.log("enregistrement du bloc effectué");
-                if(operation == "addToCol"){
+                if (operation == "addToCol") {
                     var result = JSON.parse(xhr.response);
-                    columnEdit($(targetElement).parent().parent().attr('id'),$(targetElement).attr('id'),result.id);
+                    columnEdit($(targetElement).parent().parent().attr('id'), $(targetElement).attr('id'), result.id);
                 }
                 location.reload();
             }
         };
         if (operation === "save" || operation === "addToCol") {
-            
+
             xhr.open("POST", "/block/addBlockToPage", true);
             xhr.setRequestHeader("Content-type", "application/json");
             xhr.send(
@@ -116,6 +116,7 @@ function editImgBlock(targetElement, operation, previousContent) {
 
             $(targetElement).find('a').prev().remove();
             $(targetElement).find('a').next().remove();
+            console.log(targetElement.innerHTML)
             var currentBlock = "";
             previousBlocks.forEach(block => {
                 if (blockId == block.id) {
@@ -136,7 +137,6 @@ function editImgBlock(targetElement, operation, previousContent) {
                     );
                 }
             });
-
         }
     });
 }
@@ -146,10 +146,83 @@ lightbox.option({
     'wrapAround': true
 })
 
-$('.resizebtn').on('click', function () {
-    var resized = $(this).prev().find('img');
-    console.log(resized.parent().html());
-    //resized.resizable();
-    $(this).toggle();
-    editImgBlock(this.parentElement, "update", this.parentElement.innerHTML);
+//************ CAROUSSEL SLIDER **************//
+
+$('#sliderOption').on('click', function () {
+    closeNav();
+    initCarousel(document.querySelector('.interface-block'),"save");
+})
+
+function initCarousel(outerNode,operation){
+    $('#uploadImageModal').modal('show');
+    $("select").attr('multiple', 'multiple');
+    $("select").imagepicker()
+    console.log($('select')[0]);
+    $('#selectImg').off();
+    $("#selectImg").on('click', function () {
+        $('#uploadImageModal').modal('toggle');
+        var divC = document.createElement('div');
+        $(divC).addClass('owl-carousel');
+        $(divC).addClass('owl-theme');
+        $('.image_picker_selector .selected img').each(function (index) {
+            var a = document.createElement('a');
+            var div = document.createElement('div');
+            $(a).addClass('imgBlock');
+            $(a).attr('href', $(this).attr('src'));
+            $(a).attr('data-lightbox', $(this).attr('src'));
+            a.appendChild(this);
+            div.appendChild(a);
+            divC.appendChild(div);
+        })
+        blockEditorInit(outerNode, operation, 4, divC.outerHTML);
+        $("select").removeAttr('multiple');
+    });
+}
+
+window.addEventListener('load', function () {
+    if (document.querySelector('.owl-carousel') != null) {
+        var slider = document.querySelectorAll('.owl-carousel');
+        slider.forEach(carousel => {
+            $(carousel).owlCarousel({
+                center:true,
+                loop: true,
+                margin: 10,
+                slideSpeed: 300,
+                paginationSpeed: 400,
+                autoplay: true,
+                autoplayHoverPause:true,
+                items: 1,
+                animateIn: 'fadeIn', // add this
+                animateOut: 'fadeOut', // and this
+                responsiveClass: true,
+                responsive: {
+                    0: {
+                        items: 1
+                        // nav:true
+                    },
+                    600: {
+                        items: 1,
+                        nav: true
+                    },
+                    1000: {
+                        items: 1,
+                        nav: true
+                        // loop:false
+                    }
+                },
+                navText: ['<i class="fas fa-chevron-left"></i>', '<i class="fas fa-chevron-right"></i>']
+         
+            })
+        })
+    }
+
+    $('.sliderEdit').on('click', function() {
+        $(this).toggle();
+        $(this).next().show();
+        $(this).siblings('.contentSlider').show();
+    })
+    $('.resizeSlider').on('click', function() {
+        //blockEditorInit($(this).siblings('.owl-carousel')[0],"update",4,null);
+        console.log("test");
+    })
 })

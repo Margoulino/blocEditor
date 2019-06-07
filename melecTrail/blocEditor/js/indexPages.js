@@ -1,19 +1,3 @@
-//Fonction de sérialisation 
-$.fn.serializeObject = function () {
-    var o = {};
-    var a = this.serializeArray();
-    $.each(a, function () {
-        if (o[this.name] !== undefined) {
-            if (!o[this.name].push) {
-                o[this.name] = [o[this.name]];
-            }
-            o[this.name].push(this.value || '');
-        } else {
-            o[this.name] = this.value || '';
-        }
-    });
-    return o;
-};
 $('.addPage').on('click', function () {
     var idcat = $(this).attr('id');
     $('#addPageModal').modal('show');
@@ -21,7 +5,7 @@ $('.addPage').on('click', function () {
 });
 $('#nav-tabContent a').on('click', function () {
     if (confirm('Modifier la page ' + $(this).attr('id') + ' ?')) {
-        window.location.href = "/page/editPage/" + $(this).attr('id');
+        window.location.href = "/page/editionPage/" + $(this).attr('id');
     };
 })
 

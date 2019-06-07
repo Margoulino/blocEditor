@@ -51,7 +51,8 @@ body {
     color: white;
 }
 
-.block-unit, .block-unit-complex{
+.block-unit,
+.block-unit-complex {
     border: 1px dotted #818181;
     padding: 8px;
     margin-bottom: 16px;
@@ -102,7 +103,8 @@ body {
     cursor: pointer;
 }
 
-#col1, #col2 {
+#col1,
+#col2 {
     border: 1px dotted grey;
     height: 200px;
     margin: 0;
@@ -119,6 +121,7 @@ body {
     outline-offset: -2px;
     box-sizing: border-box;
 }
+
 .column {
     outline: 1px dashed rgba(170, 170, 170, 0.7);
     outline-offset: -2px;
@@ -126,4 +129,34 @@ body {
     flex-grow: 1;
     flex-basis: 100%;
     box-sizing: border-box;
+}
+
+.fa-times {
+    color: #eb0000
+}
+
+#pageView {
+    padding: 20px;
+}
+
+.owl-carousel {
+    position: relative;
+    height: auto;
+    width: auto;
+    text-align: center;
+}
+
+.owl-carousel .owl-item a img {
+    display: block;
+    width: 100%;
+    height: 100%;
+}
+
+.owl-carousel .owl-stage {
+    display: flex;
+    align-items: center;
+}
+
+.owl-carousel .owl-item {
+    text-align: center;
 }
