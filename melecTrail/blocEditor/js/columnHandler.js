@@ -29,7 +29,9 @@ function blockEditorInit(targetElement, operation, idBlockType, template) {
                     var result = JSON.parse(xhr.response);
                     columnEdit($(targetElement).parent().parent().attr('id'), $(targetElement).attr('id'), result.id);
                 }
-                location.reload();
+                setTimeout(() => {
+                    location.reload();
+                }, 200);
             }
         };
         if (operation === "save" || operation === "addToCol") {
