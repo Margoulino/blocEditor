@@ -47,7 +47,7 @@ class BlockModel
     {
         $dbConn = DBModel::getConnection();
         $stmt = $dbConn->prepare('
-            SELECT * FROM edit_block WHERE idPage = :idPage
+            SELECT * FROM edit_block WHERE pageId = :idPage
         ');
         $stmt->bindParam(':idPage', $idPage);
         $stmt->execute();

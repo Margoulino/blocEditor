@@ -1,6 +1,7 @@
 <?php
 
 require_once $_SERVER['DOCUMENT_ROOT'] . "/model/DBModel.php";
+require_once $_SERVER['DOCUMENT_ROOT'] . "/blocEditor/model/blockModel.php";
 
 class PageModel
 {
@@ -46,6 +47,10 @@ class PageModel
     public static function delete($id)
     {
         $dbConn = DBModel::getConnection();
+        $blocksToDelete = BlockModel::findByIdPage($id);
+        foreach($blocksToDelete as $block) {
+            $block->delete($block->id);
+        }
         $stmt = $dbConn->prepare('
             DELETE FROM edit_page WHERE id = :id;
         ');
