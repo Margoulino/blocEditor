@@ -4,7 +4,7 @@ $('#2colOption').on('click', function () {
     blockEditorInit(document.querySelector('.interface-block'), "save", 3, template);
 });
 
-$('#3colOption').on('click', function() {
+$('#3colOption').on('click', function () {
     closeNav();
     template = '<div class="row block"><div class="column col" id="1"></div><div class="column col" id="2"></div><div class="column col" id="3"></div></div>';
     blockEditorInit(document.querySelector('.interface-block'), "save", 5, template);
