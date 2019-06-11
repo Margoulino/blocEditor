@@ -4,28 +4,27 @@ var previewDisplay = document.getElementById("previewDisplay");
 //ID de tous les blocs contenus dans des colonnes d'un autre bloc
 var blockNoDisplay = [];
 
-//Parcours de tous les blocs
-for (var i = 0; i < blocks.length; i++) {
-
-    //ID du bloc courrant
-    var idBlock = blocks[i].id;
-
+blocks.forEach(block => {
     var blockUnit = document.createElement("div");
-    blockUnit.setAttribute("id", idBlock);
+    blockUnit.setAttribute("id", block.id);
+    blockUnit.innerHTML = block.content;
+    previewDisplay.appendChild(blockUnit);
+});
 
-    //Si d'id du bloc courrant est dans le tab de ceux qu'on doit pas afficher on l'affiche pas
-    if(blockNoDisplay.includes(blocks[i].id)) {
-        //Affichage bloc 'normal'
-        if (blocks[i].innerBlocks === "") {
-            blockUnit.innerHTML = blocks[i].content;
-            previewDisplay.appendChild(blockUnit);
-        } else {
-            //Recherche des blocs à afficher dans les colonnes
-            blocks.forEach(block => {
-                if(blocks[i].innerBlocks.values().includes(block.id)) {
-                    blockNoDisplay.push(block.id);
-                }
+$(document).ready(function () {
+    blocks.forEach(block => {
+        if(block.innerBlocks != "") {
+            var innerTab = JSON.parse(block.innerBlocks);
+            var cols = document.getElementById(block.id).childNodes[0].childNodes;
+            Object.keys(innerTab).forEach(function (k) {
+                var node = document.getElementById(innerTab[k]);
+                cols.forEach(col => {
+                    if(col.getAttribute('id') == k) {
+                        col.innerHTML = node.innerHTML;
+                    }
+                });
+                node.parentElement.removeChild(node);
             });
         }
-    }
-}
+    });
+});

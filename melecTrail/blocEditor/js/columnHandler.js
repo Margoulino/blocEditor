@@ -102,7 +102,7 @@ function columnEdit(colBlockId, colPosition, toAddId) {
 $(document).ready(function () {
     previousBlocks.forEach(block => {
         if (block.innerBlocks != "") {
-            innerTab = JSON.parse(block.innerBlocks);
+            innerTab = block.innerBlocks;
             Object.keys(innerTab).forEach(function (k) {
                 var node = $('#' + innerTab[k]);
                 var parent = $('#' + block.id + ' .block').children();
