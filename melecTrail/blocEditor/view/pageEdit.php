@@ -55,15 +55,15 @@
             <?php
             if ($blocks != NULL) {
                 foreach ($blocks as $block) {
-                    if($block['idBlockType'] === '1' || $block['idBlockType'] === '2') {
-                        echo '<div id="' . $block['id'] . '" class="block-unit">';
+                    if($block->idBlockType === '1' || $block->idBlockType === '2') {
+                        echo '<div id="' . $block->id . '" class="block-unit">';
                     } else {
-                        echo '<div id="' . $block['id'] . '" class="block-unit-complex">';
+                        echo '<div id="' . $block->id . '" class="block-unit-complex">';
                     }
-                    echo '<div><i id="orderUp' . $block['id'] . '" i class="fas fa-arrow-up"></i>   <i id="orderDown' . $block['id'] . '"class="fas fa-arrow-down"></i><i class="float-right deleteBlock fas fa-times"></i></div>' . $block['content'];
-                    if ($block['idBlockType'] === '2') {
+                    echo '<div><i id="orderUp' . $block->id . '" i class="fas fa-arrow-up"></i>   <i id="orderDown' . $block->id . '"class="fas fa-arrow-down"></i><i class="float-right deleteBlock fas fa-times"></i></div>' . $block->content;
+                    if ($block->idBlockType === '2') {
                         echo '<button class="btn btn-xs btn-info resizebtn">Redimensionner</button>';
-                    } elseif ($block['idBlockType'] === '4' ) {
+                    } elseif ($block->idBlockType === '4' ) {
                         echo '<button class="btn btn-xs btn-info sliderEdit">Modifier</button>
                               <button class="btn btn-xs btn-outline-primary resizeSlider" style="display: none;">Redimensionner</button>
                               <button class="btn btn-xs btn-outline-info contentSlider" style="display: none;">Ajouter/Supprimer une image</button>';

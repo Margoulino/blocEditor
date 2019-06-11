@@ -34,15 +34,15 @@
     <div class="row">
         <div id="previewDisplay" class="col-md-7">
             <?php
-            if ($blocks != NULL) {
+            /*if ($blocks != NULL) {
                 foreach ($blocks as $block) {
                     echo '
-                        <div id="' . $block['id'] . '">
-                            ' . $block['content'] . '
+                        <div id="' . $block->id . '">
+                            ' . $block->content . '
                         </div>
                         ';
                 }
-            }
+            }*/
             ?>
         </div>
         <div class="col-md-4">
@@ -57,7 +57,8 @@
     </div>
     <script>
         var innerBlocks = <?php echo json_encode($innerBlocks); ?>;
-        var blocks = <?php echo json_encode($innerBlocks); ?>;
+        var blocks = <?php echo json_encode($blocks); ?>;
     </script>
+    <script src="/blocEditor/js/previewHandler.js"></script>
 </body>
 </html>

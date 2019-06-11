@@ -140,6 +140,16 @@ class BlockModel
         $stmt->execute();
     }
 
+    public static function deleteByPageID($pageId)
+    {
+        $dbConn = DBModel::getConnection();
+        $stmt = $dbConn->prepare('
+            DELETE FROM edit_block WHERE pageId = :pageId;
+        ');
+        $stmt->bindParam(':id', $id);
+        $stmt->execute();
+    }
+
     public static function getBlocksByPageIdOrderGt($pageId, $orderBlock)
     {
         $dbConn = DBModel::getConnection();

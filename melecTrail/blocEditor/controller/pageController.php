@@ -3,6 +3,7 @@
 require_once $_SERVER['DOCUMENT_ROOT'] . '/blocEditor/model/pageModel.php';
 require_once $_SERVER['DOCUMENT_ROOT'] . '/blocEditor/model/pageCategoryModel.php';
 require_once $_SERVER['DOCUMENT_ROOT'] . '/blocEditor/model/categoryModel.php';
+require_once $_SERVER['DOCUMENT_ROOT'] . '/blocEditor/model/blockModel.php';
 require $_SERVER['DOCUMENT_ROOT'] . '/vendor/autoload.php';
 use \Firebase\JWT\JWT;
 
@@ -90,6 +91,7 @@ class PageController
             $category = CategoryModel::findByname($data->category);
             PageCategoryModel::delete($page[0]->id,$category[0]->id);
             PageModel::delete($page[0]->id);
+            BlockModel::deleteByPageID($page[0]->id);
         } catch (Exception $e) {
             http_response_code(404);
             echo json_encode(array('message'=>'error'.$e));
@@ -104,7 +106,9 @@ class PageController
             if(!empty($page)) {
                 $blocks = PageModel::getAllBlocksByIdPage($page[0]->id);
                 foreach($blocks as $b){
-                    $b['innerBlocks'] = json_decode($b['innerBlocks']);
+                    if($b->innerBlocks != "") {
+                        $b->innerBlocks = json_decode($b->innerBlocks);
+                    }
                 }
                 require($_SERVER['DOCUMENT_ROOT'] . '/blocEditor/view/pageEdit.php');
             } else {
@@ -126,8 +130,8 @@ class PageController
                 $blocks = PageModel::getAllBlocksByIdPage($page[0]->id);
                 $innerBlocks = array();
                 foreach($blocks as $block) {
-                    if($block['innerBlocks'] != '') {
-                        $innerBlocks[$block['id']] = json_decode($block['innerBlocks']);
+                    if($block->innerBlocks != '') {
+                        $innerBlocks[$block->id] = json_decode($block->innerBlocks);
                     }
                 }
                 require($_SERVER['DOCUMENT_ROOT'] . '/blocEditor/view/pagePreview.php');
