@@ -232,7 +232,7 @@ function startCarousel() {
 window.addEventListener('load', function () {
     // Search for carousel divs and initiate them
     if (document.querySelector('.owl-carousel') != null) {
-        startCarousel();
+        setTimeout(function () { startCarousel() }, 200);
     }
     // Show the carousel's edition button 
     $('.sliderEdit').on('click', function () {
