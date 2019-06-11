@@ -67,7 +67,7 @@ class BlockController
             return;
         } else {
             try {
-                if ($blockToDelete[0]->idBlockType == 3 && $blockToDelete[0]->innerBlocks != "") {
+                if (($blockToDelete[0]->idBlockType == 3 || $blockToDelete[0]->idBlockType == 5) && $blockToDelete[0]->innerBlocks != "") {
                     $inner = json_decode($blockToDelete[0]->innerBlocks, true);
                     foreach ($inner as $i) {
                         $this->deleteBlock($i);
