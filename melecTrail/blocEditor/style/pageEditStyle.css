@@ -10,7 +10,7 @@ body {
     top: 0;
     left: 0;
     background-color: rgb(52, 58, 64);
-    
+
     overflow-x: hidden;
     padding-top: 60px;
     transition: 0.2s;
@@ -127,9 +127,19 @@ body {
     outline-offset: -2px;
     min-height: 200px;
     flex-grow: 1;
-    flex-basis: 100%;
+    flex-basis: auto;
+    flex-wrap: nowrap;
     box-sizing: border-box;
-    
+    flex-shrink: 1;
+}
+.column:first-child:nth-last-child(2),
+.column:first-child:nth-last-child(2) ~ .column {
+  min-width: 50%;
+}
+
+.column:first-child:nth-last-child(3),
+.column:first-child:nth-last-child(3) ~ .column {
+  min-width: 33.3333%;
 }
 
 .fa-times {
@@ -144,7 +154,7 @@ body {
     position: relative;
     height: 50%;
     width: 50%;
-
+    margin: 0 auto;
     text-align: center;
     
 }

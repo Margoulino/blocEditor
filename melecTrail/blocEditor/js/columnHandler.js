@@ -16,21 +16,10 @@ function blockEditorInit(targetElement, operation, idBlockType, template) {
     targetElement.innerHTML = template;
     targetElement.firstChild.setAttribute('id', blockId);
     targetElement.innerHTML = targetElement.innerHTML + '<div class="row"><div class="col"><a id="blockSave" class="btn btn-success" href="#">Sauvegarder le bloc</a><a class="btn btn-danger" id="blockDelete" href="#" role="button">Supprimer le bloc</a></div></div>';
-    // if (operation === "resizeSlider") {
-    //     $(targetElement).find('img').resizable();
-    // }
     document.querySelector("#blockSave").addEventListener("click", () => {
-        // if (operation === "resizeSlider") { 
-        //     $(targetElement).find('img').resizable('destroy'); 
-        //     operation = "update"; 
-        //     $(targetElement).find('.owl-carousel').owlCarousel('destroy');
-        //     $(targetElement).find('button').remove();
-        //     $(targetElement).children().first().remove();
-        // }
         console.log(targetElement.innerHTML);
         $(targetElement).find('.row').last().remove();
         var content = targetElement.innerHTML;
-        
         var xhr = new XMLHttpRequest();
         xhr.onreadystatechange = function () {
             // Call a function when the state changes.
