@@ -37,12 +37,14 @@ CREATE TABLE IF NOT EXISTS `edit_block` (
   `orderBlock` int(11) NOT NULL,
   `idBlockType` int(11) NOT NULL,
   `dateCreation` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  `nombreCol` int(11) NOT NULL,
-  `innerBlocks` varchar(100) DEFAULT NULL,
+  `idParent` int(11) NOT NULL,
+  `idChild` int(11) NOT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `id` (`id`),
   KEY `pageId` (`pageId`),
-  KEY `idBlockType` (`idBlockType`)
+  KEY `idBlockType` (`idBlockType`),
+  KEY `idChild` (`idChild`),
+  KEY `idParent` (`idParent`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
@@ -56,7 +58,8 @@ CREATE TABLE IF NOT EXISTS `edit_blocktype` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `name` varchar(100) NOT NULL,
   `templateBlock` longtext NOT NULL,
-  `style` longtext NOT NULL,
+  `js` longtext NULL,
+  `subLevels` int(3) NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `id` (`id`),
   UNIQUE KEY `name` (`name`)
@@ -155,8 +158,14 @@ ALTER TABLE `edit_pagecategory`
 ALTER TABLE `edit_pageuser`
   ADD CONSTRAINT `edit_pageuser_ibfk_1` FOREIGN KEY (`idPage`) REFERENCES `edit_page` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
   ADD CONSTRAINT `edit_pageuser_ibfk_2` FOREIGN KEY (`idUser`) REFERENCES `user` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
-COMMIT;
 
+--
+-- Contraintes pour la table `edit_block`
+--
+ALTER TABLE `edit_block`
+  ADD CONSTRAINT `edit_block_ibfk_1` FOREIGN KEY (`idChild`) REFERENCES `edit_block` (`id`),
+  ADD CONSTRAINT `edit_block_ibfk_2` FOREIGN KEY (`idParent`) REFERENCES `edit_block` (`id`);
+COMMIT;
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
