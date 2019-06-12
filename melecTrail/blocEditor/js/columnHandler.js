@@ -97,8 +97,8 @@ $(document).ready(function () {
             Object.keys(innerTab).forEach(function (k) {
                 var node = $('#' + innerTab[k]);
                 var parent = $('#' + block.id + ' .block').children();
-                if ($(node).children().first().next().prop('tagName') == "A") {
-                    node[0].innerHTML = '<i class="float-right deleteImgFromCol fas fa-times"></i>' + node[0].innerHTML;
+                if ($(node).children().first().next().prop('tagName') == "A" || $(node).children().first().next().hasClass("owl-carousel")) {
+                    node[0].innerHTML = '<i class="float-right deleteFromCol fas fa-times"></i>' + node[0].innerHTML;
                 }
                 $(node).find("div").first().remove();
                 parent[k - 1].innerHTML = node[0].outerHTML;
@@ -106,13 +106,18 @@ $(document).ready(function () {
             });
         }
     })
-    $('.deleteImgFromCol').on('click', function () {
+    $('.deleteFromCol').on('click', function () {
         if (confirm("Confirmer la suppression du bloc ?")) {
+            if ($(this).next().hasClass('owl-carousel')){
+                var idParent = $(this).parent().parent().closest('.block-unit-complex').attr('id');
+            } else {
+                var idParent= $(this).closest('.block-unit-complex').attr('id');
+            }
             $.ajax({
                 url: "/block/deleteFromCol",
                 type: "POST",
                 contentType: 'application/json',
-                data: JSON.stringify({ "idParent": $(this).closest('.block-unit-complex').attr('id'), "idChild": $(this).parent().attr('id') }),
+                data: JSON.stringify({ "idParent": idParent, "idChild": $(this).parent().attr('id')}),
                 success: function (result) {
                     console.log("image supprimée");
                 },

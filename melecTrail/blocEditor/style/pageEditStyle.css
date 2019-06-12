@@ -142,7 +142,8 @@ body {
 }
 
 .fa-times {
-    color: #eb0000
+    color: #eb0000 ;
+    z-index: auto;
 }
 
 #pageView {
@@ -151,11 +152,11 @@ body {
 
 .owl-carousel {
     position: relative;
-    height: 50%;
-    width: 50%;
+    height: 100%;
+    width: 100%;
     margin: 0 auto;
-    text-align: center;
-    
+    text-align: center;   
+    z-index: -1; 
 }
 
 .owl-carousel .owl-item a img {
@@ -184,12 +185,17 @@ body {
 
 a img{
     max-width: 100%;
-    max-height: 100%;
-    width: 100%;
-    height: auto;
-
+    max-height: 100%; 
+    width: 100% ;
 }
 .block-unit a{
     margin: 0 auto;
 }
 
+.lb-nav,.lb-details {
+    display: none !important;
+}
+
+.column > a img {
+    height: auto !important;
+}
