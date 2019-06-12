@@ -1,9 +1,6 @@
 //Div où s'affichent tous les blocs
 var previewDisplay = document.getElementById("previewDisplay");
 
-//ID de tous les blocs contenus dans des colonnes d'un autre bloc
-var blockNoDisplay = [];
-
 //Création d'une div pour chaque block et affichage du block dans la zone de preview
 blocks.forEach(block => {
     var blockUnit = document.createElement("div");
@@ -20,6 +17,7 @@ $(document).ready(function() {
             var innerTab = JSON.parse(block.innerBlocks);
             //Elements HTML colonnes du block courrant
             var cols = document.getElementById(block.id).childNodes[0].childNodes;
+            //Attribution du contenu des blocks dans les colonnes
             Object.keys(innerTab).forEach(function(k) {
                 var node = document.getElementById(innerTab[k]);
                 cols.forEach(col => {
@@ -27,12 +25,16 @@ $(document).ready(function() {
                         col.innerHTML = node.innerHTML;
                     }
                 });
+                //Suppression des elements devant se trouver dans les colonnes qui sont en dehors des colonnes
                 node.parentElement.removeChild(node);
             });
         }
     });
 });
 
+/**
+ * Lancement du défilement du carousel au chargement de la page
+ */
 window.addEventListener("load", function() {
     if (document.querySelector(".owl-carousel") != null) {
         setTimeout(function() {
@@ -51,7 +53,9 @@ window.addEventListener("load", function() {
     });
 });
 
-// Set the basic configuration for the carousel slider
+/**
+ * Fonction de défilement/config du carouel
+ */
 function startCarousel() {
     var slider = document.querySelectorAll(".owl-carousel");
     slider.forEach(carousel => {
