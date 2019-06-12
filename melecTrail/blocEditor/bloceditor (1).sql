@@ -38,12 +38,10 @@ CREATE TABLE IF NOT EXISTS `edit_block` (
   `idBlockType` int(11) NOT NULL,
   `dateCreation` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `idParent` int(11) NOT NULL,
-  `idChild` int(11) NOT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `id` (`id`),
   KEY `pageId` (`pageId`),
   KEY `idBlockType` (`idBlockType`),
-  KEY `idChild` (`idChild`),
   KEY `idParent` (`idParent`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
@@ -163,7 +161,6 @@ ALTER TABLE `edit_pageuser`
 -- Contraintes pour la table `edit_block`
 --
 ALTER TABLE `edit_block`
-  ADD CONSTRAINT `edit_block_ibfk_1` FOREIGN KEY (`idChild`) REFERENCES `edit_block` (`id`),
   ADD CONSTRAINT `edit_block_ibfk_2` FOREIGN KEY (`idParent`) REFERENCES `edit_block` (`id`);
 COMMIT;
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
