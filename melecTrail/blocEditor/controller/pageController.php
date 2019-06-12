@@ -105,6 +105,8 @@ class PageController
             $page = PageModel::findByName($name[0]);
             if(!empty($page)) {
                 $blocks = PageModel::getAllBlocksByIdPage($page[0]->id);
+                $categoriesPage = PageCategoryModel::findByIdPage($page[0]->id);
+                $allCategories = CategoryModel::findAll();
                 foreach($blocks as $b){
                     if($b->innerBlocks != "") {
                         $b->innerBlocks = json_decode($b->innerBlocks);
@@ -119,6 +121,34 @@ class PageController
             http_response_code(404);
             echo json_encode(array('message' => $e->getMessage()));
             require($_SERVER['DOCUMENT_ROOT'] . '/blocEditor/view/pageEdit.php');
+        }
+    }
+
+    public function addCategory()
+    {
+        $this->setHeader();
+        $data = json_decode(file_get_contents("php://input"));
+        try {
+            $pageCat = new PageCategoryModel();
+            if(!empty(PageModel::findById($data->pageId))) {
+                $pageCat->idPage = $data->pageId;
+                if(!empty(CategoryModel::findById($data->categoryId))) {
+                    $pageCat->idCategory = $data->categoryId;
+                    if(PageCategoryModel::save($pageCat)) {
+                        http_response_code(200);
+                        echo json_encode(array("message" => "new category added"));
+                    } else {
+                        throw new Exception("Error while saving the category");
+                    }
+                } else {
+                    throw new Exception("Error category does not exists");
+                }
+            } else {
+                throw new Exception("Error page does not exists");
+            }
+        } catch(Exception $e) {
+            http_response_code(404);
+            echo json_encode(array('message' => $e->getMessage()));
         }
     }
 

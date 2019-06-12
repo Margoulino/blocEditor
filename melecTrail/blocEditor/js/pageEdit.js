@@ -336,6 +336,59 @@ function insertAfter(newNode, referenceNode) {
     referenceNode.parentNode.insertBefore(newNode, referenceNode.nextSibling);
 }
 
+document.querySelector(".addCategPage").addEventListener("click", function(event) {
+    var btn = event.target;
+    addBtnToCategSelect(btn);
+});
 
+/**
+ * Fonction ajout de catégories à une page
+ */
+function addBtnToCategSelect(element) {
+    var btnAddCateg = element;
+    var categContainer = element.parentElement;
+    var categSel = document.createElement("select");
+    categSel.setAttribute("class", "custom-select addCategSel");
+    categSel.style.width = "auto";
+    var idCategToDisplay = definedCategories.map(function(defCateg){ return defCateg.id;});
+    
+    definedCategories.forEach(categ => {
+        var opt = document.createElement("option");
+        opt.setAttribute("value", categ.id);
+        var textOpt = document.createElement("textnode");
+        textOpt.innerHTML = categ.name;
+        opt.appendChild(textOpt);
+        opt.addEventListener("click", function(event){
+            var optionClicked = event.target;
+            if(confirm("Voulez vous vraiment ajouter cette catégorie ?")) {
+                saveNewCateg(optionClicked, pageId);
+            }
+        });
+        categSel.appendChild(opt);
+    });
 
+    //Dernière option permettant d'enregistrer une nouvelle catégorie
+    /*var optNewCateg = document.createElement("option");
+    optNewCateg.appendChild(document.createTextNode('Nouvelle catégorie'));
+    categSel.appendChild(optNewCateg);*/
 
+    categContainer.removeChild(btnAddCateg);
+    categContainer.appendChild(categSel);
+}
+
+function saveNewCateg(selectedOption, pageId) {
+    var xhr = new XMLHttpRequest();
+    xhr.onreadystatechange = function () {
+        if (this.readyState === XMLHttpRequest.DONE && this.status === 200) {
+            location.reload();
+        }
+    }
+    xhr.open("POST", "/page/addCategory", true);
+    xhr.setRequestHeader("Content-type", "application/json");
+    xhr.send(
+        JSON.stringify({
+            pageId: pageId,
+            categoryId: selectedOption.value
+        })
+    )
+}
