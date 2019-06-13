@@ -146,7 +146,9 @@ body {
     z-index: 5;
     position: relative;
 }
-
+.fa-times-circle {
+    color: #eb0000 ;
+}
 #pageView {
     padding: 20px;
 }

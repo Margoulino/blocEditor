@@ -40,6 +40,7 @@
                     ?>
                 </div>
             </div>
+            <!-- <i class="float-right fa-lg fas fa-times-circle"></i> -->
             <div class="col-8">
                 <div class="tab-content" id="nav-tabContent">
                     <?php

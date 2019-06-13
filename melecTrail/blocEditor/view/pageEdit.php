@@ -78,10 +78,8 @@
                     echo '<div><i id="orderUp' . $block->id . '" i class="fas fa-arrow-up"></i>   <i id="orderDown' . $block->id . '"class="fas fa-arrow-down"></i><i class="float-right deleteBlock fas fa-times"></i></div>' . $block->content;
                     if ($block->idBlockType === '2') {
                         echo '<button class="btn btn-xs btn-info resizebtn">Redimensionner</button>';
-                    } elseif ($block->idBlockType === '4') {
-                        echo '<button class="btn btn-xs btn-info sliderEdit">Modifier</button>
-                              <!-- <button class="btn btn-xs btn-outline-primary resizeSlider" style="display: none;">Redimensionner</button> -->
-                              <button class="btn btn-xs btn-outline-info contentSlider" >Ajouter/Supprimer une image</button>';
+                    } elseif ($block->idBlockType === '4' ) {
+                        echo '<button class="btn btn-xs btn-outline-info contentSlider">Ajouter/Supprimer une image</button>';
                     }
                     echo '</div>';
                 }

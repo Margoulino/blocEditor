@@ -10,16 +10,17 @@ class UserModel
     public $username;
     public $password;
     public $email;
+    public $role;
 
 
     public function __construct($data = null)
     {
         if (is_array($data)) {
             if (isset($data['id'])) $this->id = $data['id'];
-
             $this->username = $data['username'];
             $this->password = $data['password'];
             $this->email = $data['email'];
+            $this->role = $data['role'];
         }
     }
     /** 
@@ -41,6 +42,15 @@ class UserModel
         return $stmt->fetch();
     }
 
+    public static function findAll()
+    {
+        $dbConn = DBModel::getConnection();
+        $stmt = $dbConn->prepare('
+            SELECT * FROM user');
+        $stmt->execute();
+        $stmt->setFetchMode(PDO::FETCH_CLASS, 'User');
+        return $stmt->fetch();
+    }
     /** 
      * Save function :
      * Creates and saves a user in the database
@@ -55,13 +65,14 @@ class UserModel
         $dbConn = DBModel::getConnection();
         $stmt = $dbConn->prepare('
             INSERT INTO user
-                (username, password, email) 
+                (username, password, email, role) 
             VALUES 
-                (:username, :password, :email)
+                (:username, :password, :email, :role)
         ');
         $stmt->bindParam(':username', $user->username);
         $stmt->bindParam(':password', $hashPassword);
         $stmt->bindParam(':email', $user->email);
+        $stmt->bindParam(':role', $user->role);
         return $stmt->execute();
     }
 
