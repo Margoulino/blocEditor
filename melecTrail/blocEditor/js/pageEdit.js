@@ -56,7 +56,7 @@ function loadBlockType() {
             if(b.idBlockType === types[k].id){
                 
             }
-        };
+        });
         xhr.open("POST", "/block/updateBlock", true);
         xhr.setRequestHeader("Content-type", "application/json");
         xhr.send(
@@ -71,7 +71,7 @@ function loadBlockType() {
                 innerBlocks: blockToMovePrev.innerBlocks
             })
         );
-    }
+    })
 }
 
 function moveBlockUp(event) {
@@ -203,6 +203,7 @@ function addBtnToCategSelect(element) {
 
     categContainer.removeChild(btnAddCateg);
     categContainer.appendChild(categSel);
+
 }
 
 function saveNewCategSelect(selectedOption, pageId) {
