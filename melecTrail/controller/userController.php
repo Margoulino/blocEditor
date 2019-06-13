@@ -22,6 +22,7 @@ class UserController
         $user->username = $data->username;
         $user->email = $data->email;
         $user->password = $data->password;
+        $user->role = "USER";
         UserModel::save($user);
         http_response_code(200);
         echo json_encode(array(
@@ -53,12 +54,17 @@ class UserController
 
                 $jwt = JWT::encode($token, "63-trUY^f4ER");
 
-                echo json_encode(
-                    array(
-                        "message" => "Successful login.",
-                        "jwt" => $jwt
-                    )
-                );
+                if ($user->role === "ADMIN") { 
+                    $users = UserModel::findAll();
+                    require(__DIR__."/../view/user/listUsers.php");
+                } else {
+                    echo json_encode(
+                        array(
+                            "message" => "Successful login.",
+                            "jwt" => $jwt
+                        )
+                    );
+                }
             } else {
                 http_response_code(401);
                 echo json_encode(array("message" => "Login failed."));
@@ -98,7 +104,7 @@ class UserController
         } else {
             $userdb->update($userdb->password);
         }
-        
+
         http_response_code(200);
         echo json_encode(array("message" => "user successfully updated"));
     }
