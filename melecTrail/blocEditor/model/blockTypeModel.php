@@ -7,7 +7,8 @@ class BlockTypeModel
     public $id;
     public $name;
     public $templateBlock;
-    public $style;
+    public $js;
+    public $subLevels;
 
     public function __construct($data = null)
     {
@@ -15,11 +16,12 @@ class BlockTypeModel
             if (isset($data['id'])) $this->id = $data['id'];
             $this->name = $data['name'];
             $this->templateBlock = $data['templateBlock'];
-            $this->style = $data['style'];
+            $this->js = $data['js'];
+            $this->subLevels = $data['subLevels'];
         }
     }
 
-    /** 
+    /**
      * Find all function :
      * Selects all the existing categories
      * 
@@ -35,7 +37,8 @@ class BlockTypeModel
         return $stmt->fetchAll();
     }
 
-    public static function findByName($name){
+    public static function findByName($name)
+    {
         $dbConn = DBModel::getConnection();
         $stmt = $dbConn->prepare('
             SELECT * 
@@ -48,7 +51,8 @@ class BlockTypeModel
         return $stmt->fetchAll();
     }
 
-    public static function findById($id) {
+    public static function findById($id)
+    {
         $dbConn = DBModel::getConnection();
         $stmt = $dbConn->prepare('
             SELECT *

@@ -18,7 +18,7 @@ class BlockTypeController
         http_response_code(200);
         echo json_encode(array("message" => "BlockType successfully loaded",
                             "html"=> $type[0]->templateBlock,
-                            "css" => $type[0]->style));
+                            "css" => $type[0]->js));
 
     }
 }

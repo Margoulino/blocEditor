@@ -34,10 +34,9 @@ class BlockController
         $block->pageId = $data->pageId;
         $block->orderBlock = $data->orderBlock;
         $block->idBlockType = $data->idBlockType;
-        $block->nombreCol = $data->nombreCol;
-        $block->innerBlocks = $data->innerBlocks;
+        $block->styleBlock = $data->styleBlock;
         $targetPage = PageModel::findById($data->pageId);
-        if (!empty($targetPage) == 0) {
+        if (!empty($targetPage)) {
             http_response_code(404);
             echo json_encode(array("message" => "The page you are trying to add a block on does not exists. Block not added to base."));
         } else {
@@ -51,42 +50,72 @@ class BlockController
         }
     }
 
-    /**
-     * Removes a block from db/page
-     */
-    public function deleteBlock($subId = null)
+    public function addBlockToBlock()
     {
-        if ($subId == null) {
-            $data = json_decode(file_get_contents("php://input"));
-            $subId = $data->id;
+        $this->setHeader();
+        $data = json_decode(file_get_contents("php://input"));
+        $block = new BlockModel();
+        $block->name = $data->name;
+        $block->content = $data->content;
+        $block->pageId = $data->pageId;
+        $block->orderBlock = $data->orderBlock;
+        $block->idBlockType = $data->idBlockType;
+        $block->idParent = $data->idParent;
+        $block->idColumn = $data->idColumn;
+        $block->styleBlock = $data->styleBlock;
+        $targetBlock = BlockModel::findById($data->idParent);
+        if(!empty($targetBlock)) {
+            $targetPage = PageModel::findById($data->pageId);
+            if(!empty($targetPage)) {
+                BlockModel::saveIntoBlock($block);
+                http_response_code(200);
+                echo json_encode(array(
+                    "message" => "Block successfully added to base"
+                ));
+            } else {
+                http_response_code(404);
+                echo json_encode(array(
+                    "message" => "The page you are trying to add a block on does not exists"
+                ));
+            }
+        } else {
+            http_response_code(404);
+            echo json_encode(array(
+                "message" => "The block you are trying to add a block in does not exists"
+            ));
         }
-        $blockToDelete = BlockModel::findById($subId);
+    }
+
+    /**
+     * Removes a block from db/page and his children if there are some
+     */
+    public function delete($id = null)
+    {
+        if($id == null) {
+            $data = json_decode(file_get_contents("php://input"));
+            $id = $data->id;
+        }
+        $blockToDelete = BlockModel::findById($id);
         if (count($blockToDelete) == 0) {
             http_response_code(404);
-            echo json_encode(array("message" => "Block not found, can't be deleted."));
+            echo json_encode(array("message" => "Block not found, can't be deleted"));
             return;
         } else {
             try {
-                if (($blockToDelete[0]->idBlockType == 3 || $blockToDelete[0]->idBlockType == 5) && $blockToDelete[0]->innerBlocks != "") {
-                    $inner = json_decode($blockToDelete[0]->innerBlocks, true);
-                    foreach ($inner as $i) {
-                        $this->deleteBlock($i);
-                    }
-                }
-                BlockModel::delete($subId);
-                $nextBlocks = BlockModel::getBlocksByPageIdOrderGt($blockToDelete[0]->pageId, $blockToDelete[0]->orderBlock);
-                if (count($nextBlocks) > 0) {
-                    foreach ($nextBlocks as $nextBlock) {
-                        $nextBlock->orderBlock = $nextBlock->orderBlock - 1;
-                        $nextBlock->update();
-                    }
+                $childrenBlock = BlockModel::findChildren($id);
+                if (count($childrenBlock) != 0) {
+                    BlockModel::deleteBlockAndChildren($id);
+                    http_response_code(200);
+                    echo json_encode(array("message" => "Block and children block associated successfully deleted"));
+                } else {
+                    BlockModel::delete($id);
+                    http_response_code(200);
+                    echo json_encode(array("message" => "Block successfully deleted"));
                 }
             } catch (Exception $e) {
                 http_response_code(404);
                 echo json_encode(array("message" => "an error occured."));
             }
-            http_response_code(200);
-            echo json_encode(array("message" => "Block deleted succesfully"));
         }
     }
 
@@ -109,8 +138,9 @@ class BlockController
             $block->pageId = $data->pageId;
             $block->orderBlock = $data->orderBlock;
             $block->idBlockType = $data->idBlockType;
-            $block->nombreCol = $data->nombreCol;
-            $block->innerBlocks = $data->innerBlocks;
+            $block->idParent = $data->idParent;
+            $block->idColumn = $data->idColumn;
+            $block->styleBlock = $data->styleBlock;
             $targetPage = PageModel::findByid($data->pageId);
             if (empty($targetPage)) {
                 http_response_code(404);
