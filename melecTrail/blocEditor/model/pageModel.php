@@ -177,8 +177,9 @@ class PageModel
                    edit_block.orderBlock,
                    edit_block.idBlockType,
                    edit_block.dateCreation,
-                   edit_block.nombreCol,
-                   edit_block.innerBlocks
+                   edit_block.idParent,
+                   edit_block.idColumn,
+                   edit_block.styleblock
             FROM edit_page INNER JOIN 
             edit_block on edit_page.id = edit_block.pageId
             WHERE edit_block.pageId = :pageId
