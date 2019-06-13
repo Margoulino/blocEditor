@@ -11,8 +11,9 @@ class BlockModel
     public $orderBlock;
     public $idBlockType;
     public $dateCreation;
-    public $nombreCol;
-    public $innerBlocks;
+    public $idParent;
+    public $idColumn;
+    public $styleBlock;
 
     public function __construct($data = null)
     {
@@ -25,8 +26,9 @@ class BlockModel
                 $this->orderBlock = $data['orderBlock'];
                 $this->idBlockType = $data['idBlockType'];
                 $this->dateCreation = $data['dateCreation'];
-                $this->nombreCol = $data['nombreCol'];
-                $this->innerBlocks = $data['innerBlocks'];
+                $this->idParent = $data['idParent'];
+                $this->idColumn = $data['idColumn'];
+                $this->styleBlock = $data['styleBlock'];
             }
         }
     }
@@ -80,17 +82,41 @@ class BlockModel
         $dbConn = DBModel::getConnection();
         $stmt = $dbConn->prepare('
             INSERT INTO edit_block 
-                (name, content, pageId, orderBlock, idBlockType, nombreCol, innerBlocks) 
+                (name, content, pageId, orderBlock, idBlockType) 
             VALUES 
-                (:name, :content, :pageId, :orderBlock, :idBlockType, :nombreCol, :innerBlocks)
+                (:name, :content, :pageId, :orderBlock, :idBlockType)
         ');
         $stmt->bindParam(':name', $block->name);
         $stmt->bindParam(':content', $block->content);
         $stmt->bindParam(':pageId', $block->pageId);
         $stmt->bindParam(':orderBlock', $block->orderBlock);
         $stmt->bindParam(':idBlockType', $block->idBlockType);
-        $stmt->bindParam(':nombreCol', $block->nombreCol);
-        $stmt->bindParam(':innerBlocks', $block->innerBlocks);
+        return $stmt->execute();
+    }
+
+    /**
+     * Saves a block into another block
+     */
+    public static function saveIntoBlock(\BlockModel $block)
+    {
+        if (isset($block->id)) {
+            return update($block);
+        }
+        $dbConn = DBModel::getConnection();
+        $stmt = $dbConn->prepare('
+        INSERT INTO edit_block 
+            (name, content, pageId, orderBlock, idBlockType, idParent, idColumn, styleBlock) 
+        VALUES 
+            (:name, :content, :pageId, :orderBlock, :idBlockType, :idParent, :idColumn, :styleBlock)
+        ');
+        $stmt->bindParam(':name', $block->name);
+        $stmt->bindParam(':content', $block->content);
+        $stmt->bindParam(':pageId', $block->pageId);
+        $stmt->bindParam(':orderBlock', $block->orderBlock);
+        $stmt->bindParam(':idBlockType', $block->idBlockType);
+        $stmt->bindParam(':idParent', $block->idParent);
+        $stmt->bindParam(':idColumn', $block->idColumn);
+        $stmt->bindParam(':styleBlock', $block->styleBlock);
         return $stmt->execute();
     }
 
@@ -110,8 +136,6 @@ class BlockModel
              `pageId`         = :pageId,
              `orderBlock`     = :orderBlock,
              `idBlockType`    = :idBlockType,
-             `nombreCol`      = :nombreCol,
-             `innerBlocks`    = :innerBlocks
          WHERE `id` = :id'
         );
         $stmt->bindParam(':name', $this->name);
@@ -119,8 +143,6 @@ class BlockModel
         $stmt->bindParam(':pageId', $this->pageId);
         $stmt->bindParam(':orderBlock', $this->orderBlock);
         $stmt->bindParam(':idBlockType', $this->idBlockType);
-        $stmt->bindParam(':nombreCol', $this->nombreCol);
-        $stmt->bindParam(':innerBlocks', $this->innerBlocks);
         $stmt->bindParam(':id', $this->id);
         return $stmt->execute();
     }
@@ -137,9 +159,25 @@ class BlockModel
             DELETE FROM edit_block WHERE id = :id;
         ');
         $stmt->bindParam(':id', $id);
-        $stmt->execute();
+        return $stmt->execute();
     }
 
+    /**
+     * Delete a specific block and all his children
+     */
+    public static function deleteBlockAndChildren($id)
+    {
+        $dbConn = DBModel::getConnection();
+        $stmt = $dbConn->prepare('
+            DELETE FROM edit_block WHERE id = :id AND idParent = :id;
+        ');
+        $stmt->bindParam(':id', $id);
+        return $stmt->execute();
+    }
+
+    /**
+     * Deletes all blocks associated with a specific page
+     */
     public static function deleteByPageID($pageId)
     {
         $dbConn = DBModel::getConnection();
@@ -147,7 +185,19 @@ class BlockModel
             DELETE FROM edit_block WHERE pageId = :pageId;
         ');
         $stmt->bindParam(':id', $id);
+        return $stmt->execute();
+    }
+
+    public static function findChildren($id)
+    {
+        $dbConn = DBModel::getConnection();
+        $stmt = $dbConn->prepare('
+            SELECT * FROM edit_block WHERE idParent = :id;
+        ');
+        $stmt->bindParam(':id', $id);
         $stmt->execute();
+        $stmt->setFetchMode(PDO::FETCH_CLASS, 'BlockModel');
+        return $stmt->fetchAll();
     }
 
     public static function getBlocksByPageIdOrderGt($pageId, $orderBlock)

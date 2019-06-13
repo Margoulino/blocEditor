@@ -58,7 +58,7 @@
                 foreach($categoriesPage as $categPage) {
                     foreach($allCategories as $definedCateg) {
                         if($categPage->idCategory == $definedCateg->id) {
-                            echo '<a class="btn btn-success categPage" href="#">' . $definedCateg->name . '</a>';
+                            echo '<a class="btn btn-success categPage" href="#">' . $definedCateg->name . '<span class="badge badge-danger"> <i class="fas fa-times" style="color:white;"></i></span></a>';
                         }
                     }
                 }
@@ -81,7 +81,7 @@
                     } elseif ($block->idBlockType === '4') {
                         echo '<button class="btn btn-xs btn-info sliderEdit">Modifier</button>
                               <!-- <button class="btn btn-xs btn-outline-primary resizeSlider" style="display: none;">Redimensionner</button> -->
-                              <button class="btn btn-xs btn-outline-info contentSlider" style="display: none;">Ajouter/Supprimer une image</button>';
+                              <button class="btn btn-xs btn-outline-info contentSlider" >Ajouter/Supprimer une image</button>';
                     }
                     echo '</div>';
                 }
@@ -144,6 +144,26 @@
                         <button id="textBlock" class="col btn btn-info menuOptions"><i class="fas fa-align-left fa-5x"></i></button>
                         <button id="imgBlock" class="col btn btn-info menuOptions"><i class="fas fa-image fa-5x"></i></button>
                         <button id="carouselBlock" class="col btn btn-info menuOptions"><i class="fas fa-5x fa-images"></i></button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" tabindex="-1" role="dialog" id="newCategoryModal">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Création d'une catégorie pour la page</h5>
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                </div>
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col">
+                            <input class="form-control" type="text" placeholder="Nom de la nouvelle catégorie">
+                            <br />
+                            <button type='submit' class='btn btn-primary' id="saveNewCategory">Enregistrer</button>
+                        </div>
                     </div>
                 </div>
             </div>

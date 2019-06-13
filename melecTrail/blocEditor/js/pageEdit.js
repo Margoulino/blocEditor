@@ -342,7 +342,7 @@ document.querySelector(".addCategPage").addEventListener("click", function(event
 });
 
 /**
- * Fonction ajout de catégories à une page
+ * ---------------Fonction ajout de catégories à une page---------------
  */
 function addBtnToCategSelect(element) {
     var btnAddCateg = element;
@@ -350,8 +350,6 @@ function addBtnToCategSelect(element) {
     var categSel = document.createElement("select");
     categSel.setAttribute("class", "custom-select addCategSel");
     categSel.style.width = "auto";
-    var idCategToDisplay = definedCategories.map(function(defCateg){ return defCateg.id;});
-    
     definedCategories.forEach(categ => {
         var opt = document.createElement("option");
         opt.setAttribute("value", categ.id);
@@ -361,22 +359,24 @@ function addBtnToCategSelect(element) {
         opt.addEventListener("click", function(event){
             var optionClicked = event.target;
             if(confirm("Voulez vous vraiment ajouter cette catégorie ?")) {
-                saveNewCateg(optionClicked, pageId);
+                saveNewCategSelect(optionClicked, pageId);
             }
         });
         categSel.appendChild(opt);
     });
 
     //Dernière option permettant d'enregistrer une nouvelle catégorie
-    /*var optNewCateg = document.createElement("option");
+    var optNewCateg = document.createElement("option");
     optNewCateg.appendChild(document.createTextNode('Nouvelle catégorie'));
-    categSel.appendChild(optNewCateg);*/
+    optNewCateg.setAttribute("data-toggle", "modal");
+    optNewCateg.setAttribute("data-target", "#newCategoryModal");
+    categSel.appendChild(optNewCateg);
 
     categContainer.removeChild(btnAddCateg);
     categContainer.appendChild(categSel);
 }
 
-function saveNewCateg(selectedOption, pageId) {
+function saveNewCategSelect(selectedOption, pageId) {
     var xhr = new XMLHttpRequest();
     xhr.onreadystatechange = function () {
         if (this.readyState === XMLHttpRequest.DONE && this.status === 200) {
@@ -391,4 +391,13 @@ function saveNewCateg(selectedOption, pageId) {
             categoryId: selectedOption.value
         })
     )
+}
+
+function createNewCategory() {
+    var xhr = new XMLHttpRequest();
+    xhr.onreadystatechange = function () {
+        if (this.readyState === XMLHttpRequest.DONE && this.status === 200) {
+            location.reload();
+        }
+    }
 }
