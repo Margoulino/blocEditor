@@ -46,10 +46,11 @@ class UserModel
     {
         $dbConn = DBModel::getConnection();
         $stmt = $dbConn->prepare('
-            SELECT * FROM user');
+            SELECT * FROM user
+        ');
         $stmt->execute();
         $stmt->setFetchMode(PDO::FETCH_CLASS, 'User');
-        return $stmt->fetch();
+        return $stmt->fetchAll();
     }
     /** 
      * Save function :

@@ -2,6 +2,7 @@
 
 
 require_once $_SERVER['DOCUMENT_ROOT'] . '/model/joggingModel.php';
+require_once $_SERVER['DOCUMENT_ROOT'] . '/model/UserModel.php';
 require $_SERVER['DOCUMENT_ROOT'] . '/vendor/autoload.php';
 use \Firebase\JWT\JWT;
 
@@ -46,6 +47,29 @@ class JoggingController
         array_push($joggers, $jogging->creator);
         $jogging->attendees = implode("", $joggers);
         JoggingModel::save($jogging);
+        $users = UserModel::findAll();
+        try {
+            $mail = new PHPMailer(true);
+            $mail->IsSMTP();
+            $mail->SMTPDebug = 0;
+            $mail->SMTPAuth = true;
+            $mail->SMTPSecure = 'ssl';
+            $mail->Host = 'smtp.gmail.com';
+            $mail->Port = 465;
+            $mail->Username = "melectrail@gmail.com";
+            $mail->Password = "3sJbY:5!P";
+            $mail->SetFrom("melectrail@gmail.com", "Melec Trail");
+            $mail->Subject = "Inscription courir à Plumelec";
+            $mail->Body = "Bonjour,
+                        Email : " . $to . "
+                        Code : " ;
+            $mail->AddAddress($to);
+            $mail->send();
+        } catch (Exception $e) {
+            http_response_code(404);
+            echo json_encode(array("message" => $e));
+            return;
+        }
         http_response_code(200);
         echo json_encode(array("message" => "Jogging successfully created."));
     }
