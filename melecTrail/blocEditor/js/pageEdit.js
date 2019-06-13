@@ -341,7 +341,7 @@ document.querySelector(".addCategPage").addEventListener("click", function(event
     addBtnToCategSelect(btn);
 });
 
-/**
+/** 
  * ---------------Fonction ajout de catégories à une page---------------
  */
 function addBtnToCategSelect(element) {
