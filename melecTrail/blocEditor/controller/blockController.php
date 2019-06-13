@@ -36,7 +36,7 @@ class BlockController
         $block->idBlockType = $data->idBlockType;
         $block->styleBlock = $data->styleBlock;
         $targetPage = PageModel::findById($data->pageId);
-        if (!empty($targetPage)) {
+        if (empty($targetPage)) {
             http_response_code(404);
             echo json_encode(array("message" => "The page you are trying to add a block on does not exists. Block not added to base."));
         } else {
@@ -89,7 +89,7 @@ class BlockController
     /**
      * Removes a block from db/page and his children if there are some
      */
-    public function delete($id = null)
+    public function deleteBlock($id = null)
     {
         if($id == null) {
             $data = json_decode(file_get_contents("php://input"));
