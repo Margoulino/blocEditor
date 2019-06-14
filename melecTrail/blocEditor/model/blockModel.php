@@ -135,7 +135,7 @@ class BlockModel
              `content`        = :content,
              `pageId`         = :pageId,
              `orderBlock`     = :orderBlock,
-             `idBlockType`    = :idBlockType,
+             `idBlockType`    = :idBlockType
          WHERE `id` = :id'
         );
         $stmt->bindParam(':name', $this->name);
