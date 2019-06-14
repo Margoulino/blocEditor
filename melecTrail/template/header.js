@@ -103,7 +103,6 @@ $(document).on('submit', '#signup_form', function () {
         contentType: 'application/json',
         data: form_data,
         success: function (result) {
-            $("#sign_up").hide();
             $("#signupModal").modal('toggle');
             $("#loginModal").modal('show');
             $('#responseModal').html("<div class='alert alert-success'>Inscription réussie, veuillez vous connecter</div>");
@@ -174,4 +173,5 @@ function logoutDisplay()
     $("#sign_up").show();
     $("#navbarDropdownList").hide();
     $("#myjogs").hide();
+    $('#manageUsers').hide();
 }

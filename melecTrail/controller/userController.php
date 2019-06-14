@@ -36,8 +36,10 @@ class UserController
                 $user->email = $data->email;
                 $user->password = $data->password;
                 $user->role = "USER";
-                if($data->alertnews) {
-                    $user->alert=1;
+                if (isset($data->alertnews)) {
+                    $user->alert = true;
+                } else {
+                    $user->alert = 0;
                 }
                 UserModel::save($user);
             } catch (Exception $e) {
@@ -51,8 +53,7 @@ class UserController
             ));
         } else {
             http_response_code(401);
-            echo json_encode(array("message" => "error while decoding code",
-                                    "failed" => $code2check));
+            echo json_encode(array("message" => "error while decoding code"));
             return;
         }
     }
@@ -131,6 +132,11 @@ class UserController
             return;
         }
         $userdb = UserModel::findByUsername($username);
+        if (isset($data->alertnews)) {
+            $userdb->alert = true;
+        } else {
+            $userdb->alert = 0;
+        }
         if ($data->email != "") {
             $userdb->email = $data->email;
         }

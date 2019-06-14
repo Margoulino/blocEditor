@@ -31,10 +31,8 @@
           <tbody>
               <?php
                 foreach($users as $user){
-                    echo '<tr><td scope="row">'.$user['username'].'</td><td scope="row">'.$user['email'].'</td>';
-                    echo '<td class="text-center"><a title="Supprimer l\'utilisateur" class="fa fa-times text-danger ml-1" ng-click="deleteUser(value.id)"></a>
-                    <a title="Changer le mot de passe de l\'utilisateur" class="fa fa-lock text-warning ml-1" ng-click="changePassword(value.id)"></a>
-                  </td></tr>';
+                    echo '<tr><td scope="row">'.$user['username'].'</td><td scope="row">'.$user['email'].'</td></tr>';
+                
                 }
               ?>
           </tbody>
@@ -55,7 +53,8 @@
                         <label for="username">Entrez l'email du nouvel utilisateur</label>
                         <input type="email" class="form-control" name="email" id="email" required />
                     </div>
-                    <span>L'utilisateur recevra sur sa boîte mail un code qu'il devra rentrer pour confirmer son inscription</span>
+                    <span style="color: #a29c9c;">L'utilisateur recevra sur sa boîte mail un code qu'il devra rentrer pour confirmer son inscription</span>
+                    <br />
                     <br />
                     <button type='submit' class='btn btn-primary'>Envoyer le mail d'inscription</button>
                 </form>

@@ -86,9 +86,8 @@
                         <input type="text" class="form-control" name="code" id="code" required />
                     </div>
                     <div class="form-group">
-                        
+                        <input type="checkbox"  id="alertnews" name="alertnews">
                         <label for="alertnews">Être alerté lorsqu'une sortie est publiée.</label>
-                        <input type="checkbox" class="form-control" id="alertnews" name="alertnews">
                     </div>
                     <button type='submit' class='btn btn-primary'>S'inscrire</button>
                 </form>

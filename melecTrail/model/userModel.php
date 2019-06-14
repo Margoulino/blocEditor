@@ -11,6 +11,7 @@ class UserModel
     public $password;
     public $email;
     public $role;
+    public $alert;
 
 
     public function __construct($data = null)
@@ -21,6 +22,7 @@ class UserModel
             $this->password = $data['password'];
             $this->email = $data['email'];
             $this->role = $data['role'];
+            $this->alert = $data['alert'];
         }
     }
     /** 
@@ -66,14 +68,15 @@ class UserModel
         $dbConn = DBModel::getConnection();
         $stmt = $dbConn->prepare('
             INSERT INTO user
-                (username, password, email, role) 
+                (username, password, email, role, alert) 
             VALUES 
-                (:username, :password, :email, :role)
+                (:username, :password, :email, :role, :alert)
         ');
         $stmt->bindParam(':username', $user->username);
         $stmt->bindParam(':password', $hashPassword);
         $stmt->bindParam(':email', $user->email);
         $stmt->bindParam(':role', $user->role);
+        $stmt->bindParam(':alert', $user->alert);
         return $stmt->execute();
     }
 
@@ -92,12 +95,14 @@ class UserModel
         UPDATE `user`
          SET `username` = :username,
              `email`    = :email,
-             `password` = :password
+             `password` = :password,
+             `alert`    = :alert
          WHERE `id` = :id'
         );
         $stmt->bindParam(':id', $this->id);
         $stmt->bindParam(':username', $this->username);
         $stmt->bindParam(':email', $this->email);
+        $stmt->bindParam(':alert', $this->alert);
         if (!$hashPassword) {
             $hashPassword = password_hash($this->password, PASSWORD_BCRYPT, ['cost' => 15]);
         }
