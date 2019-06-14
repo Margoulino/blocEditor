@@ -165,6 +165,12 @@ class UserController
         ));
     }
 
+    function encryptEmailAES($email){
+        $key = hash('sha256', ",92Uh|");
+        $iv = substr(hash('sha256', "xf"), 0, 16);
+        $code = openssl_encrypt($email, "AES-256-CBC", $key, 0, $iv);
+        return $code;
+    }
     function addUserAdmin()
     {
         $this->setHeader();
@@ -179,9 +185,7 @@ class UserController
         $user = UserModel::findByUsername($username);
         if ($user->role === "ADMIN") {
             try {
-                $key = hash('sha256', ",92Uh|");
-                $iv = substr(hash('sha256', "xf"), 0, 16);
-                $code = openssl_encrypt($data->email, "AES-256-CBC", $key, 0, $iv);
+                $code = $this->encryptEmailAES($data->email);
                 $to = $data->email;
                 $mail = new PHPMailer(true);
                 $mail->IsSMTP();
