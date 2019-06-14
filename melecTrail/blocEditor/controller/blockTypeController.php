@@ -7,18 +7,19 @@ require $_SERVER['DOCUMENT_ROOT'] . '/vendor/autoload.php';
 
 class BlockTypeController
 {
-    function loadTemplate(){
+    function loadTemplate()
+    {
         $data = json_decode(file_get_contents("php://input"));
         try {
-        $type = BlockTypeModel::findByName($data->name);
+            $type = BlockTypeModel::findById($data->id);
         } catch (Exception $e) {
             http_response_code(404);
             echo json_encode(array("message" => $e));
         }
         http_response_code(200);
-        echo json_encode(array("message" => "BlockType successfully loaded",
-                            "html"=> $type[0]->templateBlock,
-                            "css" => $type[0]->js));
-
+        echo json_encode(array(
+            "html" => $type[0]->templateBlock,
+            "js" => $type[0]->js
+        ));
     }
 }

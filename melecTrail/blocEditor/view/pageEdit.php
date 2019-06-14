@@ -189,6 +189,7 @@
     <script src="/blocEditor/js/pageEdit.js"></script>
     <script src="/blocEditor/js/imageHandler.js"></script>
     <script src="/blocEditor/js/columnHandler.js"></script>
+    <script src="/blocEditor/js/pageEditNew.js"></script>
 </body>
 
 </html>
