@@ -2,9 +2,11 @@
 
 
 require_once $_SERVER['DOCUMENT_ROOT'] . '/model/joggingModel.php';
+require_once $_SERVER['DOCUMENT_ROOT'] . '/model/UserModel.php';
 require $_SERVER['DOCUMENT_ROOT'] . '/vendor/autoload.php';
 use \Firebase\JWT\JWT;
-
+use PHPMailer\PHPMailer\PHPMailer;
+use PHPMailer\PHPMailer\Exception;
 class JoggingController
 {
     /** 
@@ -37,15 +39,44 @@ class JoggingController
             echo "bad credentials";
             return;
         }
-        $jogging = new JoggingModel();
-        $jogging->creator = $creator;
-        $jogging->departure = $data->departure;
-        $jogging->date = date("Y-m-d", strtotime($data->date));
-        $jogging->description = $data->description;
-        $joggers = array();
-        array_push($joggers, $jogging->creator);
-        $jogging->attendees = implode("", $joggers);
-        JoggingModel::save($jogging);
+        try {
+            $jogging = new JoggingModel();
+            $jogging->creator = $creator;
+            $jogging->departure = $data->departure;
+            $jogging->date = date("Y-m-d", strtotime($data->date));
+            $jogging->description = $data->description;
+            $joggers = array();
+            array_push($joggers, $jogging->creator);
+            $jogging->attendees = implode("", $joggers);
+            JoggingModel::save($jogging);
+            $users = UserModel::findAll();
+            foreach ($users as $user) {
+                if ($user['alert'] === '1') {
+                    $mail = new PHPMailer(true);
+                    $mail->IsSMTP();
+                    $mail->SMTPDebug = 0;
+                    $mail->SMTPAuth = true;
+                    $mail->SMTPSecure = 'ssl';
+                    $mail->Host = 'smtp.gmail.com';
+                    $mail->Port = 465;
+                    $mail->Username = "melectrail@gmail.com";
+                    $mail->Password = "3sJbY:5!P";
+                    $mail->SetFrom("melectrail@gmail.com", "Melec Trail");
+                    $mail->Subject = "Alerte Courir à Plumelec";
+                    $mail->Body = 'Bonjour,'."\n\n".
+                        'Une nouvelle sortie a été publiée par ' . $creator . "\n\n".
+                        "Date de la sortie : " . $jogging->date . "\n\n".
+                        "Lieu de Départ : " . $jogging->departure . "\n\n".
+                        "Description : " . $jogging->description;
+                    $mail->AddAddress($user['email']);
+                    $mail->send();
+                }
+            }
+        } catch (Exception $e) {
+            http_response_code(404);
+            echo json_encode(array("message" => $e));
+            return;
+        }
         http_response_code(200);
         echo json_encode(array("message" => "Jogging successfully created."));
     }

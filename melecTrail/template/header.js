@@ -12,7 +12,7 @@ $(document).on('click', '#login', function () {
 //Lors d'un click sur le bouton logout, on set le cookie à une date invalide pour le supprimer
 $(document).on('click', '#logout', function () {
     setCookie("jwt", null, -1);
-    if (window.location.href == "http://melectrail/jogging/getJogsByCreator") {
+    if (window.location.pathname == "/jogging/getJogsByCreator" || window.location.pathname == "/user/showUsers") {
         window.location.href = "/jogging";
     } else {
         $('#response').fadeTo("slow", 1);
@@ -20,10 +20,7 @@ $(document).on('click', '#logout', function () {
         setTimeout(function () {
             $('#response').fadeTo("slow", 0);
         }, 5000);
-        $("#login").show();
-        $("#sign_up").show();
-        $("#navbarDropdownList").hide();
-        $("#myjogs").hide();
+        logoutDisplay();
     }
 })
 
@@ -83,13 +80,9 @@ $(document).on('submit', '#login_form', function () {
             setTimeout(function () {
                 $('#response').fadeTo("slow", 0);
             }, 5000);
+            setCookie("role", result.role,1);
             $("#loginModal").modal('toggle');
-            $("#login").hide();
-            $("#sign_up").hide();
-            $("#navbarDropdownList").show();
-            $("#myjogs").show();
-            $('#jwtToken').val(getCookie('jwt'));
-            $('.fa-spin').hide();
+            loginDisplay(result.role);
         },
         error: function (xhr, resp, text) {
             $('.fa-spin').hide();
@@ -110,7 +103,6 @@ $(document).on('submit', '#signup_form', function () {
         contentType: 'application/json',
         data: form_data,
         success: function (result) {
-            $("#sign_up").hide();
             $("#signupModal").modal('toggle');
             $("#loginModal").modal('show');
             $('#responseModal').html("<div class='alert alert-success'>Inscription réussie, veuillez vous connecter</div>");
@@ -151,21 +143,35 @@ $(document).on('submit', '#updateaccount_form', function () {
 window.addEventListener("DOMContentLoaded", function () {
     //Enlève les boutons login et sign up lorsque l'utilisateur est loggé et inversement
     if (getCookie("jwt")) {
-        $("#login").hide();
-        $("#sign_up").hide();
-        $("#navbarDropdownList").show();
-        $("#myjogs").show();
+        loginDisplay(getCookie("role"));
     } else {
-        $("#myjogs").hide();
-        $("#login").show();
-        $("#sign_up").show();
-        $("#navbarDropdownList").hide();
+        logoutDisplay();
     }
-    var form = $('#myJogsForm');
-    $('#jwtToken').val(getCookie('jwt'));
     $(document).on('click', '#myjogs', function () {
-        form.submit();
+        $('#myJogsForm').submit();
+    })
+    $(document).on('click', '#showUsers', function () {
+        $('#manageUsers').submit();
     })
 });
 
+function loginDisplay(role){
+    $("#login").hide();
+    $("#sign_up").hide();
+    $("#navbarDropdownList").show();
+    $("#myjogs").show();
+    $('.jwtToken').val(getCookie('jwt'));
+    $('.fa-spin').hide();
+    if(role === "ADMIN"){
+        $('#manageUsers').show();
+    }
+}
 
+function logoutDisplay()
+{
+    $("#login").show();
+    $("#sign_up").show();
+    $("#navbarDropdownList").hide();
+    $("#myjogs").hide();
+    $('#manageUsers').hide();
+}

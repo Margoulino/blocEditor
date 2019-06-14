@@ -11,7 +11,11 @@
             <a class="nav-item nav-link" href="#" id='sign_up'>Inscription</a>
             <form id="myJogsForm" action="/jogging/getJogsByCreator" method="post">
                 <a class="nav-item nav-link" href="#" id='myjogs'>Mes joggings</a>
-                <input type="hidden" class="form-control" name="jwt" id="jwtToken" required />
+                <input type="hidden" class="form-control jwtToken" name="jwt" required />
+            </form>
+            <form id="manageUsers" action="/user/showUsers" method="post" style="display: none;">
+                <a class="nav-item nav-link" href="#" id="showUsers">Gestion des utilisateurs</a>
+                <input type="hidden" class="form-control jwtToken" name="jwt" required />
             </form>
             <div class="dropdown-container">
                 <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownList" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -48,7 +52,7 @@
                             <div id="responseModal"></div>
                         </div>
                     </div>
-                    
+
                     <button type='submit' class='btn btn-primary'>se connecter</button>
                     <i class="fas fa-spinner fa-spin" style="display: none"></i>
                 </form>
@@ -76,6 +80,14 @@
                     <div class="form-group">
                         <label for="password">Mot de passe</label>
                         <input type="password" class="form-control" name="password" id="password" required />
+                    </div>
+                    <div class="form-group">
+                        <label for="code">Mot de passe fourni par l'administrateur</label>
+                        <input type="text" class="form-control" name="code" id="code" required />
+                    </div>
+                    <div class="form-group">
+                        <input type="checkbox"  id="alertnews" name="alertnews">
+                        <label for="alertnews">Être alerté lorsqu'une sortie est publiée.</label>
                     </div>
                     <button type='submit' class='btn btn-primary'>S'inscrire</button>
                 </form>

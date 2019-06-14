@@ -3,6 +3,8 @@
 require_once $_SERVER['DOCUMENT_ROOT'] . '/model/userModel.php';
 require $_SERVER['DOCUMENT_ROOT'] . '/vendor/autoload.php';
 use \Firebase\JWT\JWT;
+use PHPMailer\PHPMailer\PHPMailer;
+use PHPMailer\PHPMailer\Exception;
 
 class UserController
 {
@@ -16,18 +18,44 @@ class UserController
      */
     function signup()
     {
-        $this->setHeader();
-        $data = json_decode(file_get_contents("php://input"));
-        $user = new UserModel;
-        $user->username = $data->username;
-        $user->email = $data->email;
-        $user->password = $data->password;
-        $user->role = "USER";
-        UserModel::save($user);
-        http_response_code(200);
-        echo json_encode(array(
-            "message" => "User succesfully created."
-        ));
+        try {
+            $this->setHeader();
+            $data = json_decode(file_get_contents("php://input"));
+            $key = hash('sha256', ",92Uh|");
+            $iv = substr(hash('sha256', "xf"), 0, 16);
+            $code2check = openssl_decrypt($data->code, "AES-256-CBC", $key, 0, $iv);
+        } catch (Exception $e) {
+            http_response_code(401);
+            echo json_encode(array("message" => $e));
+            return;
+        }
+        if ($code2check === $data->email) {
+            try {
+                $user = new UserModel;
+                $user->username = $data->username;
+                $user->email = $data->email;
+                $user->password = $data->password;
+                $user->role = "USER";
+                if (isset($data->alertnews)) {
+                    $user->alert = true;
+                } else {
+                    $user->alert = 0;
+                }
+                UserModel::save($user);
+            } catch (Exception $e) {
+                http_response_code(401);
+                echo json_encode(array("message" => $e));
+                return;
+            }
+            http_response_code(200);
+            echo json_encode(array(
+                "message" => "User succesfully created."
+            ));
+        } else {
+            http_response_code(401);
+            echo json_encode(array("message" => "error while decoding code"));
+            return;
+        }
     }
 
     /** 
@@ -37,7 +65,6 @@ class UserController
      */
     function login()
     {
-
         $this->setHeader();
         $data = json_decode(file_get_contents("php://input"));
 
@@ -51,20 +78,14 @@ class UserController
                     )
                 );
                 http_response_code(200);
-
                 $jwt = JWT::encode($token, "63-trUY^f4ER");
-
-                if ($user->role === "ADMIN") { 
-                    $users = UserModel::findAll();
-                    require(__DIR__."/../view/user/listUsers.php");
-                } else {
-                    echo json_encode(
-                        array(
-                            "message" => "Successful login.",
-                            "jwt" => $jwt
-                        )
-                    );
-                }
+                echo json_encode(
+                    array(
+                        "message" => "Successful login.",
+                        "jwt" => $jwt,
+                        "role" => $user->role
+                    )
+                );
             } else {
                 http_response_code(401);
                 echo json_encode(array("message" => "Login failed."));
@@ -75,6 +96,25 @@ class UserController
         }
     }
 
+    function showUsers()
+    {
+        try {
+            $user = $this->validateJWT($_POST['jwt']);
+        } catch (Exception $e) {
+            http_response_code(403);
+            echo json_encode(array("message" => "Bad credentials."));
+            header("Location: /jogging");
+        }
+        $user = UserModel::findByUsername($user);
+        if ($user->role === "ADMIN") {
+            $users = UserModel::findAll();
+            require(__DIR__ . "/../view/user/listUsers.php");
+        } else {
+            http_response_code(403);
+            echo json_encode(array("message" => "Bad credentials."));
+            header("Location: /jogging");
+        }
+    }
     /** 
      * Update account function :
      * Gets the form from the client and updates the user's account 
@@ -88,10 +128,15 @@ class UserController
             $username = $this->validateJWT($data->jwt);
         } catch (Exception $e) {
             http_response_code(403);
-            echo "bad credentials";
+            echo json_encode(array("message" => "bad credentials"));
             return;
         }
         $userdb = UserModel::findByUsername($username);
+        if (isset($data->alertnews)) {
+            $userdb->alert = true;
+        } else {
+            $userdb->alert = 0;
+        }
         if ($data->email != "") {
             $userdb->email = $data->email;
         }
@@ -107,6 +152,54 @@ class UserController
 
         http_response_code(200);
         echo json_encode(array("message" => "user successfully updated"));
+    }
+
+    function addUserAdmin()
+    {
+        $this->setHeader();
+        $data = json_decode(file_get_contents("php://input"));
+        try {
+            $username = $this->validateJWT($data->jwt);
+        } catch (Exception $e) {
+            http_response_code(403);
+            echo "bad credentials";
+            return;
+        }
+        $user = UserModel::findByUsername($username);
+        if ($user->role === "ADMIN") {
+            try {
+                $key = hash('sha256', ",92Uh|");
+                $iv = substr(hash('sha256', "xf"), 0, 16);
+                $code = openssl_encrypt($data->email, "AES-256-CBC", $key, 0, $iv);
+                $to = $data->email;
+                $mail = new PHPMailer(true);
+                $mail->IsSMTP();
+                $mail->SMTPDebug = 0;
+                $mail->SMTPAuth = true;
+                $mail->SMTPSecure = 'ssl';
+                $mail->Host = 'smtp.gmail.com';
+                $mail->Port = 465;
+                $mail->Username = "melectrail@gmail.com";
+                $mail->Password = "3sJbY:5!P";
+                $mail->SetFrom("melectrail@gmail.com", "Melec Trail");
+                $mail->Subject = "Inscription courir à Plumelec";
+                $mail->Body = "Bonjour,
+                                Email : " . $to . "
+                                Code : " . $code;
+                $mail->AddAddress($to);
+                $mail->send();
+            } catch (Exception $e) {
+                http_response_code(404);
+                echo json_encode(array("message" => $e));
+                return;
+            }
+            http_response_code(200);
+            echo json_encode(array("message" => "done."));
+        } else {
+            http_response_code(403);
+            echo "bad credentials";
+            return;
+        }
     }
 
     /** 
