@@ -137,11 +137,18 @@ class UserController
         } else {
             $userdb->alert = 0;
         }
-        if ($data->email != "") {
+        if ($data->email != $userdb->email || $data->username != $userdb->username) {
             $userdb->email = $data->email;
-        }
-        if ($data->username != "") {
             $userdb->username = $data->username;
+            $token = JWT::encode(array(
+                "exp" => time() + 5000,
+                "data" => array(
+                    "username" => $data->username,
+                    "email" => $data->username
+                )
+            ), "63-trUY^f4ER");
+        } else {
+            $token = "";
         }
         if ($data->password != "") {
             $userdb->password = $data->password;
@@ -151,7 +158,11 @@ class UserController
         }
 
         http_response_code(200);
-        echo json_encode(array("message" => "user successfully updated"));
+
+        echo json_encode(array(
+            "message" => "user successfully updated",
+            "jwt" => $token
+        ));
     }
 
     function addUserAdmin()
@@ -209,6 +220,18 @@ class UserController
      */
     function update_redirect()
     {
+        try {
+            $username = $this->validateJWT($_POST['jwt']);
+        } catch (Exception $e) {
+            http_response_code(403);
+            echo json_encode(array("message" => "Bad credentials."));
+            header("Location: /jogging");
+        }
+        try {
+            $user = UserModel::findByUsername($username);
+        } catch (Exception $e) {
+            echo json_encode(array("message" => $e));
+        }
         require $_SERVER['DOCUMENT_ROOT'] . '/view/user/update_account.php';
     }
 

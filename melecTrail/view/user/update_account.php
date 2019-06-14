@@ -23,21 +23,27 @@
     <form id="updateaccount_form">
         <div class="form-group">
             <label for="username">Nom d'utilisateur</label>
-            <input type="text" class="form-control" name="username" id="username" />
+            <input type="text" class="form-control" name="username" id="username" value="<?php echo $user->username; ?>"/>
         </div>
         <div class="form-group">
             <label for="email">Email</label>
-            <input type="email" class="form-control" name="email" id="email" />
+            <input type="email" class="form-control" name="email" id="email" value="<?php echo $user->email; ?>"/>
         </div>
         <div class="form-group">
             <label for="password">Mot de passe</label>
-            <input type="password" class="form-control" name="password" id="password" />
+            <input type="password" class="form-control" name="password" id="password"/>
         </div>
         <div class="form-group">
             <label for="alertnews">Être alerté lorsqu'une nouvelle sortie est disponible ?</label>
-            <input type="checkbox" name="alertnews" id="alertnews" />
+            <?php
+                if($user->alert === '1'){
+                    echo '<input type="checkbox" name="alertnews" id="alertnews" checked/>';
+                } else {
+                    echo '<input type="checkbox" name="alertnews" id="alertnews"/>';
+                }
+            ?>
         </div>
-        <button type='submit' class='btn btn-primary'>Confirmer</button>
+        <button type='submit' id="editAccount" class='btn btn-primary'>Confirmer</button>
         <a class='btn btn-info' href="/jogging">Retour</a>
     </form>
 

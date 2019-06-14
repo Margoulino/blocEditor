@@ -7,6 +7,7 @@ require $_SERVER['DOCUMENT_ROOT'] . '/vendor/autoload.php';
 use \Firebase\JWT\JWT;
 use PHPMailer\PHPMailer\PHPMailer;
 use PHPMailer\PHPMailer\Exception;
+
 class JoggingController
 {
     /** 
@@ -63,10 +64,10 @@ class JoggingController
                     $mail->Password = "3sJbY:5!P";
                     $mail->SetFrom("melectrail@gmail.com", "Melec Trail");
                     $mail->Subject = "Alerte Courir à Plumelec";
-                    $mail->Body = 'Bonjour,'."\n\n".
-                        'Une nouvelle sortie a été publiée par ' . $creator . "\n\n".
-                        "Date de la sortie : " . $jogging->date . "\n\n".
-                        "Lieu de Départ : " . $jogging->departure . "\n\n".
+                    $mail->Body = 'Bonjour,' . "\n\n" .
+                        'Une nouvelle sortie a été publiée par ' . $creator . "\n\n" .
+                        "Date de la sortie : " . $jogging->date . "\n\n" .
+                        "Lieu de Départ : " . $jogging->departure . "\n\n" .
                         "Description : " . $jogging->description;
                     $mail->AddAddress($user['email']);
                     $mail->send();
@@ -112,20 +113,24 @@ class JoggingController
             echo "bad credentials";
             return;
         }
-        $jogging = JoggingModel::findById($data->idJogging);
-        $joggers = explode(" ; ", $jogging->attendees);
-        if (in_array($user, $joggers)) {
-            http_response_code(412);
-            echo json_encode(array("message" => "Jogger already participating."));
-        } else if (count($joggers) > 25) {
-            http_response_code(418);
-            echo json_encode(array("message" => "Joggers already full."));
-        } else {
-            array_push($joggers, $user);
-            $jogging->attendees = implode(" ; ", $joggers);
-            $jogging->update();
-            http_response_code(200);
-            echo json_encode(array("message" => "Jogger successfully added."));
+        try {
+            $jogging = JoggingModel::findById($data->idJogging);
+            $joggers = explode(" ; ", $jogging->attendees);
+            if (in_array($user, $joggers)) {
+                http_response_code(412);
+                echo json_encode(array("message" => "Jogger already participating."));
+            } else if (count($joggers) > 25) {
+                http_response_code(418);
+                echo json_encode(array("message" => "Joggers already full."));
+            } else {
+                array_push($joggers, $user);
+                $jogging->attendees = implode(" ; ", $joggers);
+                $jogging->update();
+                http_response_code(200);
+                echo json_encode(array("message" => "Jogger successfully added."));
+            }
+        } catch (Exception $e) {
+            echo json_encode(array("message" => $e));
         }
     }
 
@@ -149,10 +154,15 @@ class JoggingController
         echo json_encode(array("message" => "Jogger successfully deleted."));
     }
 
-    function getJogsByCreator()
+    function getJogsByCreator($jwt = null)
     {
         try {
-            $user = $this->validateJWT($_POST['jwt']);
+            if (empty($jwt)) {
+                $jwt = $_POST['jwt'];
+            } else {
+                $jwt = $jwt[0];
+            }
+            $user = $this->validateJWT($jwt);
         } catch (Exception $e) {
             http_response_code(403);
             echo json_encode(array("message" => "Bad credentials."));
@@ -177,17 +187,22 @@ class JoggingController
             http_response_code(403);
             echo json_encode(array("message" => "bad credentials."));
         }
-        $jog = JoggingModel::findById($_POST["id"]);
-        if ($jog->creator != $user) {
-            http_response_code(412);
-            echo json_encode(array("message" => "bad credentials."));
-            header("Location: /jogging/getJogsByCreator/" . $_POST['jwt']);
-        } else {
-            $jog->departure = $_POST["departure"];
-            $jog->date = $_POST["date"];
-            $jog->description = $_POST["description"];
-            $jog->update();
-            header("Location: /jogging/getJogsByCreator/" . $_POST['jwt']);
+        try {
+            $jog = JoggingModel::findById($_POST["id"]);
+            if ($jog->creator != $user) {
+                http_response_code(412);
+                echo json_encode(array("message" => "bad credentials."));
+                header("Location: /jogging/getJogsByCreator/" . $_POST['jwt']);
+            } else {
+                $jog->departure = $_POST["departure"];
+                $jog->date = $_POST["date"];
+                $jog->description = $_POST["description"];
+                $jog->update();
+                header("Location: /jogging/getJogsByCreator/" . $_POST['jwt']);
+            }
+        } catch (Exception $e) {
+            http_response_code(404);
+            echo json_encode(array("message" => $e));
         }
     }
 
@@ -202,13 +217,17 @@ class JoggingController
             echo json_encode(array("message" => "bad credentials."));
             return;
         }
-        if (JoggingModel::findById($data->id)->creator != $user) {
-            http_response_code(412);
-            echo json_encode(array("message" => "bad credentials."));
-        } else {
-            JoggingModel::delete($data->id);
-            http_response_code(200);
-            echo json_encode(array("message" => "Jogging successfully deleted."));
+        try {
+            if (JoggingModel::findById($data->id)->creator != $user) {
+                http_response_code(412);
+                echo json_encode(array("message" => "bad credentials."));
+            } else {
+                JoggingModel::delete($data->id);
+                http_response_code(200);
+                echo json_encode(array("message" => "Jogging successfully deleted."));
+            }
+        } catch (Exception $e) {
+            echo json_encode(array("message" => $e));
         }
     }
 

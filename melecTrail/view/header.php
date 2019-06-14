@@ -22,7 +22,10 @@
                     Mon compte
                 </a>
                 <div class="dropdown-menu" aria-labelledby="navbarDropdownList">
-                    <a class="dropdown-item" href="/user/update_redirect">Modifier mon comtpe</a>
+                    <form id="manageAccount" action="/user/update_redirect" method="post">
+                        <a class="dropdown-item" href="#" id="editAccount">Modifier mon comtpe</a>
+                        <input type="hidden" class="form-control jwtToken" name="jwt" required />
+                    </form>
                     <a class="dropdown-item" href="#" id='logout'>Déconnexion</a>
                 </div>
             </div>

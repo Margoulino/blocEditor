@@ -126,6 +126,9 @@ $(document).on('submit', '#updateaccount_form', function () {
         data: form_data,
         success: function (result) {
             window.alert("Compte mis à jour avec succès.");
+            if (result.jwt !== '') {
+                setCookie('jwt',result.jwt,1);
+            }
             window.location.href = "/jogging";
         },
         error: function (xhr, resp, text) {
@@ -152,6 +155,9 @@ window.addEventListener("DOMContentLoaded", function () {
     })
     $(document).on('click', '#showUsers', function () {
         $('#manageUsers').submit();
+    })
+    $(document).on('click', '#editAccount', function () {
+        $('#manageAccount').submit();
     })
 });
 
