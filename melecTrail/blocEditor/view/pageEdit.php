@@ -52,36 +52,41 @@
                 </div>
             </div>
         </div>
-        <?php
-            if($categoriesPage != NULL) {
-                echo '<div class="alert alert-info categ-container">Catégories : ';
-                foreach($categoriesPage as $categPage) {
-                    foreach($allCategories as $definedCateg) {
-                        if($categPage->idCategory == $definedCateg->id) {
-                            echo '<a class="btn btn-success categPage" href="#">' . $definedCateg->name . '<span class="badge badge-danger"> <i class="fas fa-times" style="color:white;"></i></span></a>';
+        <!-- <?php
+                if ($categoriesPage != NULL) {
+                    echo '<div class="alert alert-info categ-container">Catégories : ';
+                    foreach ($categoriesPage as $categPage) {
+                        foreach ($allCategories as $definedCateg) {
+                            if ($categPage->idCategory == $definedCateg->id) {
+                                echo '<a class="btn btn-success categPage" href="#">' . $definedCateg->name . '<span class="badge badge-danger"> <i class="fas fa-times" style="color:white;"></i></span></a>';
+                            }
                         }
                     }
+                    echo ' <a class="btn btn-success addCategPage" href="#">Ajouter une catégorie</a>';
+                    echo '</div>';
                 }
-                echo ' <a class="btn btn-success addCategPage" href="#">Ajouter une catégorie</a>';
-                echo '</div>';
-            }
-        ?>
+                ?> -->
         <div class="blocks-viewer">
             <?php
             if ($blocks != NULL) {
                 foreach ($blocks as $block) {
-                    if ($block->idBlockType === '1' || $block->idBlockType === '2') {
-                        echo '<div id="' . $block->id . '" class="block-unit">';
-                    } else {
-                        echo '<div id="' . $block->id . '" class="block-unit-complex">';
+                    if ($block->idParent === null) {
+                        if ($block->idBlockType !== '1' && $block->idBlockType !== '2') {
+                            echo '<div id="' . $block->id . '" class="block-unit">';
+                            echo '<div><i id="orderUp' . $block->id . '" i class="fas fa-arrow-up"></i>   <i id="orderDown' . $block->id . '"class="fas fa-arrow-down"></i><i class="float-right deleteBlock fas fa-times"></i></div>' ;
+                            echo str_replace('{$block->content}',$block->content,$categHTML[$block->idBlockType]);
+                            if ($block->idBlockType === '4') {
+                                echo '<button class="btn btn-xs btn-info resizebtn">Redimensionner</button>';
+                            } elseif ($block->idBlockType === '3') {
+                                echo '<button class="btn btn-xs btn-outline-info contentSlider">Ajouter/Supprimer une image</button>';
+                            }
+                        } else {
+                            echo '<div id="' . $block->id . '" class="block-unit-complex">';
+                            echo '<div><i id="orderUp' . $block->id . '" i class="fas fa-arrow-up"></i>   <i id="orderDown' . $block->id . '"class="fas fa-arrow-down"></i><i class="float-right deleteBlock fas fa-times"></i></div>' ;
+                           
+                        }
+                        echo '</div>';
                     }
-                    echo '<div><i id="orderUp' . $block->id . '" i class="fas fa-arrow-up"></i>   <i id="orderDown' . $block->id . '"class="fas fa-arrow-down"></i><i class="float-right deleteBlock fas fa-times"></i></div>' . $block->content;
-                    if ($block->idBlockType === '2') {
-                        echo '<button class="btn btn-xs btn-info resizebtn">Redimensionner</button>';
-                    } elseif ($block->idBlockType === '4' ) {
-                        echo '<button class="btn btn-xs btn-outline-info contentSlider">Ajouter/Supprimer une image</button>';
-                    }
-                    echo '</div>';
                 }
             }
             ?>
@@ -175,6 +180,7 @@
         var previousBlocks = <?php echo json_encode($blocks); ?>;
         var definedCategories = <?php echo json_encode($allCategories); ?>;
         var pageCategories = <?php echo json_encode($categoriesPage); ?>;
+        var templateHTML = <?php echo json_encode($categHTML); ?>;
     </script>
     <script src="https://code.jquery.com/jquery-3.4.1.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
