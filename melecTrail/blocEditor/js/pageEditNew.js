@@ -1,3 +1,5 @@
+//------SAVE BLOCKS------
+
 /**
  *
  * @param {String} content Contenu de l'éditeur HTML qui sera affiché dans le bloc
@@ -5,7 +7,7 @@
  * @param {Int} blockType Id du type de block qui définiera le template qui sera attribué
  * @param {Int} idParent Id du block parent contenant le block que l'on sauvegarde (s'il y en a un)
  */
-function saveBlock(content, blockId, blockType, idParent, styleBlock) {
+/*function saveBlock(content, blockId, blockType, idParent, styleBlock) {
     $.ajax({
         url: "/block/addBlockToPage",
         type: "POST",
@@ -26,13 +28,89 @@ function saveBlock(content, blockId, blockType, idParent, styleBlock) {
             console.log(xhr);
         }
     });
+}*/
+
+function saveBlock(nomPage, content, blockId, blockType, idParent, styleBlock) {
+    return new Promise(function(resolve, reject) {
+        var xhr = new XMLHttpRequest();
+        xhr.onreadystatechange = function() {
+            if (this.readyState === XMLHttpRequest.DONE && this.status === 200) {
+                resolve();
+            } else if (this.status === 404) {
+                reject(JSON.parse(xhr.response).message);
+            }
+        };
+        xhr.open("POST", "/block/addBlockToPage", true);
+        xhr.setRequestHeader("Content-type", "application/json");
+        xhr.send(
+            JSON.stringify({
+                name: nomPage + "_" + blockId,
+                content: content,
+                orderBlock: blockId,
+                pageId: pageId,
+                idBlockType: blockType,
+                idParent: idParent,
+                styleBlock: styleBlock
+            })
+        );
+    });
+}
+
+/*function saveBlockIntoBlock(nomPage, content, pageId, idNewBlock, idBlockType, idParent, idColumn, styleBlock) {
+    var xhr = new XMLHttpRequest();
+    xhr.onreadystatechange = function() {
+        if (this.readyState === XMLHttpRequest.DONE && this.status === 200) {
+            location.reload();
+        }
+    };
+    xhr.open("POST", "/block/addBlockToBlock", true);
+    xhr.setRequestHeader("Content-type", "application/json");
+    xhr.send(
+        JSON.stringify({
+            name: nomPage + "_" + idNewBlock,
+            content: content,
+            pageId: pageId,
+            orderBlock: idNewBlock,
+            idBlockType: idBlockType,
+            idParent: idParent,
+            idColumn: idColumn,
+            styleBlock: styleBlock
+        })
+    );
+}*/
+
+function saveBlockIntoBlock(nomPage, content, pageId, idNewBlock, idBlockType, idParent, idColumn, styleBlock) {
+    return new Promise(function(resolve, reject) {
+        var xhr = new XMLHttpRequest();
+        xhr.onreadystatechange = function() {
+            if (this.readyState === XMLHttpRequest.DONE && this.status === 200) {
+                resolve();
+            } else if (this.status === 404) {
+                reject(JSON.parse(xhr.status).message);
+            }
+        };
+        xhr.open("POST", "/block/addBlockToBlock", true);
+        xhr.setRequestHeader("Content-type", "application/json");
+        xhr.send(
+            JSON.stringify({
+                name: nomPage + "_" + idNewBlock,
+                content: content,
+                pageId: pageId,
+                orderBlock: idNewBlock,
+                idBlockType: idBlockType,
+                idParent: idParent,
+                idColumn: idColumn,
+                styleBlock: styleBlock
+            })
+        );
+    });
 }
 
 /**
  * Supprime le block dans la base correspondant à l'id et recharge la page
  * @param {Int} blockId
  */
-function deleteBlock(blockId) {
+/*function deleteBlock(blockId) {
     $.ajax({
         url: "/block/deleteBlock",
         type: "POST",
@@ -48,8 +126,27 @@ function deleteBlock(blockId) {
             console.log(xhr);
         }
     });
-}
+}*/
 
+function deleteBlock(blockId) {
+    return new Promise(function(resolve, reject) {
+        var xhr = new XMLHttpRequest();
+        xhr.onreadystatechange = function() {
+            if (this.readyState === XMLHttpRequest.DONE && this.status === 200) {
+                resolve();
+            } else if (this.status === 404) {
+                reject(JSON.parse(xhr.response).message);
+            }
+        };
+        xhr.open("POST", "/block/deleteBlock");
+        xhr.setRequestHeader("Content-type", "application/json");
+        xhr.send(
+            JSON.stringify({
+                id: blockId
+            })
+        );
+    });
+}
 /*function loadBlockType() {
     let types = null;
     $.ajax({
@@ -108,51 +205,7 @@ function callbackTemplate(data, templates, id) {
 }
 //--------------------------------------------------------------
 
-function saveBlockIntoPage(nomPage, content, pageId, idNewBlock, idBlockType, styleBlock) {
-    var xhr = new XMLHttpRequest();
-    xhr.onreadystatechange = function() {
-        if (this.readyState === XMLHttpRequest.DONE && this.status === 200) {
-            location.reload();
-        }
-    };
-    xhr.open("POST", "/block/addBlockToPage", true);
-    xhr.setRequestHeader("Content-type", "application/json");
-    xhr.send(
-        JSON.stringify({
-            name: nomPage + "_" + idNewBlock,
-            content: content,
-            pageId: pageId,
-            orderBlock: idNewBlock,
-            idBlockType: idBlockType,
-            styleBlock: styleBlock
-        })
-    );
-}
-
-function saveBlockIntoBlock(nomPage, content, pageId, idNewBlock, idBlockType, idParent, idColumn, styleBlock) {
-    var xhr = new XMLHttpRequest();
-    xhr.onreadystatechange = function() {
-        if (this.readyState === XMLHttpRequest.DONE && this.status === 200) {
-            location.reload();
-        }
-    };
-    xhr.open("POST", "/block/addBlockToBlock", true);
-    xhr.setRequestHeader("Content-type", "application/json");
-    xhr.send(
-        JSON.stringify({
-            name: nomPage + "_" + idNewBlock,
-            content: content,
-            pageId: pageId,
-            orderBlock: idNewBlock,
-            idBlockType: idBlockType,
-            idParent: idParent,
-            idColumn: idColumn,
-            styleBlock: styleBlock
-        })
-    );
-}
-
-function updateBlock(id, name, content, pageId, orderBlock, idBlockType, idParent, idColumn, styleBlock) {
+/*function updateBlock(id, name, content, pageId, orderBlock, idBlockType, idParent, idColumn, styleBlock) {
     var xhr = new XMLHttpRequest();
     xhr.onreadystatechange = function() {
         if (this.readyState === XMLHttpRequest.DONE && this.status === 200) {
@@ -174,13 +227,41 @@ function updateBlock(id, name, content, pageId, orderBlock, idBlockType, idParen
             styleBlock: styleBlock
         })
     );
+}*/
+
+function updateBlock(id, name, content, pageId, orderBlock, idBlockType, idParent, idColumn, styleBlock) {
+    return new Promise(function(resolve, reject) {
+        var xhr = new XMLHttpRequest();
+        xhr.onreadystatechange = function() {
+            if (this.readyState === XMLHttpRequest.DONE && this.status === 200) {
+                resolve();
+            } else if (this.status === 404) {
+                reject(JSON.parse(xhr.response).message);
+            }
+        };
+        xhr.open("POST", "/block/updateBlock", true);
+        xhr.setRequestHeader("Content-type", "application/json");
+        xhr.send(
+            JSON.stringify({
+                id: id,
+                name: name,
+                content: content,
+                pageId: pageId,
+                orderBlock: orderBlock,
+                idBlockType: idBlockType,
+                idParent: idParent,
+                idColumn: idColumn,
+                styleBlock: styleBlock
+            })
+        );
+    });
 }
 
-/** CHOPPER L'ID DU BLOCK PARENT ds block previous
+/**
  *
  * @param {*} event
  */
-function moveBlockDown(event) {
+/*function moveBlockDown(event) {
     //En cliquant sur la fleche on cherche la div complète du block (la div block unit) ici celle qui est déplacée
     var blockToMove = event.target.parentElement.parentElement;
     var blockToMoveId = blockToMove.getAttribute("id");
@@ -337,6 +418,102 @@ function moveBlockUp(event) {
             })
         );
     }
+}*/
+
+function moveBlockDown(event, blocks) {
+    //En cliquant sur la fleche on cherche la div complète du block (la div block unit) ici celle qui est déplacée
+    var blockToMove = event.target.parentElement.parentElement;
+    var blockToMoveId = blockToMove.getAttribute("id");
+    var blockToMoveObj = findBlockById(blockToMoveId);
+
+    //Récuperration de div block unit directement suivante
+    var nextBlock = blockToMove.nextElementSibling;
+    var nextBlockId = nextBlock.getAttribute("id");
+    var nextBlockObj = findBlockById(nextBlockId);
+
+    var orders = getBlocksOrder(blocks);
+
+    if (nextBlock !== undefined) {
+        insertAfter(blockToMove, nextBlock);
+
+        //Changement des ordres des blocks dans les objets previousBlocks
+        blockToMoveObj.orderBlock = orders["block" + nextBlockId];
+        nextBlockObj.orderBlock = orders["block" + blockToMoveId];
+
+        updateBlock(
+            blockToMoveObj.id,
+            blockToMoveObj.name,
+            blockToMoveObj.content,
+            blockToMoveObj.pageId,
+            blockToMoveObj.orderBlock,
+            blockToMoveObj.idBlockType,
+            blockToMoveObj.idParent,
+            blockToMoveObj.idColumn,
+            blockToMoveObj.styleBlock
+        ).then(function() {
+            updateBlock(
+                nextBlockObj.id,
+                nextBlockObj.name,
+                nextBlockObj.content,
+                nextBlockObj.pageId,
+                nextBlockObj.orderBlock,
+                nextBlockObj.idBlockType,
+                nextBlockObj.idParent,
+                nextBlockObj.idColumn,
+                nextBlockObj.styleBlock
+            );
+        }).then(function() {
+            location.reload();
+        });
+    }
+}
+
+function moveBlockUp(event, blocks) {
+    //En cliquant sur la fleche on cherche la div complète du block (la div block unit) ici celle qui est déplacée
+    var blockToMove = event.target.parentElement.parentElement;
+    var blockToMoveId = blockToMove.getAttribute("id");
+    var blockToMoveObj = findBlockById(blockToMoveId);
+
+    //Récuperration de div block unit directement suivante
+    var antecBlock = blockToMove.previousElementSibling;
+    var antecBlockId = antecBlock.getAttribute("id");
+    var antecBlockObj = findBlockById(antecBlockId);
+
+    var orders = getBlocksOrder(blocks);
+
+    if (nextBlock !== undefined) {
+        insertAfter(blockToMove, antecBlock);
+
+        //Changement des ordres des blocks dans les objets previousBlocks
+        blockToMoveObj.orderBlock = orders["block" + blockToMoveId];
+        antecBlockObj.orderBlock = orders["block" + antecBlockId];
+
+        updateBlock(
+            blockToMoveObj.id,
+            blockToMoveObj.name,
+            blockToMoveObj.content,
+            blockToMoveObj.pageId,
+            blockToMoveObj.orderBlock,
+            blockToMoveObj.idBlockType,
+            blockToMoveObj.idParent,
+            blockToMoveObj.idColumn,
+            blockToMoveObj.styleBlock
+        ).then(function() {
+            updateBlock(
+                antecBlockObj.id,
+                antecBlockObj.name,
+                antecBlockObj.content,
+                antecBlockObj.pageId,
+                antecBlockObj.orderBlock,
+                antecBlockObj.idBlockType,
+                antecBlockObj.idParent,
+                antecBlockObj.idColumn,
+                antecBlockObj.styleBlock
+            );
+        }).then(function() {
+            location.reload();
+        });
+    }
 }
 
 /**
@@ -362,4 +539,12 @@ function insertAfter(newNode, referenceNode) {
     referenceNode.parentNode.insertBefore(newNode, referenceNode.nextSibling);
 }
 
-function setTemplateToNode() {}
+function findBlockById(id, blocks) {
+    var blockToFind = null;
+    blocks.forEach(block => {
+        if (block.id === id) {
+            blockToFind = block;
+        }
+    });
+    return blockToFind;
+}
