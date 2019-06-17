@@ -4,6 +4,7 @@ require_once $_SERVER['DOCUMENT_ROOT'] . '/blocEditor/model/pageModel.php';
 require_once $_SERVER['DOCUMENT_ROOT'] . '/blocEditor/model/pageCategoryModel.php';
 require_once $_SERVER['DOCUMENT_ROOT'] . '/blocEditor/model/categoryModel.php';
 require_once $_SERVER['DOCUMENT_ROOT'] . '/blocEditor/model/blockModel.php';
+require_once $_SERVER['DOCUMENT_ROOT'] . './blocEditor/model/blocTypeModel.php';
 require $_SERVER['DOCUMENT_ROOT'] . '/vendor/autoload.php';
 use \Firebase\JWT\JWT;
 
@@ -53,18 +54,19 @@ class PageController
         }
     }
 
-    public function addPage() {
+    public function addPage()
+    {
         $this->setHeader();
         $data = json_decode(file_get_contents("php://input"));
         try {
             $newpage = new PageModel;
-            $newpage->name=$data->name;
+            $newpage->name = $data->name;
             $pageCat = new PageCategoryModel();
-            if(count(PageModel::findByName($data->name)) == 0) {
-                if(PageModel::save($newpage)) {
-                    $pageCat->idPage=PageModel::findByName($newpage->name)[0]->id;
-                    $pageCat->idCategory=CategoryModel::findByname($data->category)[0]->id;
-                    if(PageCategoryModel::save($pageCat)) {
+            if (count(PageModel::findByName($data->name)) == 0) {
+                if (PageModel::save($newpage)) {
+                    $pageCat->idPage = PageModel::findByName($newpage->name)[0]->id;
+                    $pageCat->idCategory = CategoryModel::findByname($data->category)[0]->id;
+                    if (PageCategoryModel::save($pageCat)) {
                         http_response_code(200);
                         echo json_encode(array("message" => "new page saved"));
                     } else {
@@ -80,21 +82,22 @@ class PageController
             }
         } catch (Exception $e) {
             http_response_code(404);
-            echo json_encode(array('message'=> $e->getMessage()));
+            echo json_encode(array('message' => $e->getMessage()));
         }
     }
 
-    function deletepage(){
+    function deletepage()
+    {
         $data = json_decode(file_get_contents("php://input"));
-        try{
+        try {
             $page = PageModel::findByName($data->page);
             $category = CategoryModel::findByname($data->category);
-            PageCategoryModel::delete($page[0]->id,$category[0]->id);
+            PageCategoryModel::delete($page[0]->id, $category[0]->id);
             PageModel::delete($page[0]->id);
             BlockModel::deleteByPageID($page[0]->id);
         } catch (Exception $e) {
             http_response_code(404);
-            echo json_encode(array('message'=>'error'.$e));
+            echo json_encode(array('message' => 'error' . $e));
         }
         http_response_code(200);
     }
@@ -103,7 +106,7 @@ class PageController
     {
         try {
             $page = PageModel::findByName($name[0]);
-            if(!empty($page)) {
+            if (!empty($page)) {
                 $blocks = PageModel::getAllBlocksByIdPage($page[0]->id);
                 $categoriesPage = PageCategoryModel::findByIdPage($page[0]->id);
                 $allCategories = CategoryModel::findAll();
@@ -111,7 +114,7 @@ class PageController
             } else {
                 throw new Exception("Page does not exists, you must create it first");
             }
-        } catch(Exception $e) {
+        } catch (Exception $e) {
             $blocks = NULL;
             http_response_code(404);
             echo json_encode(array('message' => $e->getMessage()));
@@ -119,17 +122,54 @@ class PageController
         }
     }
 
+    public function editionPageNew($name)
+    {
+        try {
+            $page = PageModel::findByName($name[0]);
+            if (!empty($page)) {
+                $page = $page[0];
+                $blocks = PageModel::getAllBlocksByIdPage($page->id);
+                $blockTypes = BlockTypeModel::findAll();
+                $categJs = array();
+                $categHTML = array();
+                foreach ($blocks as $block) {
+                    if (!array_key_exists($block->idBlockType, $categJs)) {
+                        $blockType = BlockTypeModel::findById($block->idBlockType) ; 
+                        $categJs[$block->idBlockType] = $blockType->js ;
+                        $categHTML[$block->idBlockType] = $blockType->templateBlock ; 
+                    }
+                }
+                $jsFile = "/blocEditor/js/blockInit.js";
+                $fileHandler = fopen($jsFile,'w');
+                fwrite($fileHandler,"$(document).ready(function () {");
+                fclose($fileHandler);
+                $fileHandler = fopen($jsFile,'a');
+                foreach($categJs as $js){
+                    fwrite($fileHandler,$js);
+                }
+                fwrite($fileHandler,"});");
+                fclose($fileHandler);
+                require($_SERVER['DOCUMENT_ROOT'] . '/blocEditor/view/pageEdit.php');
+            } else {
+                throw new Exception("Page does not exists, you must create it first");
+            }
+        } catch (Exception $e) {
+            echo 'error';
+        }
+    }
+
+
     public function addCategory()
     {
         $this->setHeader();
         $data = json_decode(file_get_contents("php://input"));
         try {
             $pageCat = new PageCategoryModel();
-            if(!empty(PageModel::findById($data->pageId))) {
+             if(!empty(PageModel::findById($data->pageId))) {
                 $pageCat->idPage = $data->pageId;
-                if(!empty(CategoryModel::findById($data->categoryId))) {
+                 if(!empty(CategoryModel::findById($data->categoryId))) {
                     $pageCat->idCategory = $data->categoryId;
-                    if(PageCategoryModel::save($pageCat)) {
+                     if(PageCategoryModel::save($pageCat)) {
                         http_response_code(200);
                         echo json_encode(array("message" => "new category added"));
                     } else {
@@ -141,7 +181,7 @@ class PageController
             } else {
                 throw new Exception("Error page does not exists");
             }
-        } catch(Exception $e) {
+        }  catch(Exception $e) {
             http_response_code(404);
             echo json_encode(array('message' => $e->getMessage()));
         }
@@ -151,13 +191,13 @@ class PageController
     {
         try {
             $page = PageModel::findByName($name[0]);
-            if(!empty($page)) {
+             if(!empty($page)) {
                 $blocks = PageModel::getAllBlocksByIdPage($page[0]->id);
                 require($_SERVER['DOCUMENT_ROOT'] . '/blocEditor/view/pagePreview.php');
             } else {
                 throw new Exception("Page does not exists, you must create it first");
             }
-        } catch(Exception $e) {
+        }  catch(Exception $e) {
             $blocks = NULL;
             http_response_code(404);
             echo json_encode(array('message' => $e->getMessage()));
