@@ -4,7 +4,8 @@ require_once $_SERVER['DOCUMENT_ROOT'] . '/blocEditor/model/pageModel.php';
 require_once $_SERVER['DOCUMENT_ROOT'] . '/blocEditor/model/pageCategoryModel.php';
 require_once $_SERVER['DOCUMENT_ROOT'] . '/blocEditor/model/categoryModel.php';
 require_once $_SERVER['DOCUMENT_ROOT'] . '/blocEditor/model/blockModel.php';
-require_once $_SERVER['DOCUMENT_ROOT'] . './blocEditor/model/blocTypeModel.php';
+require_once $_SERVER['DOCUMENT_ROOT'] . '/blocEditor/model/blockTypeModel.php';
+require_once $_SERVER['DOCUMENT_ROOT'] . '/blocEditor/controller/blockController.php';
 require $_SERVER['DOCUMENT_ROOT'] . '/vendor/autoload.php';
 use \Firebase\JWT\JWT;
 
@@ -127,19 +128,19 @@ class PageController
         try {
             $page = PageModel::findByName($name[0]);
             if (!empty($page)) {
-                $page = $page[0];
-                $blocks = PageModel::getAllBlocksByIdPage($page->id);
+                $blocks = PageModel::getAllBlocksByIdPage($page[0]->id);
                 $blockTypes = BlockTypeModel::findAll();
                 $categJs = array();
                 $categHTML = array();
                 foreach ($blocks as $block) {
                     if (!array_key_exists($block->idBlockType, $categJs)) {
                         $blockType = BlockTypeModel::findById($block->idBlockType) ; 
-                        $categJs[$block->idBlockType] = $blockType->js ;
-                        $categHTML[$block->idBlockType] = $blockType->templateBlock ; 
+                   
+                        $categJs[$block->idBlockType] = $blockType[0]->js ;
+                        $categHTML[$block->idBlockType] = $blockType[0]->templateBlock ; 
                     }
                 }
-                $jsFile = "/blocEditor/js/blockInit.js";
+                $jsFile = $_SERVER['DOCUMENT_ROOT'] . "/blocEditor/js/blockInit.js";
                 $fileHandler = fopen($jsFile,'w');
                 fwrite($fileHandler,"$(document).ready(function () {");
                 fclose($fileHandler);
@@ -149,6 +150,14 @@ class PageController
                 }
                 fwrite($fileHandler,"});");
                 fclose($fileHandler);
+                $doc = new DOMDocument();
+                foreach ($blocks as $block) {
+                    if ($block->idParent === null) {
+                        if($block->idBlockType === '1' || $block->idBlockType === '2') {
+                            $block->content=BlockController::setColumnChilds($block,$categHTML);
+                        } 
+                    }
+                }
                 require($_SERVER['DOCUMENT_ROOT'] . '/blocEditor/view/pageEdit.php');
             } else {
                 throw new Exception("Page does not exists, you must create it first");
@@ -157,6 +166,7 @@ class PageController
             echo 'error';
         }
     }
+
 
 
     public function addCategory()

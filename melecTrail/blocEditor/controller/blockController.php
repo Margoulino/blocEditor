@@ -1,4 +1,5 @@
 <?php
+use PHPMailer\PHPMailer\Exception;
 
 require_once $_SERVER['DOCUMENT_ROOT'] . '/blocEditor/model/blockModel.php';
 require_once $_SERVER['DOCUMENT_ROOT'] . '/blocEditor/model/pageModel.php';
@@ -64,9 +65,9 @@ class BlockController
         $block->idColumn = $data->idColumn;
         $block->styleBlock = $data->styleBlock;
         $targetBlock = BlockModel::findById($data->idParent);
-        if(!empty($targetBlock)) {
+        if (!empty($targetBlock)) {
             $targetPage = PageModel::findById($data->pageId);
-            if(!empty($targetPage)) {
+            if (!empty($targetPage)) {
                 BlockModel::saveIntoBlock($block);
                 http_response_code(200);
                 echo json_encode(array(
@@ -91,7 +92,7 @@ class BlockController
      */
     public function deleteBlock($id = null)
     {
-        if($id == null) {
+        if ($id == null) {
             $data = json_decode(file_get_contents("php://input"));
             $id = $data->id;
         }
@@ -204,6 +205,26 @@ class BlockController
         return;
     }
 
+    public function loadBlocksByPage()
+    {
+        $data = json_decode(file_get_contents("php://input"));
+        try {
+            $blocks2Load = array();
+            $blocks = BlockModel::findByIdPage($data->idPage);
+            foreach ($blocks as $block) {
+                array_push($blocks2Load, json_encode($block));
+            }
+            http_response_code(200);
+            echo json_encode(array(
+                "message" => "blocks loaded.",
+                "blocks" => $blocks2Load
+            ));
+        } catch (Exception $e) {
+            http_response_code(404);
+            echo json_encode(array("message" => $e));
+        }
+    }
+
     public function deleteFromCol()
     {
         $data  = json_decode(file_get_contents("php://input"));
@@ -228,5 +249,26 @@ class BlockController
             http_response_code(404);
             echo json_encode(array("message" => $e));
         }
+    }
+
+    public static function setColumnChilds($node, $categHTML)
+    {
+        // $doc = new DOMDocument();
+        // $doc->loadHTML('<div class ="block-unit" id="'.$child->id.'" ></div>');
+        // str_replace("{\$block->content}",$child->content,$categHTML[$child->idBlockType]);
+        $childs = BlockModel::findChildren($node->id);
+        $cols = array();
+        $result = $categHTML[$node->idBlockType];
+        foreach ($childs as $child) {
+            $template =  $categHTML[$child->idBlockType];
+            if ($child->idBlockType !== '1' && $child->idBlockType !== '2') {
+                $oldVar = array('{$block->content}', '{$block->id}');
+                $newVar = array($child->content, $child->id);
+                $result = str_replace('{col' . $child->idColumn . '}',"<div class='block-unit' id='" . $child->id . "'>" . str_replace($oldVar, $newVar, $template) . "</div>",$result);
+            } else {
+                $result = str_replace('{col' . $child->idColumn . '}', "<div class='block-unit-complex' id='" . $child->id . "'>" . BlockController::setColumnChilds($child, $categHTML) . "</div>", $result);
+            }
+        }
+        return $result;
     }
 }

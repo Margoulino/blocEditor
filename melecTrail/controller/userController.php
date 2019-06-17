@@ -67,7 +67,6 @@ class UserController
     {
         $this->setHeader();
         $data = json_decode(file_get_contents("php://input"));
-
         if ($user = UserModel::findByUsername($data->username)) {
             if (password_verify($data->password, $user->password)) {
                 $token = array(
