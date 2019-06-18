@@ -7,29 +7,6 @@
  * @param {Int} blockType Id du type de block qui définiera le template qui sera attribué
  * @param {Int} idParent Id du block parent contenant le block que l'on sauvegarde (s'il y en a un)
  */
-/*function saveBlock(content, blockId, blockType, idParent, styleBlock) {
-    $.ajax({
-        url: "/block/addBlockToPage",
-        type: "POST",
-        contentType: "application/json",
-        data: JSON.stringify({
-            name: nomPage + "_" + blockId,
-            content: content,
-            orderBlock: blockId,
-            pageId: pageId,
-            idBlockType: blockType,
-            idParent: idParent,
-            styleBlock: styleBlock
-        }),
-        success: function(result) {
-            console.log(result);
-        },
-        error: function(xhr, resp, text) {
-            console.log(xhr);
-        }
-    });
-}*/
-
 function saveBlock(nomPage, content, blockId, blockType, idParent, styleBlock) {
     return new Promise(function(resolve, reject) {
         var xhr = new XMLHttpRequest();
@@ -55,29 +32,6 @@ function saveBlock(nomPage, content, blockId, blockType, idParent, styleBlock) {
         );
     });
 }
-
-/*function saveBlockIntoBlock(nomPage, content, pageId, idNewBlock, idBlockType, idParent, idColumn, styleBlock) {
-    var xhr = new XMLHttpRequest();
-    xhr.onreadystatechange = function() {
-        if (this.readyState === XMLHttpRequest.DONE && this.status === 200) {
-            location.reload();
-        }
-    };
-    xhr.open("POST", "/block/addBlockToBlock", true);
-    xhr.setRequestHeader("Content-type", "application/json");
-    xhr.send(
-        JSON.stringify({
-            name: nomPage + "_" + idNewBlock,
-            content: content,
-            pageId: pageId,
-            orderBlock: idNewBlock,
-            idBlockType: idBlockType,
-            idParent: idParent,
-            idColumn: idColumn,
-            styleBlock: styleBlock
-        })
-    );
-}*/
 
 function saveBlockIntoBlock(nomPage, content, pageId, idNewBlock, idBlockType, idParent, idColumn, styleBlock) {
     return new Promise(function(resolve, reject) {
@@ -110,24 +64,6 @@ function saveBlockIntoBlock(nomPage, content, pageId, idNewBlock, idBlockType, i
  * Supprime le block dans la base correspondant à l'id et recharge la page
  * @param {Int} blockId
  */
-/*function deleteBlock(blockId) {
-    $.ajax({
-        url: "/block/deleteBlock",
-        type: "POST",
-        contentType: "application/json",
-        data: JSON.stringify({
-            id: blockId
-        }),
-        success: function(result) {
-            //console.log(result);
-            location.reload();
-        },
-        error: function(xhr, resp, text) {
-            console.log(xhr);
-        }
-    });
-}*/
-
 function deleteBlock(blockId) {
     return new Promise(function(resolve, reject) {
         var xhr = new XMLHttpRequest();
@@ -147,27 +83,6 @@ function deleteBlock(blockId) {
         );
     });
 }
-/*function loadBlockType() {
-    let types = null;
-    $.ajax({
-        url: "/blockType/loadSource",
-        type: "GET",
-        success: function(result) {
-            types = JSON.parse(result);
-            console.log(types);
-        },
-        error: function(xhr, resp, text) {
-            console.log(xhr);
-        }
-    });
-
-    Object.keys(types).forEach(function(k) {
-        previousBlock.forEach(b => {
-            if (b.idBlockType === types[k].id) {
-            }
-        });
-    });
-}*/
 
 //--------------------------------------------------------------
 /**
@@ -205,30 +120,6 @@ function callbackTemplate(data, templates, id) {
 }
 //--------------------------------------------------------------
 
-/*function updateBlock(id, name, content, pageId, orderBlock, idBlockType, idParent, idColumn, styleBlock) {
-    var xhr = new XMLHttpRequest();
-    xhr.onreadystatechange = function() {
-        if (this.readyState === XMLHttpRequest.DONE && this.status === 200) {
-            location.reload();
-        }
-    };
-    xhr.open("POST", "/block/updateBlock", true);
-    xhr.setRequestHeader("Content-type", "application/json");
-    xhr.send(
-        JSON.stringify({
-            id: id,
-            name: name,
-            content: content,
-            pageId: pageId,
-            orderBlock: orderBlock,
-            idBlockType: idBlockType,
-            idParent: idParent,
-            idColumn: idColumn,
-            styleBlock: styleBlock
-        })
-    );
-}*/
-
 function updateBlock(id, name, content, pageId, orderBlock, idBlockType, idParent, idColumn, styleBlock) {
     return new Promise(function(resolve, reject) {
         var xhr = new XMLHttpRequest();
@@ -257,188 +148,51 @@ function updateBlock(id, name, content, pageId, orderBlock, idBlockType, idParen
     });
 }
 
+function htmlEditorInit(targetElement, previousContent) {
+    return new Promise(function(resolve, reject) {
+        var blockId = targetElement.getAttribute("id");
+        targetElement.innerHTML =
+            '<div class="row"><div class="col"><textarea name="content" id="editor' +
+            blockId +
+            '"></textarea></div></div><div class="row"><div class="col"><a id="blockSave" class="btn btn-success" href="#">Sauvegarder le bloc</a><a class="btn btn-danger" id="blockDelete" href="#" role="button">Supprimer le bloc</a></div></div>';
+        let editor;
+        ClassicEditor.create(document.querySelector("#editor" + blockId))
+            .then(newEditor => {
+                editor = newEditor;
+                if (previousContent !== undefined && previousContent !== "") {
+                    editor.setData(previousContent.trim());
+                }
+                resolve(editor);
+            })
+            .catch(error => {
+                reject(error);
+            });
+    });
+}
+
 /**
  *
  * @param {*} event
  */
-/*function moveBlockDown(event) {
-    //En cliquant sur la fleche on cherche la div complète du block (la div block unit) ici celle qui est déplacée
-    var blockToMove = event.target.parentElement.parentElement;
-    var blockToMoveId = blockToMove.getAttribute("id");
-    var blockToMovePrev;
-
-    //Récuperration de div block unit directement suivante
-    var nextBlock = blockToMove.nextElementSibling;
-    var nextBlockId = nextBlock.getAttribute("id");
-    var nextBlockPrev;
-
-    //Anciens ordre par id de block
-    var orders = {};
-    previousBlocks.forEach(prevBlock => {
-        if (prevBlock.id === blockToMoveId) {
-            blockToMovePrev = prevBlock;
-            orders[blockToMoveId] = prevBlock.orderBlock;
-        }
-        if (prevBlock.id === nextBlockId) {
-            nextBlockPrev = prevBlock;
-            orders[nextBlockId] = prevBlock.orderBlock;
-        }
-    });
-
-    if (nextBlock !== undefined) {
-        //Déplacement des blocks dans l'interface
-        insertAfter(blockToMove, nextBlock);
-        //Changement des ordres des blocks dans les objets previousBlocks
-        blockToMovePrev.orderBlock = orders[nextBlockId];
-        nextBlockPrev.orderBlock = orders[blockToMoveId];
-
-        updateBlock(
-            nextBlockPrev.id,
-            nextBlockPrev.name,
-            nextBlockPrev.content,
-            nextBlockPrev.pageId,
-            nextBlockPrev.orderBlock,
-            nextBlockPrev.idBlockType,
-            4
-        );
-        //Update des blocks
-        var xhr = new XMLHttpRequest();
-
-        xhr.onreadystatechange = function() {
-            if (this.readyState === XMLHttpRequest.DONE && this.status === 200) {
-                var xhr2 = new XMLHttpRequest();
-                xhr2.onreadystatechange = function() {
-                    if (this.readyState === XMLHttpRequest.DONE && this.status === 200) {
-                        location.reload();
-                    }
-                };
-                xhr2.open("POST", "/block/updateBlock", true);
-                xhr2.setRequestHeader("Content-type", "application/json");
-                xhr2.send(
-                    JSON.stringify({
-                        id: nextBlockPrev.id,
-                        name: nextBlockPrev.name,
-                        content: nextBlockPrev.content,
-                        pageId: nextBlockPrev.pageId,
-                        orderBlock: nextBlockPrev.orderBlock,
-                        idBlockType: nextBlockPrev.idBlockType,
-                        nombreCol: nextBlockPrev.nombreCol,
-                        innerBlocks: nextBlockPrev.innerBlocks
-                    })
-                );
-            }
-        };
-        xhr.open("POST", "/block/updateBlock", true);
-        xhr.setRequestHeader("Content-type", "application/json");
-        xhr.send(
-            JSON.stringify({
-                id: blockToMovePrev.id,
-                name: blockToMovePrev.name,
-                content: blockToMovePrev.content,
-                pageId: blockToMovePrev.pageId,
-                orderBlock: blockToMovePrev.orderBlock,
-                idBlockType: blockToMovePrev.idBlockType,
-                nombreCol: blockToMovePrev.nombreCol,
-                innerBlocks: blockToMovePrev.innerBlocks
-            })
-        );
-    }
-}
-
-function moveBlockUp(event) {
-    //En cliquant sur la fleche on cherche la div complète du block (la div block unit) ici celle qui est déplacée
-    var blockToMove = event.target.parentElement.parentElement;
-    var blockToMoveId = blockToMove.getAttribute("id");
-    var blockToMovePrev;
-
-    //Récuperration de div block unit directement suivante
-    var antecBlock = blockToMove.previousElementSibling;
-    var antecBlockId = antecBlock.getAttribute("id");
-    var antecBlockPrev;
-
-    //Anciens ordre par id de block
-    var orders = {};
-    previousBlocks.forEach(prevBlock => {
-        if (prevBlock.id === blockToMoveId) {
-            blockToMovePrev = prevBlock;
-            orders[blockToMoveId] = prevBlock.orderBlock;
-        }
-        if (prevBlock.id === antecBlockId) {
-            antecBlockPrev = prevBlock;
-            orders[antecBlockId] = prevBlock.orderBlock;
-        }
-    });
-
-    if (antecBlock !== undefined) {
-        //Déplacement des blocks dans l'interface
-        insertAfter(blockToMove, antecBlock);
-        //Changement des ordres des blocks dans les objets previousBlocks
-        blockToMovePrev.orderBlock = orders[antecBlockId];
-        antecBlockPrev.orderBlock = orders[blockToMoveId];
-
-        //Update des blocks
-        var xhr = new XMLHttpRequest();
-
-        xhr.onreadystatechange = function() {
-            if (this.readyState === XMLHttpRequest.DONE && this.status === 200) {
-                var xhr2 = new XMLHttpRequest();
-                xhr2.onreadystatechange = function() {
-                    if (this.readyState === XMLHttpRequest.DONE && this.status === 200) {
-                        location.reload();
-                    }
-                };
-                xhr2.open("POST", "/block/updateBlock", true);
-                xhr2.setRequestHeader("Content-type", "application/json");
-                xhr2.send(
-                    JSON.stringify({
-                        id: antecBlockPrev.id,
-                        name: antecBlockPrev.name,
-                        content: antecBlockPrev.content,
-                        pageId: antecBlockPrev.pageId,
-                        orderBlock: antecBlockPrev.orderBlock,
-                        idBlockType: antecBlockPrev.idBlockType,
-                        nombreCol: antecBlockPrev.nombreCol,
-                        innerBlocks: antecBlockPrev.innerBlocks
-                    })
-                );
-            }
-        };
-        xhr.open("POST", "/block/updateBlock", true);
-        xhr.setRequestHeader("Content-type", "application/json");
-        xhr.send(
-            JSON.stringify({
-                id: blockToMovePrev.id,
-                name: blockToMovePrev.name,
-                content: blockToMovePrev.content,
-                pageId: blockToMovePrev.pageId,
-                orderBlock: blockToMovePrev.orderBlock,
-                idBlockType: blockToMovePrev.idBlockType,
-                nombreCol: blockToMovePrev.nombreCol,
-                innerBlocks: blockToMovePrev.innerBlocks
-            })
-        );
-    }
-}*/
-
 function moveBlockDown(event, blocks) {
     //En cliquant sur la fleche on cherche la div complète du block (la div block unit) ici celle qui est déplacée
     var blockToMove = event.target.parentElement.parentElement;
     var blockToMoveId = blockToMove.getAttribute("id");
-    var blockToMoveObj = findBlockById(blockToMoveId);
+    var blockToMoveObj = findBlockById(blockToMoveId, blocks);
+    var oldOrderToMove = blockToMoveObj.orderBlock;
 
     //Récuperration de div block unit directement suivante
     var nextBlock = blockToMove.nextElementSibling;
     var nextBlockId = nextBlock.getAttribute("id");
-    var nextBlockObj = findBlockById(nextBlockId);
-
-    var orders = getBlocksOrder(blocks);
+    var nextBlockObj = findBlockById(nextBlockId, blocks);
+    var oldOrderNext = nextBlockObj.orderBlock;
 
     if (nextBlock !== undefined) {
         insertAfter(blockToMove, nextBlock);
 
         //Changement des ordres des blocks dans les objets previousBlocks
-        blockToMoveObj.orderBlock = orders["block" + nextBlockId];
-        nextBlockObj.orderBlock = orders["block" + blockToMoveId];
+        blockToMoveObj.orderBlock = oldOrderNext;
+        nextBlockObj.orderBlock = oldOrderToMove;
 
         updateBlock(
             blockToMoveObj.id,
@@ -450,21 +204,23 @@ function moveBlockDown(event, blocks) {
             blockToMoveObj.idParent,
             blockToMoveObj.idColumn,
             blockToMoveObj.styleBlock
-        ).then(function() {
-            updateBlock(
-                nextBlockObj.id,
-                nextBlockObj.name,
-                nextBlockObj.content,
-                nextBlockObj.pageId,
-                nextBlockObj.orderBlock,
-                nextBlockObj.idBlockType,
-                nextBlockObj.idParent,
-                nextBlockObj.idColumn,
-                nextBlockObj.styleBlock
-            );
-        }).then(function() {
-            location.reload();
-        });
+        )
+            .then(function() {
+                return updateBlock(
+                    nextBlockObj.id,
+                    nextBlockObj.name,
+                    nextBlockObj.content,
+                    nextBlockObj.pageId,
+                    nextBlockObj.orderBlock,
+                    nextBlockObj.idBlockType,
+                    nextBlockObj.idParent,
+                    nextBlockObj.idColumn,
+                    nextBlockObj.styleBlock
+                );
+            })
+            .then(function() {
+                location.reload();
+            });
     }
 }
 
@@ -472,21 +228,20 @@ function moveBlockUp(event, blocks) {
     //En cliquant sur la fleche on cherche la div complète du block (la div block unit) ici celle qui est déplacée
     var blockToMove = event.target.parentElement.parentElement;
     var blockToMoveId = blockToMove.getAttribute("id");
-    var blockToMoveObj = findBlockById(blockToMoveId);
+    var blockToMoveObj = findBlockById(blockToMoveId, blocks);
+    var oldOrderToMove = blockToMoveObj.orderBlock;
 
     //Récuperration de div block unit directement suivante
     var antecBlock = blockToMove.previousElementSibling;
     var antecBlockId = antecBlock.getAttribute("id");
-    var antecBlockObj = findBlockById(antecBlockId);
+    var antecBlockObj = findBlockById(antecBlockId, blocks);
+    var oldOrderAntec = antecBlockObj.orderBlock;
 
-    var orders = getBlocksOrder(blocks);
-
-    if (nextBlock !== undefined) {
+    if (antecBlock !== undefined) {
         insertAfter(blockToMove, antecBlock);
-
         //Changement des ordres des blocks dans les objets previousBlocks
-        blockToMoveObj.orderBlock = orders["block" + blockToMoveId];
-        antecBlockObj.orderBlock = orders["block" + antecBlockId];
+        blockToMoveObj.orderBlock = oldOrderAntec;
+        antecBlockObj.orderBlock = oldOrderToMove;
 
         updateBlock(
             blockToMoveObj.id,
@@ -498,21 +253,23 @@ function moveBlockUp(event, blocks) {
             blockToMoveObj.idParent,
             blockToMoveObj.idColumn,
             blockToMoveObj.styleBlock
-        ).then(function() {
-            updateBlock(
-                antecBlockObj.id,
-                antecBlockObj.name,
-                antecBlockObj.content,
-                antecBlockObj.pageId,
-                antecBlockObj.orderBlock,
-                antecBlockObj.idBlockType,
-                antecBlockObj.idParent,
-                antecBlockObj.idColumn,
-                antecBlockObj.styleBlock
-            );
-        }).then(function() {
-            location.reload();
-        });
+        )
+            .then(function() {
+                return updateBlock(
+                    antecBlockObj.id,
+                    antecBlockObj.name,
+                    antecBlockObj.content,
+                    antecBlockObj.pageId,
+                    antecBlockObj.orderBlock,
+                    antecBlockObj.idBlockType,
+                    antecBlockObj.idParent,
+                    antecBlockObj.idColumn,
+                    antecBlockObj.styleBlock
+                );
+            })
+            .then(function() {
+                location.reload();
+            });
     }
 }
 
