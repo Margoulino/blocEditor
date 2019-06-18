@@ -35,7 +35,9 @@ class BlockController
         $block->pageId = $data->pageId;
         $block->orderBlock = $data->orderBlock;
         $block->idBlockType = $data->idBlockType;
-        $block->styleBlock = $data->styleBlock;
+        if(isset($data->styleBlock))
+        {$block->styleBlock = $data->styleBlock;}
+        else {$block->styleBlock = null;}
         $targetPage = PageModel::findById($data->pageId);
         if (empty($targetPage)) {
             http_response_code(404);

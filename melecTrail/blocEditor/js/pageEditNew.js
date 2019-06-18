@@ -7,7 +7,7 @@
  * @param {Int} blockType Id du type de block qui définiera le template qui sera attribué
  * @param {Int} idParent Id du block parent contenant le block que l'on sauvegarde (s'il y en a un)
  */
-function saveBlock(nomPage, content, blockId, blockType, idParent, styleBlock) {
+function saveBlock(data) {
     return new Promise(function(resolve, reject) {
         var xhr = new XMLHttpRequest();
         xhr.onreadystatechange = function() {
@@ -19,17 +19,7 @@ function saveBlock(nomPage, content, blockId, blockType, idParent, styleBlock) {
         };
         xhr.open("POST", "/block/addBlockToPage", true);
         xhr.setRequestHeader("Content-type", "application/json");
-        xhr.send(
-            JSON.stringify({
-                name: nomPage + "_" + blockId,
-                content: content,
-                orderBlock: blockId,
-                pageId: pageId,
-                idBlockType: blockType,
-                idParent: idParent,
-                styleBlock: styleBlock
-            })
-        );
+        xhr.send(data);
     });
 }
 

@@ -82,15 +82,16 @@ class BlockModel
         $dbConn = DBModel::getConnection();
         $stmt = $dbConn->prepare('
             INSERT INTO edit_block 
-                (name, content, pageId, orderBlock, idBlockType) 
+                (name, content, pageId, orderBlock, idBlockType, styleBlock) 
             VALUES 
-                (:name, :content, :pageId, :orderBlock, :idBlockType)
+                (:name, :content, :pageId, :orderBlock, :idBlockType, :styleBlock)
         ');
         $stmt->bindParam(':name', $block->name);
         $stmt->bindParam(':content', $block->content);
         $stmt->bindParam(':pageId', $block->pageId);
         $stmt->bindParam(':orderBlock', $block->orderBlock);
         $stmt->bindParam(':idBlockType', $block->idBlockType);
+        $stmt->bindParam(':styleBlock', $block->styleBlock);
         return $stmt->execute();
     }
 

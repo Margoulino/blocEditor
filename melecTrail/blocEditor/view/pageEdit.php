@@ -176,11 +176,11 @@
 
     <script>
         var pageId = <?php echo $page[0]->id ?>;
-        var idNewBlock = <?php echo count($blocks); ?> + 1;
+        var idNewBlock = <?php echo count($blocks); ?> + 2;
         var nomPage = "<?php echo $page[0]->name; ?>";
         var previousBlocks = <?php echo json_encode($blocks); ?>;
-        var definedCategories = <?php echo json_encode($allCategories); ?>;
-        var pageCategories = <?php echo json_encode($categoriesPage); ?>;
+        var definedCategories = null <?php //echo json_encode($allCategories); ?>;
+        var pageCategories = null <?php //echo json_encode($categoriesPage); ?>;
         var templateHTML = <?php echo json_encode($categHTML); ?>;
     </script>
     <script src="https://code.jquery.com/jquery-3.4.1.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
@@ -194,10 +194,11 @@
     <script src="https://code.iconify.design/1/1.0.2/iconify.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/owl.carousel.js"></script>
     <script src="/blocEditor/js/blockInit.js"></script>
-    <script src="/blocEditor/js/imageHandler.js"></script>
+    
     <script src="/blocEditor/js/pageEditNew.js"></script>
     <script src="/blocEditor/js/pageEditUI.js"></script>
     <script src="/blocEditor/js/columnHandler.js"></script>
+    <script src="/blocEditor/js/imageHandlerNew.js"></script>
 </body>
 
 </html>
