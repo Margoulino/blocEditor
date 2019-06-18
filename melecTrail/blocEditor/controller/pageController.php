@@ -129,7 +129,6 @@ class PageController
             $page = PageModel::findByName($name[0]);
             if (!empty($page)) {
                 $blocks = PageModel::getAllBlocksByIdPage($page[0]->id);
-                $blockTypes = BlockTypeModel::findAll();
                 $categJs = array();
                 $categHTML = array();
                 foreach ($blocks as $block) {
@@ -150,12 +149,13 @@ class PageController
                 }
                 fwrite($fileHandler,"});");
                 fclose($fileHandler);
-                $doc = new DOMDocument();
                 foreach ($blocks as $block) {
                     if ($block->idParent === null) {
                         if($block->idBlockType === '1' || $block->idBlockType === '2') {
                             $block->content=BlockController::setColumnChilds($block,$categHTML);
-                        } 
+                        } else if ($block->idBlockType === '3'){
+                            $block->content = BlockController::buildCarousel($block,$categHTML);
+                        }
                     }
                 }
                 require($_SERVER['DOCUMENT_ROOT'] . '/blocEditor/view/pageEdit.php');
@@ -163,7 +163,7 @@ class PageController
                 throw new Exception("Page does not exists, you must create it first");
             }
         } catch (Exception $e) {
-            echo 'error';
+            echo json_enccode(array("message" => $e));
         }
     }
 

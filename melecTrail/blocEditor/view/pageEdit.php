@@ -71,21 +71,22 @@
             if ($blocks != NULL) {
                 foreach ($blocks as $block) {
                     if ($block->idParent === null) {
-                        if ($block->idBlockType !== '1' && $block->idBlockType !== '2') {
+                        if ($block->idBlockType === '5' || $block->idBlockType === '4') {
                             echo '<div id="' . $block->id . '" class="block-unit">';
                             echo '<div><i id="orderUp' . $block->id . '" i class="fas fa-arrow-up"></i>   <i id="orderDown' . $block->id . '"class="fas fa-arrow-down"></i><i class="float-right deleteBlock fas fa-times"></i></div>' ;
                             echo str_replace('{$block->content}',$block->content,$categHTML[$block->idBlockType]);
                             if ($block->idBlockType === '4') {
                                 echo '<button class="btn btn-xs btn-info resizebtn">Redimensionner</button>';
-                            } elseif ($block->idBlockType === '3') {
-                                echo '<button class="btn btn-xs btn-outline-info contentSlider">Ajouter/Supprimer une image</button>';
-                            }
+                            } 
                         } else {
                             echo '<div id="' . $block->id . '" class="block-unit-complex">';
                             echo '<div><i id="orderUp' . $block->id . '" i class="fas fa-arrow-up"></i>   <i id="orderDown' . $block->id . '"class="fas fa-arrow-down"></i><i class="float-right deleteBlock fas fa-times"></i></div>' ;
                             echo $block->content;
                         }
                         echo '</div>';
+                        if ($block->idBlockType === '3') {
+                            echo '<button class="btn btn-xs btn-outline-info contentSlider">Ajouter/Supprimer une image</button>';
+                        }
                     }
                 }
             }
@@ -192,10 +193,12 @@
     <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
     <script src="https://code.iconify.design/1/1.0.2/iconify.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/owl.carousel.js"></script>
+    <script src="/blocEditor/js/blockInit.js"></script>
     <script src="/blocEditor/js/pageEdit.js"></script>
     <script src="/blocEditor/js/imageHandler.js"></script>
-    <script src="/blocEditor/js/columnHandler.js"></script>
+    
     <script src="/blocEditor/js/pageEditNew.js"></script>
+    <script src="/blocEditor/js/columnHandler.js"></script>
 </body>
 
 </html>

@@ -257,7 +257,6 @@ class BlockController
         // $doc->loadHTML('<div class ="block-unit" id="'.$child->id.'" ></div>');
         // str_replace("{\$block->content}",$child->content,$categHTML[$child->idBlockType]);
         $childs = BlockModel::findChildren($node->id);
-        $cols = array();
         $result = $categHTML[$node->idBlockType];
         foreach ($childs as $child) {
             $template =  $categHTML[$child->idBlockType];
@@ -270,5 +269,26 @@ class BlockController
             }
         }
         return $result;
+    }
+
+    public static function buildCarousel($block, $templateHTML) {
+        $multiplyStr = BlockController::get_string_between($templateHTML[$block->idBlockType],'[tag]','[/tag]');
+        
+        $listImg = explode(" ; ", $block->content);
+        $multipliedStr = array();
+        foreach($listImg as $img) {
+            array_push($multipliedStr,str_replace('{$block->content}',$img,$multiplyStr));
+        }
+        return str_replace('[tag]'.BlockController::get_string_between($templateHTML[$block->idBlockType],'[tag]','[/tag]').'[/tag]',implode("",$multipliedStr),$templateHTML[$block->idBlockType]);
+
+    }
+
+    public static function get_string_between($string, $start, $end){
+        $string = ' ' . $string;
+        $ini = strpos($string, $start);
+        if ($ini == 0) return '';
+        $ini += strlen($start);
+        $len = strpos($string, $end, $ini) - $ini;
+        return substr($string, $ini, $len);
     }
 }
