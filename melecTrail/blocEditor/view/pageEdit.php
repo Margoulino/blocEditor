@@ -73,20 +73,20 @@
                     if ($block->idParent === null) {
                         if ($block->idBlockType === '5' || $block->idBlockType === '4') {
                             echo '<div id="' . $block->id . '" class="block-unit">';
-                            echo '<div><i id="orderUp' . $block->id . '" i class="fas fa-arrow-up"></i>   <i id="orderDown' . $block->id . '"class="fas fa-arrow-down"></i><i class="float-right deleteBlock fas fa-times"></i></div>' ;
-                            echo str_replace('{$block->content}',$block->content,$categHTML[$block->idBlockType]);
+                            echo '<div><i id="orderUp' . $block->id . '" i class="fas fa-arrow-up"></i>   <i id="orderDown' . $block->id . '"class="fas fa-arrow-down"></i><i class="float-right deleteBlock fas fa-times"></i></div>';
+                            echo str_replace('{$block->content}', $block->content, $categHTML[$block->idBlockType]);
                             if ($block->idBlockType === '4') {
                                 echo '<button class="btn btn-xs btn-info resizebtn">Redimensionner</button>';
-                            } 
+                            }
                         } else {
                             echo '<div id="' . $block->id . '" class="block-unit-complex">';
-                            echo '<div><i id="orderUp' . $block->id . '" i class="fas fa-arrow-up"></i>   <i id="orderDown' . $block->id . '"class="fas fa-arrow-down"></i><i class="float-right deleteBlock fas fa-times"></i></div>' ;
+                            echo '<div><i id="orderUp' . $block->id . '" i class="fas fa-arrow-up"></i>   <i id="orderDown' . $block->id . '"class="fas fa-arrow-down"></i><i class="float-right deleteBlock fas fa-times"></i></div>';
                             echo $block->content;
                         }
-                        echo '</div>';
                         if ($block->idBlockType === '3') {
                             echo '<button class="btn btn-xs btn-outline-info contentSlider">Ajouter/Supprimer une image</button>';
                         }
+                        echo '</div>';
                     }
                 }
             }

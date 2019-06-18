@@ -1,13 +1,10 @@
 $('#2colOption').on('click', function () {
     closeNav();
-    template = '<div class="row block"><div class="column col" id="1"></div><div class="column col" id="2"></div></div>';
-    blockEditorInit(document.querySelector('.interface-block'), "save", 3, template);
 });
 
 $('#3colOption').on('click', function () {
     closeNav();
-    template = '<div class="row block"><div class="column col" id="1"></div><div class="column col" id="2"></div><div class="column col" id="3"></div></div>';
-    blockEditorInit(document.querySelector('.interface-block'), "save", 5, template);
+    
 })
 
 function blockEditorInit(targetElement, operation, idBlockType, template) {
@@ -71,63 +68,24 @@ function blockEditorInit(targetElement, operation, idBlockType, template) {
     })
 };
 
-function columnEdit(colBlockId, colPosition, toAddId) {
-    $.ajax({
-        url: "/block/addBlockToColumn",
-        type: "POST",
-        contentType: 'application/json',
-        data: JSON.stringify({
-            "toAddId": toAddId,
-            "colPosition": colPosition,
-            "id": colBlockId
-        }),
-        success: function (result) {
-            console.log("Colonne éditée avec succès.");
-        },
-        error: function (xhr, resp, text) {
-            window.alert("Erreur lors de la modification.");
-        }
-    });
-}
-
 $(document).ready(function () {
-    previousBlocks.forEach(block => {
-        if (block.innerBlocks != "") {
-            innerTab = block.innerBlocks;
-            Object.keys(innerTab).forEach(function (k) {
-                var node = $('#' + innerTab[k]);
-                var parent = $('#' + block.id + ' .block').children();
-                if ($(node).children().first().next().prop('tagName') == "A" || $(node).children().first().next().hasClass("owl-carousel")) {
-                    node[0].innerHTML = '<i class="float-right deleteFromCol fas fa-times"></i>' + node[0].innerHTML;
-                }
-                $(node).find("div").first().remove();
-                parent[k - 1].innerHTML = node[0].outerHTML;
-                node.remove();
-            });
-        }
-    })
-    $('.deleteFromCol').on('click', function () {
-        if (confirm("Confirmer la suppression du bloc ?")) {
-            if ($(this).next().hasClass('owl-carousel')){
-                var idParent = $(this).parent().parent().closest('.block-unit-complex').attr('id');
-            } else {
-                var idParent= $(this).closest('.block-unit-complex').attr('id');
-            }
-            $.ajax({
-                url: "/block/deleteFromCol",
-                type: "POST",
-                contentType: 'application/json',
-                data: JSON.stringify({ "idParent": idParent, "idChild": $(this).parent().attr('id')}),
-                success: function (result) {
-                    console.log("image supprimée");
-                },
-                error: function (xhr, resp, text) {
-                    window.alert("Erreur lors de la modification.");
-                }
-            });
-            deleteBlock($(this).parent());
-        }
-    })
+    // A MODIFIER //
+    // previousBlocks.forEach(block => {
+    //     if (block.innerBlocks != "") {
+    //         innerTab = block.innerBlocks;
+    //         Object.keys(innerTab).forEach(function (k) {
+    //             var node = $('#' + innerTab[k]);
+    //             var parent = $('#' + block.id + ' .block').children();
+    //             if ($(node).children().first().next().prop('tagName') == "A" || $(node).children().first().next().hasClass("owl-carousel")) {
+    //                 node[0].innerHTML = '<i class="float-right deleteFromCol fas fa-times"></i>' + node[0].innerHTML;
+    //             }
+    //             $(node).find("div").first().remove();
+    //             parent[k - 1].innerHTML = node[0].outerHTML;
+    //             node.remove();
+    //         });
+    //     }
+    // })
+
     $(".block-unit-complex .block-unit").one("dblclick", function () {
         if ($(this).children().next().prop("tagName") == "A") {
             return;
@@ -140,13 +98,11 @@ $(document).ready(function () {
         $(this).toggle();
         editImgBlock(this.parentElement, "update", this.parentElement.innerHTML);
     })
-    $('.column').each(function () {
-        if ($(this).children().length == 0) {
-            this.innerHTML = '<div class="text-center" style="padding-top: 1.5em;"><button class="btn btn-xs btn-outline-info addBlockCol"><i class="fas fa-plus"></i></button></div>';
-        }
-    })
 
     $('.addBlockCol').on('click', function () {
+        console.log('addBlockCol');
+        var idParent = $(this).closest('.block-unit-complex').attr('id');
+        var idColumn = $(this).closest('column').attr('id');
         $(this).parent().parent().addClass('edited-col');
         $('#innerBlockModal').modal('show');
         $('#textBlock').on('click', function () {
@@ -158,17 +114,43 @@ $(document).ready(function () {
             $('#uploadImageModal').modal('show');
             $("#selectImg").off();
             $("#selectImg").on('click', function () {
-                editImgBlock(document.querySelector('.edited-col'), "addToCol", '')
                 $('#uploadImageModal').modal('toggle');
+                var data = JSON.stringify({
+                    name: nomPage + "_" + idNewBlock,
+                    content :  $('.image_picker_selector .selected img').attr('src'),
+                    idParen : idParent,
+                    idColumn : idColumn,
+                    orderBlock: idNewBlock,
+                    idBlockType: '4',
+                    pageId: pageId
+                })
+                saveBlock(data);
             });
         })
         $('#carouselBlock').on('click', function () {
             $('#innerBlockModal').modal('toggle');
-            initCarousel(document.querySelector('.edited-col'), "addToCol");
-        })
+            $('#uploadImageModal').modal('show');
+            $('#selectImg').off();
+            $("#selectImg").on('click', function () {
+                $('#uploadImageModal').modal('toggle');
+                var imgSrc = [];
+                $('.image_picker_selector .selected img').each(function (index) {
+                    imgSrc.push($(this).attr('src'));
+                })
+                var data = JSON.stringify({
+                    name: nomPage + "_" + idNewBlock,
+                    content :  imgSrc.join(" ; "),
+                    idParen : idParent,
+                    idColumn : idColumn,
+                    orderBlock: idNewBlock,
+                    idBlockType: '3',
+                    pageId: pageId
+                })
+                saveBlock();
+            })
+        });
     });
-});
-
+})
 
 
 

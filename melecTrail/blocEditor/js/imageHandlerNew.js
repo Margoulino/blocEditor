@@ -84,7 +84,14 @@ $(document).ready(function () {
             $('.image_picker_selector .selected img').each(function (index) {
                 imgSrc.push($(this).attr('src'));
             })
-            saveBlock();
+            var data = JSON.stringify({
+                name: nomPage + "_" + idNewBlock,
+                content : imgSrc.join(' ; '),
+                orderBlock: idNewBlock,
+                pageId : pageId,
+                idBlockType : '3'
+            })
+            saveBlock(data);
         })
     })
 
@@ -102,6 +109,11 @@ $(document).ready(function () {
             var imgSrc = [];
             $('.image_picker_selector .selected img').each(function (index) {
                 imgSrc.push($(this).attr('src'));
+            })
+            var data = JSON.stringify({
+                id: $(button).closest('.block-unit-complex'),
+                content : imgSrc.join(' ; '),
+                pageId : pageId
             })
             updateBlock();
         })
@@ -127,8 +139,16 @@ $(document).ready(function () {
         buttonSave.innerHTML = '<a id="blockSave" class="btn btn-success" href="#">Sauvegarder le bloc</a>';
         $(this).parent().append($(buttonSave));
         $('#blockSave').on('click', function () {
-            var style = $(this).attr('style') ;
-            updateBlock();
+            var style = $(img).attr('style') ;
+            $(img).resizable('destroy');
+            $('#blockSave').remove();
+            var data = JSON.stringify({
+                id: $(img).closest('.block-unit').attr('id'),
+                pageId: pageId,
+                style : style
+            }) 
+            updateBlock(data);
+
         })
 
     })

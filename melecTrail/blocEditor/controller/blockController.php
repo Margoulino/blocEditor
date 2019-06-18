@@ -134,14 +134,22 @@ class BlockController
         } else {
             $block = new BlockModel();
             $block->id = $data->id;
-            $block->name = $data->name;
-            $block->content = $data->content;
-            $block->pageId = $data->pageId;
-            $block->orderBlock = $data->orderBlock;
-            $block->idBlockType = $data->idBlockType;
-            $block->idParent = $data->idParent;
-            $block->idColumn = $data->idColumn;
-            $block->styleBlock = $data->styleBlock;
+            if(isset($data->name))
+            {$block->name = $data->name;}
+            if(isset($data->content))
+            {$block->content = $data->content;}
+            if(isset($data->pageId))
+            {$block->pageId = $data->pageId;}
+            if(isset($data->orderBlock))
+            {$block->orderBlock = $data->orderBlock;}
+            if(isset($data->idBlockType))
+            {$block->idBlockType = $data->idBlockType;}
+            if(isset($data->idParent))
+            {$block->idParent = $data->idParent;}
+            if(isset($data->idColumn))
+            {$block->idColumn = $data->idColumn;}
+            if(isset($data->style))
+            {$block->styleBlock = $data->styleBlock;}
             $targetPage = PageModel::findByid($data->pageId);
             if (empty($targetPage)) {
                 http_response_code(404);
@@ -167,95 +175,14 @@ class BlockController
                 header('Content-type: application/json');
                 echo json_encode(['target_file' => $_FILES['file']['name']]);
             } catch (Exception $e) {
-                echo $e;
+                echo json_encode(array("message" => $e));
             }
         }
     }
 
-    public function addBlockToColumn()
-    {
-        $data  = json_decode(file_get_contents("php://input"));
-        try {
-            $blockToUpdate = BlockModel::findById($data->id);
-            if ($blockToUpdate[0]->innerBlocks == "") {
-                $inner = json_decode("{}");
-            } else {
-                $inner = json_decode($blockToUpdate[0]->innerBlocks);
-            }
-            switch ($data->colPosition) {
-                case 1:
-                    $inner->{'1'} = $data->toAddId;
-                    break;
-                case 2:
-                    $inner->{'2'} = $data->toAddId;
-                    break;
-                case 3:
-                    $inner->{'3'} = $data->toAddId;
-                    break;
-            }
-            $blockToUpdate[0]->innerBlocks = json_encode($inner);
-            $blockToUpdate[0]->update();
-        } catch (Exception $e) {
-            http_response_code(404);
-            echo json_encode(array("message" => "Error"));
-            return;
-        }
-        http_response_code(200);
-        echo json_encode(array("message" => "block added"));
-        return;
-    }
-
-    public function loadBlocksByPage()
-    {
-        $data = json_decode(file_get_contents("php://input"));
-        try {
-            $blocks2Load = array();
-            $blocks = BlockModel::findByIdPage($data->idPage);
-            foreach ($blocks as $block) {
-                array_push($blocks2Load, json_encode($block));
-            }
-            http_response_code(200);
-            echo json_encode(array(
-                "message" => "blocks loaded.",
-                "blocks" => $blocks2Load
-            ));
-        } catch (Exception $e) {
-            http_response_code(404);
-            echo json_encode(array("message" => $e));
-        }
-    }
-
-    public function deleteFromCol()
-    {
-        $data  = json_decode(file_get_contents("php://input"));
-        try {
-            $block = BlockModel::findById($data->idParent);
-            if ($block[0]->innerBlocks == "" || $block[0]->innerBlocks == "{}") {
-                http_response_code(412);
-                echo json_encode(array("message" => "le bloc parent est deja vide."));
-                return;
-            }
-            $inner = json_decode($block[0]->innerBlocks, true);
-            unset($inner[array_keys($inner, $data->idChild)[0]]);
-            if (json_encode($inner) == "[]") {
-                $block[0]->innerBlocks = "";
-            } else {
-                $block[0]->innerBlocks = json_encode($inner);
-            }
-            $block[0]->update();
-            http_response_code(200);
-            echo json_encode(array("message" => "colonne vide."));
-        } catch (Exception $e) {
-            http_response_code(404);
-            echo json_encode(array("message" => $e));
-        }
-    }
 
     public static function setColumnChilds($node, $categHTML)
     {
-        // $doc = new DOMDocument();
-        // $doc->loadHTML('<div class ="block-unit" id="'.$child->id.'" ></div>');
-        // str_replace("{\$block->content}",$child->content,$categHTML[$child->idBlockType]);
         $childs = BlockModel::findChildren($node->id);
         $result = $categHTML[$node->idBlockType];
         foreach ($childs as $child) {
@@ -263,9 +190,9 @@ class BlockController
             if ($child->idBlockType !== '1' && $child->idBlockType !== '2') {
                 $oldVar = array('{$block->content}', '{$block->id}');
                 $newVar = array($child->content, $child->id);
-                $result = str_replace('{col' . $child->idColumn . '}',"<div class='block-unit' id='" . $child->id . "'>" . str_replace($oldVar, $newVar, $template) . "</div>",$result);
+                $result = str_replace('{col' . $child->idColumn . '}',"<div class='block-unit' id='" . $child->id . "'><i class='float-right deleteBlock fas fa-times'></i>" . str_replace($oldVar, $newVar, $template) . "</div>",$result);
             } else {
-                $result = str_replace('{col' . $child->idColumn . '}', "<div class='block-unit-complex' id='" . $child->id . "'>" . BlockController::setColumnChilds($child, $categHTML) . "</div>", $result);
+                $result = str_replace('{col' . $child->idColumn . '}', "<div class='block-unit-complex' id='" . $child->id . "'><i class='float-right deleteBlock fas fa-times'></i>" . BlockController::setColumnChilds($child, $categHTML) . "</div>", $result);
             }
         }
         return $result;
@@ -273,14 +200,12 @@ class BlockController
 
     public static function buildCarousel($block, $templateHTML) {
         $multiplyStr = BlockController::get_string_between($templateHTML[$block->idBlockType],'[tag]','[/tag]');
-        
         $listImg = explode(" ; ", $block->content);
         $multipliedStr = array();
         foreach($listImg as $img) {
             array_push($multipliedStr,str_replace('{$block->content}',$img,$multiplyStr));
         }
         return str_replace('[tag]'.BlockController::get_string_between($templateHTML[$block->idBlockType],'[tag]','[/tag]').'[/tag]',implode("",$multipliedStr),$templateHTML[$block->idBlockType]);
-
     }
 
     public static function get_string_between($string, $start, $end){
