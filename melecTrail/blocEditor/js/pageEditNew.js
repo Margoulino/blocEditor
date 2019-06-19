@@ -117,6 +117,7 @@ function updateBlock(data) {
         xhr.onreadystatechange = function() {
             if (this.readyState === XMLHttpRequest.DONE && this.status === 200) {
                 resolve();
+                location.reload();
             } else if (this.status === 404) {
                 reject(JSON.parse(xhr.response).message);
             }

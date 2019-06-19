@@ -55,11 +55,11 @@ $(document).ready(function () {
                 imgSrc.push($(this).attr('src'));
             })
             var data = JSON.stringify({
-                id: $(button).closest('.block-unit-complex'),
+                id: $(button).closest('.block-unit-complex').attr('id'),
                 content: imgSrc.join(' ; '),
                 pageId: pageId
             })
-            updateBlock();
+            updateBlock(data);
         })
     })
 

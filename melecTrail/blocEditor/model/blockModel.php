@@ -174,7 +174,7 @@ class BlockModel
     {
         $dbConn = DBModel::getConnection();
         $stmt = $dbConn->prepare('
-            DELETE FROM edit_block WHERE id = :id AND idParent = :id;
+            DELETE FROM edit_block WHERE id = :id OR idParent = :id;
         ');
         $stmt->bindParam(':id', $id);
         return $stmt->execute();
