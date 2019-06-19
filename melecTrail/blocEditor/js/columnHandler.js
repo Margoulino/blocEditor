@@ -1,9 +1,25 @@
 $('#2colOption').on('click', function () {
     closeNav();
+    var data = JSON.stringify({
+        name: nomPage + "_" + idNewBlock,
+        orderBlock: idNewBlock,
+        pageId: pageId,
+        idBlockType: '1'
+    })
+    console.log(data)
+    saveBlock(data);
 });
 
 $('#3colOption').on('click', function () {
     closeNav();
+    var data = JSON.stringify({
+        name: nomPage + "_" + idNewBlock,
+        orderBlock: idNewBlock,
+        pageId: pageId,
+        idBlockType: '2'
+    })
+    console.log(data)
+    saveBlock(data);
     
 })
 
