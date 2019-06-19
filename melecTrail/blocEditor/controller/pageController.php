@@ -109,26 +109,6 @@ class PageController
             $page = PageModel::findByName($name[0]);
             if (!empty($page)) {
                 $blocks = PageModel::getAllBlocksByIdPage($page[0]->id);
-                $categoriesPage = PageCategoryModel::findByIdPage($page[0]->id);
-                $allCategories = CategoryModel::findAll();
-                require($_SERVER['DOCUMENT_ROOT'] . '/blocEditor/view/pageEdit.php');
-            } else {
-                throw new Exception("Page does not exists, you must create it first");
-            }
-        } catch (Exception $e) {
-            $blocks = NULL;
-            http_response_code(404);
-            echo json_encode(array('message' => $e->getMessage()));
-            require($_SERVER['DOCUMENT_ROOT'] . '/blocEditor/view/pageEdit.php');
-        }
-    }
-
-    public function editionPageNew($name)
-    {
-        try {
-            $page = PageModel::findByName($name[0]);
-            if (!empty($page)) {
-                $blocks = PageModel::getAllBlocksByIdPage($page[0]->id);
                 $categJs = array();
                 $categHTML = array();
                 foreach ($blocks as $block) {
