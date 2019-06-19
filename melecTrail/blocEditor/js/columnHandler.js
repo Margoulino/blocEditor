@@ -6,7 +6,6 @@ $('#2colOption').on('click', function () {
         pageId: pageId,
         idBlockType: '1'
     })
-    console.log(data)
     saveBlock(data);
 });
 
@@ -18,9 +17,7 @@ $('#3colOption').on('click', function () {
         pageId: pageId,
         idBlockType: '2'
     })
-    console.log(data)
     saveBlock(data);
-    
 })
 
 function blockEditorInit(targetElement, operation, idBlockType, template) {
@@ -85,23 +82,6 @@ function blockEditorInit(targetElement, operation, idBlockType, template) {
 };
 
 $(document).ready(function () {
-    // A MODIFIER //
-    // previousBlocks.forEach(block => {
-    //     if (block.innerBlocks != "") {
-    //         innerTab = block.innerBlocks;
-    //         Object.keys(innerTab).forEach(function (k) {
-    //             var node = $('#' + innerTab[k]);
-    //             var parent = $('#' + block.id + ' .block').children();
-    //             if ($(node).children().first().next().prop('tagName') == "A" || $(node).children().first().next().hasClass("owl-carousel")) {
-    //                 node[0].innerHTML = '<i class="float-right deleteFromCol fas fa-times"></i>' + node[0].innerHTML;
-    //             }
-    //             $(node).find("div").first().remove();
-    //             parent[k - 1].innerHTML = node[0].outerHTML;
-    //             node.remove();
-    //         });
-    //     }
-    // })
-
     $(".block-unit-complex .block-unit").one("dblclick", function () {
         if ($(this).children().next().prop("tagName") == "A") {
             return;
@@ -155,7 +135,6 @@ $(document).ready(function () {
                     idBlockType: '4',
                     pageId: pageId
                 })
-                console.log(data)
                 saveBlock(data);
             });
         })
@@ -183,6 +162,30 @@ $(document).ready(function () {
                 saveBlock(data);
             })
         });
+        $('#2ColBlock').on('click', function () {
+            $('#innerBlockModal').modal('toggle');
+            var data = JSON.stringify({
+                name : nomPage + "_" + idNewBlock,
+                idParent : idParent,
+                idColumn : idColumn,
+                orderBlock : idNewBlock,
+                idBlockType : '1',
+                pageId : pageId
+            })
+            saveBlock(data);
+        })
+        $('#3ColBlock').on('click', function () {
+            $('#innerBlockModal').modal('toggle');
+            var data = JSON.stringify({
+                name : nomPage + "_" + idNewBlock,
+                idParent : idParent,
+                idColumn : idColumn,
+                orderBlock : idNewBlock,
+                idBlockType : '2',
+                pageId : pageId
+            })
+            saveBlock(data);
+        })
     });
 })
 
