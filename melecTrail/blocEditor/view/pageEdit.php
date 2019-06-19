@@ -73,7 +73,7 @@
                     if ($block->idParent === null || $block->idParent === "0") {
                         if ($block->idBlockType === '5' || $block->idBlockType === '4') {
                             echo '<div id="' . $block->id . '" class="block-unit">';
-                            echo '<i class="float-right deleteBlock fas fa-times"></i><div><i id="orderUp' . $block->id . '" i class="fas fa-arrow-up"></i>   <i id="orderDown' . $block->id . '"class="fas fa-arrow-down"></i></div>';
+                            echo '<button class="btn-xs btn btn-danger deleteBlock float-right"><i class="float-right fas fa-times"></i></button><div><i id="orderUp' . $block->id . '" i class="fas fa-arrow-up"></i>   <i id="orderDown' . $block->id . '"class="fas fa-arrow-down"></i></div>';
                             echo str_replace(array('{$block->content}','{$block->style}'), array($block->content,$block->styleBlock), $categHTML[$block->idBlockType]);
                             if ($block->idBlockType === '4') {
                                 echo '<button class="btn btn-xs btn-info resizebtn"><i class="fas fa-expand-arrows-alt"></i></button>';

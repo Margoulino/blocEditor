@@ -132,7 +132,7 @@ class PageController
                 foreach ($blocks as $block) {
                     if ($block->idParent === null) {
                         if($block->idBlockType === '1' || $block->idBlockType === '2') {
-                            $block->content=BlockController::setColumnChilds($block,$categHTML);
+                            $block->content=BlockController::setColumnChilds($block,$categHTML,0);
                         } else if ($block->idBlockType === '3'){
                             $block->content = BlockController::buildCarousel($block,$categHTML);
                         }

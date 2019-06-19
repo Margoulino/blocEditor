@@ -56,6 +56,7 @@ body {
     padding: 8px;
     margin-bottom: 16px;
     border-radius: 4px;
+    position: relative;
 }
 
 #blockSave {
@@ -88,6 +89,9 @@ body {
     margin: 5px;
 }
 
+.block-unit .btn , .block-unit-complex .btn{
+    padding: 0 0.25rem !important;
+}
 .thumbnail img {
     height: 100%;
     width: 100%;
@@ -142,9 +146,16 @@ body {
 }
 
 .fa-times {
-    color: #eb0000 ;
-    z-index: 5;
-    position: relative;
+    color: #ff0000 ;
+    z-index: 2;
+}
+.deleteBlock .fa-times {
+    color: #f1f1f1;
+}
+.deleteBlock {
+    position: absolute;
+    top: 5px;
+    right: 5px;
 }
 .fa-times-circle {
     color: #eb0000 ;
@@ -153,9 +164,6 @@ body {
     padding: 20px;
 }
 
-.block-unit-complex {
-    z-index: 1;
-}
 .owl-carousel {
     position: relative;
     height: 100%;
@@ -187,6 +195,12 @@ body {
     padding: 8px;
     margin-bottom: 16px;
     border-radius: 4px;
+}
+
+.resizebtn, .blockSave {
+    position: absolute;
+    bottom: 10px;
+    left: 10px;
 }
 
 a img{

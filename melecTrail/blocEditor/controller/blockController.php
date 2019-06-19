@@ -190,20 +190,28 @@ class BlockController
     }
 
 
-    public static function setColumnChilds($node, $categHTML)
+    public static function setColumnChilds($node, $categHTML, $level)
     {
         $childs = BlockModel::findChildren($node->id);
         $result = $categHTML[$node->idBlockType];
+        for($i=1;$i<=3;$i++){
+            $result=str_replace('{col'.$i.'}','{col'.$level.'.'.$i.'}',$result);
+        }
         foreach ($childs as $child) {
-            $template =  $categHTML[$child->idBlockType];
-            if ($child->idBlockType !== '1' && $child->idBlockType !== '2' && $child->idBlockType !== '3') {
+            if ($child->idBlockType !== '1' && $child->idBlockType !== '2' && $child->idBlockType !== '3') {  
                 $oldVar = array('{$block->content}', '{$block->style}', '{$block->id}');
                 $newVar = array($child->content, $child->styleBlock, $child->id);
-                $result = str_replace('{col' . $child->idColumn . '}',"<div class='block-unit' id='" . $child->id . "'><i class='float-right deleteBlock fas fa-times'></i>" . str_replace($oldVar, $newVar, $template) . "</div>",$result);
-            } else if ($child->idBlockType === '3') {
-                $result = str_replace('{col' . $child->idColumn .'}',"<div class='block-unit-complex' id='" . $child->id . "'><i class='float-right deleteBlock fas fa-times'></i>". BlockController::buildCarousel($child,$categHTML) . "</div>",$result);
+                $result = str_replace('{col' . $level.'.'.$child->idColumn . '}',
+                        "<div class='block-unit' id='" . $child->id . "'><button class='btn-xs btn btn-danger deleteBlock float-right'><i class='float-right fas fa-times'></i></button>" . str_replace($oldVar, $newVar, $categHTML[$child->idBlockType]) . "</div>",
+                        $result);
+            } elseif ($child->idBlockType === '3') {
+                $result = str_replace('{col' .  $level.'.'.$child->idColumn .'}',
+                        "<div class='block-unit-complex' id='" . $child->id . "'><button class='btn-xs btn btn-danger deleteBlock float-right'><i class='float-right fas fa-times'></i></button>". BlockController::buildCarousel($child,$categHTML) . "<button class='btn btn-xs btn-outline-info contentSlider'>Ajouter/Supprimer une image</button></div>",
+                        $result);
             } else {
-                $result = str_replace('{col' . $child->idColumn . '}', "<div class='block-unit-complex' id='" . $child->id . "'><i class='float-right deleteBlock fas fa-times'></i>" . BlockController::setColumnChilds($child, $categHTML) . "</div>", $result);
+                $result = str_replace('{col' .$level .'.'. $child->idColumn . '}',
+                        "<div class='block-unit-complex' id='" . $child->id . "'><button class='btn-xs btn btn-danger deleteBlock float-right'><i class='float-right fas fa-times'></i></button>" . BlockController::setColumnChilds($child, $categHTML,$level + 1) . "</div>",
+                        $result);
             }
         }
         return $result;
