@@ -33,7 +33,17 @@ blockTextBtn.addEventListener("click", function() {
         closeNav();
         var btnSave = document.getElementById("blockSave");
         btnSave.addEventListener("click", function() {
-            saveBlock(nomPage, editor.getData(), idNewBlock, 5, "", "").then(function() {
+            var data = {
+                name: nomPage + "_" + idNewBlock,
+                content: editor.getData(),
+                pageId: pageId,
+                orderBlock: idNewBlock,
+                idBlockType: 5,
+                idParent: "",
+                idColumn: "",
+                styleBlock: ""
+            };
+            saveBlock(JSON.stringify(data)).then(function() {
                 location.reload();
             });
         });
@@ -41,27 +51,28 @@ blockTextBtn.addEventListener("click", function() {
 });
 
 //Edition block double click
-$(".block-unit").one("dblclick", function() {
+$(".block-unit").one("dblclick", function(event) {
     htmlEditorInit(event.target, event.target.innerHTML).then(function(editor) {
         var blockToUpdate = null;
         previousBlocks.forEach(pblock => {
-            if (pblock.id === event.target.getAttribute("id")) {
+            if (pblock.id === event.target.parentElement.getAttribute("id")) {
                 blockToUpdate = pblock;
             }
         });
         var btnSave = document.getElementById("blockSave");
         btnSave.addEventListener("click", function() {
-            updateBlock(
-                blockToUpdate.id,
-                blockToUpdate.name,
-                editor.getData(),
-                pageId,
-                blockToUpdate.orderBlock,
-                blockToUpdate.idBlockType,
-                blockToUpdate.idParent,
-                blockToUpdate.idColumn,
-                blockToUpdate.styleBlock
-            ).then(function() {
+            var data = {
+                id: blockToUpdate.id,
+                name: blockToUpdate.name,
+                content: editor.getData(),
+                pageId: pageId,
+                orderBlock: blockToUpdate.orderBlock,
+                idBlockType: blockToUpdate.idBlockType,
+                idParent: blockToUpdate.idParent,
+                idColumn: blockToUpdate.idColumn,
+                styleBlock: blockToUpdate.styleBlock
+            }
+            updateBlock(JSON.stringify(data)).then(function() {
                 location.reload();
             });
         });

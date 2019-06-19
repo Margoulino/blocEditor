@@ -179,8 +179,6 @@
         var idNewBlock = <?php echo count($blocks); ?> + 2;
         var nomPage = "<?php echo $page[0]->name; ?>";
         var previousBlocks = <?php echo json_encode($blocks); ?>;
-        var definedCategories = null <?php //echo json_encode($allCategories); ?>;
-        var pageCategories = null <?php //echo json_encode($categoriesPage); ?>;
         var templateHTML = <?php echo json_encode($categHTML); ?>;
     </script>
     <script src="https://code.jquery.com/jquery-3.4.1.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
