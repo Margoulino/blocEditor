@@ -70,7 +70,7 @@
             <?php
             if ($blocks != NULL) {
                 foreach ($blocks as $block) {
-                    if ($block->idParent === null) {
+                    if ($block->idParent === null || $block->idParent === "0") {
                         if ($block->idBlockType === '5' || $block->idBlockType === '4') {
                             echo '<div id="' . $block->id . '" class="block-unit">';
                             echo '<i class="float-right deleteBlock fas fa-times"></i><div><i id="orderUp' . $block->id . '" i class="fas fa-arrow-up"></i>   <i id="orderDown' . $block->id . '"class="fas fa-arrow-down"></i></div>';
@@ -176,7 +176,7 @@
 
     <script>
         var pageId = <?php echo $page[0]->id ?>;
-        var idNewBlock = <?php echo count($blocks); ?> + 2;
+        var idNewBlock = <?php echo count($blocks); ?> + 1;
         var nomPage = "<?php echo $page[0]->name; ?>";
         var previousBlocks = <?php echo json_encode($blocks); ?>;
         var templateHTML = <?php echo json_encode($categHTML); ?>;
