@@ -77,11 +77,13 @@ $(document).ready(function () {
     }
 
     $('.resizebtn').on('click', function () {
-        var img = $(this).prev().find('img')[0];
+        var button = $(this);
+        var img = $(this).prev().find('img');
         $(img).resizable();
         var buttonSave = document.createElement('div');
         buttonSave.innerHTML = '<a id="blockSave" class="btn btn-success" href="#">Sauvegarder le bloc</a>';
         $(this).parent().append($(buttonSave));
+        $(this).hide();
         $('#blockSave').on('click', function () {
             var style = $(img).attr('style');
             $(img).resizable('destroy');
@@ -90,9 +92,9 @@ $(document).ready(function () {
                 id: $(img).closest('.block-unit').attr('id'),
                 pageId: pageId,
                 style: style
-            })
+            })  
+            $(button).show();
             updateBlock(data);
-
         })
 
     })

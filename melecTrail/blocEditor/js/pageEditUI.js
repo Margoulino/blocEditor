@@ -12,7 +12,7 @@ var delButtons = document.querySelectorAll(".deleteBlock");
 delButtons.forEach(delBtn => {
     delBtn.addEventListener("click", function() {
         if (confirm("Confirmer la suppression du bloc ?")) {
-            deleteBlock(delBtn.parentElement.parentElement.getAttribute("id")).then(
+            deleteBlock(delBtn.parentElement.getAttribute("id")).then(
                 function() {
                     location.reload();
                 },

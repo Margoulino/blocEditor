@@ -31,10 +31,18 @@ class BlockController
         $data = json_decode(file_get_contents("php://input"));
         $block = new BlockModel();
         $block->name = $data->name;
-        $block->content = $data->content;
+        if(isset($data->content))
+        {$block->content = $data->content;}
+        else {$block->content = "";}
         $block->pageId = $data->pageId;
         $block->orderBlock = $data->orderBlock;
         $block->idBlockType = $data->idBlockType;
+        if(isset($data->idParent))
+        {$block->idParent = $data->idParent;}
+        else { $block->idParent = null ;}
+        if(isset($data->idColumn))
+        {$block->idColumn = $data->idColumn;}
+        else { $block->idColumn =null;}
         if(isset($data->styleBlock))
         {$block->styleBlock = $data->styleBlock;}
         else {$block->styleBlock = null;}
@@ -129,13 +137,12 @@ class BlockController
     {
         $this->setHeader();
         $data  = json_decode(file_get_contents("php://input"));
-        $blockToUpdate = BlockModel::findById($data->id);
-        if (count($blockToUpdate) == 0) {
+        $block = BlockModel::findById($data->id);
+        if (count($block) == 0) {
             http_response_code(404);
             echo json_encode(array("message" => "Block not found, can't be updated."));
         } else {
-            $block = new BlockModel();
-            $block->id = $data->id;
+            $block = $block[0];
             if(isset($data->name))
             {$block->name = $data->name;}
             if(isset($data->content))
@@ -151,7 +158,7 @@ class BlockController
             if(isset($data->idColumn))
             {$block->idColumn = $data->idColumn;}
             if(isset($data->style))
-            {$block->styleBlock = $data->styleBlock;}
+            {$block->styleBlock = $data->style;}
             $targetPage = PageModel::findByid($data->pageId);
             if (empty($targetPage)) {
                 http_response_code(404);
@@ -190,8 +197,8 @@ class BlockController
         foreach ($childs as $child) {
             $template =  $categHTML[$child->idBlockType];
             if ($child->idBlockType !== '1' && $child->idBlockType !== '2') {
-                $oldVar = array('{$block->content}', '{$block->id}');
-                $newVar = array($child->content, $child->id);
+                $oldVar = array('{$block->content}', '{$block->style}', '{$block->id}');
+                $newVar = array($child->content, $child->styleBlock, $child->id);
                 $result = str_replace('{col' . $child->idColumn . '}',"<div class='block-unit' id='" . $child->id . "'><i class='float-right deleteBlock fas fa-times'></i>" . str_replace($oldVar, $newVar, $template) . "</div>",$result);
             } else {
                 $result = str_replace('{col' . $child->idColumn . '}', "<div class='block-unit-complex' id='" . $child->id . "'><i class='float-right deleteBlock fas fa-times'></i>" . BlockController::setColumnChilds($child, $categHTML) . "</div>", $result);
