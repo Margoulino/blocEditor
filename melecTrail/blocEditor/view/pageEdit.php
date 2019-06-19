@@ -148,6 +148,8 @@
                         <button id="textBlock" class="col btn btn-info menuOptions"><i class="fas fa-align-left fa-5x"></i></button>
                         <button id="imgBlock" class="col btn btn-info menuOptions"><i class="fas fa-image fa-5x"></i></button>
                         <button id="carouselBlock" class="col btn btn-info menuOptions"><i class="fas fa-5x fa-images"></i></button>
+                        <button id="2ColBlock" class="col btn btn-info menuOptions"><span class="iconify menuIcons" data-icon="feather:columns" data-inline="false"></span></button>
+                        <button id="3ColBlock" class="col btn btn-info menuOptions"><span class="iconify menuIcons" data-icon="fe:columns" data-inline="false"></span></button>
                     </div>
                 </div>
             </div>
