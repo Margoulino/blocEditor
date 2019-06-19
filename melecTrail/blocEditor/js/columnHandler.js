@@ -94,16 +94,13 @@ $(document).ready(function () {
         }
     });
 
-    $('.resizebtn').on('click', function () {
-        $(this).toggle();
-        editImgBlock(this.parentElement, "update", this.parentElement.innerHTML);
-    })
+
 
     $('.addBlockCol').on('click', function () {
         console.log('addBlockCol');
         var idParent = $(this).closest('.block-unit-complex').attr('id');
-        var idColumn = $(this).closest('column').attr('id');
-        $(this).parent().parent().addClass('edited-col');
+        var idColumn = $(this).closest('.column').attr('id');
+        console.log(idColumn);
         $('#innerBlockModal').modal('show');
         $('#textBlock').on('click', function () {
             htmlEditorInit(document.querySelector('.edited-col'), "addToCol", '');
@@ -118,12 +115,13 @@ $(document).ready(function () {
                 var data = JSON.stringify({
                     name: nomPage + "_" + idNewBlock,
                     content :  $('.image_picker_selector .selected img').attr('src'),
-                    idParen : idParent,
+                    idParent : idParent,
                     idColumn : idColumn,
                     orderBlock: idNewBlock,
                     idBlockType: '4',
                     pageId: pageId
                 })
+                console.log(data)
                 saveBlock(data);
             });
         })

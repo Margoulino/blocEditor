@@ -110,7 +110,7 @@ function callbackTemplate(data, templates, id) {
 }
 //--------------------------------------------------------------
 
-function updateBlock(id, name, content, pageId, orderBlock, idBlockType, idParent, idColumn, styleBlock) {
+function updateBlock(data) {
     return new Promise(function(resolve, reject) {
         var xhr = new XMLHttpRequest();
         xhr.onreadystatechange = function() {
@@ -122,19 +122,7 @@ function updateBlock(id, name, content, pageId, orderBlock, idBlockType, idParen
         };
         xhr.open("POST", "/block/updateBlock", true);
         xhr.setRequestHeader("Content-type", "application/json");
-        xhr.send(
-            JSON.stringify({
-                id: id,
-                name: name,
-                content: content,
-                pageId: pageId,
-                orderBlock: orderBlock,
-                idBlockType: idBlockType,
-                idParent: idParent,
-                idColumn: idColumn,
-                styleBlock: styleBlock
-            })
-        );
+        xhr.send(data);
     });
 }
 

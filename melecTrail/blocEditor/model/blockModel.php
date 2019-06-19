@@ -82,9 +82,9 @@ class BlockModel
         $dbConn = DBModel::getConnection();
         $stmt = $dbConn->prepare('
             INSERT INTO edit_block 
-                (name, content, pageId, orderBlock, idBlockType, styleBlock) 
+                (name, content, pageId, orderBlock, idBlockType, idParent, idColumn, styleBlock) 
             VALUES 
-                (:name, :content, :pageId, :orderBlock, :idBlockType, :styleBlock)
+                (:name, :content, :pageId, :orderBlock, :idBlockType, :idParent, :idColumn, :styleBlock)
         ');
         $stmt->bindParam(':name', $block->name);
         $stmt->bindParam(':content', $block->content);
@@ -92,6 +92,8 @@ class BlockModel
         $stmt->bindParam(':orderBlock', $block->orderBlock);
         $stmt->bindParam(':idBlockType', $block->idBlockType);
         $stmt->bindParam(':styleBlock', $block->styleBlock);
+        $stmt->bindParam(':idParent', $block->idParent);
+        $stmt->bindParam(':idColumn', $block->idColumn);
         return $stmt->execute();
     }
 
@@ -136,7 +138,8 @@ class BlockModel
              `content`        = :content,
              `pageId`         = :pageId,
              `orderBlock`     = :orderBlock,
-             `idBlockType`    = :idBlockType
+             `idBlockType`    = :idBlockType,
+             `styleBlock`     = :styleBlock
          WHERE `id` = :id'
         );
         $stmt->bindParam(':name', $this->name);
@@ -145,6 +148,7 @@ class BlockModel
         $stmt->bindParam(':orderBlock', $this->orderBlock);
         $stmt->bindParam(':idBlockType', $this->idBlockType);
         $stmt->bindParam(':id', $this->id);
+        $stmt->bindParam(':styleBlock', $this->styleBlock);
         return $stmt->execute();
     }
 

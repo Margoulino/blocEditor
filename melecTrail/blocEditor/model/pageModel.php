@@ -179,7 +179,7 @@ class PageModel
                    edit_block.dateCreation,
                    edit_block.idParent,
                    edit_block.idColumn,
-                   edit_block.styleblock
+                   edit_block.styleBlock
             FROM edit_page INNER JOIN 
             edit_block on edit_page.id = edit_block.pageId
             WHERE edit_block.pageId = :pageId
