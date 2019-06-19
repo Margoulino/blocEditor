@@ -105,7 +105,7 @@ class BlockController
         if ($id == null) {
             $data = json_decode(file_get_contents("php://input"));
             $id = $data->id;
-        }
+        } else { $id=$id[0];}
         $blockToDelete = BlockModel::findById($id);
         if (count($blockToDelete) == 0) {
             http_response_code(404);
@@ -196,10 +196,12 @@ class BlockController
         $result = $categHTML[$node->idBlockType];
         foreach ($childs as $child) {
             $template =  $categHTML[$child->idBlockType];
-            if ($child->idBlockType !== '1' && $child->idBlockType !== '2') {
+            if ($child->idBlockType !== '1' && $child->idBlockType !== '2' && $child->idBlockType !== '3') {
                 $oldVar = array('{$block->content}', '{$block->style}', '{$block->id}');
                 $newVar = array($child->content, $child->styleBlock, $child->id);
                 $result = str_replace('{col' . $child->idColumn . '}',"<div class='block-unit' id='" . $child->id . "'><i class='float-right deleteBlock fas fa-times'></i>" . str_replace($oldVar, $newVar, $template) . "</div>",$result);
+            } else if ($child->idBlockType === '3') {
+                $result = str_replace('{col' . $child->idColumn .'}',"<div class='block-unit-complex' id='" . $child->id . "'><i class='float-right deleteBlock fas fa-times'></i>". BlockController::buildCarousel($child,$categHTML) . "</div>",$result);
             } else {
                 $result = str_replace('{col' . $child->idColumn . '}', "<div class='block-unit-complex' id='" . $child->id . "'><i class='float-right deleteBlock fas fa-times'></i>" . BlockController::setColumnChilds($child, $categHTML) . "</div>", $result);
             }

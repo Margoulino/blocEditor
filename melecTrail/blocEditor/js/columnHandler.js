@@ -144,6 +144,8 @@ $(document).ready(function () {
         $('#carouselBlock').on('click', function () {
             $('#innerBlockModal').modal('toggle');
             $('#uploadImageModal').modal('show');
+            $("select").attr('multiple', 'multiple');
+            $("select").imagepicker();
             $('#selectImg').off();
             $("#selectImg").on('click', function () {
                 $('#uploadImageModal').modal('toggle');
@@ -154,13 +156,13 @@ $(document).ready(function () {
                 var data = JSON.stringify({
                     name: nomPage + "_" + idNewBlock,
                     content :  imgSrc.join(" ; "),
-                    idParen : idParent,
+                    idParent : idParent,
                     idColumn : idColumn,
                     orderBlock: idNewBlock,
                     idBlockType: '3',
                     pageId: pageId
                 })
-                saveBlock();
+                saveBlock(data);
             })
         });
     });
