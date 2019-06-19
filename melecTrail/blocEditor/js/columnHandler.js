@@ -90,16 +90,36 @@ $(document).ready(function () {
         }
     });
 
-    $('.addBlockCol').on('click', function () {
-        console.log('addBlockCol');
+
+
+    $('.addBlockCol').on('click', function (event) {
         var idParent = $(this).closest('.block-unit-complex').attr('id');
         var idColumn = $(this).closest('.column').attr('id');
-        console.log(idColumn);
         $('#innerBlockModal').modal('show');
-        $('#textBlock').on('click', function () {
-            htmlEditorInit(document.querySelector('.edited-col'), "addToCol", '');
-            $('#innerBlockModal').modal('toggle');
-        })
+        $("#textBlock").on("click", function() {
+            $("#innerBlockModal").modal("toggle");
+            var idBlockParent = event.target.parentElement.parentElement.parentElement.parentElement.getAttribute("id");
+            var idCol = event.target.parentElement.parentElement;
+            htmlEditorInit(event.target.parentElement.parentElement, "").then(function(editor) {
+                $("#innerBlockModal").modal("toggle");
+                var btnSave = document.getElementById("blockSave");
+                btnSave.addEventListener("click", function() {
+                    var data = {
+                        name: nomPage + "_" + idNewBlock,
+                        content: editor.getData(),
+                        pageId: pageId,
+                        orderBlock: idNewBlock,
+                        idBlockType: 5,
+                        idParent: idBlockParent,
+                        idColumn: "",
+                        styleBlock: ""
+                    };
+                    saveBlockIntoBlock(JSON.stringify(data)).then(function() {
+                        location.reload();
+                    });
+                });
+            });
+        });
         $('#imgBlock').on('click', function () {
             $('#innerBlockModal').modal('toggle');
             $('#uploadImageModal').modal('show');
