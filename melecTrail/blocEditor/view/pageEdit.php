@@ -192,7 +192,6 @@
     <script src="https://code.iconify.design/1/1.0.2/iconify.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/owl.carousel.js"></script>
     <script src="/blocEditor/js/blockInit.js"></script>
-    
     <script src="/blocEditor/js/pageEditNew.js"></script>
     <script src="/blocEditor/js/pageEditUI.js"></script>
     <script src="/blocEditor/js/columnHandler.js"></script>

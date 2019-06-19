@@ -24,7 +24,7 @@ function saveBlock(data) {
     });
 }
 
-function saveBlockIntoBlock(nomPage, content, pageId, idNewBlock, idBlockType, idParent, idColumn, styleBlock) {
+function saveBlockIntoBlock(data) {
     return new Promise(function(resolve, reject) {
         var xhr = new XMLHttpRequest();
         xhr.onreadystatechange = function() {
@@ -36,18 +36,7 @@ function saveBlockIntoBlock(nomPage, content, pageId, idNewBlock, idBlockType, i
         };
         xhr.open("POST", "/block/addBlockToBlock", true);
         xhr.setRequestHeader("Content-type", "application/json");
-        xhr.send(
-            JSON.stringify({
-                name: nomPage + "_" + idNewBlock,
-                content: content,
-                pageId: pageId,
-                orderBlock: idNewBlock,
-                idBlockType: idBlockType,
-                idParent: idParent,
-                idColumn: idColumn,
-                styleBlock: styleBlock
-            })
-        );
+        xhr.send(data);
     });
 }
 
