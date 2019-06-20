@@ -197,10 +197,18 @@ body {
     border-radius: 4px;
 }
 
-.resizebtn, .blockSave {
+.block-unit-complex .resizebtn {
+    position: absolute;
+}
+
+.blockSave, .resizebtn {
     position: absolute;
     bottom: 10px;
     left: 10px;
+}
+
+.resizebtn {
+    position: absolute;
 }
 
 a img{
