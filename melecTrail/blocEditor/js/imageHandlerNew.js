@@ -35,7 +35,7 @@ $(document).ready(function () {
                 pageId: pageId,
                 idBlockType: '3'
             })
-            saveBlock(data);
+            saveBlock(data).then(function () {location.reload()});
         })
     })
 
@@ -169,17 +169,34 @@ $("#selectImg").on('click', function () {
         content: $('.image_picker_selector .selected img').attr('src')
     })
     console.log(data)
-    saveBlock(data);
+    saveBlock(data).then(function(){location.reload();});
 });
 
-function saveImg() {
-    var data = JSON.stringify({
-        name: nomPage + "_" + idNewBlock,
-        orderBlock: idNewBlock,
-        pageId: pageId,
-        idBlockType: '4',
-        content: $('.image_picker_selector .selected img').attr('src')
+//--------- GALLERY ---------//
+
+$('#galleryOption').on('click', function () {
+    closeNav();
+    $('#uploadImageModal').modal('show');
+    $("select").attr('multiple', 'multiple');
+    $("select").imagepicker()
+    $('#selectImg').off();
+    $("#selectImg").on('click', function () {
+        var imgSrc = [];
+        $('.image_picker_selector .selected img').each(function (index) {
+            imgSrc.push($(this).attr('src'));
+        })
+        var data = JSON.stringify({
+            name: nomPage + "_" + idNewBlock,
+            content: imgSrc.join(' ; '),
+            orderBlock: idNewBlock,
+            pageId: pageId,
+            idBlockType: '6'
+        })
+        saveBlock(data).then(function () {location.reload()});
     })
-    console.log(data)
-    saveBlock(data);
-}
+})
+
+$(document).on('click', '[data-toggle="lightbox"]', function(event) {
+    event.preventDefault();
+    $(this).ekkoLightbox();
+});

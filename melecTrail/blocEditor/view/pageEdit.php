@@ -15,7 +15,7 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/image-picker/0.3.1/image-picker.css" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.carousel.min.css" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.theme.default.min.css" />
-
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/ekko-lightbox/5.3.0/ekko-lightbox.css" />
     <link rel="stylesheet" href="/blocEditor/style/pageEditStyle.css">
     <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
 </head>
@@ -48,7 +48,8 @@
                     <p id="imgOption" class="col menuOptions"><i class="fas fa-image menuIcons"></i></p>
                     <p id="2colOption" class="col menuOptions"><span class="iconify menuIcons" data-icon="feather:columns" data-inline="false"></span></p>
                     <p id="3colOption" class="col menuOptions"><span class="iconify menuIcons" data-icon="fe:columns" data-inline="false"></span></p>
-                    <p id="sliderOption" class="col menuOptions"><i class="fas fa-images menuIcons"></i></p>
+                    <p id="sliderOption" class="col menuOptions"><span class="iconify menuIcons" data-icon="ic:outline-view-carousel" data-inline="false"></span></p>
+                    <p id="galleryOption" class="col menuOptions"><i class="fas fa-images menuIcons"></i></p>
                 </div>
             </div>
         </div>
@@ -147,9 +148,10 @@
                     <div class="row">
                         <button id="textBlock" class="col btn btn-info menuOptions"><i class="fas fa-align-left fa-5x"></i></button>
                         <button id="imgBlock" class="col btn btn-info menuOptions"><i class="fas fa-image fa-5x"></i></button>
-                        <button id="carouselBlock" class="col btn btn-info menuOptions"><i class="fas fa-5x fa-images"></i></button>
+                        <button id="galleryBlock" class="col btn btn-info menuOptions"><i class="fas fa-5x fa-images"></i></button>
                         <button id="2ColBlock" class="col btn btn-info menuOptions"><span class="iconify menuIcons" data-icon="feather:columns" data-inline="false"></span></button>
                         <button id="3ColBlock" class="col btn btn-info menuOptions"><span class="iconify menuIcons" data-icon="fe:columns" data-inline="false"></span></button>
+                        <button id="carouselBlock" class="col btn btn-info menuOptions"><span class="iconify menuIcons" data-icon="ic:outline-view-carousel" data-inline="false"></span></button>
                     </div>
                 </div>
             </div>
@@ -193,6 +195,7 @@
     <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
     <script src="https://code.iconify.design/1/1.0.2/iconify.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/owl.carousel.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/ekko-lightbox/5.3.0/ekko-lightbox.min.js"></script>
     <script src="/blocEditor/js/blockInit.js"></script>
     <script src="/blocEditor/js/pageEditNew.js"></script>
     <script src="/blocEditor/js/pageEditUI.js"></script>

@@ -210,9 +210,9 @@ class BlockController
                 $result = str_replace('{col' . $level.'.'.$child->idColumn . '}',
                         "<div class='block-unit' id='" . $child->id . "'><button class='btn btn-xs btn-info resizebtn float-right'><i class='fas fa-expand-arrows-alt'></i></button><button class='btn-xs btn btn-danger deleteBlock float-right'><i class='float-right fas fa-times'></i></button>" . str_replace($oldVar, $newVar, $categHTML[$child->idBlockType]) . "</div>",
                         $result);
-            } elseif ($child->idBlockType === '3') {
+            } elseif ($child->idBlockType === '3' || $child->idBlockType === '6') {
                 $result = str_replace('{col' .  $level.'.'.$child->idColumn .'}',
-                        "<div class='block-unit-complex' id='" . $child->id . "'><button class='btn-xs btn btn-danger deleteBlock float-right'><i class='float-right fas fa-times'></i></button>". BlockController::buildCarousel($child,$categHTML) . "<button class='btn btn-xs btn-outline-info contentSlider'>Ajouter/Supprimer une image</button></div>",
+                        "<div class='block-unit-complex' id='" . $child->id . "'><button class='btn-xs btn btn-danger deleteBlock float-right'><i class='float-right fas fa-times'></i></button>". BlockController::buildCarouselAndGallery($child,$categHTML) . "<button class='btn btn-xs btn-outline-info contentSlider'>Ajouter/Supprimer une image</button></div>",
                         $result);
             } else {
                 $result = str_replace('{col' .$level .'.'. $child->idColumn . '}',
@@ -223,7 +223,7 @@ class BlockController
         return $result;
     }
 
-    public static function buildCarousel($block, $templateHTML) {
+    public static function buildCarouselAndGallery($block, $templateHTML) {
         $multiplyStr = BlockController::get_string_between($templateHTML[$block->idBlockType],'[tag]','[/tag]');
         $listImg = explode(" ; ", $block->content);
         $multipliedStr = array();
