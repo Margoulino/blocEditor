@@ -227,3 +227,8 @@ a img{
 .column > a img {
     height: auto !important;
 }
+
+.img-fluid {
+    max-width: 100%;
+    height: auto;
+}

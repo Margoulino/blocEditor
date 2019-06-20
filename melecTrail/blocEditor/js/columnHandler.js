@@ -102,6 +102,30 @@ $(document).ready(function () {
                 saveBlock(data).then(function(){location.reload();});
             })
         });
+        $('#galleryBlock').on('click', function () {
+            $('#innerBlockModal').modal('toggle');
+            $('#uploadImageModal').modal('show');
+            $("select").attr('multiple', 'multiple');
+            $("select").imagepicker();
+            $('#selectImg').off();
+            $("#selectImg").on('click', function () {
+                $('#uploadImageModal').modal('toggle');
+                var imgSrc = [];
+                $('.image_picker_selector .selected img').each(function (index) {
+                    imgSrc.push($(this).attr('src'));
+                })
+                var data = JSON.stringify({
+                    name: nomPage + "_" + idNewBlock,
+                    content :  imgSrc.join(" ; "),
+                    idParent : idParent,
+                    idColumn : idColumn,
+                    orderBlock: idNewBlock,
+                    idBlockType: '6',
+                    pageId: pageId
+                })
+                saveBlock(data).then(function(){location.reload();});
+            })
+        })
         $('#2ColBlock').on('click', function () {
             $('#innerBlockModal').modal('toggle');
             var data = JSON.stringify({
