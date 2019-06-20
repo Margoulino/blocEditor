@@ -38,9 +38,9 @@ $(document).ready(function () {
         $('#innerBlockModal').modal('show');
         $("#textBlock").on("click", function() {
             $("#innerBlockModal").modal("toggle");
-            var idBlockParent = event.target.parentElement.parentElement.parentElement.parentElement.getAttribute("id");
-            var idCol = event.target.parentElement.parentElement.getAttribute("id");
-            htmlEditorInit(event.target.parentElement.parentElement, "").then(function(editor) {
+            var idBlockParent = event.currentTarget.parentElement.parentElement.parentElement.parentElement.getAttribute("id");
+            var idCol = event.currentTarget.parentElement.parentElement.getAttribute("id");
+            htmlEditorInit(event.currentTarget.parentElement.parentElement, "").then(function(editor) {
                 $("#innerBlockModal").modal("toggle");
                 var btnSave = document.getElementById("blockSave");
                 btnSave.addEventListener("click", function() {

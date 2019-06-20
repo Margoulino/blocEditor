@@ -202,7 +202,7 @@ class BlockController
                 $oldVar = array('{$block->content}', '{$block->style}', '{$block->id}');
                 $newVar = array($child->content, $child->styleBlock, $child->id);
                 $result = str_replace('{col' . $level.'.'.$child->idColumn . '}',
-                        "<div class='block-unit' id='" . $child->id . "'><button class='btn-xs btn btn-danger deleteBlock float-right'><i class='float-right fas fa-times'></i></button>" . str_replace($oldVar, $newVar, $categHTML[$child->idBlockType]) . "</div>",
+                        "<div class='block-unit' id='" . $child->id . "'><button class='btn-xs btn btn-danger deleteBlock float-right'><i class='float-right fas fa-times'></i></button><button class='btn-xs btn btn-info editBlock float-right'><i class='fas fa-edit'></i></button>" . str_replace($oldVar, $newVar, $categHTML[$child->idBlockType]) . "</div>",
                         $result);
             } elseif ($child->idBlockType === '4') {
                 $oldVar = array('{$block->content}', '{$block->style}', '{$block->id}');

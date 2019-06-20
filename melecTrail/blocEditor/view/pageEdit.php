@@ -79,6 +79,9 @@
                             if ($block->idBlockType === '4') {
                                 echo '<button class="btn btn-xs btn-info resizebtn"><i class="fas fa-expand-arrows-alt"></i></button>';
                             }
+                            if ($block->idBlockType === '5') {
+                                echo '<button class="btn-xs btn btn-info editBlock float-right"><i class="fas fa-edit"></i></button>';
+                            }
                         } else {
                             echo '<div id="' . $block->id . '" class="block-unit-complex">';
                             echo '<i class="float-right deleteBlock fas fa-times"></i><div><i id="orderUp' . $block->id . '" i class="fas fa-arrow-up"></i>   <i id="orderDown' . $block->id . '"class="fas fa-arrow-down"></i></div>';

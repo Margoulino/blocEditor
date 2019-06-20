@@ -1,6 +1,6 @@
 //Sidebar menu des options de blocks
 function openNav() {
-    document.querySelector(".blockMenu").style.width = "250px";
+    document.querySelector(".blockMenu").style.width = "260px";
 }
 
 function closeNav() {
@@ -50,12 +50,26 @@ blockTextBtn.addEventListener("click", function() {
     });
 });
 
+function getInnerHTML(elem) {
+    var elems = [];
+    elem.childNodes.forEach(child => {
+        if (child.tagName !== "BUTTON") {
+            elems.push(child);
+        }
+    });
+    var div = document.createElement("div");
+    elems.forEach(elem => {
+        div.appendChild(elem);
+    });
+    return div.innerHTML;
+}
+
 //Edition block double click
-$(".block-unit").one("dblclick", function(event) {
-    htmlEditorInit(event.target, event.target.innerHTML).then(function(editor) {
-        var blockToUpdate = null;
+$(".editBlock").one("click", function(event) {
+    htmlEditorInit(event.currentTarget.parentElement, getInnerHTML(event.currentTarget.parentElement)).then(function(editor) {
+        var blockToUpdate = {};
         previousBlocks.forEach(pblock => {
-            if (pblock.id === event.target.parentElement.getAttribute("id")) {
+            if (pblock.id === event.currentTarget.getAttribute("id")) {
                 blockToUpdate = pblock;
             }
         });
@@ -71,7 +85,7 @@ $(".block-unit").one("dblclick", function(event) {
                 idParent: blockToUpdate.idParent,
                 idColumn: blockToUpdate.idColumn,
                 styleBlock: blockToUpdate.styleBlock
-            }
+            };
             updateBlock(JSON.stringify(data)).then(function() {
                 location.reload();
             });
