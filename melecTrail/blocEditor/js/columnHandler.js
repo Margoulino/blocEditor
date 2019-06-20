@@ -81,16 +81,17 @@ function blockEditorInit(targetElement, operation, idBlockType, template) {
     })
 };
 
-$(document).ready(function () {
-    $(".block-unit-complex .block-unit").one("dblclick", function (event) {
-        if ($(this).children().next().prop("tagName") == "A") {
-            return;
+function getInnerHTMLCol(elem) {
+    return new Promise(function(resolve, reject) {
+        if(elem !== undefined) {
+            resolve(elem.innerHTML);
         } else {
-            htmlEditorInit(event.target, event.target.innerHTML);
+            reject();
         }
     });
+}
 
-
+$(document).ready(function () {
 
     $('.addBlockCol').on('click', function (event) {
         var idParent = $(this).closest('.block-unit-complex').attr('id');
