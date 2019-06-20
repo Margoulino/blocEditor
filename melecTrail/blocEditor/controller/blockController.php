@@ -198,11 +198,17 @@ class BlockController
             $result=str_replace('{col'.$i.'}','{col'.$level.'.'.$i.'}',$result);
         }
         foreach ($childs as $child) {
-            if ($child->idBlockType !== '1' && $child->idBlockType !== '2' && $child->idBlockType !== '3') {  
+            if ($child->idBlockType === '5') {  
                 $oldVar = array('{$block->content}', '{$block->style}', '{$block->id}');
                 $newVar = array($child->content, $child->styleBlock, $child->id);
                 $result = str_replace('{col' . $level.'.'.$child->idColumn . '}',
                         "<div class='block-unit' id='" . $child->id . "'><button class='btn-xs btn btn-danger deleteBlock float-right'><i class='float-right fas fa-times'></i></button>" . str_replace($oldVar, $newVar, $categHTML[$child->idBlockType]) . "</div>",
+                        $result);
+            } elseif ($child->idBlockType === '4') {
+                $oldVar = array('{$block->content}', '{$block->style}', '{$block->id}');
+                $newVar = array($child->content, $child->styleBlock, $child->id);
+                $result = str_replace('{col' . $level.'.'.$child->idColumn . '}',
+                        "<div class='block-unit' id='" . $child->id . "'><button class='btn btn-xs btn-info resizebtn float-right'><i class='fas fa-expand-arrows-alt'></i></button><button class='btn-xs btn btn-danger deleteBlock float-right'><i class='float-right fas fa-times'></i></button>" . str_replace($oldVar, $newVar, $categHTML[$child->idBlockType]) . "</div>",
                         $result);
             } elseif ($child->idBlockType === '3') {
                 $result = str_replace('{col' .  $level.'.'.$child->idColumn .'}',

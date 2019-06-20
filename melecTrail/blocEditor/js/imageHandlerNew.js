@@ -78,7 +78,7 @@ $(document).ready(function () {
 
     $('.resizebtn').on('click', function () {
         var button = $(this);
-        var img = $(this).prev().find('img');
+        var img = $(this).parent().find('img');
         $(img).resizable();
         var buttonSave = document.createElement('div');
         buttonSave.innerHTML = '<a id="blockSave" class="btn btn-success" href="#">Sauvegarder le bloc</a>';
