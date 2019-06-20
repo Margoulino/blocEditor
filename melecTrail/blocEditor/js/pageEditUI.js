@@ -66,10 +66,11 @@ function getInnerHTML(elem) {
 
 //Edition block double click
 $(".editBlock").one("click", function(event) {
+    var idParentBlock = event.currentTarget.parentElement.getAttribute("id");
     htmlEditorInit(event.currentTarget.parentElement, getInnerHTML(event.currentTarget.parentElement)).then(function(editor) {
         var blockToUpdate = {};
         previousBlocks.forEach(pblock => {
-            if (pblock.id === event.currentTarget.getAttribute("id")) {
+            if (pblock.id === idParentBlock) {
                 blockToUpdate = pblock;
             }
         });
