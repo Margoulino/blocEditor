@@ -6,7 +6,7 @@ $('#2colOption').on('click', function () {
         pageId: pageId,
         idBlockType: '1'
     })
-    saveBlock(data);
+    saveBlock(data).then(function(){location.reload();});
 });
 
 $('#3colOption').on('click', function () {
@@ -17,69 +17,8 @@ $('#3colOption').on('click', function () {
         pageId: pageId,
         idBlockType: '2'
     })
-    saveBlock(data);
+    saveBlock(data).then(function(){location.reload();});
 })
-
-function blockEditorInit(targetElement, operation, idBlockType, template) {
-    var blockId = targetElement.getAttribute("id");
-    targetElement.innerHTML = "";
-    targetElement.innerHTML = template;
-    targetElement.firstChild.setAttribute('id', blockId);
-    targetElement.innerHTML = targetElement.innerHTML + '<div class="row"><div class="col"><a id="blockSave" class="btn btn-success" href="#">Sauvegarder le bloc</a><a class="btn btn-danger" id="blockDelete" href="#" role="button">Supprimer le bloc</a></div></div>';
-    document.querySelector("#blockSave").addEventListener("click", () => {
-        console.log(targetElement.innerHTML);
-        $(targetElement).find('.row').last().remove();
-        var content = targetElement.innerHTML;
-        var xhr = new XMLHttpRequest();
-        xhr.onreadystatechange = function () {
-            // Call a function when the state changes.
-            if (this.readyState === XMLHttpRequest.DONE && this.status === 200) {
-                console.log("enregistrement du bloc effectué");
-                if (operation == "addToCol") {
-                    var result = JSON.parse(xhr.response);
-                    columnEdit($(targetElement).parent().parent().attr('id'), $(targetElement).attr('id'), result.id);
-                }
-                setTimeout(() => {
-                    location.reload();
-                }, 200);
-            }
-        };
-        if (operation === "save" || operation === "addToCol") {
-            xhr.open("POST", "/block/addBlockToPage", true);
-            xhr.setRequestHeader("Content-type", "application/json");
-            xhr.send(
-                JSON.stringify({
-                    name: nomPage + "_" + idNewBlock,
-                    content: content,
-                    pageId: pageId,
-                    orderBlock: idNewBlock,
-                    idBlockType: idBlockType,
-                    nombreCol: 1,
-                    innerBlocks: ""
-                })
-            );
-        } else if (operation === "update") {
-            previousBlocks.forEach(block => {
-                if (blockId == block.id) {
-                    xhr.open("POST", "/block/updateBlock", true);
-                    xhr.setRequestHeader("Content-type", "application/json");
-                    xhr.send(
-                        JSON.stringify({
-                            id: blockId,
-                            name: block.name,
-                            content: content,
-                            pageId: pageId,
-                            orderBlock: block.orderBlock,
-                            idBlockType: block.idBlockType,
-                            nombreCol: block.nombreCol,
-                            innerBlocks: block.innerBlocks
-                        })
-                    );
-                }
-            });
-        }
-    })
-};
 
 function getInnerHTMLCol(elem) {
     return new Promise(function(resolve, reject) {
@@ -136,7 +75,7 @@ $(document).ready(function () {
                     idBlockType: '4',
                     pageId: pageId
                 })
-                saveBlock(data);
+                saveBlock(data).then(function(){location.reload();});
             });
         })
         $('#carouselBlock').on('click', function () {
@@ -160,7 +99,7 @@ $(document).ready(function () {
                     idBlockType: '3',
                     pageId: pageId
                 })
-                saveBlock(data);
+                saveBlock(data).then(function(){location.reload();});
             })
         });
         $('#2ColBlock').on('click', function () {
@@ -173,7 +112,7 @@ $(document).ready(function () {
                 idBlockType : '1',
                 pageId : pageId
             })
-            saveBlock(data);
+            saveBlock(data).then(function(){location.reload();});
         })
         $('#3ColBlock').on('click', function () {
             $('#innerBlockModal').modal('toggle');
@@ -185,7 +124,7 @@ $(document).ready(function () {
                 idBlockType : '2',
                 pageId : pageId
             })
-            saveBlock(data);
+            saveBlock(data).then(function(){location.reload();});
         })
     });
 })

@@ -169,17 +169,5 @@ $("#selectImg").on('click', function () {
         content: $('.image_picker_selector .selected img').attr('src')
     })
     console.log(data)
-    saveBlock(data);
+    saveBlock(data).then(function(){location.reload();});
 });
-
-function saveImg() {
-    var data = JSON.stringify({
-        name: nomPage + "_" + idNewBlock,
-        orderBlock: idNewBlock,
-        pageId: pageId,
-        idBlockType: '4',
-        content: $('.image_picker_selector .selected img').attr('src')
-    })
-    console.log(data)
-    saveBlock(data);
-}
