@@ -6,7 +6,7 @@ body {
     height: 100%;
     width: 0;
     position: fixed;
-    z-index: 2;
+    z-index: 11;
     top: 0;
     left: 0;
     background-color: rgb(52, 58, 64);
@@ -156,6 +156,7 @@ body {
     position: absolute;
     top: 5px;
     right: 5px;
+    z-index: 10;
 }
 .fa-times-circle {
     color: #eb0000 ;
