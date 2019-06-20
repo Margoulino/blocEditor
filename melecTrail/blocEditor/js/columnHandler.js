@@ -75,7 +75,9 @@ $(document).ready(function () {
                     idBlockType: '4',
                     pageId: pageId
                 })
-                saveBlock(data).then(function(){location.reload();});
+                saveBlock(data).then(function() {
+                    location.reload();
+                });
             });
         })
         $('#carouselBlock').on('click', function () {
@@ -99,7 +101,9 @@ $(document).ready(function () {
                     idBlockType: '3',
                     pageId: pageId
                 })
-                saveBlock(data).then(function(){location.reload();});
+                saveBlock(data).then(function() {
+                    location.reload();
+                });
             })
         });
         $('#galleryBlock').on('click', function () {
@@ -136,7 +140,9 @@ $(document).ready(function () {
                 idBlockType : '1',
                 pageId : pageId
             })
-            saveBlock(data).then(function(){location.reload();});
+            saveBlock(data).then(function() {
+                location.reload();
+            });
         })
         $('#3ColBlock').on('click', function () {
             $('#innerBlockModal').modal('toggle');
@@ -148,7 +154,9 @@ $(document).ready(function () {
                 idBlockType : '2',
                 pageId : pageId
             })
-            saveBlock(data).then(function(){location.reload();});
+            saveBlock(data).then(function() {
+                location.reload();
+            });
         })
     });
 })
