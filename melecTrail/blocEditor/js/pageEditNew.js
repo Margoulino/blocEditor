@@ -13,7 +13,6 @@ function saveBlock(data) {
         xhr.onreadystatechange = function() {
             if (this.readyState === XMLHttpRequest.DONE && this.status === 200) {
                 resolve();
-                location.reload();
             } else if (this.status === 404) {
                 reject(JSON.parse(xhr.response).message);
             }
@@ -163,29 +162,31 @@ function moveBlockDown(event, blocks) {
         blockToMoveObj.orderBlock = oldOrderNext;
         nextBlockObj.orderBlock = oldOrderToMove;
 
-        updateBlock(
-            blockToMoveObj.id,
-            blockToMoveObj.name,
-            blockToMoveObj.content,
-            blockToMoveObj.pageId,
-            blockToMoveObj.orderBlock,
-            blockToMoveObj.idBlockType,
-            blockToMoveObj.idParent,
-            blockToMoveObj.idColumn,
-            blockToMoveObj.styleBlock
-        )
+        var dataBlockToMove = {
+            id: blockToMoveObj.id,
+            name: blockToMoveObj.name,
+            content: blockToMoveObj.content,
+            pageId: blockToMoveObj.pageId,
+            orderBlock: blockToMoveObj.orderBlock,
+            idBlockType: blockToMoveObj.idBlockType,
+            idParent: blockToMoveObj.idParent,
+            idColumn: blockToMoveObj.idColumn,
+            styleBlock: blockToMoveObj.styleBlock
+        };
+        updateBlock(JSON.stringify(dataBlockToMove))
             .then(function() {
-                return updateBlock(
-                    nextBlockObj.id,
-                    nextBlockObj.name,
-                    nextBlockObj.content,
-                    nextBlockObj.pageId,
-                    nextBlockObj.orderBlock,
-                    nextBlockObj.idBlockType,
-                    nextBlockObj.idParent,
-                    nextBlockObj.idColumn,
-                    nextBlockObj.styleBlock
-                );
+                var dataNextBlock = {
+                    id: nextBlockObj.id,
+                    name: nextBlockObj.name,
+                    content: nextBlockObj.content,
+                    pageId: nextBlockObj.pageId,
+                    orderBlock: nextBlockObj.orderBlock,
+                    idBlockType: nextBlockObj.idBlockType,
+                    idParent: nextBlockObj.idParent,
+                    idColumn: nextBlockObj.idColumn,
+                    styleBlock: nextBlockObj.styleBlock
+                };
+                return updateBlock(JSON.stringify(dataNextBlock));
             })
             .then(function() {
                 location.reload();
@@ -212,29 +213,31 @@ function moveBlockUp(event, blocks) {
         blockToMoveObj.orderBlock = oldOrderAntec;
         antecBlockObj.orderBlock = oldOrderToMove;
 
-        updateBlock(
-            blockToMoveObj.id,
-            blockToMoveObj.name,
-            blockToMoveObj.content,
-            blockToMoveObj.pageId,
-            blockToMoveObj.orderBlock,
-            blockToMoveObj.idBlockType,
-            blockToMoveObj.idParent,
-            blockToMoveObj.idColumn,
-            blockToMoveObj.styleBlock
-        )
+        var dataUpdateBlock = {
+            id: blockToMoveObj.id,
+            name: blockToMoveObj.name,
+            content: blockToMoveObj.content,
+            pageId: blockToMoveObj.pageId,
+            orderBlock: blockToMoveObj.orderBlock,
+            dBlockType: blockToMoveObj.idBlockType,
+            idParent: blockToMoveObj.idParent,
+            idColumn: blockToMoveObj.idColumn,
+            styleBlock: blockToMoveObj.styleBlock
+        };
+        updateBlock(JSON.stringify(dataUpdateBlock))
             .then(function() {
-                return updateBlock(
-                    antecBlockObj.id,
-                    antecBlockObj.name,
-                    antecBlockObj.content,
-                    antecBlockObj.pageId,
-                    antecBlockObj.orderBlock,
-                    antecBlockObj.idBlockType,
-                    antecBlockObj.idParent,
-                    antecBlockObj.idColumn,
-                    antecBlockObj.styleBlock
-                );
+                var dataAntecBlock = {
+                    id: antecBlockObj.id,
+                    name: antecBlockObj.name,
+                    content: antecBlockObj.content,
+                    pageId: antecBlockObj.pageId,
+                    orderBlock: antecBlockObj.orderBlock,
+                    idBlockType: antecBlockObj.idBlockType,
+                    idParent: antecBlockObj.idParent,
+                    idColumn: antecBlockObj.idColumn,
+                    styleBlock: antecBlockObj.styleBlock
+                };
+                return updateBlock(JSON.stringify(dataAntecBlock));
             })
             .then(function() {
                 location.reload();

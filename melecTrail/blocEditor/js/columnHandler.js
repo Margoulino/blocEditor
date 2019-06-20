@@ -82,11 +82,11 @@ function blockEditorInit(targetElement, operation, idBlockType, template) {
 };
 
 $(document).ready(function () {
-    $(".block-unit-complex .block-unit").one("dblclick", function () {
+    $(".block-unit-complex .block-unit").one("dblclick", function (event) {
         if ($(this).children().next().prop("tagName") == "A") {
             return;
         } else {
-            htmlEditorInit(this, "update", this.innerHTML);
+            htmlEditorInit(event.target, event.target.innerHTML);
         }
     });
 
@@ -99,7 +99,7 @@ $(document).ready(function () {
         $("#textBlock").on("click", function() {
             $("#innerBlockModal").modal("toggle");
             var idBlockParent = event.target.parentElement.parentElement.parentElement.parentElement.getAttribute("id");
-            var idCol = event.target.parentElement.parentElement;
+            var idCol = event.target.parentElement.parentElement.getAttribute("id");
             htmlEditorInit(event.target.parentElement.parentElement, "").then(function(editor) {
                 $("#innerBlockModal").modal("toggle");
                 var btnSave = document.getElementById("blockSave");
@@ -111,7 +111,7 @@ $(document).ready(function () {
                         orderBlock: idNewBlock,
                         idBlockType: 5,
                         idParent: idBlockParent,
-                        idColumn: "",
+                        idColumn: idCol,
                         styleBlock: ""
                     };
                     saveBlockIntoBlock(JSON.stringify(data)).then(function() {
