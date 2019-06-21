@@ -50,11 +50,17 @@ blockTextBtn.addEventListener("click", function() {
     });
 });
 
+/**
+ * Revoie l'innerHTML d'un élément sans les élément d'interface de type bouton (bouton ajout, bouton modif)
+ * @param {HTML Element} elem Element dans lequel on veut réccupérer l'innerHTML
+ */
 function getInnerHTML(elem) {
     var elems = [];
     elem.childNodes.forEach(child => {
         if (child.tagName !== "BUTTON") {
-            elems.push(child);
+            if(child.innerHTML !== "") {
+                elems.push(child);
+            }
         }
     });
     var div = document.createElement("div");
@@ -67,7 +73,7 @@ function getInnerHTML(elem) {
 //Edition block double click
 $(".editBlock").one("click", function(event) {
     var idParentBlock = event.currentTarget.parentElement.getAttribute("id");
-    htmlEditorInit(event.currentTarget.parentElement, getInnerHTML(event.currentTarget.parentElement)).then(function(editor) {
+    htmlEditorInit(event.currentTarget.parentElement, getInnerHTML(event.currentTarget.parentElement).trim()).then(function(editor) {
         var blockToUpdate = {};
         previousBlocks.forEach(pblock => {
             if (pblock.id === idParentBlock) {
