@@ -134,7 +134,7 @@ function htmlEditorInit(targetElement, previousContent) {
                     'alignRight'
                 ]
             },ckfinder: {
-                uploadUrl: '/ckfinder/core/connector/php/connector.php?command=QuickUpload&type=Files&responseType=json'
+                uploadUrl: '/blocEditor/ckfinder/core/connector/php/connector.php?command=QuickUpload&type=Files&responseType=json'
             }
                     
         })
