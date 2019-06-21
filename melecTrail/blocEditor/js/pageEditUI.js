@@ -40,8 +40,6 @@ blockTextBtn.addEventListener("click", function() {
                 pageId: pageId,
                 orderBlock: idNewBlock,
                 idBlockType: 5,
-                idParent: "",
-                idColumn: "",
                 styleBlock: ""
             };
             saveBlock(JSON.stringify(data)).then(function() {

@@ -27,6 +27,7 @@ class BlockController
      */
     public function addBlockToPage()
     {
+        try {
         $this->setHeader();
         $data = json_decode(file_get_contents("php://input"));
         $block = new BlockModel();
@@ -58,6 +59,9 @@ class BlockController
                 "message" => "Block succesfully added to base",
                 "id" => $id
             ));
+        } } catch (Exception $e) {
+            http_response_code(412);
+            echo json_encode(array("message" => $e));
         }
     }
 
