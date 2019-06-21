@@ -130,11 +130,13 @@ function htmlEditorInit(targetElement, previousContent) {
                 styles: [
                     'full',
                     'side',
-                    'alignCenter',
+                    'alignCenter','alignLeft',
                     'alignRight'
                 ]
+            },ckfinder: {
+                uploadUrl: '/ckfinder/core/connector/php/connector.php?command=QuickUpload&type=Files&responseType=json'
             }
-                    'alignLeft',
+                    
         })
             .then(newEditor => {
                 editor = newEditor;
