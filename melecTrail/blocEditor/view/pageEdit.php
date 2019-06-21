@@ -200,6 +200,7 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/owl.carousel.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/ekko-lightbox/5.3.0/ekko-lightbox.min.js"></script>
     <script src="/blocEditor/js/blockInit.js"></script>
+    <script src="/blocEditor/ckfinder/ckfinder.js"></script>
     <script src="/blocEditor/js/pageEditNew.js"></script>
     <script src="/blocEditor/js/pageEditUI.js"></script>
     <script src="/blocEditor/js/columnHandler.js"></script>
