@@ -125,7 +125,16 @@ function htmlEditorInit(targetElement, previousContent) {
             '"></textarea></div></div><div class="row"><div class="col"><a id="blockSave" class="btn btn-success" href="#">Sauvegarder le bloc</a><a class="btn btn-danger" id="blockDelete" href="#" role="button">Supprimer le bloc</a></div></div>';
         let editor;
         ClassicEditor.create(document.querySelector("#editor" + blockId), {
-            removePlugins: ['BlockQuote', 'MediaEmbed']
+            removePlugins: ['BlockQuote', 'MediaEmbed'],
+            images: {
+                styles: [
+                    'full',
+                    'side',
+                    'alignLeft',
+                    'alignCenter',
+                    'alignRight'
+                ]
+            }
         })
             .then(newEditor => {
                 editor = newEditor;
