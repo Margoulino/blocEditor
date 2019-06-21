@@ -32,6 +32,7 @@ blockTextBtn.addEventListener("click", function() {
     htmlEditorInit(interfaceBlock, "").then(function(editor) {
         closeNav();
         var btnSave = document.getElementById("blockSave");
+        var btnDel = document.getElementById("blockDelete");
         btnSave.addEventListener("click", function() {
             var data = {
                 name: nomPage + "_" + idNewBlock,
@@ -47,11 +48,15 @@ blockTextBtn.addEventListener("click", function() {
                 location.reload();
             });
         });
+        btnDel.addEventListener("click", function() {
+            location.reload();
+        });
     });
 });
 
 /**
  * Revoie l'innerHTML d'un élément sans les élément d'interface de type bouton (bouton ajout, bouton modif)
+ * Ne prend pas les tag <p> vides
  * @param {HTML Element} elem Element dans lequel on veut réccupérer l'innerHTML
  */
 function getInnerHTML(elem) {
@@ -80,6 +85,7 @@ $(".editBlock").one("click", function(event) {
                 blockToUpdate = pblock;
             }
         });
+        var btnDel = document.getElementById("blockDelete");
         var btnSave = document.getElementById("blockSave");
         btnSave.addEventListener("click", function() {
             var data = {
@@ -94,6 +100,12 @@ $(".editBlock").one("click", function(event) {
                 styleBlock: blockToUpdate.styleBlock
             };
             updateBlock(JSON.stringify(data)).then(function() {
+                location.reload();
+            });
+        });
+        btnDel.addEventListener("click", function() {
+            deleteBlock(blockToUpdate.id)
+            .then(function() {
                 location.reload();
             });
         });

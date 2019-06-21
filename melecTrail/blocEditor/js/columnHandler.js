@@ -43,6 +43,7 @@ $(document).ready(function () {
             htmlEditorInit(event.currentTarget.parentElement.parentElement, "").then(function(editor) {
                 $("#innerBlockModal").modal("toggle");
                 var btnSave = document.getElementById("blockSave");
+                var btnDel = document.getElementById("blockDelete");
                 btnSave.addEventListener("click", function() {
                     var data = {
                         name: nomPage + "_" + idNewBlock,
@@ -57,6 +58,9 @@ $(document).ready(function () {
                     saveBlockIntoBlock(JSON.stringify(data)).then(function() {
                         location.reload();
                     });
+                });
+                btnDel.addEventListener("click", function() {
+                    location.reload();
                 });
             });
         });
