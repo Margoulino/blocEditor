@@ -1,7 +1,12 @@
 body {
     margin-top: 56px;
 }
-
+.block-header {
+    margin-top : 75px;
+}
+.blocks-viewer {
+    margin-top: 100px;
+}
 .blockMenu {
     height: 100%;
     width: 0;
