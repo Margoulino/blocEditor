@@ -69,6 +69,7 @@
                 ?> -->
         <div class="blocks-viewer">
             <?php
+            echo $header ;
             if ($blocks != NULL) {
                 foreach ($blocks as $block) {
                     if ($block->idParent === null || $block->idParent === "0") {
