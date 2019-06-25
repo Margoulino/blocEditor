@@ -8,9 +8,9 @@
  * @param {Int} idParent Id du block parent contenant le block que l'on sauvegarde (s'il y en a un)
  */
 function saveBlock(data) {
-    return new Promise(function (resolve, reject) {
+    return new Promise(function(resolve, reject) {
         var xhr = new XMLHttpRequest();
-        xhr.onreadystatechange = function () {
+        xhr.onreadystatechange = function() {
             if (this.readyState === XMLHttpRequest.DONE && this.status === 200) {
                 resolve();
             } else if (this.status === 404) {
@@ -24,9 +24,9 @@ function saveBlock(data) {
 }
 
 function saveBlockIntoBlock(data) {
-    return new Promise(function (resolve, reject) {
+    return new Promise(function(resolve, reject) {
         var xhr = new XMLHttpRequest();
-        xhr.onreadystatechange = function () {
+        xhr.onreadystatechange = function() {
             if (this.readyState === XMLHttpRequest.DONE && this.status === 200) {
                 resolve();
             } else if (this.status === 404) {
@@ -44,9 +44,9 @@ function saveBlockIntoBlock(data) {
  * @param {Int} blockId
  */
 function deleteBlock(blockId) {
-    return new Promise(function (resolve, reject) {
+    return new Promise(function(resolve, reject) {
         var xhr = new XMLHttpRequest();
-        xhr.onreadystatechange = function () {
+        xhr.onreadystatechange = function() {
             if (this.readyState === XMLHttpRequest.DONE && this.status === 200) {
                 resolve();
             } else if (this.status === 404) {
@@ -72,7 +72,7 @@ function deleteBlock(blockId) {
  */
 function loadTemplateData(blockTypeId, callbackFunc, templates) {
     var xhr = new XMLHttpRequest();
-    xhr.onreadystatechange = function () {
+    xhr.onreadystatechange = function() {
         if (this.readyState === XMLHttpRequest.DONE && this.status === 200) {
             callbackFunc(xhr.response, templates, blockTypeId);
         }
@@ -100,9 +100,9 @@ function callbackTemplate(data, templates, id) {
 //--------------------------------------------------------------
 
 function updateBlock(data) {
-    return new Promise(function (resolve, reject) {
+    return new Promise(function(resolve, reject) {
         var xhr = new XMLHttpRequest();
-        xhr.onreadystatechange = function () {
+        xhr.onreadystatechange = function() {
             if (this.readyState === XMLHttpRequest.DONE && this.status === 200) {
                 resolve();
                 location.reload();
@@ -116,8 +116,40 @@ function updateBlock(data) {
     });
 }
 
+function deleteCategory(data) {
+    return new Promise(function(resolve, reject) {
+        var xhr = new XMLHttpRequest();
+        xhr.onreadystatechange = function() {
+            if (this.readyState === XMLHttpRequest.DONE && this.status === 200) {
+                resolve();
+            } else if (this.status === 404) {
+                reject(JSON.parse(xhr.response).message);
+            }
+        };
+        xhr.open("POST", "/page/removeCategory");
+        xhr.setRequestHeader("Content-type", "application/json");
+        xhr.send(data);
+    });
+}
+
+function addCategory(data) {
+    return new Promise(function(resolve, reject) {
+        var xhr = new XMLHttpRequest();
+        xhr.onreadystatechange = function() {
+            if (this.readyState === XMLHttpRequest.DONE && this.status === 200) {
+                resolve();
+            } else if (this.status === 404) {
+                reject(JSON.parse(xhr.response).message);
+            }
+        };
+        xhr.open("POST", "/page/addCategory");
+        xhr.setRequestHeader("Content-type", "application/json");
+        xhr.send(data);
+    });
+}
+
 function htmlEditorInit(targetElement, previousContent) {
-    return new Promise(function (resolve, reject) {
+    return new Promise(function(resolve, reject) {
         var blockId = targetElement.getAttribute("id");
         targetElement.innerHTML =
             '<div class="row"><div class="col"><textarea name="content" id="editor' +
@@ -125,18 +157,13 @@ function htmlEditorInit(targetElement, previousContent) {
             '"></textarea></div></div><div class="row"><div class="col"><a id="blockSave" class="btn btn-success" href="#">Sauvegarder le bloc</a><a class="btn btn-danger" id="blockDelete" href="#" role="button">Supprimer le bloc</a></div></div>';
         let editor;
         ClassicEditor.create(document.querySelector("#editor" + blockId), {
-            removePlugins: ['BlockQuote', 'MediaEmbed'],
+            removePlugins: ["BlockQuote", "MediaEmbed"],
             images: {
-                styles: [
-                    'full',
-                    'side',
-                    'alignCenter','alignLeft',
-                    'alignRight'
-                ]
-            },ckfinder: {
-                uploadUrl: '/blocEditor/ckfinder/core/connector/php/connector.php?command=QuickUpload&type=Files&responseType=json'
+                styles: ["full", "side", "alignCenter", "alignLeft", "alignRight"]
+            },
+            ckfinder: {
+                uploadUrl: "/blocEditor/ckfinder/core/connector/php/connector.php?command=QuickUpload&type=Files&responseType=json"
             }
-                    
         })
             .then(newEditor => {
                 editor = newEditor;
@@ -187,7 +214,7 @@ function moveBlockDown(event, blocks) {
             styleBlock: blockToMoveObj.styleBlock
         };
         updateBlock(JSON.stringify(dataBlockToMove))
-            .then(function () {
+            .then(function() {
                 var dataNextBlock = {
                     id: nextBlockObj.id,
                     name: nextBlockObj.name,
@@ -201,7 +228,7 @@ function moveBlockDown(event, blocks) {
                 };
                 return updateBlock(JSON.stringify(dataNextBlock));
             })
-            .then(function () {
+            .then(function() {
                 location.reload();
             });
     }
@@ -238,7 +265,7 @@ function moveBlockUp(event, blocks) {
             styleBlock: blockToMoveObj.styleBlock
         };
         updateBlock(JSON.stringify(dataUpdateBlock))
-            .then(function () {
+            .then(function() {
                 var dataAntecBlock = {
                     id: antecBlockObj.id,
                     name: antecBlockObj.name,
@@ -252,7 +279,7 @@ function moveBlockUp(event, blocks) {
                 };
                 return updateBlock(JSON.stringify(dataAntecBlock));
             })
-            .then(function () {
+            .then(function() {
                 location.reload();
             });
     }
