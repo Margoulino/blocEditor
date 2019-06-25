@@ -55,21 +55,31 @@
                 </div>
             </div>
         </div>
-        <!-- <?php
-                if ($categoriesPage != NULL) {
-                    echo '<div class="alert alert-info categ-container">Catégories : ';
-                    foreach ($categoriesPage as $categPage) {
-                        foreach ($allCategories as $definedCateg) {
-                            if ($categPage->idCategory == $definedCateg->id) {
-                                echo '<a class="btn btn-success categPage" href="#">' . $definedCateg->name . '<span class="badge badge-danger"> <i class="fas fa-times" style="color:white;"></i></span></a>';
-                            }
-                        }
-                    }
-                    echo ' <a class="btn btn-success addCategPage" href="#">Ajouter une catégorie</a>';
-                    echo '</div>';
+        <?php
+        //if ($categoriesPage != NULL) {
+        echo '<div class="alert alert-info categ-container">Catégories : ';
+        foreach ($categoriesPage as $categPage) {
+            foreach ($allCategories as $definedCateg) {
+                if ($categPage->idCategory == $definedCateg->id) {
+                    echo '<a class="btn btn-success categPage" href="#">' . $definedCateg->name . ' <span id="' . $categPage->idCategory . '"class="badge badge-danger removeCateg"> <i class="fas fa-times" style="color:white;"></i></span></a>';
                 }
-                ?> -->
-                <br />
+            }
+        }
+        echo '  <div class="dropdown dropCateg">
+                    <button class="btn btn-secondary dropdown-toggle" type="button" id="addCategDrop" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        Choix catégorie
+                    </button>
+                    <div class="dropdown-menu" aria-labelledby="addCategDrop">';
+        foreach ($allCategories as $categ) {
+            echo '          <a id="' . $categ->id . '" class="dropdown-item categChoice" href="#">' . $categ->name . '</a>';
+        }
+        echo '          <div class="dropdown-divider"></div>
+                        <a class="dropdown-item" href="#">Ajout nouvelle catégorie</a>
+                    </div>
+                </div>
+            </div>';
+        //}
+        ?>
         <div class="blocks-viewer">
             <?php
             echo '<div class = "block-header" >'.$header.'</div>';
@@ -79,7 +89,7 @@
                         if ($block->idBlockType === '5' || $block->idBlockType === '4') {
                             echo '<div id="' . $block->id . '" class="block-unit">';
                             echo '<button class="btn-xs btn btn-danger deleteBlock float-right"><i class="float-right fas fa-times"></i></button><div><i id="orderUp' . $block->id . '" i class="fas fa-arrow-up"></i>   <i id="orderDown' . $block->id . '"class="fas fa-arrow-down"></i></div>';
-                            echo str_replace(array('{$block->content}','{$block->style}'), array($block->content,$block->styleBlock), $categHTML[$block->idBlockType]);
+                            echo str_replace(array('{$block->content}', '{$block->style}'), array($block->content, $block->styleBlock), $categHTML[$block->idBlockType]);
                             if ($block->idBlockType === '4') {
                                 echo '<button class="btn btn-xs btn-info resizebtn"><i class="fas fa-expand-arrows-alt"></i></button>';
                             }
@@ -191,9 +201,11 @@
         var nomPage = "<?php echo $page[0]->name; ?>";
         var previousBlocks = <?php echo json_encode($blocks); ?>;
         var templateHTML = <?php echo json_encode($categHTML); ?>;
+        var allCateg = <?php echo json_encode($allCategories); ?>;
     </script>
-    <script src="https://code.jquery.com/jquery-3.4.1.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
     <script src="https://cdn.ckeditor.com/ckeditor5/12.1.0/classic/ckeditor.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/dropzone/5.5.1/dropzone.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/image-picker/0.3.1/image-picker.js"></script>

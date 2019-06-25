@@ -262,3 +262,15 @@ figure {
     position: relative;
 
 }
+
+.categPage {
+    margin: 0 2px 0 2px;
+}
+
+.removeCateg > i{
+    pointer-events: none;
+}
+
+.dropCateg {
+    display: inline-block;
+}

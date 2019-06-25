@@ -8,6 +8,7 @@ require_once $_SERVER['DOCUMENT_ROOT'] . '/blocEditor/model/blockTypeModel.php';
 require_once $_SERVER['DOCUMENT_ROOT'] . '/blocEditor/controller/blockController.php';
 require $_SERVER['DOCUMENT_ROOT'] . '/vendor/autoload.php';
 use \Firebase\JWT\JWT;
+use function GuzzleHttp\Psr7\readline;
 
 class PageController
 {
@@ -111,31 +112,33 @@ class PageController
                 $blocks = PageModel::getAllBlocksByIdPage($page[0]->id);
                 $categJs = array();
                 $categHTML = array();
+                $categoriesPage = PageCategoryModel::findByIdPage($page[0]->id);
+                $allCategories = CategoryModel::findAll();
                 foreach ($blocks as $block) {
                     if (!array_key_exists($block->idBlockType, $categJs)) {
-                        $blockType = BlockTypeModel::findById($block->idBlockType) ; 
-                   
-                        $categJs[$block->idBlockType] = $blockType[0]->js ;
-                        $categHTML[$block->idBlockType] = $blockType[0]->templateBlock ; 
+                        $blockType = BlockTypeModel::findById($block->idBlockType);
+
+                        $categJs[$block->idBlockType] = $blockType[0]->js;
+                        $categHTML[$block->idBlockType] = $blockType[0]->templateBlock;
                     }
                 }
                 $jsFile = $_SERVER['DOCUMENT_ROOT'] . "/blocEditor/js/blockInit.js";
-                $fileHandler = fopen($jsFile,'w');
-                fwrite($fileHandler,"$(document).ready(function () {");
+                $fileHandler = fopen($jsFile, 'w');
+                fwrite($fileHandler, "$(document).ready(function () {");
                 fclose($fileHandler);
-                $fileHandler = fopen($jsFile,'a');
-                foreach($categJs as $js){
-                    fwrite($fileHandler,$js);
+                $fileHandler = fopen($jsFile, 'a');
+                foreach ($categJs as $js) {
+                    fwrite($fileHandler, $js);
                 }
-                fwrite($fileHandler,"});");
+                fwrite($fileHandler, "});");
                 fclose($fileHandler);
                 $header = BlockController::buildHeader(BlockTypeModel::findById(7)[0]->templateBlock);
                 foreach ($blocks as $block) {
                     if ($block->idParent === null) {
-                        if($block->idBlockType === '1' || $block->idBlockType === '2') {
-                            $block->content=BlockController::setColumnChilds($block,$categHTML,0);
-                        } else if ($block->idBlockType === '3' || $block->idBlockType === '6'){
-                            $block->content = BlockController::buildCarouselAndGallery($block,$categHTML);
+                        if ($block->idBlockType === '1' || $block->idBlockType === '2') {
+                            $block->content = BlockController::setColumnChilds($block, $categHTML, 0);
+                        } else if ($block->idBlockType === '3' || $block->idBlockType === '6') {
+                            $block->content = BlockController::buildCarouselAndGallery($block, $categHTML);
                         }
                     }
                 }
@@ -156,11 +159,11 @@ class PageController
         $data = json_decode(file_get_contents("php://input"));
         try {
             $pageCat = new PageCategoryModel();
-             if(!empty(PageModel::findById($data->pageId))) {
+            if (!empty(PageModel::findById($data->pageId))) {
                 $pageCat->idPage = $data->pageId;
-                 if(!empty(CategoryModel::findById($data->categoryId))) {
+                if (!empty(CategoryModel::findById($data->categoryId))) {
                     $pageCat->idCategory = $data->categoryId;
-                     if(PageCategoryModel::save($pageCat)) {
+                    if (PageCategoryModel::save($pageCat)) {
                         http_response_code(200);
                         echo json_encode(array("message" => "new category added"));
                     } else {
@@ -172,9 +175,53 @@ class PageController
             } else {
                 throw new Exception("Error page does not exists");
             }
-        }  catch(Exception $e) {
+        } catch (Exception $e) {
             http_response_code(404);
             echo json_encode(array('message' => $e->getMessage()));
+        }
+    }
+
+    public function removeCategory()
+    {
+        $this->setHeader();
+        $data = json_decode(file_get_contents("php://input"));
+        try {
+            if (!empty(PageModel::findById($data->pageId))) {
+                if (!empty(CategoryModel::findById($data->categoryId))) {
+                    if (!count(PageCategoryModel::findByIdPage($data->pageId)) <= 1) {
+                        PageCategoryModel::delete($data->pageId, $data->categoryId);
+                        http_response_code(200);
+                        echo json_encode(array("message" => "category removed from page"));
+                    } else {
+                        throw new Exception("Error a page needs at least one category");
+                    }
+                } else {
+                    throw new Exception("Error category does not exists");
+                }
+            } else {
+                throw new Exception("Error page does not exists");
+             }
+        } catch(Exception $e) {
+            http_response_code(404);
+            echo json_encode(array('message' => $e->getMessage()));
+        }
+    }
+
+    public function previewPageOld($name)
+    {
+        try {
+            $page = PageModel::findByName($name[0]);
+            if(!empty($page)) {
+                $blocks = PageModel::getAllBlocksByIdPage($page[0]->id);
+                require($_SERVER['DOCUMENT_ROOT'] . '/blocEditor/view/pagePreview.php');
+            } else {
+                throw new Exception("Page does not exists, you must create it first");
+             }
+        } catch(Exception $e) {
+            $blocks = NULL;
+            http_response_code(404);
+            echo json_encode(array('message' => $e->getMessage()));
+            require($_SERVER['DOCUMENT_ROOT'] . '/blocEditor/view/pagePreview.php');
         }
     }
 
@@ -182,17 +229,43 @@ class PageController
     {
         try {
             $page = PageModel::findByName($name[0]);
-             if(!empty($page)) {
+            if (!empty($page)) {
                 $blocks = PageModel::getAllBlocksByIdPage($page[0]->id);
-                require($_SERVER['DOCUMENT_ROOT'] . '/blocEditor/view/pagePreview.php');
+                $categJs = array();
+                $categHTML = array();
+                foreach ($blocks as $block) {
+                    if (!array_key_exists($block->idBlockType, $categJs)) {
+                        $blockType = BlockTypeModel::findById($block->idBlockType);
+
+                        $categJs[$block->idBlockType] = $blockType[0]->js;
+                        $categHTML[$block->idBlockType] = $blockType[0]->templateBlock;
+                    }
+                }
+                $jsFile = $_SERVER['DOCUMENT_ROOT'] . "/blocEditor/js/blockInit.js";
+                 $fileHandler = fopen($jsFile,'w');
+                 fwrite($fileHandler,"$(document).ready(function () {");
+                fclose($fileHandler);
+                 $fileHandler = fopen($jsFile, 'a');
+                 foreach($categJs as $js){
+                     fwrite($fileHandler,$js);
+                }
+                 fwrite($fileHandler,"});");
+                fclose($fileHandler);
+                foreach ($blocks as $block) {
+                    if ($block->idParent === null)  {
+                        if($block->idBlockType === '1' || $block->idBlockType === '2') {
+                              $block->content=BlockController::setColumnChilds($block,$categHTML,0);
+                        } else if ($block->idBlockType === '3' || $block->idBlockType === '6'){
+                            $block->content = BlockController::buildCarouselAndGallery($block,$categHTML);
+                        }
+                    }
+                }
+                require($_SERVER['DOCUMENT_ROOT'] . '/blocEditor/view/preview/pagePreviewNew.php');
             } else {
                 throw new Exception("Page does not exists, you must create it first");
             }
-        }  catch(Exception $e) {
-            $blocks = NULL;
-            http_response_code(404);
-            echo json_encode(array('message' => $e->getMessage()));
-            require($_SERVER['DOCUMENT_ROOT'] . '/blocEditor/view/pagePreview.php');
+        } catch (Exception $e) {
+            echo json_enccode(array("message" => $e));
         }
     }
 }
