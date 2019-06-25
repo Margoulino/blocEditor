@@ -6,7 +6,7 @@ require_once $_SERVER['DOCUMENT_ROOT'] . '/model/UserModel.php';
 require $_SERVER['DOCUMENT_ROOT'] . '/vendor/autoload.php';
 use \Firebase\JWT\JWT;
 use PHPMailer\PHPMailer\PHPMailer;
-use PHPMailer\PHPMailer\Exception;
+//use PHPMailer\PHPMailer\Exception;
 
 class JoggingController
 {
@@ -167,6 +167,7 @@ class JoggingController
             http_response_code(403);
             echo json_encode(array("message" => "Bad credentials."));
             header("Location: /jogging");
+            return ;
         }
         $jogsCreated = JoggingModel::findByCreator($user);
         $jogs = JoggingModel::findAll();

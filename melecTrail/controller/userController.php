@@ -4,7 +4,7 @@ require_once $_SERVER['DOCUMENT_ROOT'] . '/model/userModel.php';
 require $_SERVER['DOCUMENT_ROOT'] . '/vendor/autoload.php';
 use \Firebase\JWT\JWT;
 use PHPMailer\PHPMailer\PHPMailer;
-use PHPMailer\PHPMailer\Exception;
+//use PHPMailer\PHPMailer\Exception;
 
 class UserController
 {
@@ -244,8 +244,8 @@ class UserController
                 $username = $this->validateJWT($data->jwt);
             } catch (Exception $e) {
                 http_response_code(403);
-                echo json_encode(array("message"=> $e));
-                return;
+                echo json_encode(array("message" => $e));
+                return ;
             }
             try {
                 $user2Delete = UserModel::findById($data->id);
@@ -255,6 +255,7 @@ class UserController
             } catch (Exception $e) {
                 http_response_code(404);
                 echo json_encode(array("message" => $e));
+                return;
             }
     }
     /** 

@@ -83,6 +83,13 @@
         <div class="blocks-viewer">
             <?php
             echo '<div class = "block-header" >'.$header.'</div>';
+            ?>
+            <div class="tm-container-outer" id="tm-section-2">
+                <section class="tm-innePage-section">
+                    <div class="tm-innePage tm-bg-gray">
+
+                      <div class="col-md-10 offset-md-1 p-1">
+            <?php
             if ($blocks != NULL) {
                 foreach ($blocks as $block) {
                     if ($block->idParent === null || $block->idParent === "0") {
@@ -109,6 +116,8 @@
                 }
             }
             ?>
+                      </div>
+                    </div></section></div>
         </div>
         <div class="row">
             <div class="col interface-block">

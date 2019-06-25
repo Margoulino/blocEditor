@@ -44,12 +44,13 @@ $(document).on('click', '.deleteUser', function() {
             }
             ),
             success: function(result) {
+                console.log(result)
                 location.reload();
             },
             error : function (xhr, resp, text) {
                 console.log(resp);
                 window.alert('Erreur lors de la suppression, veuillez réessayer.');
-                window.location.reload();
+                
             }
         })
     }
