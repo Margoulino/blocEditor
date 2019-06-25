@@ -241,6 +241,7 @@ class PageController
                         $categHTML[$block->idBlockType] = $blockType[0]->templateBlock;
                     }
                 }
+                $header = BlockController::buildHeader(BlockTypeModel::findById(7)[0]->templateBlock);
                 $jsFile = $_SERVER['DOCUMENT_ROOT'] . "/blocEditor/js/blockInit.js";
                  $fileHandler = fopen($jsFile,'w');
                  fwrite($fileHandler,"$(document).ready(function () {");

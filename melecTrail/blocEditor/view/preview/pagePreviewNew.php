@@ -41,40 +41,8 @@
               <img src="/blocEditor/view/preview/trail-plumelec/lemelectrail.png" style="width:60%;" alt="LE MELEC TRAIL">
               <!-- Le Melec Trail -->
             </a>
-            <button type="button" id="nav-toggle" class="navbar-toggler collapsed" data-toggle="collapse" data-target="#mainNav" aria-expanded="false" aria-label="Toggle navigation">
-              <span class="navbar-toggler-icon"></span>
-            </button>
-            <div id="mainNav" class="collapse navbar-collapse tm-bg-white">
-              <ul class="navbar-nav ml-auto">
-                <li class="nav-item dropdown">
-                  <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="false" aria-expanded="false">Courir à Plumelec</a>
-                  <div class="dropdown-menu">
-                    <a class="dropdown-item" href="#">En construction</a>
-                  </div>
-                </li>
-                <li class="nav-item dropdown">
-                  <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">Le Melec Trail</a>
-                  <div class="dropdown-menu">
-                    <a class="dropdown-item" href="#">En construction</a>
-                  </div>
-                </li>
-                <li class="nav-item dropdown">
-                  <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">Inscrivez-vous !</a>
-                  <div class="dropdown-menu">
-                    <a class="dropdown-item" target="_blank" href="https://www.sportinnovation.fr/inscription3.1/inscription.php?crs=3667">Trail 8,5 Km</a>
-                    <a class="dropdown-item" target="_blank" href="https://www.sportinnovation.fr/inscription3.1/inscription.php?crs=3668">Trail 15 Km</a>
-                    <a class="dropdown-item" target="_blank" href="https://www.sportinnovation.fr/inscription3.1/inscription.php?crs=3669">Trail 24 Km</a>
-                  </div>
-                </li>
-                <li class="nav-item dropdown">
-                  <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">Adhérents</a>
-                  <div class="dropdown-menu">
-                    <a class="dropdown-item" href="#">En construction</a>
-                  </div </li> <li class="nav-item dropdown">
-                  <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">Photos</a>
-                  <div class="dropdown-menu">
-                    <a class="dropdown-item" href="#">En construction</a>
-                  </div </li> </ul> </div> </nav> </div> <!-- row -->
+            <?php echo $header; ?>
+           <!-- row -->
             </div> <!-- container -->
 
         </div> <!-- .tm-top-bar -->
