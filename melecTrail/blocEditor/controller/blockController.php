@@ -245,7 +245,7 @@ class BlockController
             } elseif ($child->idBlockType === '3' || $child->idBlockType === '6') {
                 $result = str_replace(
                     '{col' .  $level . '.' . $child->idColumn . '}',
-                    "<div class='block-unit-complex' id='" . $child->id . "'><button class='btn-xs btn btn-danger deleteBlock float-right'><i class='float-right fas fa-times'></i></button>" . BlockController::buildCarouselAndGallery($child, $categHTML) . "<button class='btn btn-xs btn-outline-info contentSlider'>Ajouter/Supprimer une image</button></div>",
+                    "<div class='block-unit-complex' id='" . $child->id . "'><button class='btn-xs btn btn-danger deleteBlock float-right'><i class='float-right fas fa-times'></i></button>" . BlockController::buildCarouselAndGallery($child, $categHTML) . "<button class='btn btn-outline-info contentSlider'>Ajouter/Supprimer une image</button></div>",
                     $result
                 );
             } else {

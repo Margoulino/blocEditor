@@ -31,3 +31,26 @@ $(document).on('submit', '#adduser_form', function () {
     });
     return false;
 });
+
+$(document).on('click', '.deleteUser', function() {
+    if(confirm("Confirmez vous la suppression de l'utilisateur ?")){
+        $.ajax({
+            url: "/user/delete",
+            type: "POST",
+            contentType: "application/json",
+            data: JSON.stringify({
+                id: $(this).attr('id'),
+                jwt: getCookie('jwt')
+            }
+            ),
+            success: function(result) {
+                location.reload();
+            },
+            error : function (xhr, resp, text) {
+                console.log(resp);
+                window.alert('Erreur lors de la suppression, veuillez réessayer.');
+                window.location.reload();
+            }
+        })
+    }
+})

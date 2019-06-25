@@ -98,7 +98,7 @@ $(document).on('submit', '#cat_form', function () {
 });
 
 $(document).on('click', '.deleteCat', function () {
-    if(confirm("Confirmez-vous la suppression de cette catégorie ?")) {
+    if(confirm("Confirmez-vous la suppression de cette catégorie ? Si une page n'est pas dupliquée dans une autre catégorie elle sera supprimée.")) {
         var name = $(this).parent().attr('id');
         $.ajax({
             url: "/category/delete",
@@ -109,12 +109,12 @@ $(document).on('click', '.deleteCat', function () {
             }),
             success: function(result) {
                 window.alert('Catégorie supprimée avec succès ! ');
-                window.location.reload();
+                //window.location.reload();
             },
             error: function (xhr, resp, text) {
                 console.log(resp);
                 window.alert('Erreur lors de la suppression, veuillez réessayer.')
-                window.location.reload();
+                //window.location.reload();
             }
         })
     }

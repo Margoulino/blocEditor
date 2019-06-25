@@ -91,8 +91,8 @@
                             echo '<i class="float-right deleteBlock fas fa-times"></i><div><i id="orderUp' . $block->id . '" i class="fas fa-arrow-up"></i>   <i id="orderDown' . $block->id . '"class="fas fa-arrow-down"></i></div>';
                             echo $block->content;
                         }
-                        if ($block->idBlockType === '3') {
-                            echo '<button class="btn btn-xs btn-outline-info contentSlider">Ajouter/Supprimer une image</button>';
+                        if ($block->idBlockType === '3' || $block->idBlockType === '6') {
+                            echo '<button class="btn btn-outline-info contentSlider">Ajouter/Supprimer une image</button>';
                         }
                         echo '</div>';
                     }

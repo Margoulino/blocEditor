@@ -44,6 +44,18 @@ class UserModel
         return $stmt->fetch();
     }
 
+    public static function findById($id)
+    {
+        $dbConn = DBModel::getConnection();
+        $stmt = $dbConn->prepare('
+            select "User", user.*
+             from user
+             where id = :id');
+        $stmt->bindParam(':id', $id);
+        $stmt->execute();
+        $stmt->setFetchMode(PDO::FETCH_CLASS, 'UserModel');
+        return $stmt->fetch();
+    }
     public static function findAll()
     {
         $dbConn = DBModel::getConnection();
@@ -80,6 +92,15 @@ class UserModel
         return $stmt->execute();
     }
 
+    public function delete()
+    {
+        $dbConn = DBModel::getConnection();
+        $stmt = $dbConn->prepare('
+            delete from user where id = :id
+        ');
+        $stmt->bindPAram(':id', $this->id);
+        $stmt->execute();
+    }
     /** 
      * Update function :
      * Updates and saves a user in the database
