@@ -31,7 +31,7 @@
           <tbody>
               <?php
                 foreach($users as $user){
-                    echo '<tr><td scope="row">'.$user['username'].'</td><td scope="row">'.$user['email'].'</td></tr>';
+                    echo '<tr><td scope="row">'.$user['username'].'</td><td scope="row">'.$user['email'].'</td><td> <i id="'.$user['id'].'" class="fas deleteUser fa-user-times"></i></td></tr>';
                 
                 }
               ?>

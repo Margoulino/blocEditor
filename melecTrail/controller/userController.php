@@ -238,6 +238,25 @@ class UserController
         require $_SERVER['DOCUMENT_ROOT'] . '/view/user/update_account.php';
     }
 
+    function delete() {
+            $data = json_decode(file_get_contents("php://input"));
+            try {
+                $username = $this->validateJWT($data->jwt);
+            } catch (Exception $e) {
+                http_response_code(403);
+                echo json_encode(array("message"=> $e));
+                return;
+            }
+            try {
+                $user2Delete = UserModel::findById($data->id);
+                $user2Delete->delete();
+                http_response_code(200);
+                echo json_encode(array("message" => "User successfully deleted"));
+            } catch (Exception $e) {
+                http_response_code(404);
+                echo json_encode(array("message" => $e));
+            }
+    }
     /** 
      * Validate Json Web Token function :
      * Checks if the given JWT is valid and decodes it 

@@ -92,5 +92,14 @@ class CategoryModel
         return $stmt->fetchAll();
     }
 
+    public function delete(){
+        $dbConn = DBModel::getConnection();
+        $stmt = $dbConn->prepare('
+        delete from edit_category
+        where name = :name');
+        $stmt->bindParam(':name' , $this->name);
+        $stmt->execute();
+    }
+
 
 }

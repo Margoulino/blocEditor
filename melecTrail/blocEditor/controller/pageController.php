@@ -132,6 +132,7 @@ class PageController
                 }
                 fwrite($fileHandler, "});");
                 fclose($fileHandler);
+                $header = BlockController::buildHeader(BlockTypeModel::findById(7)[0]->templateBlock);
                 foreach ($blocks as $block) {
                     if ($block->idParent === null) {
                         if ($block->idBlockType === '1' || $block->idBlockType === '2') {
@@ -146,7 +147,7 @@ class PageController
                 throw new Exception("Page does not exists, you must create it first");
             }
         } catch (Exception $e) {
-            echo json_enccode(array("message" => $e));
+            echo json_encode(array("message" => $e));
         }
     }
 

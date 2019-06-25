@@ -63,6 +63,16 @@ class PageCategoryModel
         return $stmt->fetchAll();
     }
 
+    public static function findByIdCategory($idCategory) {
+        $dbConn = DBModel::getConnection();
+        $stmt = $dbConn->prepare('
+        select * from edit_pagecategory where idCategory = :idCategory');
+        $stmt->bindParam(':idCategory', $idCategory);
+        $stmt->execute();
+        $stmt->setFetchMode(PDO::FETCH_CLASS, 'PageCategoryModel');
+        return $stmt->fetchAll();
+    }
+
     public static function delete($idPage,$idCat)
     {
         $dbConn = DBModel::getConnection();

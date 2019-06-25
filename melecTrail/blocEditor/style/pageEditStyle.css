@@ -1,7 +1,12 @@
 body {
     margin-top: 56px;
 }
-
+.block-header {
+    margin-top : 75px;
+}
+.blocks-viewer {
+    margin-top: 100px;
+}
 .blockMenu {
     height: 100%;
     width: 0;
@@ -14,6 +19,13 @@ body {
     padding-top: 60px;
     transition: 0.2s;
 }
+
+.btn-xs {
+    padding: .25rem .4rem;
+    font-size: .875rem;
+    line-height: .5;
+    border-radius: .2rem;
+  }
 
 .blockMenu a {
     padding: 8px 8px 8px 32px;
