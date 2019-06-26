@@ -198,6 +198,7 @@ class UserController
                 $mail->SetFrom("melectrail@gmail.com", "Melec Trail");
                 $mail->Subject = "Inscription couriraplumelec.fr";
                 $mail->Body = "Bonjour,
+                Voici votre code pour vous inscrire au site http://www.couriraplumelec.fr/ .
                                 Email : " . $to . "
                                 Code : " . $code;
                 $mail->AddAddress($to);
