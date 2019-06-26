@@ -129,28 +129,32 @@ upArrows.forEach(arrow => {
 var removeCategs = document.querySelectorAll(".removeCateg");
 removeCategs.forEach(remCat => {
     remCat.addEventListener("click", function(e) {
-        var categoryId = e.target.getAttribute("id");
-        var data = {
-            pageId: pageId,
-            categoryId: categoryId
-        };
-        deleteCategory(JSON.stringify(data)).then(function() {
-            location.reload();
-        });
+        if (confirm("Êtes-vous sûr de vouloir supprimer cette catégorie ?")) {
+            var categoryId = e.target.getAttribute("id");
+            var data = {
+                pageId: pageId,
+                categoryId: categoryId
+            };
+            deleteCategory(JSON.stringify(data)).then(function() {
+                location.reload();
+            });
+        }
     });
 });
 
 var addExistingCateg = document.querySelectorAll(".categChoice");
 addExistingCateg.forEach(categChoice => {
     categChoice.addEventListener("click", function(e) {
-        var categoryId = e.target.getAttribute("id");
-        var data = {
-            pageId: pageId,
-            categoryId: categoryId
-        };
-        addCategory(JSON.stringify(data)).then(function() {
-            location.reload();
-        });
+        if (confirm("Êtes-vous sûr de vouloir attribuer cette catégorie ?")) {
+            var categoryId = e.target.getAttribute("id");
+            var data = {
+                pageId: pageId,
+                categoryId: categoryId
+            };
+            addCategory(JSON.stringify(data)).then(function() {
+                location.reload();
+            });
+        }
     });
 });
 
@@ -162,21 +166,23 @@ addCategoryDrop.addEventListener("click", function(e) {
 var saveNewCategBtn = document.getElementById("saveCat");
 
 saveNewCategBtn.addEventListener("click", function() {
-    var catName = document.getElementById("catname").value;
-    if (catName !== undefined && catName !== "") {
-        var data = {
-            name: catName
-        };
-        createNewCategory(JSON.stringify(data)).then(function() {
-            findCategoryByName(JSON.stringify(data)).then(function(response) {
-                var dataAdd = {
-                    pageId: pageId,
-                    categoryId: response[0]
-                };
-                addCategory(JSON.stringify(dataAdd)).then(function() {
-                    location.reload();
+    if (confirm("Êtes-vous sûr de vouloir créer cette catégorie ?")) {
+        var catName = document.getElementById("catname").value;
+        if (catName !== undefined && catName !== "") {
+            var data = {
+                name: catName
+            };
+            createNewCategory(JSON.stringify(data)).then(function() {
+                findCategoryByName(JSON.stringify(data)).then(function(response) {
+                    var dataAdd = {
+                        pageId: pageId,
+                        categoryId: response[0]
+                    };
+                    addCategory(JSON.stringify(dataAdd)).then(function() {
+                        location.reload();
+                    });
                 });
             });
-        });
+        }
     }
 });
