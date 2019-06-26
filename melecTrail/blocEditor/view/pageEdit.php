@@ -74,7 +74,7 @@
             echo '          <a id="' . $categ->id . '" class="dropdown-item categChoice" href="#">' . $categ->name . '</a>';
         }
         echo '          <div class="dropdown-divider"></div>
-                        <a class="dropdown-item" href="#">Ajout nouvelle catégorie</a>
+                        <a class="dropdown-item" id="addCategoryDrop" href="#">Ajout nouvelle catégorie</a>
                     </div>
                 </div>
             </div>';
@@ -195,6 +195,28 @@
         </div>
     </div>
 
+    <div id="addCategoryModal" class="modal fade">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Ajouter une catégorie</h5>
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                </div>
+                <div class="modal-body">
+                    <form id='cat_form'>
+                        <div class="form-row">
+                            <div class="col">
+                                <input type="text" class="form-control" name="name" placeholder="nom de la catégorie" id="catname" required />
+                            </div>
+                        </div>
+                        <br />
+                        <button type='submit' class='btn btn-primary' id="saveCat">Enregistrer</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <script>
         var pageId = <?php echo $page[0]->id ?>;
         var idNewBlock = <?php echo count($blocks); ?> + 1;
@@ -211,7 +233,6 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/image-picker/0.3.1/image-picker.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/lightbox2/2.11.0/js/lightbox.min.js"></script>
     <script src="https://unpkg.com/interactjs/dist/interact.min.js"></script>
-    <script src="https://unpkg.com/popper.js"></script>
     <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
     <script src="https://code.iconify.design/1/1.0.2/iconify.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/owl.carousel.js"></script>

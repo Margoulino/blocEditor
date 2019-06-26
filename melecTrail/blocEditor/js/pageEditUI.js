@@ -151,3 +151,30 @@ addExistingCateg.forEach(categChoice => {
         });
     });
 });
+
+var addCategoryDrop = document.getElementById("addCategoryDrop");
+addCategoryDrop.addEventListener("click", function(e) {
+    $("#addCategoryModal").modal("show");
+});
+
+var saveNewCategBtn = document.getElementById("saveCat");
+
+saveNewCategBtn.addEventListener("click", function() {
+    var catName = document.getElementById("catname").value;
+    if (catName !== undefined && catName !== "") {
+        var data = {
+            name: catName
+        };
+        createNewCategory(JSON.stringify(data)).then(function() {
+            findCategoryByName(JSON.stringify(data)).then(function(response) {
+                var dataAdd = {
+                    pageId: pageId,
+                    categoryId: response[0]
+                };
+                addCategory(JSON.stringify(dataAdd)).then(function() {
+                    location.reload();
+                });
+            });
+        });
+    }
+});
