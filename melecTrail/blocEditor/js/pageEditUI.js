@@ -1,8 +1,10 @@
-//Sidebar menu des options de blocks
+//-----Sidebar menu des options de blocks-----
+//Ouverture du menu latéral
 function openNav() {
     document.querySelector(".blockMenu").style.width = "260px";
 }
 
+//Fermeture du menu latéral
 function closeNav() {
     document.querySelector(".blockMenu").style.width = "0";
 }
@@ -150,4 +152,31 @@ addExistingCateg.forEach(categChoice => {
             location.reload();
         });
     });
+});
+
+var addCategoryDrop = document.getElementById("addCategoryDrop");
+addCategoryDrop.addEventListener("click", function(e) {
+    $("#addCategoryModal").modal("show");
+});
+
+var saveNewCategBtn = document.getElementById("saveCat");
+
+saveNewCategBtn.addEventListener("click", function() {
+    var catName = document.getElementById("catname").value;
+    if (catName !== undefined && catName !== "") {
+        var data = {
+            name: catName
+        };
+        createNewCategory(JSON.stringify(data)).then(function() {
+            findCategoryByName(JSON.stringify(data)).then(function(response) {
+                var dataAdd = {
+                    pageId: pageId,
+                    categoryId: response[0]
+                };
+                addCategory(JSON.stringify(dataAdd)).then(function() {
+                    location.reload();
+                });
+            });
+        });
+    }
 });

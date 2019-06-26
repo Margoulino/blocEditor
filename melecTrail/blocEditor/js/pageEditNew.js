@@ -148,6 +148,38 @@ function addCategory(data) {
     });
 }
 
+function createNewCategory(data) {
+    return new Promise(function(resolve, reject) {
+        var xhr = new XMLHttpRequest();
+        xhr.onreadystatechange = function() {
+            if (this.readyState === XMLHttpRequest.DONE && this.status === 200) {
+                resolve();
+            } else if (this.status === 404) {
+                reject(JSON.parse(xhr.response).message);
+            }
+        };
+        xhr.open("POST", "/category/addCategory");
+        xhr.setRequestHeader("Content-type", "application/json");
+        xhr.send(data);
+    });
+}
+
+function findCategoryByName(data) {
+    return new Promise(function(resolve, reject) {
+        var xhr = new XMLHttpRequest();
+        xhr.onreadystatechange = function() {
+            if (this.readyState === XMLHttpRequest.DONE && this.status === 200) {
+                resolve([JSON.parse(xhr.response)[0].id, JSON.parse(xhr.response)[0].name]);
+            } else if (this.status === 404) {
+                reject();
+            }
+        };
+        xhr.open("POST", "/category/findByname");
+        xhr.setRequestHeader("Content-type", "application/json");
+        xhr.send(data);
+    });
+}
+
 function htmlEditorInit(targetElement, previousContent) {
     return new Promise(function(resolve, reject) {
         var blockId = targetElement.getAttribute("id");

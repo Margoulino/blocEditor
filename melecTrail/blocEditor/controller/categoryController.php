@@ -5,7 +5,6 @@ require_once $_SERVER['DOCUMENT_ROOT'] . '/blocEditor/model/pageCategoryModel.ph
 require_once $_SERVER['DOCUMENT_ROOT'] . '/blocEditor/model/categoryModel.php';
 require $_SERVER['DOCUMENT_ROOT'] . '/vendor/autoload.php';
 use \Firebase\JWT\JWT;
-use League\Flysystem\Exception;
 
 class CategoryController
 {
@@ -42,6 +41,21 @@ class CategoryController
             $category[0]->delete();
             http_response_code(200);
             echo json_encode(array("message" => "Category successfully deleted"));
+        } catch (Exception $e) {
+            http_response_code(404);
+            echo json_encode(array("message" => $e));
+        }
+    }
+
+    function findByName() {
+        $data = json_decode(file_get_contents("php://input"));
+        try {
+            $category = CategoryModel::findByname($data->name);
+            if(count($category) == 1) {
+                return json_encode($category);
+            } else if(count($category) < 1){
+                throw new Exception("Category does not exist");
+            }
         } catch (Exception $e) {
             http_response_code(404);
             echo json_encode(array("message" => $e));
