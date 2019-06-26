@@ -12,15 +12,17 @@ $(document).on('click', '#login', function () {
 //Lors d'un click sur le bouton logout, on set le cookie à une date invalide pour le supprimer
 $(document).on('click', '#logout', function () {
     setCookie("jwt", null, -1);
-    if (window.location.pathname == "/jogging/getJogsByCreator" || window.location.pathname == "/user/showUsers") {
+    setCookie("role",null,-1);
+    if (window.location.pathname == "/jogging/getJogsByCreator" || window.location.pathname == "/user/showUsers" || location.pathname == "/jogging") {
         window.location.href = "/jogging";
     } else {
-        $('#response').fadeTo("slow", 1);
-        $('#response').html("<div class='alert alert-success'>Déconnexion réussie.</div>");
-        setTimeout(function () {
-            $('#response').fadeTo("slow", 0);
-        }, 5000);
-        logoutDisplay();
+        location.reload();
+        // $('#response').fadeTo("slow", 1);
+        // $('#response').html("<div class='alert alert-success'>Déconnexion réussie.</div>");
+        // setTimeout(function () {
+        //     $('#response').fadeTo("slow", 0);
+        // }, 5000);
+        // logoutDisplay();
     }
 })
 
@@ -152,6 +154,9 @@ window.addEventListener("DOMContentLoaded", function () {
     }
     $(document).on('click', '#myjogs', function () {
         $('#myJogsForm').submit();
+    })
+    $(document).on('click', '#alljogs', function () {
+        $('#listJogsForm').submit();
     })
     $(document).on('click', '#showUsers', function () {
         $('#manageUsers').submit();

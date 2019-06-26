@@ -82,9 +82,6 @@
         ?>
         <div class="blocks-viewer">
             <?php
-            echo '<div class = "block-header" >' . $header . '</div>';
-            ?>
-            <?php
             if ($blocks != NULL) {
                 foreach ($blocks as $block) {
                     if ($block->idParent === null || $block->idParent === "0") {

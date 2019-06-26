@@ -1,13 +1,15 @@
 <?php
-
-if (isset($_SERVER['PATH_INFO'])) {
-    $path = $_SERVER['PATH_INFO'];
+error_reporting(E_ALL);
+ini_set('display_errors', 'on');
+//var_dump($_GET);
+if (isset($_GET["ctrl"])) {
+    $path = $_GET["ctrl"];
     $path_split = explode('/', ltrim($path));
 } else {
     $path_split = '/';
 }
+//var_dump($path_split);
 if ($path_split === '/') {
-
     require_once __DIR__ . '/model/indexModel.php';
     require_once __DIR__ . '/controller/indexController.php';
     $req_model = new IndexModel();
@@ -49,22 +51,22 @@ if ($path_split === '/') {
     }
 } else {
     // Controllers other than Index Will be handled here
-    $req_controller = $path_split[1];
+    $req_controller = $path_split[0];
     /**
      *Set Required Model name
      *@return model;
      */
-    $req_model = $path_split[1];
+    $req_model = $path_split[0];
     /**
      *Set Required Method name
      *@return method;
      */
-    $req_method = isset($path_split[2]) ? $path_split[2] : '';
+    $req_method = isset($path_split[1]) ? $path_split[1] : '';
     /**
      *Set Required Params
      *@return params;
      */
-    $req_param = array_slice($path_split, 3);
+    $req_param = array_slice($path_split, 2);
     /**
      *Check if Controller Exist
      *@return void;
