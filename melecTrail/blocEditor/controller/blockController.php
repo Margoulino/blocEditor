@@ -135,6 +135,16 @@ class BlockController
                     http_response_code(200);
                     echo json_encode(array("message" => "Block and children block associated successfully deleted"));
                 } else {
+                    $blocks = BlockModel::findByIdPage($blockToDelete[0]->idPage);
+                    foreach($blocks as $b) {
+                        if($b->orderBlock > count($blocks)){
+                            --$b->orderBlock ;
+                            $bName = explode("_",$b->name);
+                            --$bName[2];
+                            $b->name = implode("_",$bName);
+                            $b->update();
+                        }
+                    }
                     BlockModel::delete($id);
                     http_response_code(200);
                     echo json_encode(array("message" => "Block successfully deleted"));
