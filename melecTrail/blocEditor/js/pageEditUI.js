@@ -1,8 +1,10 @@
-//Sidebar menu des options de blocks
+//-----Sidebar menu des options de blocks-----
+//Ouverture du menu latéral
 function openNav() {
     document.querySelector(".blockMenu").style.width = "260px";
 }
 
+//Fermeture du menu latéral
 function closeNav() {
     document.querySelector(".blockMenu").style.width = "0";
 }

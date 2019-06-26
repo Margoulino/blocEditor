@@ -202,6 +202,7 @@
 
     });
   </script>
+  <script src="/blocEditor/js/previewUI.js"></script>
 
 </body>
 
