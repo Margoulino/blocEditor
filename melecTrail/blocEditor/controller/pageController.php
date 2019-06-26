@@ -132,7 +132,6 @@ class PageController
                 }
                 fwrite($fileHandler, "});");
                 fclose($fileHandler);
-                $header = BlockController::buildHeader(BlockTypeModel::findById(7)[0]->templateBlock);
                 foreach ($blocks as $block) {
                     if ($block->idParent === null) {
                         if ($block->idBlockType === '1' || $block->idBlockType === '2') {
