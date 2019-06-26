@@ -1,12 +1,7 @@
 body {
     margin-top: 56px;
 }
-.block-header {
-    margin-top : 75px;
-}
-.blocks-viewer {
-    margin-top: 100px;
-}
+
 .blockMenu {
     height: 100%;
     width: 0;
@@ -21,11 +16,11 @@ body {
 }
 
 .btn-xs {
-    padding: .25rem .4rem;
-    font-size: .875rem;
-    line-height: .5;
-    border-radius: .2rem;
-  }
+    padding: 0.25rem 0.4rem;
+    font-size: 0.875rem;
+    line-height: 0.5;
+    border-radius: 0.2rem;
+}
 
 .blockMenu a {
     padding: 8px 8px 8px 32px;
@@ -102,7 +97,8 @@ body {
     margin: 5px;
 }
 
-.block-unit .btn , .block-unit-complex .btn{
+.block-unit .btn,
+.block-unit-complex .btn {
     padding: 0 0.25rem !important;
 }
 .thumbnail img {
@@ -114,7 +110,7 @@ body {
     top: 150px !important;
 }
 
-[id^=order]:hover {
+[id^="order"]:hover {
     color: #17a2b8;
     cursor: pointer;
 }
@@ -150,16 +146,16 @@ body {
 }
 .column:first-child:nth-last-child(2),
 .column:first-child:nth-last-child(2) ~ .column {
-  width: 50%;
+    width: 50%;
 }
 
 .column:first-child:nth-last-child(3),
 .column:first-child:nth-last-child(3) ~ .column {
-  width: 33.3333%;
+    width: 33.3333%;
 }
 
 .fa-times {
-    color: #ff0000 ;
+    color: #ff0000;
     z-index: 2;
 }
 .deleteBlock .fa-times {
@@ -172,7 +168,7 @@ body {
     z-index: 10;
 }
 .fa-times-circle {
-    color: #eb0000 ;
+    color: #eb0000;
 }
 #pageView {
     padding: 20px;
@@ -192,8 +188,8 @@ body {
     height: 100%;
     width: 100%;
     margin: 0 auto;
-    text-align: center;   
-    z-index : 2;
+    text-align: center;
+    z-index: 2;
 }
 
 .owl-carousel .owl-item a img {
@@ -224,7 +220,8 @@ body {
     position: absolute;
 }
 
-.blockSave, .resizebtn {
+.blockSave,
+.resizebtn {
     position: absolute;
     bottom: 10px;
     left: 10px;
@@ -234,16 +231,17 @@ body {
     position: absolute;
 }
 
-a img{
+a img {
     max-width: 100%;
-    max-height: 100%; 
-    width: 100% ;
+    max-height: 100%;
+    width: 100%;
 }
-.block-unit a{
+.block-unit a {
     margin: 0 auto;
 }
 
-.lb-nav,.lb-details {
+.lb-nav,
+.lb-details {
     display: none !important;
 }
 
@@ -260,17 +258,24 @@ figure {
     margin-left: 1.5em;
     max-width: 50% !important;
     position: relative;
-
 }
 
 .categPage {
     margin: 0 2px 0 2px;
 }
 
-.removeCateg > i{
+.removeCateg > i {
     pointer-events: none;
 }
 
 .dropCateg {
     display: inline-block;
+}
+
+.categ-container {
+    margin-top: 80px;
+}
+
+#pagePreview {
+    margin: 0 0 8px 0;
 }
