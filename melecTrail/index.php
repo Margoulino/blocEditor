@@ -2,8 +2,8 @@
 error_reporting(E_ALL);
 ini_set('display_errors', 'on');
 //var_dump($_GET);
-if (isset($_GET["ctrl"])) {
-    $path = $_GET["ctrl"];
+if (isset($_SERVER["PATH_INFO"])) {
+    $path = $_SERVER["PATH_INFO"];
     $path_split = explode('/', ltrim($path));
 } else {
     $path_split = '/';
@@ -51,22 +51,22 @@ if ($path_split === '/') {
     }
 } else {
     // Controllers other than Index Will be handled here
-    $req_controller = $path_split[0];
+    $req_controller = $path_split[1];
     /**
      *Set Required Model name
      *@return model;
      */
-    $req_model = $path_split[0];
+    $req_model = $path_split[1];
     /**
      *Set Required Method name
      *@return method;
      */
-    $req_method = isset($path_split[1]) ? $path_split[1] : '';
+    $req_method = isset($path_split[2]) ? $path_split[2] : '';
     /**
      *Set Required Params
      *@return params;
      */
-    $req_param = array_slice($path_split, 2);
+    $req_param = array_slice($path_split, 3);
     /**
      *Check if Controller Exist
      *@return void;

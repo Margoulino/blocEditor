@@ -12,5 +12,4 @@ class IndexController
     {
         header("Location: /jogging");
     }
-
 }
