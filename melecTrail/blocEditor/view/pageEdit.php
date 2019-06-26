@@ -17,7 +17,7 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.theme.default.min.css" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/ekko-lightbox/5.3.0/ekko-lightbox.css" />
     <link rel="stylesheet" href="/templatemo-style.css">
-    <link rel="stylesheet" href="/custom.css" >
+    <link rel="stylesheet" href="/custom.css">
     <link rel="stylesheet" href="/blocEditor/style/pageEditStyle.css">
     <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
 </head>
@@ -82,7 +82,9 @@
         ?>
         <div class="blocks-viewer">
             <?php
-            echo '<div class = "block-header" >'.$header.'</div>';
+            echo '<div class = "block-header" >' . $header . '</div>';
+            ?>
+            <?php
             if ($blocks != NULL) {
                 foreach ($blocks as $block) {
                     if ($block->idParent === null || $block->idParent === "0") {
@@ -110,6 +112,7 @@
             }
             ?>
         </div>
+
         <div class="row">
             <div class="col interface-block">
             </div>
