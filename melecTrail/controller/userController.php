@@ -196,7 +196,7 @@ class UserController
                 $mail->Username = "melectrail@gmail.com";
                 $mail->Password = "3sJbY:5!P";
                 $mail->SetFrom("melectrail@gmail.com", "Melec Trail");
-                $mail->Subject = "Inscription courir à Plumelec";
+                $mail->Subject = "Inscription couriraplumelec.fr";
                 $mail->Body = "Bonjour,
                                 Email : " . $to . "
                                 Code : " . $code;

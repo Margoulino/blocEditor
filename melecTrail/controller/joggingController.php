@@ -88,12 +88,20 @@ class JoggingController
      * 
      */
     function index()
-    {
+    {           
+        try {
+            $user = $this->validateJWT($_POST['jwt']);
+        } catch (Exception $e) {
+            http_response_code(403);
+            echo "bad credentials";
+            header("Location: /");
+            return;
+        }
         try {
             $tab_jog = JoggingModel::findAll();
             require(__DIR__ . '/../view/jogging/indexJog.php');
         } catch (Exception $e) {
-            echo e;
+            echo $e;
         }
     }
 
