@@ -186,3 +186,25 @@ saveNewCategBtn.addEventListener("click", function() {
         }
     }
 });
+
+var publishBtn = document.getElementById("pagePublish");
+if (publishBtn !== undefined && publishBtn !== null) {
+    publishBtn.addEventListener("click", function() {
+        if (confirm("Êtes-vous sûr de vouloir publier cette page ?")) {
+            publishPage(pageId).then(function() {
+                location.reload();
+            });
+        }
+    });
+}
+
+var depublishBtn = document.getElementById("pageDepublish");
+if (depublishBtn !== undefined && depublishBtn !== null) {
+    depublishBtn.addEventListener("click", function() {
+        if (confirm("Êtes-vous sûr de vouloir dépublier cette page ?")) {
+            depublishPage(pageId).then(function() {
+                location.reload();
+            });
+        }
+    });
+}

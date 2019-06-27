@@ -8,7 +8,6 @@ require_once $_SERVER['DOCUMENT_ROOT'] . '/blocEditor/model/blockTypeModel.php';
 require_once $_SERVER['DOCUMENT_ROOT'] . '/blocEditor/controller/blockController.php';
 require $_SERVER['DOCUMENT_ROOT'] . '/vendor/autoload.php';
 use \Firebase\JWT\JWT;
-use function GuzzleHttp\Psr7\readline;
 
 class PageController
 {
@@ -265,7 +264,39 @@ class PageController
                 throw new Exception("Page does not exists, you must create it first");
             }
         } catch (Exception $e) {
-            echo json_enccode(array("message" => $e));
+            echo json_encode(array("message" => $e->getMessage()));
+        }
+    }
+
+    public function publishPage($id) {
+        try {
+            $page = PageModel::findById($id[0]);
+            if (!empty($page)) {
+                $page->publish();
+                http_response_code(200);
+                echo json_encode(array("message" => "page successfully published"));
+            } else {
+                throw new Exception("Page does not exists, can't publish");
+            }
+        } catch(Exception $e) {
+            http_response_code(404);
+            echo json_encode(array("message" => $e->getMessage()));
+        }
+    }
+
+    public function depublishPage($id) {
+        try {
+            $page = PageModel::findById($id[0]);
+            if (!empty($page)) {
+                $page->depublish();
+                http_response_code(200);
+                echo json_encode(array("message" => "page successfully depublished"));
+            } else {
+                throw new Exception("Page does not exists, can't depublish");
+            }
+        } catch(Exception $e) {
+            http_response_code(404);
+            echo json_encode(array("message" => $e->getMessage()));
         }
     }
 }
