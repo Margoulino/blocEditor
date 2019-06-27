@@ -229,6 +229,22 @@ class BlockController
         }
     }
 
+    public function removeImage()
+    {
+        $this->setHeader();
+        $data  = json_decode(file_get_contents("php://input"));
+        $imgName = explode("/", $data->path);
+        $imgName = end($imgName);
+        $storeFolder = $_SERVER['DOCUMENT_ROOT'] . '/blocEditor/asset/img/';
+        if(file_exists($storeFolder . $imgName)) {
+            unlink($storeFolder . $imgName);
+            http_response_code(200);
+            echo json_encode(array("message" => "image deleted successfull"));
+        } else {
+            http_response_code(404);
+            echo json_encode(array("message" => "image not found, couldn't remove", "path" => $storeFolder . $imgName));
+        }
+    }
 
     public static function setColumnChilds($node, $categHTML, $level)
     {

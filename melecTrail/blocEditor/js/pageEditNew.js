@@ -195,6 +195,17 @@ function htmlEditorInit(targetElement, previousContent) {
             },
             ckfinder: {
                 uploadUrl: "/blocEditor/ckfinder/core/connector/php/connector.php?command=QuickUpload&type=Files&responseType=json"
+            },
+            link: {
+                decorators: {
+                    isExternal: {
+                        mode: 'manual',
+                        label: 'Open in a new tab',
+                        attributes: {
+                            target: '_blank'
+                        }
+                    }
+                }
             }
         })
             .then(newEditor => {
