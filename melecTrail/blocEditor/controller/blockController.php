@@ -213,7 +213,7 @@ class BlockController
 
     public function uploadImage()
     {
-        $storeFolder = $_SERVER['DOCUMENT_ROOT'] . '/blocEditor/img/';
+        $storeFolder = $_SERVER['DOCUMENT_ROOT'] . '/blocEditor/asset/img/';
         if (!empty($_FILES)) {
             try {
 

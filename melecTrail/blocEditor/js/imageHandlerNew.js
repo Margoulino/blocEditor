@@ -144,7 +144,7 @@ Dropzone.options.myDropzone = {
             div.className = "thumbnail";
             var img = document.createElement("img");
             img.className = "image_picker_image";
-            img.src = "/blocEditor/img/" + response.target_file;
+            img.src = "/blocEditor/asset/img/" + response.target_file;
             var li = document.createElement("li");
             div.appendChild(img)
             li.appendChild(div);
