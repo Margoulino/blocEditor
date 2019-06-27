@@ -20,4 +20,9 @@ document.addEventListener("DOMContentLoaded", function() {
             }
         });
     });
+    //Suppression des boutons "+" des colonnes vides des blocs colonnes
+    var divBtn = document.querySelectorAll(".text-center");
+    divBtn.forEach(divB => {
+        divB.parentElement.removeChild(divB);
+    });
 });
