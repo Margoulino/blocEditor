@@ -202,7 +202,9 @@
 
     });
   </script>
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/owl.carousel.js"></script>
   <script src="/blocEditor/js/previewUI.js"></script>
+  <script src="/blocEditor/js/blockInit.js"></script>
 
 </body>
 
