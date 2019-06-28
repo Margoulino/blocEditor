@@ -195,6 +195,17 @@ function htmlEditorInit(targetElement, previousContent) {
             },
             ckfinder: {
                 uploadUrl: "/blocEditor/ckfinder/core/connector/php/connector.php?command=QuickUpload&type=Files&responseType=json"
+            },
+            link: {
+                decorators: {
+                    isExternal: {
+                        mode: "manual",
+                        label: "Open in a new tab",
+                        attributes: {
+                            target: "_blank"
+                        }
+                    }
+                }
             }
         })
             .then(newEditor => {
@@ -348,4 +359,36 @@ function findBlockById(id, blocks) {
         }
     });
     return blockToFind;
+}
+
+function publishPage(id) {
+    return new Promise(function(resolve, reject) {
+        var xhr = new XMLHttpRequest();
+        xhr.onreadystatechange = function() {
+            if (this.readyState === XMLHttpRequest.DONE && this.status === 200) {
+                resolve();
+            } else if (this.status === 404) {
+                reject(JSON.parse(xhr.response).message);
+            }
+        };
+        xhr.open("POST", "/page/publishPage/" + id);
+        xhr.setRequestHeader("Content-type", "application/json");
+        xhr.send();
+    });
+}
+
+function depublishPage(id) {
+    return new Promise(function(resolve, reject) {
+        var xhr = new XMLHttpRequest();
+        xhr.onreadystatechange = function() {
+            if(this.readyState === XMLHttpRequest.DONE && this.status === 200) {
+                resolve();
+            } else if(this.status === 400) {
+                reject(JSON.parse(xhr.response).message);
+            }
+        };
+        xhr.open("POST", "/page/depublishPage/" + id);
+        xhr.setRequestHeader("Content-type", "application/json");
+        xhr.send();
+    });
 }
