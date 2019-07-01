@@ -381,9 +381,9 @@ function depublishPage(id) {
     return new Promise(function(resolve, reject) {
         var xhr = new XMLHttpRequest();
         xhr.onreadystatechange = function() {
-            if(this.readyState === XMLHttpRequest.DONE && this.status === 200) {
+            if (this.readyState === XMLHttpRequest.DONE && this.status === 200) {
                 resolve();
-            } else if(this.status === 400) {
+            } else if (this.status === 400) {
                 reject(JSON.parse(xhr.response).message);
             }
         };
@@ -391,4 +391,33 @@ function depublishPage(id) {
         xhr.setRequestHeader("Content-type", "application/json");
         xhr.send();
     });
+}
+
+function parentCounter(id, blockList) {
+    var curBlock = findBlockById(id, blockList);
+    if (curBlock.idParent !== undefined && curBlock.idParent !== null) {
+        var parents = 0;
+        var higherBlock = findBlockById(curBlock.idParent, blockList);
+        if (higherBlock !== null && higherBlock !== undefined) {
+            parents++;
+            if (higherBlock.idParent !== null) {
+                while (higherBlock.idParent !== null && higherBlock.idParent !== undefined) {
+                    var nextParentId = higherBlock.idParent;
+                    if (findBlockById(nextParentId, blockList) !== null) {
+                        parents++;
+                        higherBlock = findBlockById(nextParentId, blockList);
+                    } else {
+                        return parents;
+                    }
+                }
+                return parents;
+            } else {
+                return parents;
+            }
+        } else {
+            return parents;
+        }
+    } else {
+        return 0;
+    }
 }

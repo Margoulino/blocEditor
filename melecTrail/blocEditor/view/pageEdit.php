@@ -236,6 +236,7 @@
         var previousBlocks = <?php echo json_encode($blocks); ?>;
         var templateHTML = <?php echo json_encode($categHTML); ?>;
         var allCateg = <?php echo json_encode($allCategories); ?>;
+        var subLevels = <?php echo json_encode($subLevel); ?>;
     </script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.js" integrity="sha256-WpOohJOqMqqyKL9FccASB9O0KwACQJpFTUBLTYOVvVU=" crossorigin="anonymous"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>

@@ -111,6 +111,7 @@ class PageController
                 $blocks = PageModel::getAllBlocksByIdPage($page[0]->id);
                 $categJs = array();
                 $categHTML = array();
+                $subLevel = array();
                 $categoriesPage = PageCategoryModel::findByIdPage($page[0]->id);
                 $allCategories = CategoryModel::findAll();
                 foreach ($blocks as $block) {
@@ -119,6 +120,7 @@ class PageController
 
                         $categJs[$block->idBlockType] = $blockType[0]->js;
                         $categHTML[$block->idBlockType] = $blockType[0]->templateBlock;
+                        $subLevel[$block->idBlockType] = $blockType[0]->subLevels;
                     }
                 }
                 $jsFile = $_SERVER['DOCUMENT_ROOT'] . "/blocEditor/js/blockInit.js";
@@ -237,6 +239,7 @@ class PageController
 
                         $categJs[$block->idBlockType] = $blockType[0]->js;
                         $categHTML[$block->idBlockType] = $blockType[0]->templateBlock;
+                        $subLevel[$block->idBlockType] = $blockType[0]->subLevels;
                     }
                 }
                 $header = BlockController::buildHeader(BlockTypeModel::findById(7)[0]->templateBlock);

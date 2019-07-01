@@ -19,7 +19,8 @@ class BlockTypeController
         http_response_code(200);
         echo json_encode(array(
             "html" => $type[0]->templateBlock,
-            "js" => $type[0]->js
+            "js" => $type[0]->js,
+            "subLevels" -> $type[0]->subLevels
         ));
     }
 }
