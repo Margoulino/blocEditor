@@ -109,12 +109,12 @@ $(document).on('click', '.deleteCat', function () {
             }),
             success: function(result) {
                 window.alert('Catégorie supprimée avec succès ! ');
-                //window.location.reload();
+                window.location.reload();
             },
             error: function (xhr, resp, text) {
                 console.log(resp);
                 window.alert('Erreur lors de la suppression, veuillez réessayer.')
-                //window.location.reload();
+                window.location.reload();
             }
         })
     }
