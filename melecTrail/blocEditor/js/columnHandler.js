@@ -1,28 +1,32 @@
-$('#2colOption').on('click', function () {
+$("#2colOption").on("click", function() {
     closeNav();
     var data = JSON.stringify({
         name: nomPage + "_" + idNewBlock,
         orderBlock: idNewBlock,
         pageId: pageId,
-        idBlockType: '1'
-    })
-    saveBlock(data).then(function(){location.reload();});
+        idBlockType: "1"
+    });
+    saveBlock(data).then(function() {
+        location.reload();
+    });
 });
 
-$('#3colOption').on('click', function () {
+$("#3colOption").on("click", function() {
     closeNav();
     var data = JSON.stringify({
         name: nomPage + "_" + idNewBlock,
         orderBlock: idNewBlock,
         pageId: pageId,
-        idBlockType: '2'
-    })
-    saveBlock(data).then(function(){location.reload();});
-})
+        idBlockType: "2"
+    });
+    saveBlock(data).then(function() {
+        location.reload();
+    });
+});
 
 function getInnerHTMLCol(elem) {
     return new Promise(function(resolve, reject) {
-        if(elem !== undefined) {
+        if (elem !== undefined) {
             resolve(elem.innerHTML);
         } else {
             reject();
@@ -30,15 +34,19 @@ function getInnerHTMLCol(elem) {
     });
 }
 
-$(document).ready(function () {
-
-    $('.addBlockCol').on('click', function (event) {
-        var idParent = $(this).closest('.block-unit-complex').attr('id');
-        var idColumn = $(this).closest('.column').attr('id');
-        $('#innerBlockModal').modal('show');
+$(document).ready(function() {
+    $(".addBlockCol").on("click", function(event) {
+        var idParent = $(this)
+            .closest(".block-unit-complex")
+            .attr("id");
+        var idColumn = $(this)
+            .closest(".column")
+            .attr("id");
+        var idBlockParent = event.currentTarget.parentElement.parentElement.parentElement.parentElement.getAttribute("id");
+        var blockParent = findBlockById(idBlockParent, previousBlocks);
+        $("#innerBlockModal").modal("show");
         $("#textBlock").on("click", function() {
             $("#innerBlockModal").modal("toggle");
-            var idBlockParent = event.currentTarget.parentElement.parentElement.parentElement.parentElement.getAttribute("id");
             var idCol = event.currentTarget.parentElement.parentElement.getAttribute("id");
             htmlEditorInit(event.currentTarget.parentElement.parentElement, "").then(function(editor) {
                 $("#innerBlockModal").modal("toggle");
@@ -55,115 +63,138 @@ $(document).ready(function () {
                         idColumn: idCol,
                         styleBlock: ""
                     };
-                    saveBlockIntoBlock(JSON.stringify(data)).then(function() {
-                        location.reload();
-                    });
+                    if (subLevels[blockParent.idBlockType] > parentCounter(blockParent.id, previousBlocks)) {
+                        saveBlockIntoBlock(JSON.stringify(data)).then(function() {
+                            location.reload();
+                        });
+                    } else {
+                        alert("Ajout impossible, ce bloc se situe à un sous niveau trop élevé");
+                    }
                 });
                 btnDel.addEventListener("click", function() {
                     location.reload();
                 });
             });
         });
-        $('#imgBlock').on('click', function () {
-            $('#innerBlockModal').modal('toggle');
-            $('#uploadImageModal').modal('show');
+        $("#imgBlock").on("click", function() {
+            $("#innerBlockModal").modal("toggle");
+            $("#uploadImageModal").modal("show");
             $("#selectImg").off();
-            $("#selectImg").on('click', function () {
-                $('#uploadImageModal').modal('toggle');
+            $("#selectImg").on("click", function() {
+                $("#uploadImageModal").modal("toggle");
                 var data = JSON.stringify({
                     name: nomPage + "_" + idNewBlock,
-                    content :  $('.image_picker_selector .selected img').attr('src'),
-                    idParent : idParent,
-                    idColumn : idColumn,
+                    content: $(".image_picker_selector .selected img").attr("src"),
+                    idParent: idParent,
+                    idColumn: idColumn,
                     orderBlock: idNewBlock,
-                    idBlockType: '4',
+                    idBlockType: "4",
                     pageId: pageId
-                })
-                saveBlock(data).then(function() {
-                    location.reload();
                 });
+                if (subLevels[blockParent.idBlockType] > parentCounter(blockParent.id, previousBlocks)) {
+                    saveBlock(data).then(function() {
+                        location.reload();
+                    });
+                } else {
+                    alert("Ajout impossible, ce bloc se situe à un sous niveau trop élevé");
+                }
             });
-        })
-        $('#carouselBlock').on('click', function () {
-            $('#innerBlockModal').modal('toggle');
-            $('#uploadImageModal').modal('show');
-            $("select").attr('multiple', 'multiple');
-            $("select").imagepicker();
-            $('#selectImg').off();
-            $("#selectImg").on('click', function () {
-                $('#uploadImageModal').modal('toggle');
-                var imgSrc = [];
-                $('.image_picker_selector .selected img').each(function (index) {
-                    imgSrc.push($(this).attr('src'));
-                })
-                var data = JSON.stringify({
-                    name: nomPage + "_" + idNewBlock,
-                    content :  imgSrc.join(" ; "),
-                    idParent : idParent,
-                    idColumn : idColumn,
-                    orderBlock: idNewBlock,
-                    idBlockType: '3',
-                    pageId: pageId
-                })
-                saveBlock(data).then(function() {
-                    location.reload();
-                });
-            })
         });
-        $('#galleryBlock').on('click', function () {
-            $('#innerBlockModal').modal('toggle');
-            $('#uploadImageModal').modal('show');
-            $("select").attr('multiple', 'multiple');
+        $("#carouselBlock").on("click", function() {
+            $("#innerBlockModal").modal("toggle");
+            $("#uploadImageModal").modal("show");
+            $("select").attr("multiple", "multiple");
             $("select").imagepicker();
-            $('#selectImg').off();
-            $("#selectImg").on('click', function () {
-                $('#uploadImageModal').modal('toggle');
+            $("#selectImg").off();
+            $("#selectImg").on("click", function() {
+                $("#uploadImageModal").modal("toggle");
                 var imgSrc = [];
-                $('.image_picker_selector .selected img').each(function (index) {
-                    imgSrc.push($(this).attr('src'));
-                })
+                $(".image_picker_selector .selected img").each(function(index) {
+                    imgSrc.push($(this).attr("src"));
+                });
                 var data = JSON.stringify({
                     name: nomPage + "_" + idNewBlock,
-                    content :  imgSrc.join(" ; "),
-                    idParent : idParent,
-                    idColumn : idColumn,
+                    content: imgSrc.join(" ; "),
+                    idParent: idParent,
+                    idColumn: idColumn,
                     orderBlock: idNewBlock,
-                    idBlockType: '6',
+                    idBlockType: "3",
                     pageId: pageId
-                })
-                saveBlock(data).then(function(){location.reload();});
-            })
-        })
-        $('#2ColBlock').on('click', function () {
-            $('#innerBlockModal').modal('toggle');
-            var data = JSON.stringify({
-                name : nomPage + "_" + idNewBlock,
-                idParent : idParent,
-                idColumn : idColumn,
-                orderBlock : idNewBlock,
-                idBlockType : '1',
-                pageId : pageId
-            })
-            saveBlock(data).then(function() {
-                location.reload();
+                });
+                if (subLevels[blockParent.idBlockType] > parentCounter(blockParent.id, previousBlocks)) {
+                    saveBlock(data).then(function() {
+                        location.reload();
+                    });
+                } else {
+                    alert("Ajout impossible, ce bloc se situe à un sous niveau trop élevé");
+                }
             });
-        })
-        $('#3ColBlock').on('click', function () {
-            $('#innerBlockModal').modal('toggle');
-            var data = JSON.stringify({
-                name : nomPage + "_" + idNewBlock,
-                idParent : idParent,
-                idColumn : idColumn,
-                orderBlock : idNewBlock,
-                idBlockType : '2',
-                pageId : pageId
-            })
-            saveBlock(data).then(function() {
-                location.reload();
+        });
+        $("#galleryBlock").on("click", function() {
+            $("#innerBlockModal").modal("toggle");
+            $("#uploadImageModal").modal("show");
+            $("select").attr("multiple", "multiple");
+            $("select").imagepicker();
+            $("#selectImg").off();
+            $("#selectImg").on("click", function() {
+                $("#uploadImageModal").modal("toggle");
+                var imgSrc = [];
+                $(".image_picker_selector .selected img").each(function(index) {
+                    imgSrc.push($(this).attr("src"));
+                });
+                var data = JSON.stringify({
+                    name: nomPage + "_" + idNewBlock,
+                    content: imgSrc.join(" ; "),
+                    idParent: idParent,
+                    idColumn: idColumn,
+                    orderBlock: idNewBlock,
+                    idBlockType: "6",
+                    pageId: pageId
+                });
+                if (subLevels[blockParent.idBlockType] > parentCounter(blockParent.id, previousBlocks)) {
+                    saveBlock(data).then(function() {
+                        location.reload();
+                    });
+                } else {
+                    alert("Ajout impossible, ce bloc se situe à un sous niveau trop élevé");
+                }
             });
-        })
+        });
+        $("#2ColBlock").on("click", function() {
+            $("#innerBlockModal").modal("toggle");
+            var data = JSON.stringify({
+                name: nomPage + "_" + idNewBlock,
+                idParent: idParent,
+                idColumn: idColumn,
+                orderBlock: idNewBlock,
+                idBlockType: "1",
+                pageId: pageId
+            });
+            if (subLevels[blockParent.idBlockType] > parentCounter(blockParent.id, previousBlocks)) {
+                saveBlock(data).then(function() {
+                    location.reload();
+                });
+            } else {
+                alert("Ajout impossible, ce bloc se situe à un sous niveau trop élevé");
+            }
+        });
+        $("#3ColBlock").on("click", function() {
+            $("#innerBlockModal").modal("toggle");
+            var data = JSON.stringify({
+                name: nomPage + "_" + idNewBlock,
+                idParent: idParent,
+                idColumn: idColumn,
+                orderBlock: idNewBlock,
+                idBlockType: "2",
+                pageId: pageId
+            });
+            if (subLevels[blockParent.idBlockType] > parentCounter(blockParent.id, previousBlocks)) {
+                saveBlock(data).then(function() {
+                    location.reload();
+                });
+            } else {
+                alert("Ajout impossible, ce bloc se situe à un sous niveau trop élevé");
+            }
+        });
     });
-})
-
-
-
+});
