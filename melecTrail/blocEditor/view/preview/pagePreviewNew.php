@@ -10,11 +10,11 @@
 
   <!-- load stylesheets -->
   <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700"> <!-- Google web font "Open Sans" -->
-  <link rel="stylesheet" href="/blocEditor/view/preview/font-awesome-4.7.0/css/font-awesome.min.css"> <!-- Font Awesome -->
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.2/css/all.css"> <!-- Font Awesome -->
   <link rel="stylesheet" href="/blocEditor/view/preview/css/bootstrap.min.css"> <!-- Bootstrap style -->
   <link rel="stylesheet" type="text/css" href="/blocEditor/view/preview/css/datepicker.css" />
-  <!--<link rel="stylesheet" type="text/css" href="slick/slick.css"/>-->
-  <!--<link rel="stylesheet" type="text/css" href="slick/slick-theme.css"/>-->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.carousel.min.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.theme.default.min.css" />
   <link rel="stylesheet" href="/blocEditor/view/preview/css/templatemo-style.css">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/lightbox2/2.11.0/css/lightbox.min.css" />
   <link rel="stylesheet" href="/blocEditor/view/preview/css/ekko-lightbox.css">
@@ -122,7 +122,7 @@
 
       <footer class="tm-container-outer row hermine_br">
         <p class="mb-0 col-6">
-          <a href="https://www.facebook.com/courir.aplumelec.12" target="_blank" class="btn btn-info"><i class="fa fa-facebook-square"></i> Rejoignez nous sur facebook !</a>
+          <a href="https://www.facebook.com/courir.aplumelec.12" target="_blank" class="btn btn-info"><i class="fab fa-facebook-square"></i> Rejoignez nous sur facebook !</a>
         </p>
         <p class="mb-0 col-6">
           <img src="/blocEditor/view/preview/img/trail-plumelec/bodycross.png" height="50" style="flota:left;">
@@ -202,7 +202,6 @@
 
     });
   </script>
-      <script src="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/owl.carousel.js"></script>
   <script src="/blocEditor/js/previewUI.js"></script>
   <script src="/blocEditor/js/blockInit.js"></script>
 
