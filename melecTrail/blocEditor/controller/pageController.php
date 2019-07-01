@@ -117,7 +117,6 @@ class PageController
                 foreach ($blocks as $block) {
                     if (!array_key_exists($block->idBlockType, $categJs)) {
                         $blockType = BlockTypeModel::findById($block->idBlockType);
-
                         $categJs[$block->idBlockType] = $blockType[0]->js;
                         $categHTML[$block->idBlockType] = $blockType[0]->templateBlock;
                         $subLevel[$block->idBlockType] = $blockType[0]->subLevels;
@@ -225,7 +224,7 @@ class PageController
         }
     }
 
-    public function previewPage($name)
+    public static function previewPage($name)
     {
         try {
             $page = PageModel::findByName($name[0]);

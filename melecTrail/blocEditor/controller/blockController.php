@@ -136,8 +136,8 @@ class BlockController
                     echo json_encode(array("message" => "Block and children block associated successfully deleted"));
                 } else {
                     BlockModel::delete($id);
+                    }
                     $blocks = BlockModel::findByIdPage($blockToDelete[0]->pageId);
-                    var_dump($blocks);
                     foreach($blocks as $b) {
                         if($b->orderBlock >$blockToDelete[0]->orderBlock){
                             --$b->orderBlock ;
@@ -146,8 +146,6 @@ class BlockController
                             $b->name = implode("_",$bName);
                             $b->update();
                         }
-                    }
-                    
                     http_response_code(200);
                     echo json_encode(array("message" => "Block successfully deleted"));
                 }
@@ -309,11 +307,13 @@ class BlockController
             $pageArray = array();
             foreach ($pagesCateg as $pc) {
                 $page = PageModel::findById($pc->idPage);
-                array_push($pageArray, str_replace('{$page->name}', $page->name, $pageTemplate));
+                if($page->public === '1')
+                {array_push($pageArray, str_replace('{$page->name}', $page->name, $pageTemplate));}
             }
-            $categHTML = str_replace('[page]' . BlockController::get_string_between($templateHTML, '[page]', '[/page]') . '[/page]', implode("", $pageArray), BlockController::get_string_between($templateHTML, '[cat]', '[/cat]'));
+            if(count($pageArray)>0)
+            {$categHTML = str_replace('[page]' . BlockController::get_string_between($templateHTML, '[page]', '[/page]') . '[/page]', implode("", $pageArray), BlockController::get_string_between($templateHTML, '[cat]', '[/cat]'));
             $categHTML  = str_replace('{$category->name}', $c->name, $categHTML);
-            array_push($categArray, $categHTML);
+            array_push($categArray, $categHTML);}
         }
 
         return str_replace('[cat]' . $categTemplate . '[/cat]', implode("", $categArray), $templateHTML);

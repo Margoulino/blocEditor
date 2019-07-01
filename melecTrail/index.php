@@ -94,6 +94,16 @@ if ($path_split === '/') {
             print $ControllerObj->index();
         }
 
+    } elseif ($req_controller == "nav"){
+        $req_controller_exist =  __DIR__ . '/blocEditor/controller/' . $req_controller . 'Controller.php';
+        require_once __DIR__ . '/blocEditor/model/' . $req_controller . 'Model.php';
+        require_once __DIR__ . '/blocEditor/controller/' . $req_controller . 'Controller.php';
+        $model = ucfirst($req_controller) . 'Model';
+        $controller = ucfirst($req_controller) . 'Controller';
+        $ModelObj = new $model;
+        $ControllerObj = new $controller(ucfirst($req_controller . 'Model'));
+        $method = $req_method;
+        print $ControllerObj->index($method);
     } else {
         $req_controller_exists = __DIR__ . '/controller/' . $req_controller . 'Controller.php';
         if (file_exists($req_controller_exists)) {
