@@ -441,3 +441,93 @@
 .rd-mailform_centered .form-label {
   text-align: center;
 }
+
+.block {
+  display: flex;
+  justify-content: flex-start;
+  align-items: stretch;
+  flex-wrap: nowrap;
+  padding: 10px;
+  box-sizing: border-box;
+}
+
+.column {
+  min-height: 200px;
+  flex-grow: 1;
+  flex-basis: auto;
+  flex-wrap: nowrap;
+  box-sizing: border-box;
+  flex-shrink: 1;
+}
+
+.column:first-child:nth-last-child(2),
+.column:first-child:nth-last-child(2) ~ .column {
+    width: 50%;
+}
+
+.column:first-child:nth-last-child(3),
+.column:first-child:nth-last-child(3) ~ .column {
+    width: 33.3333%;
+}
+.owl-carousel {
+  position: relative;
+  height: 100%;
+  width: 100%;
+  margin: 0 auto;
+  text-align: center;
+  z-index: 2;
+}
+
+.owl-carousel .owl-item a img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  max-width: 100%;
+  max-height: 100%;
+}
+
+.owl-carousel .owl-stage {
+  display: flex;
+  align-items: center;
+}
+
+.owl-carousel .owl-item {
+  text-align: center;
+}
+
+a img {
+  max-width: 100%;
+  max-height: 100%;
+  width: 100%;
+}
+.block-unit a {
+  margin: 0 auto;
+}
+
+.lb-nav,
+.lb-details {
+  display: none !important;
+}
+
+.column > a img {
+  height: auto !important;
+}
+
+figure {
+  display: block;
+}
+
+#col1,
+#col2 {
+    height: 200px;
+    margin: 0;
+    border-radius: 4px;
+}
+.block-unit,
+.block-unit-complex {
+    padding: 8px;
+    margin-bottom: 16px;
+    border-radius: 4px;
+    position: relative;
+    overflow: hidden;
+}
