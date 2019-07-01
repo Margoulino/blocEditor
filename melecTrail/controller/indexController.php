@@ -10,6 +10,6 @@ class IndexController
     }
     public function index()
     {
-        header("Location: /jogging");
+        header("Location: /page");
     }
 }

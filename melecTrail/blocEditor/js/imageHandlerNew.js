@@ -88,7 +88,9 @@ $(document).ready(function() {
         var img = $(this)
             .parent()
             .find("img");
-        $(img).resizable();
+        $(img).resizable({
+            containment : $(img).closest('.block-unit')
+        });
         var buttonSave = document.createElement("div");
         buttonSave.innerHTML = '<a id="blockSave" class="btn btn-success" href="#">Sauvegarder le bloc</a>';
         $(this)
