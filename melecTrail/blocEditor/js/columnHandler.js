@@ -57,7 +57,7 @@ $(document).ready(function() {
                         name: nomPage + "_" + idNewBlock,
                         content: editor.getData(),
                         pageId: pageId,
-                        orderBlock: idNewBlock,
+                        orderBlock: null,
                         idBlockType: 5,
                         idParent: idBlockParent,
                         idColumn: idCol,
@@ -87,7 +87,7 @@ $(document).ready(function() {
                     content: $(".image_picker_selector .selected img").attr("src"),
                     idParent: idParent,
                     idColumn: idColumn,
-                    orderBlock: idNewBlock,
+                    orderBlock: null,
                     idBlockType: "4",
                     pageId: pageId
                 });
@@ -117,7 +117,7 @@ $(document).ready(function() {
                     content: imgSrc.join(" ; "),
                     idParent: idParent,
                     idColumn: idColumn,
-                    orderBlock: idNewBlock,
+                    orderBlock: null,
                     idBlockType: "3",
                     pageId: pageId
                 });
@@ -147,7 +147,7 @@ $(document).ready(function() {
                     content: imgSrc.join(" ; "),
                     idParent: idParent,
                     idColumn: idColumn,
-                    orderBlock: idNewBlock,
+                    orderBlock: null,
                     idBlockType: "6",
                     pageId: pageId
                 });
@@ -166,11 +166,11 @@ $(document).ready(function() {
                 name: nomPage + "_" + idNewBlock,
                 idParent: idParent,
                 idColumn: idColumn,
-                orderBlock: idNewBlock,
+                orderBlock: null,
                 idBlockType: "1",
                 pageId: pageId
             });
-            if (subLevels[blockParent.idBlockType] > parentCounter(blockParent.id, previousBlocks)) {
+            if (subLevels[blockParent.idBlockType] > parentCounter(blockParent.id, previousBlocks)+1) {
                 saveBlock(data).then(function() {
                     location.reload();
                 });
@@ -184,11 +184,11 @@ $(document).ready(function() {
                 name: nomPage + "_" + idNewBlock,
                 idParent: idParent,
                 idColumn: idColumn,
-                orderBlock: idNewBlock,
+                orderBlock: null,
                 idBlockType: "2",
                 pageId: pageId
             });
-            if (subLevels[blockParent.idBlockType] > parentCounter(blockParent.id, previousBlocks)) {
+            if (subLevels[blockParent.idBlockType] > parentCounter(blockParent.id, previousBlocks)+1) {
                 saveBlock(data).then(function() {
                     location.reload();
                 });
