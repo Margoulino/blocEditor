@@ -195,11 +195,6 @@
 
       $('.tm-current-year').text(new Date().getFullYear()); // Update year in copyright
 
-      $(document).on('click', '[data-toggle="lightbox"]', function(event) {
-        event.preventDefault();
-        $(this).ekkoLightbox();
-      });
-
     });
   </script>
   <script src="/blocEditor/js/previewUI.js"></script>
