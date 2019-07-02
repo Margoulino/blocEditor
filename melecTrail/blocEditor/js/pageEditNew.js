@@ -269,10 +269,9 @@ function moveBlockDown(event, blocks) {
                     idColumn: nextBlockObj.idColumn,
                     styleBlock: nextBlockObj.styleBlock
                 };
-                return updateBlock(JSON.stringify(dataNextBlock));
-            })
-            .then(function() {
-                location.reload();
+                updateBlock(JSON.stringify(dataNextBlock)).then(function() {
+                    location.reload();
+                });
             });
     }
 }
@@ -320,10 +319,9 @@ function moveBlockUp(event, blocks) {
                     idColumn: antecBlockObj.idColumn,
                     styleBlock: antecBlockObj.styleBlock
                 };
-                return updateBlock(JSON.stringify(dataAntecBlock));
-            })
-            .then(function() {
-                location.reload();
+                updateBlock(JSON.stringify(dataAntecBlock)).then(function() {
+                    location.reload();
+                });
             });
     }
 }
