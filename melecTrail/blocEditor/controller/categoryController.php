@@ -52,6 +52,7 @@ class CategoryController
         try {
             $category = CategoryModel::findByname($data->name);
             if(count($category) == 1) {
+                http_response_code(200);
                 return json_encode($category);
             } else if(count($category) < 1){
                 throw new Exception("Category does not exist");

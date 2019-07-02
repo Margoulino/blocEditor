@@ -198,7 +198,7 @@
                         <div class="col">
                             <input class="form-control" type="text" placeholder="Nom de la nouvelle catégorie">
                             <br />
-                            <button type='submit' class='btn btn-primary' id="saveNewCategory">Enregistrer</button>
+                            <button class='btn btn-primary' id="saveNewCategory">Enregistrer</button>
                         </div>
                     </div>
                 </div>
@@ -221,7 +221,7 @@
                             </div>
                         </div>
                         <br />
-                        <button type='submit' class='btn btn-primary' id="saveCat">Enregistrer</button>
+                        <a class='btn btn-primary' id="saveCat">Enregistrer</a>
                     </form>
                 </div>
             </div>
@@ -238,7 +238,7 @@
         var allCateg = <?php echo json_encode($allCategories); ?>;
         var subLevels = <?php echo json_encode($subLevel); ?>;
     </script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.js" integrity="sha256-WpOohJOqMqqyKL9FccASB9O0KwACQJpFTUBLTYOVvVU=" crossorigin="anonymous"></script>
+    <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
     <script src="https://cdn.ckeditor.com/ckeditor5/12.2.0/classic/ckeditor.js"></script>
