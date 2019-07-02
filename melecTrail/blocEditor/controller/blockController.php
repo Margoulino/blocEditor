@@ -291,7 +291,7 @@ class BlockController
         $listImg = explode(" ; ", $block->content);
         $multipliedStr = array();
         foreach ($listImg as $img) {
-            array_push($multipliedStr, str_replace('{$block->content}', $img, $multiplyStr));
+            array_push($multipliedStr, str_replace(array('{$block->content}','{gallery}'), array($img,$block->id), $multiplyStr));
         }
         return str_replace('[tag]' . BlockController::get_string_between($templateHTML[$block->idBlockType], '[tag]', '[/tag]') . '[/tag]', implode("", $multipliedStr), $templateHTML[$block->idBlockType]);
     }
