@@ -531,3 +531,7 @@ figure {
     position: relative;
     overflow: hidden;
 }
+
+.owl-theme .owl-nav {
+   margin-top: 0 !important;
+}
