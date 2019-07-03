@@ -132,6 +132,11 @@ class BlockController
             try {
                 $childrenBlock = BlockModel::findChildren($id);
                 if (count($childrenBlock) != 0) {
+                    foreach($childrenBlock as $child) {
+                        if(count(BlockModel::findChildren($child->id)) > 0) {
+                            BlockModel::deleteBlockAndChildren($child->id);
+                        }
+                    }
                     BlockModel::deleteBlockAndChildren($id);
                     http_response_code(200);
                     echo json_encode(array("message" => "Block and children block associated successfully deleted"));
