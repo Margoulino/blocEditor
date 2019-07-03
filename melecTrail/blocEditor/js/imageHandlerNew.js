@@ -232,10 +232,6 @@ $("#galleryOption").on("click", function() {
     });
 });
 
-$(document).on("click", '[data-toggle="lightbox"]', function(event) {
-    event.preventDefault();
-    $(this).ekkoLightbox();
-});
 
 function deleteImg(data) {
     return new Promise(function(resolve, reject) {

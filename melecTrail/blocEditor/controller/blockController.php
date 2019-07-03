@@ -1,4 +1,5 @@
 <?php
+
 use PHPMailer\PHPMailer\Exception;
 
 require_once $_SERVER['DOCUMENT_ROOT'] . '/blocEditor/model/blockModel.php';
@@ -136,19 +137,19 @@ class BlockController
                     echo json_encode(array("message" => "Block and children block associated successfully deleted"));
                 } else {
                     BlockModel::delete($id);
-                    }
-                    $blocks = BlockModel::findByIdPage($blockToDelete[0]->pageId);
-                    foreach($blocks as $b) {
-                        if($b->orderBlock >$blockToDelete[0]->orderBlock){
-                            --$b->orderBlock ;
-                            $bName = explode("_",$b->name);
-                            --$bName[1];
-                            $b->name = implode("_",$bName);
-                            $b->update();
-                        }
-                    http_response_code(200);
-                    echo json_encode(array("message" => "Block successfully deleted"));
                 }
+                $blocks = BlockModel::findByIdPage($blockToDelete[0]->pageId);
+                foreach ($blocks as $b) {
+                    if ($b->orderBlock > $blockToDelete[0]->orderBlock && $blockToDelete[0]->orderBlock !== null) {
+                        --$b->orderBlock;
+                        $bName = explode("_", $b->name);
+                        --$bName[1];
+                        $b->name = implode("_", $bName);
+                        $b->update();
+                    }
+                }
+                http_response_code(200);
+                echo json_encode(array("message" => "Block successfully deleted"));
             } catch (Exception $e) {
                 http_response_code(404);
                 echo json_encode(array("message" => "an error occured."));
@@ -234,7 +235,7 @@ class BlockController
         $imgName = explode("/", $data->path);
         $imgName = end($imgName);
         $storeFolder = $_SERVER['DOCUMENT_ROOT'] . '/blocEditor/asset/img/';
-        if(file_exists($storeFolder . $imgName)) {
+        if (file_exists($storeFolder . $imgName)) {
             unlink($storeFolder . $imgName);
             http_response_code(200);
             echo json_encode(array("message" => "image deleted successfull"));
@@ -291,7 +292,7 @@ class BlockController
         $listImg = explode(" ; ", $block->content);
         $multipliedStr = array();
         foreach ($listImg as $img) {
-            array_push($multipliedStr, str_replace(array('{$block->content}','{gallery}'), array($img,$block->id), $multiplyStr));
+            array_push($multipliedStr, str_replace(array('{$block->content}', '{gallery}'), array($img, $block->id), $multiplyStr));
         }
         return str_replace('[tag]' . BlockController::get_string_between($templateHTML[$block->idBlockType], '[tag]', '[/tag]') . '[/tag]', implode("", $multipliedStr), $templateHTML[$block->idBlockType]);
     }
@@ -307,13 +308,15 @@ class BlockController
             $pageArray = array();
             foreach ($pagesCateg as $pc) {
                 $page = PageModel::findById($pc->idPage);
-                if($page->public === '1')
-                {array_push($pageArray, str_replace('{$page->name}', $page->name, $pageTemplate));}
+                if ($page->public === '1') {
+                    array_push($pageArray, str_replace('{$page->name}', $page->name, $pageTemplate));
+                }
             }
-            if(count($pageArray)>0)
-            {$categHTML = str_replace('[page]' . BlockController::get_string_between($templateHTML, '[page]', '[/page]') . '[/page]', implode("", $pageArray), BlockController::get_string_between($templateHTML, '[cat]', '[/cat]'));
-            $categHTML  = str_replace('{$category->name}', $c->name, $categHTML);
-            array_push($categArray, $categHTML);}
+            if (count($pageArray) > 0) {
+                $categHTML = str_replace('[page]' . BlockController::get_string_between($templateHTML, '[page]', '[/page]') . '[/page]', implode("", $pageArray), BlockController::get_string_between($templateHTML, '[cat]', '[/cat]'));
+                $categHTML  = str_replace('{$category->name}', $c->name, $categHTML);
+                array_push($categArray, $categHTML);
+            }
         }
 
         return str_replace('[cat]' . $categTemplate . '[/cat]', implode("", $categArray), $templateHTML);
