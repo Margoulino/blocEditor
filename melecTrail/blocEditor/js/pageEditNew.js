@@ -369,9 +369,12 @@ function publishPage(id) {
                 reject(JSON.parse(xhr.response).message);
             }
         };
-        xhr.open("POST", "/page/publishPage/" + id);
+        var data = {
+            pageId: id
+        }
+        xhr.open("POST", "/page/publishPage/");
         xhr.setRequestHeader("Content-type", "application/json");
-        xhr.send();
+        xhr.send(JSON.stringify(data));
     });
 }
 
@@ -385,9 +388,12 @@ function depublishPage(id) {
                 reject(JSON.parse(xhr.response).message);
             }
         };
-        xhr.open("POST", "/page/depublishPage/" + id);
+        var data = {
+            pageId: id
+        }
+        xhr.open("POST", "/page/depublishPage/");
         xhr.setRequestHeader("Content-type", "application/json");
-        xhr.send();
+        xhr.send(JSON.stringify(data));
     });
 }
 

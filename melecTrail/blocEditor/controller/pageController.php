@@ -270,10 +270,12 @@ class PageController
         }
     }
 
-    public function publishPage($id) {
+    public function publishPage() {
+        $this->setHeader();
+        $data = json_decode(file_get_contents("php://input"));
+        $page = PageModel::findById($data->pageId);
         try {
-            $page = PageModel::findById($id[0]);
-            if (!empty($page)) {
+            if(!empty($page)) {
                 $page->publish();
                 http_response_code(200);
                 echo json_encode(array("message" => "page successfully published"));
@@ -286,13 +288,15 @@ class PageController
         }
     }
 
-    public function depublishPage($id) {
+    public function depublishPage() {
+        $this->setHeader();
+        $data = json_decode(file_get_contents("php://input"));
+        $page = PageModel::findById($data->pageId);
         try {
-            $page = PageModel::findById($id[0]);
-            if (!empty($page)) {
+            if(!empty($page)) {
                 $page->depublish();
                 http_response_code(200);
-                echo json_encode(array("message" => "page successfully depublished"));
+                echo json_encode(array("message" => "page successfully published"));
             } else {
                 throw new Exception("Page does not exists, can't depublish");
             }
