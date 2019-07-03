@@ -27,3 +27,63 @@ document.addEventListener("DOMContentLoaded", function() {
     });
     $('.dropdown-item').removeAttr('href');
 });
+
+function publishPage(id) {
+    return new Promise(function(resolve, reject) {
+        var xhr = new XMLHttpRequest();
+        xhr.onreadystatechange = function() {
+            if (this.readyState === XMLHttpRequest.DONE && this.status === 200) {
+                resolve();
+            } else if (this.status === 404) {
+                reject(JSON.parse(xhr.response).message);
+            }
+        };
+        var data = {
+            pageId: id
+        }
+        xhr.open("POST", "/page/publishPage/");
+        xhr.setRequestHeader("Content-type", "application/json");
+        xhr.send(JSON.stringify(data));
+    });
+}
+
+function depublishPage(id) {
+    return new Promise(function(resolve, reject) {
+        var xhr = new XMLHttpRequest();
+        xhr.onreadystatechange = function() {
+            if (this.readyState === XMLHttpRequest.DONE && this.status === 200) {
+                resolve();
+            } else if (this.status === 400) {
+                reject(JSON.parse(xhr.response).message);
+            }
+        };
+        var data = {
+            pageId: id
+        }
+        xhr.open("POST", "/page/depublishPage/");
+        xhr.setRequestHeader("Content-type", "application/json");
+        xhr.send(JSON.stringify(data));
+    });
+}
+
+var publishBtn = document.getElementById("pagePublish");
+if (publishBtn !== undefined && publishBtn !== null) {
+    publishBtn.addEventListener("click", function() {
+        if (confirm("Êtes-vous sûr de vouloir publier cette page ?")) {
+            publishPage(pageId).then(function() {
+                location.reload();
+            });
+        }
+    });
+}
+
+var depublishBtn = document.getElementById("pageDepublish");
+if (depublishBtn !== undefined && depublishBtn !== null) {
+    depublishBtn.addEventListener("click", function() {
+        if (confirm("Êtes-vous sûr de vouloir dépublier cette page ?")) {
+            depublishPage(pageId).then(function() {
+                location.reload();
+            });
+        }
+    });
+}

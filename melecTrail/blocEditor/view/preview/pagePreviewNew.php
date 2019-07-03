@@ -85,6 +85,13 @@
                 }
               }
               ?>
+              <?php
+              if ($page[0]->public == 0) {
+                echo '<a id="pagePublish" class="btn btn-success" href="">Publier</a>';
+              } else {
+                echo '<a id="pageDepublish" class="btn btn-danger" href="">Dépublier</a>';
+              }
+              ?>
             </div>
 
           </div>
@@ -133,6 +140,9 @@
 
     </div> <!-- .main-content -->
   </div>
+  <script>
+    var pageId = <?php echo $page[0]->id; ?>;
+  </script>
   <!-- load JS files -->
   <script src="/blocEditor/view/preview/js/jquery-1.11.3.min.js"></script> <!-- jQuery (https://jquery.com/download/) -->
   <script src="/blocEditor/view/preview/js/popper.min.js"></script> <!-- https://popper.js.org/ -->
