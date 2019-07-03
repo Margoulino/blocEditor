@@ -45,7 +45,9 @@ $(document).ready(function() {
         var idBlockParent = event.currentTarget.parentElement.parentElement.parentElement.parentElement.getAttribute("id");
         var blockParent = findBlockById(idBlockParent, previousBlocks);
         $("#innerBlockModal").modal("show");
-        $("#textBlock").on("click", function() {
+        $("#textBlock").one("click", function(e) {
+            e.preventDefault();
+            e.stopImmediatePropagation();
             $("#innerBlockModal").modal("toggle");
             var idCol = event.currentTarget.parentElement.parentElement.getAttribute("id");
             htmlEditorInit(event.currentTarget.parentElement.parentElement, "").then(function(editor) {
@@ -76,7 +78,9 @@ $(document).ready(function() {
                 });
             });
         });
-        $("#imgBlock").on("click", function() {
+        $("#imgBlock").one("click", function(e) {
+            e.preventDefault();
+            e.stopImmediatePropagation();
             $("#innerBlockModal").modal("toggle");
             $("#uploadImageModal").modal("show");
             $("#selectImg").off();
@@ -100,7 +104,10 @@ $(document).ready(function() {
                 }
             });
         });
-        $("#carouselBlock").on("click", function() {
+
+        $("#carouselBlock").one("click", function(e) {
+            e.preventDefault();
+            e.stopImmediatePropagation();
             $("#innerBlockModal").modal("toggle");
             $("#uploadImageModal").modal("show");
             $("select").attr("multiple", "multiple");
@@ -130,7 +137,9 @@ $(document).ready(function() {
                 }
             });
         });
-        $("#galleryBlock").on("click", function() {
+        $("#galleryBlock").one("click", function(e) {
+            e.preventDefault();
+            e.stopImmediatePropagation();
             $("#innerBlockModal").modal("toggle");
             $("#uploadImageModal").modal("show");
             $("select").attr("multiple", "multiple");
@@ -160,7 +169,9 @@ $(document).ready(function() {
                 }
             });
         });
-        $("#2ColBlock").on("click", function() {
+        $("#2ColBlock").one("click", function(e) {
+            e.preventDefault();
+            e.stopImmediatePropagation();
             $("#innerBlockModal").modal("toggle");
             var data = JSON.stringify({
                 name: nomPage + "_" + idNewBlock,
@@ -178,7 +189,9 @@ $(document).ready(function() {
                 alert("Ajout impossible, ce bloc se situe à un sous niveau trop élevé");
             }
         });
-        $("#3ColBlock").on("click", function() {
+        $("#3ColBlock").one("click", function(e) {
+            e.preventDefault();
+            e.stopImmediatePropagation();
             $("#innerBlockModal").modal("toggle");
             var data = JSON.stringify({
                 name: nomPage + "_" + idNewBlock,
