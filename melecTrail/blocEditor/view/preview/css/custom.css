@@ -535,3 +535,11 @@ figure {
 .owl-theme .owl-nav {
    margin-top: 0 !important;
 }
+[data-toggle="lightbox"] {
+  box-sizing: content-box;
+  padding-bottom: 15px;
+}
+
+.img-gallery {
+  background-size: cover;
+}

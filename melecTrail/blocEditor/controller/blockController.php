@@ -132,8 +132,8 @@ class BlockController
             try {
                 $childrenBlock = BlockModel::findChildren($id);
                 if (count($childrenBlock) != 0) {
-                    foreach($childrenBlock as $child) {
-                        if(count(BlockModel::findChildren($child->id)) > 0) {
+                    foreach ($childrenBlock as $child) {
+                        if (count(BlockModel::findChildren($child->id)) > 0) {
                             BlockModel::deleteBlockAndChildren($child->id);
                         }
                     }
@@ -296,8 +296,14 @@ class BlockController
         $multiplyStr = BlockController::get_string_between($templateHTML[$block->idBlockType], '[tag]', '[/tag]');
         $listImg = explode(" ; ", $block->content);
         $multipliedStr = array();
-        foreach ($listImg as $img) {
-            array_push($multipliedStr, str_replace(array('{$block->content}', '{gallery}'), array($img, $block->id), $multiplyStr));
+        if ($block->idParent !== null) {
+            foreach ($listImg as $img) {
+                array_push($multipliedStr, str_replace(array('{$block->content}', '{gallery}','{$block->colStyle}'), array($img, $block->id,'col-4'), $multiplyStr));
+            }
+        } else { 
+            foreach ($listImg as $img) {
+                array_push($multipliedStr, str_replace(array('{$block->content}', '{gallery}','{$block->colStyle}'), array($img, $block->id,'col-2'), $multiplyStr));
+            }
         }
         return str_replace('[tag]' . BlockController::get_string_between($templateHTML[$block->idBlockType], '[tag]', '[/tag]') . '[/tag]', implode("", $multipliedStr), $templateHTML[$block->idBlockType]);
     }
@@ -323,7 +329,6 @@ class BlockController
                 array_push($categArray, $categHTML);
             }
         }
-
         return str_replace('[cat]' . $categTemplate . '[/cat]', implode("", $categArray), $templateHTML);
     }
 

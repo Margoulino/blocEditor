@@ -279,3 +279,14 @@ figure {
 #pagePreview, #pagePublish, #pageDepublish {
     margin: 0 2px 8px 2px;
 }
+
+[data-toggle="lightbox"] {
+    box-sizing: content-box;
+    padding-bottom: 15px;
+}
+
+.img-gallery {
+    background-size: cover;
+}
+
+
