@@ -65,13 +65,13 @@ p:last-child { margin-bottom: 0; }
     z-index: 1000;
     transition: all 0.2s ease-in-out;
     height: 119px;
-    background: white url("../trail-plumelec/Carte-Bretagne.png") no-repeat right/15%; background-position: 100% 22%;
+    background: white url("../../../../trail-plumelec/Carte-Bretagne.png") no-repeat right/15%; background-position: 100% 22%;
 }
 
 .tm-top-bar.active {
     height: 60px;
     box-shadow: 0 1px 5px rgba(0, 0, 0, 0.25);
-		background: white url("../trail-plumelec/Carte-Bretagne.png") no-repeat right/11%;
+		background: white url("../../../../trail-plumelec/Carte-Bretagne.png") no-repeat right/11%;
 		background-position: 100% 28%;
 }
 
