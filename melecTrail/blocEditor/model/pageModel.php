@@ -15,7 +15,7 @@ class PageModel
         if (is_array($data)) {
             if (isset($data['id'])) $this->id = $data['id'];
             $this->name = $data['name'];
-            $this->public=0;
+            $this->public = 0;
         }
     }
 
@@ -48,7 +48,7 @@ class PageModel
     {
         $dbConn = DBModel::getConnection();
         $blocksToDelete = BlockModel::findByIdPage($id);
-        foreach($blocksToDelete as $block) {
+        foreach ($blocksToDelete as $block) {
             $block->delete($block->id);
         }
         $stmt = $dbConn->prepare('
@@ -114,7 +114,7 @@ class PageModel
                 (:name)
         ');
         $stmt->bindParam(':name', $page->name);
-        
+
 
 
         return $stmt->execute();
@@ -169,7 +169,8 @@ class PageModel
         return $stmt->execute();
     }
 
-    public static function getAllBlocksByIdPage($pageId) {
+    public static function getAllBlocksByIdPage($pageId)
+    {
         $dbConn = DBModel::getConnection();
         $stmt = $dbConn->prepare('
             SELECT edit_block.id,
@@ -191,5 +192,41 @@ class PageModel
         $stmt->execute();
         $stmt->setFetchMode(PDO::FETCH_CLASS, 'BlockModel');
         return $stmt->fetchAll();
+    }
+
+    /*public static function setDescriptionOld($pageId, $description)
+    {
+        if (count(PageModel::getDescription($pageId)) > 0) {
+            return updateDescription($pageId, $description);
+        }
+        $dbConn = DBModel::getConnection();
+        $stmt = $dbConn->prepare("
+            INSERT INTO edit_page (description) VALUES (:description) WHERE id = :id
+        ");
+        $stmt->bindParam(":description", $description);
+        $stmt->bindParam(":id", $pageId);
+        return $stmt->execute();
+    }*/
+
+    public static function getDescription($pageId)
+    {
+        $dbConn = DBModel::getConnection();
+        $stmt = $dbConn->prepare("
+            SELECT description FROM edit_page WHERE id = :id
+        ");
+        $stmt->bindParam(":id", $pageId);
+        $stmt->setFetchMode(PDO::FETCH_CLASS, 'BlockModel');
+        return $stmt->fetchAll();
+    }
+
+    public static function setDescription($pageId, $description)
+    {
+        $dbConn = DBModel::getConnection();
+        $stmt = $dbConn->prepare("
+            UPDATE edit_page SET description = :description WHERE id = :id
+        ");
+        $stmt->bindParam(":description", $description);
+        $stmt->bindParam(":id", $pageId);
+        return $stmt->execute();
     }
 }

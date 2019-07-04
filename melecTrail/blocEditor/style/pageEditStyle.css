@@ -277,7 +277,7 @@ figure {
 }
 
 #pagePreview, #pagePublish, #pageDepublish {
-    margin: 0 2px 8px 2px;
+    margin: 0 2px 8px 0;
 }
 
 [data-toggle="lightbox"] {
