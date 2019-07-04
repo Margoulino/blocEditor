@@ -545,6 +545,5 @@ figure {
 }
 
 .block-unit-complex .row:last-of-type{
-  text-align: center;
     justify-content: center;
 }

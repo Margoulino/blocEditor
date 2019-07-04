@@ -193,8 +193,6 @@ function moveBlockDown(event) {
     });
 
     if (nextBlock !== undefined) {
-        //Déplacement des blocks dans l'interface
-        insertAfter(blockToMove, nextBlock);
         //Changement des ordres des blocks dans les objets previousBlocks
         blockToMovePrev.orderBlock = orders[nextBlockId];
         nextBlockPrev.orderBlock = orders[blockToMoveId];
@@ -268,8 +266,6 @@ function moveBlockUp(event) {
     });
 
     if (antecBlock !== undefined) {
-        //Déplacement des blocks dans l'interface
-        insertAfter(blockToMove, antecBlock);
         //Changement des ordres des blocks dans les objets previousBlocks
         blockToMovePrev.orderBlock = orders[antecBlockId];
         antecBlockPrev.orderBlock = orders[blockToMoveId];
@@ -332,9 +328,6 @@ upArrows.forEach(arrow => {
     });
 });
 
-function insertAfter(newNode, referenceNode) {
-    referenceNode.parentNode.insertBefore(newNode, referenceNode.nextSibling);
-}
 
 document.querySelector(".addCategPage").addEventListener("click", function(event) {
     var btn = event.target;

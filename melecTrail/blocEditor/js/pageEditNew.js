@@ -239,7 +239,7 @@ function moveBlockDown(event, blocks) {
     var oldOrderNext = nextBlockObj.orderBlock;
 
     if (nextBlock !== undefined) {
-        insertAfter(blockToMove, nextBlock);
+        //insertAfter(blockToMove, nextBlock);
 
         //Changement des ordres des blocks dans les objets previousBlocks
         blockToMoveObj.orderBlock = oldOrderNext;
@@ -247,27 +247,15 @@ function moveBlockDown(event, blocks) {
 
         var dataBlockToMove = {
             id: blockToMoveObj.id,
-            name: blockToMoveObj.name,
-            content: blockToMoveObj.content,
             pageId: blockToMoveObj.pageId,
-            orderBlock: blockToMoveObj.orderBlock,
-            idBlockType: blockToMoveObj.idBlockType,
-            idParent: blockToMoveObj.idParent,
-            idColumn: blockToMoveObj.idColumn,
-            styleBlock: blockToMoveObj.styleBlock
+            orderBlock: blockToMoveObj.orderBlock
         };
         updateBlock(JSON.stringify(dataBlockToMove))
             .then(function() {
                 var dataNextBlock = {
                     id: nextBlockObj.id,
-                    name: nextBlockObj.name,
-                    content: nextBlockObj.content,
                     pageId: nextBlockObj.pageId,
                     orderBlock: nextBlockObj.orderBlock,
-                    idBlockType: nextBlockObj.idBlockType,
-                    idParent: nextBlockObj.idParent,
-                    idColumn: nextBlockObj.idColumn,
-                    styleBlock: nextBlockObj.styleBlock
                 };
                 updateBlock(JSON.stringify(dataNextBlock)).then(function() {
                     location.reload();
@@ -290,34 +278,22 @@ function moveBlockUp(event, blocks) {
     var oldOrderAntec = antecBlockObj.orderBlock;
 
     if (antecBlock !== undefined) {
-        insertAfter(blockToMove, antecBlock);
+        //insertAfter(blockToMove, antecBlock);
         //Changement des ordres des blocks dans les objets previousBlocks
         blockToMoveObj.orderBlock = oldOrderAntec;
         antecBlockObj.orderBlock = oldOrderToMove;
 
         var dataUpdateBlock = {
             id: blockToMoveObj.id,
-            name: blockToMoveObj.name,
-            content: blockToMoveObj.content,
             pageId: blockToMoveObj.pageId,
-            orderBlock: blockToMoveObj.orderBlock,
-            dBlockType: blockToMoveObj.idBlockType,
-            idParent: blockToMoveObj.idParent,
-            idColumn: blockToMoveObj.idColumn,
-            styleBlock: blockToMoveObj.styleBlock
+            orderBlock: blockToMoveObj.orderBlock
         };
         updateBlock(JSON.stringify(dataUpdateBlock))
             .then(function() {
                 var dataAntecBlock = {
                     id: antecBlockObj.id,
-                    name: antecBlockObj.name,
-                    content: antecBlockObj.content,
                     pageId: antecBlockObj.pageId,
-                    orderBlock: antecBlockObj.orderBlock,
-                    idBlockType: antecBlockObj.idBlockType,
-                    idParent: antecBlockObj.idParent,
-                    idColumn: antecBlockObj.idColumn,
-                    styleBlock: antecBlockObj.styleBlock
+                    orderBlock: antecBlockObj.orderBlock
                 };
                 updateBlock(JSON.stringify(dataAntecBlock)).then(function() {
                     location.reload();
@@ -338,15 +314,6 @@ function getBlocksOrder(blocks) {
         }
     });
     return orders;
-}
-
-/**
- *
- * @param {DOM element} newNode
- * @param {DOM element} referenceNode
- */
-function insertAfter(newNode, referenceNode) {
-    referenceNode.parentNode.insertBefore(newNode, referenceNode.nextSibling);
 }
 
 function findBlockById(id, blocks) {
