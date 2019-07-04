@@ -147,9 +147,6 @@ class BlockController
                 foreach ($blocks as $b) {
                     if ($b->orderBlock > $blockToDelete[0]->orderBlock && $blockToDelete[0]->orderBlock !== null) {
                         --$b->orderBlock;
-                        // $bName = explode("_", $b->name);
-                        // --$bName[1];
-                        // $b->name = implode("_", $bName);
                         $b->update();
                     }
                 }
