@@ -224,7 +224,7 @@ class PageController
         }
     }
 
-    public static function previewPage($name)
+    public static function previewPage($name,$nav=null)
     {
         try {
             $page = PageModel::findByName($name[0]);

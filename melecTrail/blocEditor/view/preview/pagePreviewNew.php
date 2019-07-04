@@ -41,7 +41,7 @@
               <img src="/blocEditor/view/preview/trail-plumelec/lemelectrail.png" style="width:60%;" alt="LE MELEC TRAIL">
               <!-- Le Melec Trail -->
             </a>
-            <?php echo $header; ?>
+            <?php echo utf8_encode($header); ?>
             <!-- row -->
         </div> <!-- container -->
       </div> <!-- .tm-top-bar -->
@@ -206,6 +206,11 @@
       $('.tm-current-year').text(new Date().getFullYear()); // Update year in copyright
 
     });
+    <?php
+      if($nav === null) {
+        echo "$('.dropdown-item').removeAttr('href')";
+      } 
+    ?>
   </script>
   <script src="/blocEditor/js/previewUI.js"></script>
   <script src="/blocEditor/js/blockInit.js"></script>

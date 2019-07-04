@@ -147,9 +147,9 @@ class BlockController
                 foreach ($blocks as $b) {
                     if ($b->orderBlock > $blockToDelete[0]->orderBlock && $blockToDelete[0]->orderBlock !== null) {
                         --$b->orderBlock;
-                        $bName = explode("_", $b->name);
-                        --$bName[1];
-                        $b->name = implode("_", $bName);
+                        // $bName = explode("_", $b->name);
+                        // --$bName[1];
+                        // $b->name = implode("_", $bName);
                         $b->update();
                     }
                 }
@@ -211,6 +211,7 @@ class BlockController
                 }
             }
         } catch (Exception $e) {
+            http_response_code(404);
             json_encode(array("message" => $e));
         }
     }

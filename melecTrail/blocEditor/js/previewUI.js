@@ -25,7 +25,6 @@ document.addEventListener("DOMContentLoaded", function() {
     divBtn.forEach(divB => {
         divB.parentElement.removeChild(divB);
     });
-    $('.dropdown-item').removeAttr('href');
 });
 
 function publishPage(id) {
