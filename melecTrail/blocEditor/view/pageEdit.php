@@ -4,7 +4,7 @@
 <head>
     <!-- Required meta tags -->
     <meta charset="utf-8" />
-    <meta description="<?php echo $page[0]->description;?>">
+    <meta name="description" content="<?php echo $page[0]->description;?>">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
 
     <title>Edition</title>
@@ -88,7 +88,7 @@
                     if ($block->idParent === null || $block->idParent === "0") {
                         if ($block->idBlockType === '5' || $block->idBlockType === '4') {
                             echo '<div id="' . $block->id . '" class="block-unit">';
-                            echo '<button class="btn-xs btn btn-danger deleteBlock float-right"><i class="float-right fas fa-times"></i></button><div><i id="orderUp' . $block->id . '" i class="fas fa-arrow-up"></i>   <i id="orderDown' . $block->id . '"class="fas fa-arrow-down"></i></div>';
+                            echo '<button class="btn-xs btn btn-danger deleteBlock float-right"><i class="float-right fas fa-times"></i></button><div><i id="orderUp' . $block->id . '" i class="fas fa-arrow-up"></i>   <i id="orderDown' . $block->id . '" class="fas fa-arrow-down"></i></div>';
                             echo str_replace(array('{$block->content}', '{$block->style}'), array($block->content, $block->styleBlock), $categHTML[$block->idBlockType]);
                             if ($block->idBlockType === '4') {
                                 echo '<button class="btn btn-xs btn-info resizebtn"><i class="fas fa-expand-arrows-alt"></i></button>';
@@ -115,15 +115,17 @@
             <div class="col interface-block">
             </div>
         </div>
+        <hr>
         <div class="row">
             <div class="col">
-                Description de la page :
+                <p>Description de la page :</p>
                 <div class="form-group">
                     <textarea class="form-control" id="description" rows="2"><?php echo $page[0]->description; ?></textarea>
                 </div>
                 <a id="descriptionSave" class="btn btn-info" href="#">Enregistrer la description</a>
             </div>
         </div>
+        <hr>
         <br>
         <div class="row">
             <div class="col">
