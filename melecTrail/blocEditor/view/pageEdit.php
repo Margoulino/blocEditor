@@ -52,7 +52,7 @@
                     <p id="2colOption" class="col menuOptions"><span class="iconify menuIcons" data-icon="feather:columns" data-inline="false"></span></p>
                     <p id="3colOption" class="col menuOptions"><span class="iconify menuIcons" data-icon="fe:columns" data-inline="false"></span></p>
                     <p id="sliderOption" class="col menuOptions"><span class="iconify menuIcons" data-icon="ic:outline-view-carousel" data-inline="false"></span></p>
-                    <p id="galleryOption" class="col menuOptions"><i class="fas fa-images menuIcons"></i></p>
+                    <p id="galleryOption" class="col menuOptions" style="margin-bottom: 10px !important;"><i class="fas fa-images menuIcons"></i></p>
                 </div>
             </div>
         </div>
