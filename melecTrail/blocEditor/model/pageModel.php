@@ -194,20 +194,6 @@ class PageModel
         return $stmt->fetchAll();
     }
 
-    /*public static function setDescriptionOld($pageId, $description)
-    {
-        if (count(PageModel::getDescription($pageId)) > 0) {
-            return updateDescription($pageId, $description);
-        }
-        $dbConn = DBModel::getConnection();
-        $stmt = $dbConn->prepare("
-            INSERT INTO edit_page (description) VALUES (:description) WHERE id = :id
-        ");
-        $stmt->bindParam(":description", $description);
-        $stmt->bindParam(":id", $pageId);
-        return $stmt->execute();
-    }*/
-
     public static function getDescription($pageId)
     {
         $dbConn = DBModel::getConnection();

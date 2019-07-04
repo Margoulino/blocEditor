@@ -272,10 +272,6 @@ figure {
     display: inline-block;
 }
 
-.categ-container {
-    margin-top: 80px;
-}
-
 #pagePreview, #pagePublish, #pageDepublish {
     margin: 0 2px 8px 0;
 }
