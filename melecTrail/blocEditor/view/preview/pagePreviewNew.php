@@ -84,12 +84,13 @@
                   }
                 }
               }
-              ?>
-              <?php
-              if ($page[0]->public == 0) {
-                echo '<a id="pagePublish" class="btn btn-success" href="">Publier</a>';
-              } else {
-                echo '<a id="pageDepublish" class="btn btn-danger" href="">Dépublier</a>';
+              if ($nav === null) {
+                echo '<a id="backEdit" class="btn btn-info" href="/page/editionPage/' . $page[0]->name . '">Retour à l\'édition</a>&nbsp;&nbsp;';
+                if ($page[0]->public == 0) {
+                  echo '<a id="pagePublish" class="btn btn-success" href="">Publier</a>';
+                } else {
+                  echo '<a id="pageDepublish" class="btn btn-danger" href="">Dépublier</a>';
+                }
               }
               ?>
             </div>
@@ -141,7 +142,7 @@
     </div> <!-- .main-content -->
   </div>
   <script>
-    var pageId = <?php echo $page[0]->id; ?> ;
+    var pageId = < ? php echo $page[0] - > id; ? > ;
   </script>
   <!-- load JS files -->
   <script src="/blocEditor/view/preview/js/jquery-1.11.3.min.js"></script> <!-- jQuery (https://jquery.com/download/) -->
@@ -205,12 +206,12 @@
 
       $('.tm-current-year').text(new Date().getFullYear()); // Update year in copyright
 
-    });
-    <?php
-      if($nav === null) {
-        echo "$('.dropdown-item').removeAttr('href')";
-      } 
-    ?>
+    }); <
+    ? php
+    if ($nav === null) {
+      echo "$('.dropdown-item').removeAttr('href')";
+    } ?
+    >
   </script>
   <script src="/blocEditor/js/previewUI.js"></script>
   <script src="/blocEditor/js/blockInit.js"></script>
