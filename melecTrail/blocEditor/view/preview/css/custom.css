@@ -543,3 +543,8 @@ figure {
 .img-gallery {
   background-size: cover;
 }
+
+.block-unit-complex .row:last-of-type{
+  text-align: center;
+    justify-content: center;
+}
