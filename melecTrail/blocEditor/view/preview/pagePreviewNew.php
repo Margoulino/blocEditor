@@ -6,7 +6,7 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
-  <title>Le Melec Trail</title>
+  <title><?php echo $page[0]->name; ?></title>
 
   <!-- load stylesheets -->
   <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700"> <!-- Google web font "Open Sans" -->
@@ -141,7 +141,7 @@
     </div> <!-- .main-content -->
   </div>
   <script>
-    var pageId = <?php echo $page[0]->id; ?>;
+    var pageId = <?php echo $page[0]->id; ?> ;
   </script>
   <!-- load JS files -->
   <script src="/blocEditor/view/preview/js/jquery-1.11.3.min.js"></script> <!-- jQuery (https://jquery.com/download/) -->

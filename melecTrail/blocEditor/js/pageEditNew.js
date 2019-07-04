@@ -364,6 +364,7 @@ function depublishPage(id) {
     });
 }
 
+//Trouve le niveau/sous niveau d'un block par rapport à ses blocks parents
 function parentCounter(id, blockList) {
     var curBlock = findBlockById(id, blockList);
     if (curBlock.idParent !== undefined && curBlock.idParent !== null) {
@@ -391,4 +392,24 @@ function parentCounter(id, blockList) {
     } else {
         return 0;
     }
+}
+
+function saveDescription(id, description) {
+    return new Promise(function(resolve, reject) {
+        var xhr = new XMLHttpRequest();
+        xhr.onreadystatechange = function() {
+            if (this.readyState === XMLHttpRequest.DONE && this.status === 200) {
+                resolve();
+            } else if(this.status === 400) {
+                reject(JSON.parse(xhr.response).message);
+            }
+        };
+        var data = {
+            pageId: id,
+            description: description
+        };
+        xhr.open("POST", "/page/changeDescription/");
+        xhr.setRequestHeader("Content-type", "application/json");
+        xhr.send(JSON.stringify(data));
+    });
 }

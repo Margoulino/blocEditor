@@ -208,3 +208,13 @@ if (depublishBtn !== undefined && depublishBtn !== null) {
         }
     });
 }
+
+var saveDescrBtn = document.getElementById("descriptionSave");
+saveDescrBtn.addEventListener("click", function() {
+    if(confirm("Êtes-vous sûr de vouloir publier cette description ?")) {
+        var descrContent = document.getElementById("description").value;
+        saveDescription(pageId, descrContent).then(function() {
+            location.reload();
+        });
+    }
+});

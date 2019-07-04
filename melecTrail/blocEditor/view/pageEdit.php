@@ -4,6 +4,7 @@
 <head>
     <!-- Required meta tags -->
     <meta charset="utf-8" />
+    <meta description="<?php echo $page[0]->description;?>">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
 
     <title>Edition</title>
@@ -116,9 +117,19 @@
         </div>
         <div class="row">
             <div class="col">
+                Description de la page :
+                <div class="form-group">
+                    <textarea class="form-control" id="description" rows="2"><?php echo $page[0]->description; ?></textarea>
+                </div>
+                <a id="descriptionSave" class="btn btn-info" href="#">Enregistrer la description</a>
+            </div>
+        </div>
+        <br>
+        <div class="row">
+            <div class="col">
                 <a id="pagePreview" class="btn btn-info" href="/page/previewPage/<?php echo $page[0]->name; ?>">Prévisualiser</a>
                 <?php
-                if($page[0]->public == 0) {
+                if ($page[0]->public == 0) {
                     echo '<a id="pagePublish" class="btn btn-success" href="">Publier</a>';
                 } else {
                     echo '<a id="pageDepublish" class="btn btn-danger" href="">Dépublier</a>';
@@ -229,14 +240,14 @@
     </div>
 
     <script>
-        var pageId = <?php echo $page[0]->id ?>;
-        var pageStatus = <?php echo $page[0]->public ?>;
-        var idNewBlock = <?php echo count($blocks); ?> + 1;
+        var pageId = <?php echo $page[0]->id ?> ;
+        var pageStatus = <?php echo $page[0]->public ?> ;
+        var idNewBlock = <?php echo count($blocks); ?> +1;
         var nomPage = "<?php echo $page[0]->name; ?>";
-        var previousBlocks = <?php echo json_encode($blocks); ?>;
-        var templateHTML = <?php echo json_encode($categHTML); ?>;
-        var allCateg = <?php echo json_encode($allCategories); ?>;
-        var subLevels = <?php echo json_encode($subLevel); ?>;
+        var previousBlocks = <?php echo json_encode($blocks); ?> ;
+        var templateHTML = <?php echo json_encode($categHTML); ?> ;
+        var allCateg = <?php echo json_encode($allCategories); ?> ;
+        var subLevels = <?php echo json_encode($subLevel); ?> ;
     </script>
     <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
