@@ -218,3 +218,40 @@ saveDescrBtn.addEventListener("click", function() {
         });
     }
 });
+
+var addKeywordBtn = document.querySelectorAll(".addKeyword")[0];
+addKeywordBtn.addEventListener("click", function() {
+    $("#newKeywordModal").modal("show");
+});
+
+var saveNewKeyword = document.getElementById("saveNewKeyword");
+saveNewKeyword.addEventListener("click", function(e) {
+    var kwName = document.getElementById("kwName").value;
+    var kwArr = getAllKeywords();
+    kwArr.push(kwName);
+    var data = {
+        pageId: pageId,
+        keywords: JSON.stringify(kwArr)
+    };
+    saveKeywords(data).then(function() {
+        location.reload();
+    })
+});
+
+var removeKeywordBtns = document.querySelectorAll(".removeKeyword");
+removeKeywordBtns.forEach(btn => {
+    btn.addEventListener("click", function(e) {
+        if(confirm("Êtes-vous sûr de vouloir supprimer ce mot clé ?")) {
+            var keywordContainer = e.target.parentElement.parentElement;
+            keywordContainer.removeChild(e.target.parentElement);
+            var kwArr = getAllKeywords();
+            var data = {
+                pageId: pageId,
+                keywords: JSON.stringify(kwArr)
+            };
+            saveKeywords(data).then(function() {
+                location.reload();
+            });
+        }
+    });
+});

@@ -215,4 +215,15 @@ class PageModel
         $stmt->bindParam(":id", $pageId);
         return $stmt->execute();
     }
+
+    public static function setKeywords($pageId, $keywords)
+    {
+        $dbConn = DBModel::getConnection();
+        $stmt = $dbConn->prepare("
+            UPDATE edit_page SET keywords = :keywords WHERE id = :id
+        ");
+        $stmt->bindParam(":keywords", $keywords);
+        $stmt->bindParam(":id", $pageId);
+        return $stmt->execute();
+    }
 }

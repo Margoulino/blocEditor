@@ -285,4 +285,6 @@ figure {
     background-size: cover;
 }
 
-
+.removeKeyword > i {
+    pointer-events: none;
+}
