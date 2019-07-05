@@ -41,9 +41,9 @@ class BlockController
             }
             $block->pageId = $data->pageId;
 
-            $maxOrderBlock = BlockModel::getMaxOrderBlock($data->orderBlock);
+            $maxOrderBlock = BlockModel::getMaxOrderBlock($data->pageId);
             if($data->orderBlock <= $maxOrderBlock) {
-                $block->orderBlock = $data->orderBlock + 1;
+                $block->orderBlock = $maxOrderBlock[0]["MAX(orderBlock)"] + 1;
             } else {
                 $block->orderBlock = $data->orderBlock;
             }

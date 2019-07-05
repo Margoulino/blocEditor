@@ -536,6 +536,10 @@ figure {
   padding : 0px;
 }
 
+.column.col > .block-unit, .column.col > .block-unit-complex {
+  padding-left: 6px;
+}
+
 .owl-theme .owl-nav {
    margin-top: 0 !important;
 }

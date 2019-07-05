@@ -226,7 +226,7 @@ class BlockModel
         ');
         $stmt->bindParam(':pageId', $pageId);
         $stmt->execute();
-        $stmt->setFetchMode(PDO::FETCH_CLASS, 'BlockModel');
+        $stmt->setFetchMode(PDO::FETCH_ASSOC);
         return $stmt->fetchAll();
     }
 }
