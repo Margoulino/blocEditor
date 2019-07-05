@@ -4,7 +4,7 @@
 <head>
     <!-- Required meta tags -->
     <meta charset="utf-8" />
-    <meta name="description" content="<?php echo $page[0]->description;?>">
+    <meta name="description" content="<?php echo $page[0]->description; ?>">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
 
     <title>Edition</title>
@@ -116,6 +116,7 @@
             </div>
         </div>
         <hr>
+        <h4>Référencement</h4>
         <div class="row">
             <div class="col">
                 <p>Description de la page :</p>
@@ -125,8 +126,29 @@
                 <a id="descriptionSave" class="btn btn-info" href="#">Enregistrer la description</a>
             </div>
         </div>
-        <hr>
         <br>
+        <div class="row">
+            <div class="col">
+                <p>Mots clés :</p>
+                <div class="alert alert-info keywords-container">
+                    <?php
+                        $keywords = json_decode($page[0]->keywords);
+                        foreach($keywords as $keyword) {
+                            echo '
+                                <a class="btn btn-success keyword" href="#">
+                                    <span>' . $keyword . '</span>
+                                    <span class="badge badge-danger removeKeyword">
+                                        <i class="fas fa-times" style="color:white;"></i>
+                                    </span>
+                                </a>
+                            ';
+                        }
+                    ?>
+                    <a href="#" class="btn btn-success addKeyword"><i class="fas fa-plus" style="color:white;"></i></a>
+                </div>
+            </div>
+        </div>
+        <hr>
         <div class="row">
             <div class="col">
                 <a id="pagePreview" class="btn btn-info" href="/page/previewPage/<?php echo $page[0]->name; ?>">Prévisualiser</a>
@@ -199,19 +221,19 @@
         </div>
     </div>
 
-    <div class="modal fade" tabindex="-1" role="dialog" id="newCategoryModal">
+    <div class="modal fade" tabindex="-1" role="dialog" id="newKeywordModal">
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title">Création d'une catégorie pour la page</h5>
+                    <h5 class="modal-title">Ajout d'un mot clé</h5>
                     <button type="button" class="close" data-dismiss="modal">&times;</button>
                 </div>
                 <div class="modal-body">
                     <div class="row">
                         <div class="col">
-                            <input class="form-control" type="text" placeholder="Nom de la nouvelle catégorie">
+                            <input id="kwName" class="form-control" type="text" placeholder="Nom du mot clé">
                             <br />
-                            <button class='btn btn-primary' id="saveNewCategory">Enregistrer</button>
+                            <button class='btn btn-primary' id="saveNewKeyword">Enregistrer</button>
                         </div>
                     </div>
                 </div>

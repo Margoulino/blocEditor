@@ -5,7 +5,17 @@
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-
+  <meta name="description" content="<?php echo $page[0]->description;?>">
+  <meta name="keywords" content="<?php
+    $keywords = json_decode($page[0]->keywords);
+    foreach($keywords as $key=>$keyword) {
+      if($key !== (count($keywords)-1)) {
+        echo $keyword.', ';
+      } else {
+        echo $keyword;
+      }
+    }
+  ?>">
   <title><?php echo $page[0]->name; ?></title>
 
   <!-- load stylesheets -->

@@ -413,3 +413,28 @@ function saveDescription(id, description) {
         xhr.send(JSON.stringify(data));
     });
 }
+
+function getAllKeywords() {
+    var keywords = document.querySelectorAll(".keyword");
+    var arrKw = [];
+    keywords.forEach(keyword => {
+        arrKw.push(keyword.children[0].innerHTML);
+    });
+    return arrKw;
+}
+
+function saveKeywords(data) {
+    return new Promise(function(resolve, reject) {
+        var xhr = new XMLHttpRequest();
+        xhr.onreadystatechange = function() {
+            if (this.readyState === XMLHttpRequest.DONE && this.status === 200) {
+                resolve();
+            } else if(this.status === 400) {
+                reject(JSON.parse(xhr.response).message);
+            }
+        };
+        xhr.open("POST", "/page/changeKeywords/");
+        xhr.setRequestHeader("Content-type", "application/json");
+        xhr.send(JSON.stringify(data));
+    });
+}
