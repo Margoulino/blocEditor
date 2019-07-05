@@ -152,7 +152,7 @@
     </div> <!-- .main-content -->
   </div>
   <script>
-    var pageId = < ? php echo $page[0] - > id; ? > ;
+    var pageId = <?php echo $page[0]->id; ?> ;
   </script>
   <!-- load JS files -->
   <script src="/blocEditor/view/preview/js/jquery-1.11.3.min.js"></script> <!-- jQuery (https://jquery.com/download/) -->

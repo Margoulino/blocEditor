@@ -31,7 +31,11 @@ class NavController
         $content = '';
         foreach ($pages as $p) {
             if ($p->public === '1') {
-                $content .= "<url><loc>http://www.couriraplumelec.fr/nav/" . $p->name . "</loc><priority>0.5</priority></url>";
+                $content .= "
+                <url>
+                    <loc>http://www.couriraplumelec.fr/nav/" . $p->name . "</loc>
+                    <priority>0.5</priority>
+                </url>";
             }
         }
         file_put_contents($_SERVER['DOCUMENT_ROOT'] . '/sitemap.xml',
