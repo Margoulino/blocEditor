@@ -6,6 +6,7 @@ require_once $_SERVER['DOCUMENT_ROOT'] . '/blocEditor/model/categoryModel.php';
 require_once $_SERVER['DOCUMENT_ROOT'] . '/blocEditor/model/blockModel.php';
 require_once $_SERVER['DOCUMENT_ROOT'] . '/blocEditor/model/blockTypeModel.php';
 require_once $_SERVER['DOCUMENT_ROOT'] . '/blocEditor/controller/blockController.php';
+require_once $_SERVER['DOCUMENT_ROOT'] . '/blocEditor/controller/navController.php';
 require $_SERVER['DOCUMENT_ROOT'] . '/vendor/autoload.php';
 use \Firebase\JWT\JWT;
 
@@ -60,6 +61,7 @@ class PageController
         $this->setHeader();
         $data = json_decode(file_get_contents("php://input"));
         try {
+            NavController::updateSitemap();
             $newpage = new PageModel;
             $newpage->name = $data->name;
             $pageCat = new PageCategoryModel();
@@ -91,6 +93,7 @@ class PageController
     {
         $data = json_decode(file_get_contents("php://input"));
         try {
+            NavController::updateSitemap();
             $page = PageModel::findByName($data->page);
             $category = CategoryModel::findByname($data->category);
             PageCategoryModel::delete($page[0]->id, $category[0]->id);
