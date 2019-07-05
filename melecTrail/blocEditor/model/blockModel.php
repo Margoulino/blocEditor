@@ -217,4 +217,16 @@ class BlockModel
         $stmt->setFetchMode(PDO::FETCH_CLASS, 'BlockModel');
         return $stmt->fetchAll();
     }
+
+    public static function getMaxOrderBlock($pageId)
+    {
+        $dbConn = DBModel::getConnection();
+        $stmt = $dbConn->prepare('
+            SELECT MAX(orderBlock) FROM edit_block WHERE pageId = :pageId AND orderBlock IS NOT NULL;
+        ');
+        $stmt->bindParam(':pageId', $pageId);
+        $stmt->execute();
+        $stmt->setFetchMode(PDO::FETCH_ASSOC);
+        return $stmt->fetchAll();
+    }
 }

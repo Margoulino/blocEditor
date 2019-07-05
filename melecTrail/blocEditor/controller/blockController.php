@@ -40,7 +40,14 @@ class BlockController
                 $block->content = "";
             }
             $block->pageId = $data->pageId;
-            $block->orderBlock = $data->orderBlock;
+
+            $maxOrderBlock = BlockModel::getMaxOrderBlock($data->pageId);
+            if($data->orderBlock <= $maxOrderBlock) {
+                $block->orderBlock = $maxOrderBlock[0]["MAX(orderBlock)"] + 1;
+            } else {
+                $block->orderBlock = $data->orderBlock;
+            }
+
             $block->idBlockType = $data->idBlockType;
             if (isset($data->idParent)) {
                 $block->idParent = $data->idParent;
