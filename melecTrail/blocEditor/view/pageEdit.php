@@ -123,7 +123,7 @@
                 <div class="form-group">
                     <textarea class="form-control" id="description" rows="2"><?php echo $page[0]->description; ?></textarea>
                 </div>
-                <a id="descriptionSave" class="btn btn-info" href="#">Enregistrer la description</a>
+                <a id="descriptionSave" class="btn btn-info btn-sm" href="#">Enregistrer la description</a>
             </div>
         </div>
         <br>
@@ -136,7 +136,7 @@
                         if($keywords !== null) {
                             foreach($keywords as $keyword) {
                                 echo '
-                                    <a class="btn btn-success keyword" href="#">
+                                    <a class="btn btn-success btn-sm keyword" href="#">
                                         <span>' . $keyword . '</span>
                                         <span class="badge badge-danger removeKeyword">
                                             <i class="fas fa-times" style="color:white;"></i>
@@ -146,7 +146,7 @@
                             }
                         }
                     ?>
-                    <a href="#" class="btn btn-success addKeyword"><i class="fas fa-plus" style="color:white;"></i></a>
+                    <a href="#" class="btn btn-success btn-sm addKeyword"><i class="fas fa-plus" style="color:white;"></i></a>
                 </div>
             </div>
         </div>
