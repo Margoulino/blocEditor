@@ -133,15 +133,17 @@
                 <div class="alert alert-info keywords-container">
                     <?php
                         $keywords = json_decode($page[0]->keywords);
-                        foreach($keywords as $keyword) {
-                            echo '
-                                <a class="btn btn-success keyword" href="#">
-                                    <span>' . $keyword . '</span>
-                                    <span class="badge badge-danger removeKeyword">
-                                        <i class="fas fa-times" style="color:white;"></i>
-                                    </span>
-                                </a>
-                            ';
+                        if($keywords !== null) {
+                            foreach($keywords as $keyword) {
+                                echo '
+                                    <a class="btn btn-success keyword" href="#">
+                                        <span>' . $keyword . '</span>
+                                        <span class="badge badge-danger removeKeyword">
+                                            <i class="fas fa-times" style="color:white;"></i>
+                                        </span>
+                                    </a>
+                                ';
+                            }
                         }
                     ?>
                     <a href="#" class="btn btn-success addKeyword"><i class="fas fa-plus" style="color:white;"></i></a>
@@ -276,7 +278,8 @@
     <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
-    <script src="https://cdn.ckeditor.com/ckeditor5/12.2.0/classic/ckeditor.js"></script>
+    <!--<script src="https://cdn.ckeditor.com/ckeditor5/12.2.0/classic/ckeditor.js"></script>-->
+    <script src="/blocEditor/js/ckeditor.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/dropzone/5.5.1/dropzone.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/image-picker/0.3.1/image-picker.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/lightbox2/2.11.0/js/lightbox.min.js"></script>
