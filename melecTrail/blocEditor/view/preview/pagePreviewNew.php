@@ -216,12 +216,11 @@
 
       $('.tm-current-year').text(new Date().getFullYear()); // Update year in copyright
 
-    }); <
-    ? php
+    }); 
+    <?php
     if ($nav === null) {
       echo "$('.dropdown-item').removeAttr('href')";
-    } ?
-    >
+    } ?>
   </script>
   <script src="/blocEditor/js/previewUI.js"></script>
   <script src="/blocEditor/js/blockInit.js"></script>
