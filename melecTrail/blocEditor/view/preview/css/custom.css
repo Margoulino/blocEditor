@@ -532,6 +532,10 @@ figure {
     overflow: hidden;
 }
 
+.column.col {
+  padding : 0px;
+}
+
 .owl-theme .owl-nav {
    margin-top: 0 !important;
 }
