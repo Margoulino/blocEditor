@@ -40,6 +40,15 @@ class NavController
         }
         file_put_contents($_SERVER['DOCUMENT_ROOT'] . '/sitemap.xml',
             '<?xml version="1.0" encoding="UTF-8"?>
-            <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">' . htmlspecialchars_decode($content).'</urlset>');
+            <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+                <url>
+                    <loc>http://www.couriraplumelec.fr</loc>
+                    <priority>1</priority>
+                </url>
+                <url>
+                    <loc>http://www.couriraplumelec.fr/pageNew.php</loc>
+                    <priority>0.8</priority>
+                </url>
+            ' . htmlspecialchars_decode($content).'</urlset>');
     }
 }
