@@ -20,14 +20,14 @@
 
   <!-- load stylesheets -->
   <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700"> <!-- Google web font "Open Sans" -->
-  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.2/css/all.css"> <!-- Font Awesome -->
+  <link rel="stylesheet" href="/blocEditor/view/preview/font-awesome-4.7.0/css/font-awesome.min.css"> <!-- Font Awesome -->
   <link rel="stylesheet" href="/blocEditor/view/preview/css/bootstrap.min.css"> <!-- Bootstrap style -->
-  <link rel="stylesheet" type="text/css" href="/blocEditor/view/preview/css/datepicker.css" />
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.carousel.min.css" />
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.theme.default.min.css" />
+  <link rel="stylesheet" type="text/css" href="/blocEditor/view/preview/css/datepicker.css">
+  <link rel="stylesheet" href="/blocEditor/style/dependances/owl.carousel.min.css">
+  <link rel="stylesheet" href="/blocEditor/style/dependances/owl.theme.default.min.css">
   <link rel="stylesheet" href="/blocEditor/view/preview/css/templatemo-style.css">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/lightbox2/2.11.0/css/lightbox.min.css" />
-  <link rel="stylesheet" href="/blocEditor/view/preview/css/ekko-lightbox.css">
+  <link rel="stylesheet" href="/blocEditor/style/dependances/lightbox.min.css">
+  <link rel="stylesheet" href="/blocEditor/style/dependances/ekko-lightbox.css">
   <link rel="stylesheet" href="/blocEditor/view/preview/css/custom.css"> <!-- Templatemo style -->
 
   <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
@@ -140,7 +140,7 @@
 
       <footer class="tm-container-outer row hermine_br">
         <p class="mb-0 col-6">
-          <a href="https://www.facebook.com/courir.aplumelec.12" target="_blank" class="btn btn-info"><i class="fab fa-facebook-square"></i> Rejoignez nous sur facebook !</a>
+          <a href="https://www.facebook.com/courir.aplumelec.12" target="_blank" class="btn btn-info"><i class="fa fa-facebook-square"></i> Rejoignez nous sur facebook !</a>
         </p>
         <p class="mb-0 col-6">
           <img src="/blocEditor/view/preview/img/trail-plumelec/bodycross.png" height="50" style="flota:left;">
@@ -160,13 +160,9 @@
   <script src="/blocEditor/view/preview/js/bootstrap.min.js"></script> <!-- https://getbootstrap.com/ -->
   <script src="/blocEditor/view/preview/js/datepicker.min.js"></script> <!-- https://github.com/qodesmith/datepicker -->
   <script src="/blocEditor/view/preview/js/jquery.singlePageNav.min.js"></script> <!-- Single Page Nav (https://github.com/ChrisWojcik/single-page-nav) -->
-  <!--<script src="/blocEditor/view/preview/slick/slick.min.js"></script>-->
-  <!-- http://kenwheeler.github.io/slick/ -->
-  <script src="/blocEditor/view/preview/js/ekko-lightbox.min.js"></script> <!-- https://github.com/flesler/jquery.scrollTo -->
-  <script src="https://code.iconify.design/1/1.0.2/iconify.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/owl.carousel.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/ekko-lightbox/5.3.0/ekko-lightbox.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/lightbox2/2.11.0/js/lightbox.min.js"></script>
+  <script src="/blocEditor/js/dependances/owl.carousel.js"></script>
+  <script src="/blocEditor/js/dependances/ekko-lightbox.min.js"></script>
+  <script src="/blocEditor/js/dependances/lightbox.min.js"></script>
   <script>
     /* DOM is ready
         ------------------------------------------------*/

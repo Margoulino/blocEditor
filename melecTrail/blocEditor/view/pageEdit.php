@@ -9,15 +9,15 @@
 
     <title>Edition</title>
 
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="/blocEditor/style/dependances/bootstrap.min.css" />
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.2/css/all.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/dropzone/5.5.1/dropzone.css" />
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/lightbox2/2.11.0/css/lightbox.min.css" />
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/image-picker/0.3.1/image-picker.css" />
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.carousel.min.css" />
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.theme.default.min.css" />
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/ekko-lightbox/5.3.0/ekko-lightbox.css" />
-    <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+    <link rel="stylesheet" href="/blocEditor/style/dependances/dropzone.css" />
+    <link rel="stylesheet" href="/blocEditor/style/dependances/lightbox.min.css" />
+    <link rel="stylesheet" href="/blocEditor/style/dependances/image-picker.css" />
+    <link rel="stylesheet" href="/blocEditor/style/dependances/owl.carousel.min.css" />
+    <link rel="stylesheet" href="/blocEditor/style/dependances/owl.theme.default.min.css" />
+    <link rel="stylesheet" href="/blocEditor/style/dependances/ekko-lightbox.css" />
+    <link rel="stylesheet" href="/blocEditor/style/dependances/jquery-ui.css">
     <link rel="stylesheet" href="/templatemo-style.css">
     <link rel="stylesheet" href="/custom.css">
     <link rel="stylesheet" href="/blocEditor/style/pageEditStyle.css">
@@ -275,19 +275,18 @@
         var allCateg = <?php echo json_encode($allCategories); ?> ;
         var subLevels = <?php echo json_encode($subLevel); ?> ;
     </script>
-    <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
-    <!--<script src="https://cdn.ckeditor.com/ckeditor5/12.2.0/classic/ckeditor.js"></script>-->
+    <script src="/blocEditor/js/dependances/jquery-3.4.1.min.js"></script>
+    <script src="/blocEditor/js/dependances/popper.min.js"></script>
+    <script src="/blocEditor/js/dependances/bootstrap.min.js"></script>
     <script src="/blocEditor/js/ckeditor.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/dropzone/5.5.1/dropzone.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/image-picker/0.3.1/image-picker.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/lightbox2/2.11.0/js/lightbox.min.js"></script>
-    <script src="https://unpkg.com/interactjs/dist/interact.min.js"></script>
-    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
-    <script src="https://code.iconify.design/1/1.0.2/iconify.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/owl.carousel.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/ekko-lightbox/5.3.0/ekko-lightbox.min.js"></script>
+    <script src="/blocEditor/js/dependances/dropzone.js"></script>
+    <script src="/blocEditor/js/dependances/image-picker.js"></script>
+    <script src="/blocEditor/js/dependances/lightbox.min.js"></script>
+    <script src="/blocEditor/js/dependances/interact.min.js"></script>
+    <script src="/blocEditor/js/dependances/jquery-ui.js"></script>
+    <script src="/blocEditor/js/dependances/iconify.min.js"></script>
+    <script src="/blocEditor/js/dependances/owl.carousel.js"></script>
+    <script src="/blocEditor/js/dependances/ekko-lightbox.min.js"></script>
     <script src="/blocEditor/js/blockInit.js"></script>
     <script src="/blocEditor/ckfinder/ckfinder.js"></script>
     <script src="/blocEditor/js/pageEditNew.js"></script>
