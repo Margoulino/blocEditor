@@ -70,12 +70,14 @@ class PageController
                     $pageCat->idPage = PageModel::findByName($newpage->name)[0]->id;
                     $pageCat->idCategory = CategoryModel::findByname($data->category)[0]->id;
                     if (PageCategoryModel::save($pageCat)) {
+                        NavController::updateSitemap();
                         http_response_code(200);
                         echo json_encode(array("message" => "new page saved"));
                     } else {
                         throw new Exception("error while saving the category");
                         //Suppression de la page pour ne pas conserver la page sans la catégorie voulue
                         PageModel::delete(PageModel::findByName($data->name)[0]->id);
+                        NavController::updateSitemap();
                     }
                 } else {
                     throw new Exception("error while saving the page");
@@ -93,7 +95,6 @@ class PageController
     {
         $data = json_decode(file_get_contents("php://input"));
         try {
-            NavController::updateSitemap();
             $page = PageModel::findByName($data->page);
             $category = CategoryModel::findByname($data->category);
             PageCategoryModel::delete($page[0]->id, $category[0]->id);
@@ -103,6 +104,7 @@ class PageController
             http_response_code(404);
             echo json_encode(array('message' => 'error' . $e));
         }
+        NavController::updateSitemap();
         http_response_code(200);
     }
 
@@ -192,6 +194,7 @@ class PageController
                 if (!empty(CategoryModel::findById($data->categoryId))) {
                     if (!count(PageCategoryModel::findByIdPage($data->pageId)) <= 1) {
                         PageCategoryModel::delete($data->pageId, $data->categoryId);
+                        NavController::updateSitemap();
                         http_response_code(200);
                         echo json_encode(array("message" => "category removed from page"));
                     } else {
@@ -206,24 +209,6 @@ class PageController
         } catch(Exception $e) {
             http_response_code(404);
             echo json_encode(array('message' => $e->getMessage()));
-        }
-    }
-
-    public function previewPageOld($name)
-    {
-        try {
-            $page = PageModel::findByName($name[0]);
-            if(!empty($page)) {
-                $blocks = PageModel::getAllBlocksByIdPage($page[0]->id);
-                require($_SERVER['DOCUMENT_ROOT'] . '/blocEditor/view/pagePreview.php');
-            } else {
-                throw new Exception("Page does not exists, you must create it first");
-             }
-        } catch(Exception $e) {
-            $blocks = NULL;
-            http_response_code(404);
-            echo json_encode(array('message' => $e->getMessage()));
-            require($_SERVER['DOCUMENT_ROOT'] . '/blocEditor/view/pagePreview.php');
         }
     }
 
