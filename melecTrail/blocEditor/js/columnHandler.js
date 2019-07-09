@@ -39,6 +39,7 @@ function getInnerHTMLCol(elem) {
     });
 }
 
+// Ajout des event listener aux boutons des colonnes et du modal de choix de bloc de colonne
 $(document).ready(function() {
     $(".addBlockCol").on("click", function(event) {
         var idParent = $(this)

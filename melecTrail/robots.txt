@@ -1,0 +1,9 @@
+User-agent: *
+Disallow: /page*
+Disallow: /image*
+Disallow: /jogging*
+Disallow: /user*
+Disallow: /blockType*
+Disallow: /block*
+Disallow: /category*
+Disallow: /page*
