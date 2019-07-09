@@ -30,11 +30,13 @@ delButtons.forEach(delBtn => {
 var interfaceBlock = document.querySelector(".interface-block");
 var blockTextBtn = document.getElementById("textOption");
 
+//Ajout bloc text et initialisation de l'editeur ckeditor
 blockTextBtn.addEventListener("click", function() {
     htmlEditorInit(interfaceBlock, "").then(function(editor) {
         closeNav();
         var btnSave = document.getElementById("blockSave");
         var btnDel = document.getElementById("blockDelete");
+        interfaceBlock.scrollIntoView({behavior: "smooth"});
         btnSave.addEventListener("click", function() {
             var data = {
                 name: nomPage + "_" + idNewBlock,
@@ -75,7 +77,7 @@ function getInnerHTML(elem) {
     return div.innerHTML;
 }
 
-//Edition block double click
+//Edition de blocks bouton edition
 $(".editBlock").one("click", function(event) {
     var idParentBlock = event.currentTarget.parentElement.getAttribute("id");
     htmlEditorInit(event.currentTarget.parentElement, getInnerHTML(event.currentTarget.parentElement).trim()).then(function(editor) {
@@ -165,6 +167,7 @@ addCategoryDrop.addEventListener("click", function(e) {
 
 var saveNewCategBtn = document.getElementById("saveCat");
 
+//Enregistrement d'une nouvelle catégorie
 saveNewCategBtn.addEventListener("click", function() {
     if (confirm("Êtes-vous sûr de vouloir créer cette catégorie ?")) {
         var catName = document.getElementById("catname").value;
@@ -187,6 +190,7 @@ saveNewCategBtn.addEventListener("click", function() {
     }
 });
 
+//Publication d'une page
 var publishBtn = document.getElementById("pagePublish");
 if (publishBtn !== undefined && publishBtn !== null) {
     publishBtn.addEventListener("click", function() {
@@ -198,6 +202,7 @@ if (publishBtn !== undefined && publishBtn !== null) {
     });
 }
 
+//Dépublication d'une page
 var depublishBtn = document.getElementById("pageDepublish");
 if (depublishBtn !== undefined && depublishBtn !== null) {
     depublishBtn.addEventListener("click", function() {
@@ -209,6 +214,7 @@ if (depublishBtn !== undefined && depublishBtn !== null) {
     });
 }
 
+//Enregistrement de la description
 var saveDescrBtn = document.getElementById("descriptionSave");
 saveDescrBtn.addEventListener("click", function() {
     if(confirm("Êtes-vous sûr de vouloir publier cette description ?")) {
@@ -219,11 +225,13 @@ saveDescrBtn.addEventListener("click", function() {
     }
 });
 
+//Ajout d'un mot clé
 var addKeywordBtn = document.querySelectorAll(".addKeyword")[0];
 addKeywordBtn.addEventListener("click", function() {
     $("#newKeywordModal").modal("show");
 });
 
+//Enregistrement de mots clés
 var saveNewKeyword = document.getElementById("saveNewKeyword");
 saveNewKeyword.addEventListener("click", function(e) {
     var kwName = document.getElementById("kwName").value;
@@ -238,6 +246,7 @@ saveNewKeyword.addEventListener("click", function(e) {
     })
 });
 
+//Suppression de mot clés
 var removeKeywordBtns = document.querySelectorAll(".removeKeyword");
 removeKeywordBtns.forEach(btn => {
     btn.addEventListener("click", function(e) {

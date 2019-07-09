@@ -1,3 +1,4 @@
+//Modal pour l'ajout de pages
 $('.addPage').on('click', function () {
     var idcat = $(this).attr('id');
     $('#addPageModal').modal('show');
@@ -20,12 +21,14 @@ $.fn.serializeObject = function () {
     return o;
 }
 
+
 $('#nav-tabContent a').on('click', function () {
     if (confirm('Modifier la page ' + $(this).attr('id') + ' ?')) {
         window.location.href = "/page/editionPage/" + $(this).attr('id');
     };
 })
 
+//Modal pour l'ajout des catégories
 $('.addCat').on('click', function () {
     $('#addCategoryModal').modal('show');
 })
@@ -75,6 +78,7 @@ $(document).on('submit', '#tree_form', function () {
     return false;
 });
 
+//
 $(document).on('submit', '#cat_form', function () {
     var cat_form = $(this);
     var form_data = JSON.stringify(cat_form.serializeObject());
