@@ -226,4 +226,14 @@ class PageModel
         $stmt->bindParam(":id", $pageId);
         return $stmt->execute();
     }
+
+    public static function setNameCompletion($pageId, $nameCompletion) {
+        $dbConn = DBModel::getConnection();
+        $stmt = $dbConn->prepare("
+            UPDATE edit_page SET nameCompletion = :nameCompletion WHERE id = :pageId
+        ");
+        $stmt->bindParam(":nameCompletion", $nameCompletion);
+        $stmt->bindParam(":pageId", $pageId);
+        return $stmt->execute();
+    }
 }

@@ -7,7 +7,7 @@
     <meta name="description" content="<?php echo $page[0]->description; ?>">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
 
-    <title>Edition</title>
+    <title>Edition<?php echo ' ' . $page[0]->nameCompletion; ?></title>
 
     <link rel="stylesheet" href="/blocEditor/style/dependances/bootstrap.min.css" />
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.2/css/all.css">
@@ -147,6 +147,15 @@
                         }
                     ?>
                     <a href="#" class="btn btn-success btn-sm addKeyword"><i class="fas fa-plus" style="color:white;"></i></a>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col">
+                <p>Complément de titre</p>
+                <div class="alert alert-info nameCompletionContainer">
+                    <input type="text" class="form-control nameCompletion" value="<?php echo $page[0]->nameCompletion; ?>">
+                    <a href="#" class="btn btn-success nameCompletionSave">Enregistrer</a>
                 </div>
             </div>
         </div>

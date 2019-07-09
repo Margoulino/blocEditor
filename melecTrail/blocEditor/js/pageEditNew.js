@@ -502,3 +502,19 @@ function saveKeywords(data) {
         xhr.send(JSON.stringify(data));
     });
 }
+
+function saveNameCompletion(data) {
+    return new Promise(function(resolve, reject) {
+        var xhr = new XMLHttpRequest();
+        xhr.onreadystatechange = function() {
+            if (this.readyState === XMLHttpRequest.DONE && this.status === 200) {
+                resolve();
+            } else if(this.status === 400) {
+                reject(JSON.parse(xhr.response).message);
+            }
+        };
+        xhr.open("POST", "/page/changeNameCompletion/");
+        xhr.setRequestHeader("Content-type", "application/json");
+        xhr.send(JSON.stringify(data));
+    });
+}

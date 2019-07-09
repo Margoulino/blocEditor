@@ -264,3 +264,17 @@ removeKeywordBtns.forEach(btn => {
         }
     });
 });
+
+var nameCompletionBtn = document.querySelectorAll(".nameCompletionSave")[0];
+nameCompletionBtn.addEventListener("click", function() {
+    if(confirm("Êtes-vous sûr de vouloir enregistrer ce complement de titre ?")) {
+        var nameCompletionValue = document.querySelectorAll(".nameCompletion")[0].value;
+        var data = {
+            pageId: pageId,
+            nameCompletion: nameCompletionValue
+        };
+        saveNameCompletion(data).then(function() {
+            location.reload();
+        });
+    }
+});
