@@ -6,4 +6,8 @@ Disallow: /user*
 Disallow: /blockType*
 Disallow: /block*
 Disallow: /category*
-Disallow: /page*
+
+#Desactivation indexation des images
+Disallow: /*.jpg$
+Disallow: /*.png$
+Disallow: /*.gif$
