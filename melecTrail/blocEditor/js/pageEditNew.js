@@ -463,7 +463,7 @@ function saveDescription(id, description) {
         };
         var data = {
             pageId: id,
-            description: description
+            description: escapeHtml(description)
         };
         xhr.open("POST", "/page/changeDescription/");
         xhr.setRequestHeader("Content-type", "application/json");
@@ -478,7 +478,7 @@ function getAllKeywords() {
     var keywords = document.querySelectorAll(".keyword");
     var arrKw = [];
     keywords.forEach(keyword => {
-        arrKw.push(keyword.children[0].innerHTML);
+        arrKw.push(escapeHtml(keyword.children[0].innerHTML));
     });
     return arrKw;
 }
@@ -503,6 +503,10 @@ function saveKeywords(data) {
     });
 }
 
+/**
+ * Envoi par requete ajax des infos de complément du nom d'une page
+ * @param {JSON} data Complément du nom, id de la page
+ */
 function saveNameCompletion(data) {
     return new Promise(function(resolve, reject) {
         var xhr = new XMLHttpRequest();
@@ -518,3 +522,15 @@ function saveNameCompletion(data) {
         xhr.send(JSON.stringify(data));
     });
 }
+
+function escapeHtml(text) {
+    var map = {
+      '&': '&amp;',
+      '<': '&lt;',
+      '>': '&gt;',
+      '"': '&quot;',
+      "'": '&#039;'
+    };
+  
+    return text.replace(/[&<>"']/g, function(m) { return map[m]; });
+  }

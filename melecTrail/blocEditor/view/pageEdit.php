@@ -154,7 +154,9 @@
             <div class="col">
                 <p>Complément de titre</p>
                 <div class="alert alert-info nameCompletionContainer">
-                    <input type="text" class="form-control nameCompletion" value="<?php echo $page[0]->nameCompletion; ?>">
+                    <div class="form-group">
+                        <input type="text" class="form-control nameCompletion" value="<?php echo $page[0]->nameCompletion; ?>">
+                    </div>
                     <a href="#" class="btn btn-success nameCompletionSave">Enregistrer</a>
                 </div>
             </div>

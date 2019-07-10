@@ -128,6 +128,7 @@ upArrows.forEach(arrow => {
     });
 });
 
+//Ajout suppression d'une catégorie aux boutons de suppr de catégorie
 var removeCategs = document.querySelectorAll(".removeCateg");
 removeCategs.forEach(remCat => {
     remCat.addEventListener("click", function(e) {
@@ -144,6 +145,7 @@ removeCategs.forEach(remCat => {
     });
 });
 
+//Ajout event listeners pour enregistrer de nouvelles catégories aux options du dropdown de l'ajout des catégories
 var addExistingCateg = document.querySelectorAll(".categChoice");
 addExistingCateg.forEach(categChoice => {
     categChoice.addEventListener("click", function(e) {
@@ -160,6 +162,7 @@ addExistingCateg.forEach(categChoice => {
     });
 });
 
+//Modal ajout de catégorie à partir de la derniere option du dropdown categorie
 var addCategoryDrop = document.getElementById("addCategoryDrop");
 addCategoryDrop.addEventListener("click", function(e) {
     $("#addCategoryModal").modal("show");
@@ -173,7 +176,7 @@ saveNewCategBtn.addEventListener("click", function() {
         var catName = document.getElementById("catname").value;
         if (catName !== undefined && catName !== "") {
             var data = {
-                name: catName
+                name: escapeHtml(catName)
             };
             createNewCategory(JSON.stringify(data)).then(function() {
                 findCategoryByName(JSON.stringify(data)).then(function(response) {
@@ -236,7 +239,7 @@ var saveNewKeyword = document.getElementById("saveNewKeyword");
 saveNewKeyword.addEventListener("click", function(e) {
     var kwName = document.getElementById("kwName").value;
     var kwArr = getAllKeywords();
-    kwArr.push(kwName);
+    kwArr.push(escapeHtml(kwName));
     var data = {
         pageId: pageId,
         keywords: JSON.stringify(kwArr)
@@ -256,7 +259,7 @@ removeKeywordBtns.forEach(btn => {
             var kwArr = getAllKeywords();
             var data = {
                 pageId: pageId,
-                keywords: JSON.stringify(kwArr)
+                keywords: escapeHtml(JSON.stringify(kwArr))
             };
             saveKeywords(data).then(function() {
                 location.reload();
@@ -265,16 +268,29 @@ removeKeywordBtns.forEach(btn => {
     });
 });
 
+//Ajout d'un complément de titre à la page
 var nameCompletionBtn = document.querySelectorAll(".nameCompletionSave")[0];
 nameCompletionBtn.addEventListener("click", function() {
     if(confirm("Êtes-vous sûr de vouloir enregistrer ce complement de titre ?")) {
         var nameCompletionValue = document.querySelectorAll(".nameCompletion")[0].value;
         var data = {
             pageId: pageId,
-            nameCompletion: nameCompletionValue
+            nameCompletion: escapeHtml(nameCompletionValue)
         };
         saveNameCompletion(data).then(function() {
             location.reload();
         });
     }
 });
+
+function escapeHtml(text) {
+    var map = {
+      '&': '&amp;',
+      '<': '&lt;',
+      '>': '&gt;',
+      '"': '&quot;',
+      "'": '&#039;'
+    };
+  
+    return text.replace(/[&<>"']/g, function(m) { return map[m]; });
+  }
