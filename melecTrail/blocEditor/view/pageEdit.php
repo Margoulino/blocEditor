@@ -120,10 +120,12 @@
         <div class="row">
             <div class="col">
                 <p>Description de la page :</p>
-                <div class="form-group">
-                    <textarea class="form-control" id="description" rows="2"><?php echo $page[0]->description; ?></textarea>
+                <div class="alert alert-info">
+                    <div class="form-group">
+                        <textarea class="form-control" id="description" rows="2"><?php echo $page[0]->description; ?></textarea>
+                    </div>
+                    <a id="descriptionSave" class="btn btn-info btn-sm" href="#">Enregistrer la description</a>
                 </div>
-                <a id="descriptionSave" class="btn btn-info btn-sm" href="#">Enregistrer la description</a>
             </div>
         </div>
         <br>
@@ -152,7 +154,7 @@
         </div>
         <div class="row">
             <div class="col">
-                <p>Complément de titre</p>
+                <p>Complément de titre :</p>
                 <div class="alert alert-info nameCompletionContainer">
                     <div class="form-group">
                         <input type="text" class="form-control nameCompletion" value="<?php echo $page[0]->nameCompletion; ?>">
