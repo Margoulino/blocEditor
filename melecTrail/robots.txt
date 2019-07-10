@@ -1,0 +1,13 @@
+User-agent: *
+Disallow: /page*
+Disallow: /image*
+Disallow: /jogging*
+Disallow: /user*
+Disallow: /blockType*
+Disallow: /block*
+Disallow: /category*
+
+#Desactivation indexation des images
+Disallow: /*.jpg$
+Disallow: /*.png$
+Disallow: /*.gif$

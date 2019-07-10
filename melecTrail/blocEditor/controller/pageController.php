@@ -265,12 +265,12 @@ class PageController
         try {
             if(!empty($page)) {
                 $page->publish();
+                NavController::updateSitemap();
                 http_response_code(200);
                 echo json_encode(array("message" => "page successfully published"));
             } else {
                 throw new Exception("Page does not exists, can't publish");
             }
-            NavController::updateSitemap();
         } catch(Exception $e) {
             http_response_code(404);
             echo json_encode(array("message" => $e->getMessage()));
@@ -284,12 +284,12 @@ class PageController
         try {
             if(!empty($page)) {
                 $page->depublish();
+                NavController::updateSitemap();
                 http_response_code(200);
                 echo json_encode(array("message" => "page successfully published"));
             } else {
                 throw new Exception("Page does not exists, can't depublish");
             }
-            NavController::updateSitemap();
         } catch(Exception $e) {
             http_response_code(404);
             echo json_encode(array("message" => $e->getMessage()));
@@ -323,6 +323,24 @@ class PageController
                 PageModel::setKeywords($data->pageId, $data->keywords);
                 http_response_code(200);
                 echo json_encode(array("message" => "keywords successfully changed"));
+            } else {
+                throw new Exception("Page does not exists, can't change keywords");
+            }
+        } catch (Exception $e) {
+            http_response_code(404);
+            echo json_encode(array("message" => $e->getMessage()));
+        }
+    }
+
+    public function changeNameCompletion() {
+        $this->setHeader();
+        $data = json_decode(file_get_contents("php://input"));
+        $page = PageModel::findById($data->pageId);
+        try {
+            if(!empty($page)) {
+                PageModel::setNameCompletion($data->pageId, $data->nameCompletion);
+                http_response_code(200);
+                echo json_encode(array("message" => "nameCompletion successfully changed"));
             } else {
                 throw new Exception("Page does not exists, can't change keywords");
             }

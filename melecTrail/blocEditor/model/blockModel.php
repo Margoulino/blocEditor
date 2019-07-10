@@ -189,7 +189,7 @@ class BlockModel
         $stmt = $dbConn->prepare('
             DELETE FROM edit_block WHERE pageId = :pageId;
         ');
-        $stmt->bindParam(':id', $id);
+        $stmt->bindParam(':pageId', $pageId);
         return $stmt->execute();
     }
 

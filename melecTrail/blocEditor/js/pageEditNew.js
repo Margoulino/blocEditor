@@ -23,6 +23,10 @@ function saveBlock(data) {
     });
 }
 
+/**
+ * Permet de sauvegarder un bloc dans la colonne d'un autre bloc
+ * @param {JSON} data Données à envoyer en base
+ */
 function saveBlockIntoBlock(data) {
     return new Promise(function(resolve, reject) {
         var xhr = new XMLHttpRequest();
@@ -99,6 +103,10 @@ function callbackTemplate(data, templates, id) {
 }
 //--------------------------------------------------------------
 
+/**
+ * Mise à jour des données d"un bloc prééxistant
+ * @param {JSON} data Nouvelles données d'un bloc à envoyer en base
+ */
 function updateBlock(data) {
     return new Promise(function(resolve, reject) {
         var xhr = new XMLHttpRequest();
@@ -116,6 +124,10 @@ function updateBlock(data) {
     });
 }
 
+/**
+ * Suppression de l'attribution d'une catégorie à une page, ne supprime pas la catégorie en elle même
+ * @param {JSON} data Données de la catégorie à supprimer (pageId, categoryId)
+ */
 function deleteCategory(data) {
     return new Promise(function(resolve, reject) {
         var xhr = new XMLHttpRequest();
@@ -132,6 +144,10 @@ function deleteCategory(data) {
     });
 }
 
+/**
+ * Attribution d'une catégorie à une page prééxistante
+ * @param {JSON} data Données permettant de relier une catégorie à une page (pageId, categoryId)
+ */
 function addCategory(data) {
     return new Promise(function(resolve, reject) {
         var xhr = new XMLHttpRequest();
@@ -148,6 +164,10 @@ function addCategory(data) {
     });
 }
 
+/**
+ * Création d'une nouvelle catégorie
+ * @param {JSON} data Données de la nouvelle catégorie à ajouter en base (nom de la catégorie)
+ */
 function createNewCategory(data) {
     return new Promise(function(resolve, reject) {
         var xhr = new XMLHttpRequest();
@@ -164,6 +184,10 @@ function createNewCategory(data) {
     });
 }
 
+/**
+ * Renvoie les données de la catégorie portant le nom renseigné
+ * @param {JSON} data Nom de la catégorie en base
+ */
 function findCategoryByName(data) {
     return new Promise(function(resolve, reject) {
         var xhr = new XMLHttpRequest();
@@ -180,6 +204,11 @@ function findCategoryByName(data) {
     });
 }
 
+/**
+ * Permet d'afficher l'editeur WYSIWYG Ckeditor dans une div HTML donnée
+ * @param {HTML Element} targetElement Element dans lequel on souhaite faire apparaître le Ckeditor
+ * @param {String} previousContent Contenu déjà renseigné d'un bloc texte (si on veut éditer ce contenu)
+ */
 function htmlEditorInit(targetElement, previousContent) {
     return new Promise(function(resolve, reject) {
         var blockId = targetElement.getAttribute("id");
@@ -222,8 +251,9 @@ function htmlEditorInit(targetElement, previousContent) {
 }
 
 /**
- *
- * @param {*} event
+ * 
+ * @param {*} event 
+ * @param {*} blocks 
  */
 function moveBlockDown(event, blocks) {
     //En cliquant sur la fleche on cherche la div complète du block (la div block unit) ici celle qui est déplacée
@@ -264,6 +294,11 @@ function moveBlockDown(event, blocks) {
     }
 }
 
+/**
+ * 
+ * @param {Object event} event 
+ * @param {*} blocks 
+ */
 function moveBlockUp(event, blocks) {
     //En cliquant sur la fleche on cherche la div complète du block (la div block unit) ici celle qui est déplacée
     var blockToMove = event.target.parentElement.parentElement;
@@ -316,6 +351,11 @@ function getBlocksOrder(blocks) {
     return orders;
 }
 
+/**
+ * 
+ * @param {*} id 
+ * @param {*} blocks 
+ */
 function findBlockById(id, blocks) {
     var blockToFind = null;
     blocks.forEach(block => {
@@ -326,6 +366,10 @@ function findBlockById(id, blocks) {
     return blockToFind;
 }
 
+/**
+ * 
+ * @param {*} id 
+ */
 function publishPage(id) {
     return new Promise(function(resolve, reject) {
         var xhr = new XMLHttpRequest();
@@ -345,6 +389,10 @@ function publishPage(id) {
     });
 }
 
+/**
+ * 
+ * @param {*} id 
+ */
 function depublishPage(id) {
     return new Promise(function(resolve, reject) {
         var xhr = new XMLHttpRequest();
@@ -364,7 +412,11 @@ function depublishPage(id) {
     });
 }
 
-//Trouve le niveau/sous niveau d'un block par rapport à ses blocks parents
+/**
+ * Trouve le niveau/sous niveau d'un block par rapport à ses blocks parents et le renvoie
+ * @param {int} id id du block dont on veut le niveau
+ * @param {Array} blockList Liste de tous les blocs
+ */
 function parentCounter(id, blockList) {
     var curBlock = findBlockById(id, blockList);
     if (curBlock.idParent !== undefined && curBlock.idParent !== null) {
@@ -394,6 +446,11 @@ function parentCounter(id, blockList) {
     }
 }
 
+/**
+ * Permet d'enregistrer une description d'une page qui sera utilisée dans la balise meta description
+ * @param {int} id Id de la page où sauvegarder la description
+ * @param {String} description Description de la page à sauvegarder
+ */
 function saveDescription(id, description) {
     return new Promise(function(resolve, reject) {
         var xhr = new XMLHttpRequest();
@@ -414,6 +471,9 @@ function saveDescription(id, description) {
     });
 }
 
+/**
+ * Renvoie un tableau contenant tout les mot clés contenus dans les element HTML avec la classe ".keyword"
+ */
 function getAllKeywords() {
     var keywords = document.querySelectorAll(".keyword");
     var arrKw = [];
@@ -423,6 +483,10 @@ function getAllKeywords() {
     return arrKw;
 }
 
+/**
+ * 
+ * @param {JSON} data JSON des mot-clés à sauvegarder
+ */
 function saveKeywords(data) {
     return new Promise(function(resolve, reject) {
         var xhr = new XMLHttpRequest();
@@ -434,6 +498,22 @@ function saveKeywords(data) {
             }
         };
         xhr.open("POST", "/page/changeKeywords/");
+        xhr.setRequestHeader("Content-type", "application/json");
+        xhr.send(JSON.stringify(data));
+    });
+}
+
+function saveNameCompletion(data) {
+    return new Promise(function(resolve, reject) {
+        var xhr = new XMLHttpRequest();
+        xhr.onreadystatechange = function() {
+            if (this.readyState === XMLHttpRequest.DONE && this.status === 200) {
+                resolve();
+            } else if(this.status === 400) {
+                reject(JSON.parse(xhr.response).message);
+            }
+        };
+        xhr.open("POST", "/page/changeNameCompletion/");
         xhr.setRequestHeader("Content-type", "application/json");
         xhr.send(JSON.stringify(data));
     });

@@ -15,6 +15,7 @@ $(document).ready(function() {
     // Call the carousel's init function when the button is triggered
     $("#sliderOption").on("click", function() {
         closeNav();
+        interfaceBlock.scrollIntoView({behavior: "smooth"});
         $("#uploadImageModal").modal("show");
         $("select").attr("multiple", "multiple");
         $("select").imagepicker();
@@ -210,6 +211,7 @@ $("#selectImg").on("click", function() {
 
 $("#galleryOption").on("click", function() {
     closeNav();
+    interfaceBlock.scrollIntoView({behavior: "smooth"});
     $("#uploadImageModal").modal("show");
     $("select").attr("multiple", "multiple");
     $("select").imagepicker();
