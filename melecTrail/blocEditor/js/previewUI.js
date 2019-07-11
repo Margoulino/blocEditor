@@ -97,7 +97,7 @@ $(document).ready(function() {
         autoProcessQueue: false,
         uploadMultiple: false,
         parallelUploads: 100,
-        maxFilesize: 1,
+        maxFilesize: 6,
         maxFiles: 3,
         acceptedFiles: ".jpg, .jpeg, .png",
         addRemoveLinks: true,
