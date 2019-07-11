@@ -248,6 +248,9 @@ class PageController
                             $block->content = BlockController::buildCarouselAndGallery($block,$categHTML);
                         }
                     }
+                    if ($block->idBlockType === '8') {
+                        $bannerBg = $block;
+                    }
                 }
                 require($_SERVER['DOCUMENT_ROOT'] . '/blocEditor/view/preview/pagePreviewNew.php');
             } else {

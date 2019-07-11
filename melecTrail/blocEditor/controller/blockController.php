@@ -204,6 +204,7 @@ class BlockController
                 if (isset($data->style)) {
                     $block->styleBlock = $data->style;
                 }
+                
                 $targetPage = PageModel::findByid($data->pageId);
                 if (empty($targetPage)) {
                     http_response_code(404);

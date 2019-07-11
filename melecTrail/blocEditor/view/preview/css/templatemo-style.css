@@ -134,7 +134,7 @@ p:last-child { margin-bottom: 0; }
     background: rgba(0, 0, 0, 0.5);
 }
 .tm-banner-bg {
-    background: url(../trail-plumelec/home.jpg) center top no-repeat;
+    background: url(../../../../trail-plumelec/home.jpg) center top no-repeat;
     min-height: 720px;
     position: relative;
 }
