@@ -214,6 +214,52 @@
         </div>
     </div>
 
+    <div class="modal fade" id="uploadFileModal">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Ajouter un fichier</h5>
+                    <button class="close" data-dismiss="modal">&times;</button>
+                </div>
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col">
+                            <div class="row">
+                                <div class="col">
+                                    <form action="/block/uploadFile" id="pdfDropZone" class="dropzone" enctype="multipart/form-data" method="POST"></form>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col">
+                                <button id="pdfSubmit" class="btn btn-primary">Enregistrer</button>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col">
+                            <div class="row">
+                                <div class="col">
+                                    <select class="custom-select pdfFilesSel" size="10">
+                                        <?php
+                                            foreach (scandir('./blocEditor/asset/files') as $file) {
+                                                if ($file != "." && $file != "..") {
+                                                    echo '<option value="' . $file . '">' . $file . '</option>';
+                                                }
+                                            }
+                                        ?>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col">
+                                    <button id="pdfSelect" class="btn btn-info">Sélectionner</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 
     <div class="modal fade" tabindex="-1" role="dialog" id="innerBlockModal">
         <div class="modal-dialog modal-sm">
@@ -306,6 +352,7 @@
     <script src="/blocEditor/js/pageEditUI.js"></script>
     <script src="/blocEditor/js/columnHandler.js"></script>
     <script src="/blocEditor/js/imageHandlerNew.js"></script>
+    <script src="/blocEditor/js/pdfHandler.js"></script>
 </body>
 
 </html>

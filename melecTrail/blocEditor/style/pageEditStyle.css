@@ -288,3 +288,7 @@ figure {
 .removeKeyword > i {
     pointer-events: none;
 }
+
+[id^=pdf] {
+    margin: 8px 0;
+}

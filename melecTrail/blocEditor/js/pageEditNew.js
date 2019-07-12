@@ -242,6 +242,23 @@ function htmlEditorInit(targetElement, previousContent) {
                 if (previousContent !== undefined && previousContent !== "") {
                     editor.setData(previousContent.trim());
                 }
+                var rowPdf = document.createElement("div");
+                rowPdf.setAttribute("class", "row");
+                var colPdf = document.createElement("div");
+                colPdf.setAttribute("class", "col");
+                colPdf.innerHTML = '<button id="pdf' + blockId + '" class="btn btn-secondary"><i class="fas fa-file"></i></button>';
+                rowPdf.appendChild(colPdf);
+                targetElement.insertBefore(rowPdf, targetElement.childNodes[targetElement.childElementCount-1]);
+                var btnPdf = document.getElementById("pdf"+blockId);
+                btnPdf.addEventListener("click", function() {
+                    var btnPdfSelect = document.getElementById("pdfSelect");
+                    var selPdf = document.querySelector(".pdfFilesSel");
+                    btnPdfSelect.addEventListener("click", function() {
+                        editor.setData(editor.getData() + "<a href='/blocEditor/asset/files/" + selPdf.value + "'>" + selPdf.value + "</a>");
+                        $("#uploadFileModal").modal("hide");
+                    })
+                    $("#uploadFileModal").modal("show");
+                });
                 resolve(editor);
             })
             .catch(error => {
@@ -250,10 +267,15 @@ function htmlEditorInit(targetElement, previousContent) {
     });
 }
 
+function addBtnLinkToEditor(toolbar, blockId) {
+    var btnLink = '<button id="pdf' + blockId + '" class="btn btn-secondary" type="button" tabindex="-1">' + "Pdf" + "<button>";
+    toolbar.innerHTML += btnLink;
+}
+
 /**
- * 
- * @param {*} event 
- * @param {*} blocks 
+ *
+ * @param {*} event
+ * @param {*} blocks
  */
 function moveBlockDown(event, blocks) {
     //En cliquant sur la fleche on cherche la div complète du block (la div block unit) ici celle qui est déplacée
@@ -280,24 +302,23 @@ function moveBlockDown(event, blocks) {
             pageId: blockToMoveObj.pageId,
             orderBlock: blockToMoveObj.orderBlock
         };
-        updateBlock(JSON.stringify(dataBlockToMove))
-            .then(function() {
-                var dataNextBlock = {
-                    id: nextBlockObj.id,
-                    pageId: nextBlockObj.pageId,
-                    orderBlock: nextBlockObj.orderBlock,
-                };
-                updateBlock(JSON.stringify(dataNextBlock)).then(function() {
-                    location.reload();
-                });
+        updateBlock(JSON.stringify(dataBlockToMove)).then(function() {
+            var dataNextBlock = {
+                id: nextBlockObj.id,
+                pageId: nextBlockObj.pageId,
+                orderBlock: nextBlockObj.orderBlock
+            };
+            updateBlock(JSON.stringify(dataNextBlock)).then(function() {
+                location.reload();
             });
+        });
     }
 }
 
 /**
- * 
- * @param {Object event} event 
- * @param {*} blocks 
+ *
+ * @param {Object event} event
+ * @param {*} blocks
  */
 function moveBlockUp(event, blocks) {
     //En cliquant sur la fleche on cherche la div complète du block (la div block unit) ici celle qui est déplacée
@@ -323,17 +344,16 @@ function moveBlockUp(event, blocks) {
             pageId: blockToMoveObj.pageId,
             orderBlock: blockToMoveObj.orderBlock
         };
-        updateBlock(JSON.stringify(dataUpdateBlock))
-            .then(function() {
-                var dataAntecBlock = {
-                    id: antecBlockObj.id,
-                    pageId: antecBlockObj.pageId,
-                    orderBlock: antecBlockObj.orderBlock
-                };
-                updateBlock(JSON.stringify(dataAntecBlock)).then(function() {
-                    location.reload();
-                });
+        updateBlock(JSON.stringify(dataUpdateBlock)).then(function() {
+            var dataAntecBlock = {
+                id: antecBlockObj.id,
+                pageId: antecBlockObj.pageId,
+                orderBlock: antecBlockObj.orderBlock
+            };
+            updateBlock(JSON.stringify(dataAntecBlock)).then(function() {
+                location.reload();
             });
+        });
     }
 }
 
@@ -352,9 +372,9 @@ function getBlocksOrder(blocks) {
 }
 
 /**
- * 
- * @param {*} id 
- * @param {*} blocks 
+ *
+ * @param {*} id
+ * @param {*} blocks
  */
 function findBlockById(id, blocks) {
     var blockToFind = null;
@@ -367,8 +387,8 @@ function findBlockById(id, blocks) {
 }
 
 /**
- * 
- * @param {*} id 
+ *
+ * @param {*} id
  */
 function publishPage(id) {
     return new Promise(function(resolve, reject) {
@@ -382,7 +402,7 @@ function publishPage(id) {
         };
         var data = {
             pageId: id
-        }
+        };
         xhr.open("POST", "/page/publishPage/");
         xhr.setRequestHeader("Content-type", "application/json");
         xhr.send(JSON.stringify(data));
@@ -390,8 +410,8 @@ function publishPage(id) {
 }
 
 /**
- * 
- * @param {*} id 
+ *
+ * @param {*} id
  */
 function depublishPage(id) {
     return new Promise(function(resolve, reject) {
@@ -405,7 +425,7 @@ function depublishPage(id) {
         };
         var data = {
             pageId: id
-        }
+        };
         xhr.open("POST", "/page/depublishPage/");
         xhr.setRequestHeader("Content-type", "application/json");
         xhr.send(JSON.stringify(data));
@@ -457,7 +477,7 @@ function saveDescription(id, description) {
         xhr.onreadystatechange = function() {
             if (this.readyState === XMLHttpRequest.DONE && this.status === 200) {
                 resolve();
-            } else if(this.status === 400) {
+            } else if (this.status === 400) {
                 reject(JSON.parse(xhr.response).message);
             }
         };
@@ -484,7 +504,7 @@ function getAllKeywords() {
 }
 
 /**
- * 
+ *
  * @param {JSON} data JSON des mot-clés à sauvegarder
  */
 function saveKeywords(data) {
@@ -493,7 +513,7 @@ function saveKeywords(data) {
         xhr.onreadystatechange = function() {
             if (this.readyState === XMLHttpRequest.DONE && this.status === 200) {
                 resolve();
-            } else if(this.status === 400) {
+            } else if (this.status === 400) {
                 reject(JSON.parse(xhr.response).message);
             }
         };
@@ -513,7 +533,7 @@ function saveNameCompletion(data) {
         xhr.onreadystatechange = function() {
             if (this.readyState === XMLHttpRequest.DONE && this.status === 200) {
                 resolve();
-            } else if(this.status === 400) {
+            } else if (this.status === 400) {
                 reject(JSON.parse(xhr.response).message);
             }
         };
@@ -525,12 +545,14 @@ function saveNameCompletion(data) {
 
 function escapeHtml(text) {
     var map = {
-      '&': '&amp;',
-      '<': '&lt;',
-      '>': '&gt;',
-      '"': '&quot;',
-      "'": '&#039;'
+        "&": "&amp;",
+        "<": "&lt;",
+        ">": "&gt;",
+        '"': "&quot;",
+        "'": "&#039;"
     };
-  
-    return text.replace(/[&<>"']/g, function(m) { return map[m]; });
-  }
+
+    return text.replace(/[&<>"']/g, function(m) {
+        return map[m];
+    });
+}
