@@ -10,15 +10,15 @@ $(document).ready(function() {
         resizeDuration: 200,
         wrapAround: true
     });
-    $("select").imagepicker();
+    $("select").not(".pdfFilesSel").imagepicker();
 
     // Call the carousel's init function when the button is triggered
     $("#sliderOption").on("click", function() {
         closeNav();
         interfaceBlock.scrollIntoView({behavior: "smooth"});
         $("#uploadImageModal").modal("show");
-        $("select").attr("multiple", "multiple");
-        $("select").imagepicker();
+        $("select").not(".pdfFilesSel").attr("multiple", "multiple");
+        $("select").not(".pdfFilesSel").imagepicker();
         $("#selectImg").off();
         $("#selectImg").on("click", function() {
             var imgSrc = [];
@@ -68,8 +68,8 @@ $(document).ready(function() {
 
     // Automatically select images in the upload image modal
     function multipleSelect(button) {
-        $("select").attr("multiple", "multiple");
-        $("select").imagepicker();
+        $("select").not(".pdfFilesSel").attr("multiple", "multiple");
+        $("select").not(".pdfFilesSel").imagepicker();
         $(".image_picker_selector .image_picker_image").each(function(index, option) {
             $(button)
                 .parent()
@@ -187,7 +187,7 @@ Dropzone.options.myDropzone = {
             option.setAttribute("data-img-src", img.src);
             option.setAttribute("value", response.target_file);
             document.querySelector(".image-picker").appendChild(option);
-            $("select").imagepicker();
+            $("select").not(".pdfFilesSel").imagepicker();
         });
     }
 };
@@ -213,8 +213,8 @@ $("#galleryOption").on("click", function() {
     closeNav();
     interfaceBlock.scrollIntoView({behavior: "smooth"});
     $("#uploadImageModal").modal("show");
-    $("select").attr("multiple", "multiple");
-    $("select").imagepicker();
+    $("select").not(".pdfFilesSel").attr("multiple", "multiple");
+    $("select").not(".pdfFilesSel").imagepicker();
     $("#selectImg").off();
     $("#selectImg").on("click", function() {
         var imgSrc = [];

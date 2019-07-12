@@ -238,6 +238,22 @@ class BlockController
         }
     }
 
+    public function uploadFile()
+    {
+        $storeFolder = $_SERVER["DOCUMENT_ROOT"] . "/blocEditor/asset/files/";
+        if (!empty($_FILES)) {
+            try {
+                $tempFile = $_FILES['file']['tmp_name'];
+                $targetFile =  $storeFolder . $_FILES['file']['name'];
+                move_uploaded_file($tempFile, $targetFile);
+                header('Content-type: application/json');
+                echo json_encode(['target_file' => $_FILES['file']['name']]);
+            } catch (Exception $e) {
+                echo json_encode(array("message" => $e));
+            }
+        }
+    }
+
     public function removeImage()
     {
         $this->setHeader();
