@@ -85,7 +85,7 @@
               <?php
               if ($blocks != NULL) {
                 foreach ($blocks as $block) {
-                  if ($block->idParent === null || $block->idParent === "0" || $block->idBlockType !== '8') {
+                  if (($block->idParent === null || $block->idParent === "0") && $block->idBlockType !== '8') {
                     if ($block->idBlockType === '5' || $block->idBlockType === '4') {
                       echo '<div id="' . $block->id . '" class="block-unit">';
                       echo str_replace(array('{$block->content}', '{$block->style}'), array($block->content, $block->styleBlock), $categHTML[$block->idBlockType]);

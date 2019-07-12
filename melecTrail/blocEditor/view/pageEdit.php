@@ -85,7 +85,7 @@
             <?php
             if ($blocks != NULL) {
                 foreach ($blocks as $block) {
-                    if ($block->idParent === null || $block->idParent === "0" || $block->idBlockType !== '8') {
+                    if (($block->idParent === null || $block->idParent === "0" )&& $block->idBlockType !== '8') {
                         if ($block->idBlockType === '5' || $block->idBlockType === '4') {
                             echo '<div id="' . $block->id . '" class="block-unit">';
                             echo '<button class="btn-xs btn btn-danger deleteBlock float-right"><i class="float-right fas fa-times"></i></button><div><i id="orderUp' . $block->id . '" i class="fas fa-arrow-up"></i>   <i id="orderDown' . $block->id . '" class="fas fa-arrow-down"></i></div>';

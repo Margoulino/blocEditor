@@ -76,9 +76,9 @@ class BlockModel
      */
     public static function save(\BlockModel $block)
     {
-        if (isset($block->id)) {
-            return update($block);
-        }
+        // if (isset($block->id)) {
+        //     return update($block);
+        // }
         $dbConn = DBModel::getConnection();
         $stmt = $dbConn->prepare('
             INSERT INTO edit_block 

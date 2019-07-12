@@ -26,6 +26,18 @@ class PageController
         header("Access-Control-Allow-Headers: Content-Type, Access-Control-Allow-Headers, Authorization, X-Requested-With");
     }
 
+    /** 
+     * Validate Json Web Token function :
+     * Checks if the given JWT is valid and decodes it 
+     * 
+     */
+    function validateJWT($jwt)
+    {
+        if ($decoded = JWT::decode($jwt, "63-trUY^f4ER", array('HS256'))) {
+            return $decoded->data->username;
+        } else return null;
+    }
+
     function sortViews()
     {
         $categories = CategoryModel::findAll();
@@ -45,6 +57,14 @@ class PageController
 
     function index()
     {
+        // $data = json_decode(file_get_contents("php://input"));
+        // try {
+        //     $username = $this->validateJWT($data->jwt);
+        // } catch (Exception $e) {
+        //     http_response_code(403);
+        //     echo json_encode(array("message" => "bad credentials"));
+        //     return;
+        // }
         $pages = null;
         try {
             $pages = PageModel::findAll();
@@ -71,6 +91,20 @@ class PageController
                     $pageCat->idCategory = CategoryModel::findByname($data->category)[0]->id;
                     if (PageCategoryModel::save($pageCat)) {
                         NavController::updateSitemap();
+                        $data = array();
+                        $data['id']= '1';
+                        $data['name']= $newpage->name.'_1';
+                        $data['content']= '/';
+                        $data['pageId'] = PageModel::findByName($newpage->name)[0]->id;
+                        $data['orderBlock'] = null;
+                        $data['idBlockType'] = '8';
+                        $data['styleBlock'] =null;
+                        $data['idParent'] = null;
+                        $data['idColumn'] = null ;
+                        $data['dateCreation'] = null;
+
+                        $banner = new BlockModel($data);
+                        BlockModel::save($banner);
                         http_response_code(200);
                         echo json_encode(array("message" => "new page saved"));
                     } else {
