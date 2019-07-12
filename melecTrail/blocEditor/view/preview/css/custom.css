@@ -555,3 +555,25 @@ figure {
 .block-unit-complex .row:last-of-type{
     justify-content: center;
 }
+
+.thumbnail img {
+  height: 100%;
+  width: 100%;
+}
+
+.image_picker_selector {
+  display: flex;
+  height: 400px;
+  flex-wrap: wrap;
+  align-content: flex-start;
+  justify-content: space-between;
+  overflow-y: scroll;
+  align-items: flex-start;
+}
+
+.thumbnail {
+  flex-grow: 1;
+  flex-basis: 125px;
+  max-width: 300px;
+  margin: 5px;
+}

@@ -8,13 +8,14 @@
   <meta name="description" content="<?php echo $page[0]->description;?>">
   <meta name="keywords" content="<?php
     $keywords = json_decode($page[0]->keywords);
-    foreach($keywords as $key=>$keyword) {
+    if($keywords !== null)
+    {foreach($keywords as $key=>$keyword) {
       if($key !== (count($keywords)-1)) {
         echo $keyword.', ';
       } else {
         echo $keyword;
       }
-    }
+    }}
   ?>">
   <title><?php echo $page[0]->name; ?></title>
 
@@ -24,11 +25,14 @@
   <link rel="stylesheet" href="/blocEditor/view/preview/font-awesome-4.7.0/css/font-awesome.min.css"> <!-- Font Awesome -->
   <link rel="stylesheet" href="/blocEditor/view/preview/css/bootstrap.min.css"> <!-- Bootstrap style -->
   <link rel="stylesheet" type="text/css" href="/blocEditor/view/preview/css/datepicker.css">
+  <link rel="stylesheet" href="/blocEditor/style/dependances/jquery-ui.css">
   <link rel="stylesheet" href="/blocEditor/style/dependances/owl.carousel.min.css">
   <link rel="stylesheet" href="/blocEditor/style/dependances/owl.theme.default.min.css">
   <link rel="stylesheet" href="/blocEditor/view/preview/css/templatemo-style.css">
   <link rel="stylesheet" href="/blocEditor/style/dependances/lightbox.min.css">
   <link rel="stylesheet" href="/blocEditor/style/dependances/ekko-lightbox.css">
+  <link rel="stylesheet" href="/blocEditor/style/dependances/dropzone.css" />
+    <link rel="stylesheet" href="/blocEditor/style/dependances/image-picker.css" />
   <link rel="stylesheet" href="/blocEditor/view/preview/css/custom.css"> <!-- Templatemo style -->
 
   <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
@@ -59,16 +63,14 @@
     </div>
     <div class="tm-page-wrap mx-auto">
       <section class="tm-banner">
-        <div class="tm-container-outer innerPage-banner-bg" style="background: url(trail-plumelec/home.jpg) center center no-repeat;">
+        <div class="tm-container-outer innerPage-banner-bg"  <?php echo 'id="' . $bannerBg->id . '" style="background: url('.$bannerBg->content.') center center no-repeat;" ';?>>
           <div class="container">
 
             <div class="row tm-banner-row tm-banner-row-header">
             </div> <!-- row -->
             <div class="row tm-banner-row" id="tm-section-search">
-
-
             </div> <!-- row -->
-            <div class="tm-banner-overlay"></div>
+            <div class="tm-banner-overlay"><button class="btn-xs btn btn-info editBannerBg float-right"><i class="fas fa-edit"></i></button></div>
           </div> <!-- .container -->
         </div> <!-- .tm-container-outer -->
       </section>
@@ -83,7 +85,7 @@
               <?php
               if ($blocks != NULL) {
                 foreach ($blocks as $block) {
-                  if ($block->idParent === null || $block->idParent === "0") {
+                  if ($block->idParent === null || $block->idParent === "0" || $block->idBlockType !== '8') {
                     if ($block->idBlockType === '5' || $block->idBlockType === '4') {
                       echo '<div id="' . $block->id . '" class="block-unit">';
                       echo str_replace(array('{$block->content}', '{$block->style}'), array($block->content, $block->styleBlock), $categHTML[$block->idBlockType]);
@@ -149,14 +151,48 @@
         </p>
         <p class="mb-0 col-6">Copyright © <span class="tm-current-year"></span> Courir à Plumelec</p>
       </footer>
-
+      <div id="uploadImageModal" class="modal fade">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Ajouter une image</h5>
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                </div>
+                <div class="modal-body">
+                    <div class="row">
+                        <form id="myDropzone" action="/block/uploadImage" enctype="multipart/form-data" class="dropzone col-md-6" method="post"></form>
+                        <div class="col-md-6">
+                            <select class="image-picker">
+                                <?php
+                                foreach (scandir('./blocEditor/asset/img') as $file) {
+                                    if ($file != "." && $file != "..") {
+                                        echo '<option data-img-src="/blocEditor/asset/img/' . $file . '" value="' . $file . '"></option>';
+                                    }
+                                }
+                                ?>
+                            </select>
+                        </div>
+                    </div>
+                    <br />
+                    <div class="row">
+                        <div class="col">
+                            <button id="dropzoneSubmit" class="btn btn-primary">Enregistrer</button>
+                        </div>
+                        <div class="col align-self-end">
+                            <button id="selectImg" class="btn btn-info">Sélectionner</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
     </div> <!-- .main-content -->
   </div>
   <script>
     var pageId = <?php echo $page[0]->id; ?> ;
   </script>
   <!-- load JS files -->
-  <script src="/blocEditor/view/preview/js/jquery-1.11.3.min.js"></script> <!-- jQuery (https://jquery.com/download/) -->
+  <script src="/blocEditor/js/dependances/jquery-3.4.1.min.js"></script> <!-- jQuery (https://jquery.com/download/) -->
   <script src="/blocEditor/view/preview/js/popper.min.js"></script> <!-- https://popper.js.org/ -->
   <script src="/blocEditor/view/preview/js/bootstrap.min.js"></script> <!-- https://getbootstrap.com/ -->
   <script src="/blocEditor/view/preview/js/datepicker.min.js"></script> <!-- https://github.com/qodesmith/datepicker -->
@@ -219,8 +255,16 @@
       echo "$('.dropdown-item').removeAttr('href')";
     } ?>
   </script>
+  <script src="/blocEditor/js/dependances/dropzone.js"></script>
+  <script src="/blocEditor/js/dependances/image-picker.js"></script>
+  <script src="/blocEditor/js/dependances/lightbox.min.js"></script>
+  <script src="/blocEditor/js/dependances/interact.min.js"></script>
+  <script src="/blocEditor/js/dependances/jquery-ui.js"></script>
   <script src="/blocEditor/js/previewUI.js"></script>
   <script src="/blocEditor/js/blockInit.js"></script>
+  <script src="/blocEditor/js/pageEditUI.js"></script>
+  <script src="/blocEditor/js/pageEditNew.js"></script>
+
 
 </body>
 
