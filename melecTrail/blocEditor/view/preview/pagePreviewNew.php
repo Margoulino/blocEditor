@@ -70,7 +70,9 @@
             </div> <!-- row -->
             <div class="row tm-banner-row" id="tm-section-search">
             </div> <!-- row -->
-            <div class="tm-banner-overlay"><button class="btn-xs btn btn-info editBannerBg float-right"><i class="fas fa-edit"></i></button></div>
+            <div class="tm-banner-overlay">
+            <?php if($nav===null){ echo'<button class="btn-xs btn btn-info editBannerBg float-right"><i class="fas fa-edit"></i></button>';}
+            ?></div>
           </div> <!-- .container -->
         </div> <!-- .tm-container-outer -->
       </section>
