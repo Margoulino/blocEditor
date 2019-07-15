@@ -94,7 +94,7 @@ class PageController
                         $data = array();
                         $data['id']= '1';
                         $data['name']= $newpage->name.'_1';
-                        $data['content']= '/';
+                        $data['content']= '';
                         $data['pageId'] = PageModel::findByName($newpage->name)[0]->id;
                         $data['orderBlock'] = null;
                         $data['idBlockType'] = '8';
