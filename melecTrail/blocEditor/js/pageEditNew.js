@@ -242,6 +242,7 @@ function htmlEditorInit(targetElement, previousContent) {
                 if (previousContent !== undefined && previousContent !== "") {
                     editor.setData(previousContent.trim());
                 }
+                //Ajout du bouton de la modal "ajouter un fichier pdf"
                 var rowPdf = document.createElement("div");
                 rowPdf.setAttribute("class", "row");
                 var colPdf = document.createElement("div");
@@ -249,6 +250,8 @@ function htmlEditorInit(targetElement, previousContent) {
                 colPdf.innerHTML = '<button id="pdf' + blockId + '" class="btn btn-secondary"><i class="fas fa-file"></i></button>';
                 rowPdf.appendChild(colPdf);
                 targetElement.insertBefore(rowPdf, targetElement.childNodes[targetElement.childElementCount-1]);
+                //------
+                
                 var btnPdf = document.getElementById("pdf"+blockId);
                 btnPdf.addEventListener("click", function() {
                     var btnPdfSelect = document.getElementById("pdfSelect");
