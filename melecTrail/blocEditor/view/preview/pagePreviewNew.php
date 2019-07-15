@@ -56,7 +56,7 @@
               <img src="/blocEditor/view/preview/trail-plumelec/lemelectrail.png" style="width:60%;" alt="LE MELEC TRAIL">
               <!-- Le Melec Trail -->
             </a>
-            <?php echo utf8_encode($header); ?>
+            <?php echo $header; ?>
             <!-- row -->
         </div> <!-- container -->
       </div> <!-- .tm-top-bar -->
@@ -206,7 +206,8 @@
     /* DOM is ready
         ------------------------------------------------*/
     $(function() {
-
+      var bhf=$('#backEdit').attr('href');
+      $('#backEdit').attr('href', bhf + '?jwt=' + getCookie('jwt'))
       // Change top navbar on scroll
       $(window).on("scroll", function() {
         if ($(window).scrollTop() > 100) {
