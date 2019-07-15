@@ -15,6 +15,7 @@ class DBModel
             'root',
             ''
         );
+        $connection->exec("SET NAMES 'UTF8'");
         $connection->setAttribute(
             PDO::ATTR_ERRMODE,
             PDO::ERRMODE_EXCEPTION
