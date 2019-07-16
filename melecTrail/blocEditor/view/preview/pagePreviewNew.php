@@ -91,6 +91,9 @@
                     if ($block->idBlockType === '5' || $block->idBlockType === '4') {
                       echo '<div id="' . $block->id . '" class="block-unit">';
                       echo str_replace(array('{$block->content}', '{$block->style}'), array($block->content, $block->styleBlock), $categHTML[$block->idBlockType]);
+                    } else if($block->idBlockType === '9') {
+                      echo '<div id="' . $block->id . '" class="block-unit" style="height:992px;">';
+                      echo str_replace(array('{$block->content}', '{$block->style}'), array($block->content, $block->styleBlock), $categHTML[$block->idBlockType]);
                     } else {
                       echo '<div id="' . $block->id . '" class="block-unit-complex">';
                       echo $block->content;
@@ -263,8 +266,8 @@
   <script src="/blocEditor/js/dependances/lightbox.min.js"></script>
   <script src="/blocEditor/js/dependances/interact.min.js"></script>
   <script src="/blocEditor/js/dependances/jquery-ui.js"></script>
-  <script src="/blocEditor/js/previewUI.js"></script>
   <script src="/blocEditor/js/blockInit.js"></script>
+  <script src="/blocEditor/js/previewUI.js"></script>
   <script src="/blocEditor/js/pageEditUI.js"></script>
   <script src="/blocEditor/js/pageEditNew.js"></script>
 

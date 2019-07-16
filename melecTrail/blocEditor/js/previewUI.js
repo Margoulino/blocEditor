@@ -1,4 +1,4 @@
-document.addEventListener("DOMContentLoaded", function() {
+$(document).ready(function () {
     //Suppression des boutons ajoutés via le js dans les blocks, au chargement de la page
     var blocks = document.querySelectorAll(".block-unit, .block-unit-complex");
     blocks.forEach(block => {
