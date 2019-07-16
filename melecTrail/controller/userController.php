@@ -70,7 +70,7 @@ class UserController
         if ($user = UserModel::findByUsername($data->username)) {
             if (password_verify($data->password, $user->password)) {
                 $token = array(
-                    "exp" => time() + 5000,
+                    "exp" => time() + 7000,
                     "data" => array(
                         "username" => $user->username,
                         "email" => $user->username
