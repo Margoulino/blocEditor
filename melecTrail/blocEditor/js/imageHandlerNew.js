@@ -30,7 +30,8 @@ $(document).ready(function() {
                 content: imgSrc.join(" ; "),
                 orderBlock: idNewBlock,
                 pageId: pageId,
-                idBlockType: "3"
+                idBlockType: "3",
+                jwt: getCookie('jwt')
             });
             saveBlock(data).then(function() {
                 location.reload();
@@ -60,7 +61,9 @@ $(document).ready(function() {
                     .closest(".block-unit-complex")
                     .attr("id"),
                 content: imgSrc.join(" ; "),
-                pageId: pageId
+                pageId: pageId,
+                jwt: getCookie('jwt')
+    
             });
             updateBlock(data);
         });
@@ -107,7 +110,8 @@ $(document).ready(function() {
                     .closest(".block-unit")
                     .attr("id"),
                 pageId: pageId,
-                style: style
+                style: style,
+                jwt: getCookie('jwt')
             });
             $(button).show();
             updateBlock(data);
@@ -124,7 +128,8 @@ $(document).ready(function() {
         delBtn.addEventListener("click", function() {
             if (confirm("Êtes-vous sûr de vouloir supprimer cette image ?")) {
                 var data = {
-                    path: delBtn.previousElementSibling.getAttribute("src")
+                    path: delBtn.previousElementSibling.getAttribute("src"),
+                    jwt: getCookie('jwt')
                 };
                 deleteImg(JSON.stringify(data)).then(function() {
                     location.reload();
@@ -139,6 +144,7 @@ $(document).ready(function() {
     var myDropzone = new Dropzone("#myDropzone", {
         url: "/block/uploadImage",
         paramName: "file",
+        params: { jwt: getCookie('jwt')},
         autoProcessQueue: false,
         uploadMultiple: false,
         parallelUploads: 100,
@@ -199,7 +205,8 @@ $("#selectImg").on("click", function() {
         orderBlock: idNewBlock,
         pageId: pageId,
         idBlockType: "4",
-        content: $(".image_picker_selector .selected img").attr("src")
+        content: $(".image_picker_selector .selected img").attr("src"),
+        jwt: getCookie('jwt')
     });
     console.log(data);
     saveBlock(data).then(function() {
@@ -226,7 +233,8 @@ $("#galleryOption").on("click", function() {
             content: imgSrc.join(" ; "),
             orderBlock: idNewBlock,
             pageId: pageId,
-            idBlockType: "6"
+            idBlockType: "6",
+            jwt : getCookie('jwt')
         });
         saveBlock(data).then(function() {
             location.reload();

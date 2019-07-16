@@ -230,7 +230,6 @@ class BlockController
                 $tempFile = $_FILES['file']['tmp_name'];
                 $targetFile =  $storeFolder . $_FILES['file']['name'];
                 move_uploaded_file($tempFile, $targetFile);
-
                 header('Content-type: application/json');
                 echo json_encode(['target_file' => $_FILES['file']['name']]);
             } catch (Exception $e) {

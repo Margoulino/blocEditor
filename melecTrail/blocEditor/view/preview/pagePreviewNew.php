@@ -5,18 +5,19 @@
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="description" content="<?php echo $page[0]->description;?>">
+  <meta name="description" content="<?php echo $page[0]->description; ?>">
   <meta name="keywords" content="<?php
-    $keywords = json_decode($page[0]->keywords);
-    if($keywords !== null)
-    {foreach($keywords as $key=>$keyword) {
-      if($key !== (count($keywords)-1)) {
-        echo $keyword.', ';
-      } else {
-        echo $keyword;
-      }
-    }}
-  ?>">
+                                  $keywords = json_decode($page[0]->keywords);
+                                  if ($keywords !== null) {
+                                    foreach ($keywords as $key => $keyword) {
+                                      if ($key !== (count($keywords) - 1)) {
+                                        echo $keyword . ', ';
+                                      } else {
+                                        echo $keyword;
+                                      }
+                                    }
+                                  }
+                                  ?>">
   <title><?php echo $page[0]->name; ?></title>
 
   <!-- load stylesheets -->
@@ -32,7 +33,7 @@
   <link rel="stylesheet" href="/blocEditor/style/dependances/lightbox.min.css">
   <link rel="stylesheet" href="/blocEditor/style/dependances/ekko-lightbox.css">
   <link rel="stylesheet" href="/blocEditor/style/dependances/dropzone.css" />
-    <link rel="stylesheet" href="/blocEditor/style/dependances/image-picker.css" />
+  <link rel="stylesheet" href="/blocEditor/style/dependances/image-picker.css" />
   <link rel="stylesheet" href="/blocEditor/view/preview/css/custom.css"> <!-- Templatemo style -->
 
   <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
@@ -63,7 +64,7 @@
     </div>
     <div class="tm-page-wrap mx-auto">
       <section class="tm-banner">
-        <div class="tm-container-outer innerPage-banner-bg"  <?php echo 'id="' . $bannerBg->id . '" style="background: url('.$bannerBg->content.') center center no-repeat;" ';?>>
+        <div class="tm-container-outer innerPage-banner-bg" <?php echo 'id="' . $bannerBg->id . '" style="background: url(' . $bannerBg->content . ') center center no-repeat;" '; ?>>
           <div class="container">
 
             <div class="row tm-banner-row tm-banner-row-header">
@@ -71,8 +72,10 @@
             <div class="row tm-banner-row" id="tm-section-search">
             </div> <!-- row -->
             <div class="tm-banner-overlay">
-            <?php if($nav===null){ echo'<button class="btn-xs btn btn-info editBannerBg float-right"><i class="fas fa-edit"></i></button>';}
-            ?></div>
+              <?php if ($nav === null) {
+                echo '<button class="btn-xs btn btn-info editBannerBg float-right"><i class="fas fa-edit"></i></button>';
+              }
+              ?></div>
           </div> <!-- .container -->
         </div> <!-- .tm-container-outer -->
       </section>
@@ -158,43 +161,43 @@
       </footer>
       <div id="uploadImageModal" class="modal fade">
         <div class="modal-dialog modal-lg">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title">Ajouter une image</h5>
-                    <button type="button" class="close" data-dismiss="modal">&times;</button>
-                </div>
-                <div class="modal-body">
-                    <div class="row">
-                        <form id="myDropzone" action="/block/uploadImage" enctype="multipart/form-data" class="dropzone col-md-6" method="post"></form>
-                        <div class="col-md-6">
-                            <select class="image-picker">
-                                <?php
-                                foreach (scandir('./blocEditor/asset/img') as $file) {
-                                    if ($file != "." && $file != "..") {
-                                        echo '<option data-img-src="/blocEditor/asset/img/' . $file . '" value="' . $file . '"></option>';
-                                    }
-                                }
-                                ?>
-                            </select>
-                        </div>
-                    </div>
-                    <br />
-                    <div class="row">
-                        <div class="col">
-                            <button id="dropzoneSubmit" class="btn btn-primary">Enregistrer</button>
-                        </div>
-                        <div class="col align-self-end">
-                            <button id="selectImg" class="btn btn-info">Sélectionner</button>
-                        </div>
-                    </div>
-                </div>
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title">Ajouter une image</h5>
+              <button type="button" class="close" data-dismiss="modal">&times;</button>
             </div>
+            <div class="modal-body">
+              <div class="row">
+                <form id="myDropzone" action="/block/uploadImage" enctype="multipart/form-data" class="dropzone col-md-6" method="post"></form>
+                <div class="col-md-6">
+                  <select class="image-picker">
+                    <?php
+                    foreach (scandir('./blocEditor/asset/img') as $file) {
+                      if ($file != "." && $file != "..") {
+                        echo '<option data-img-src="/blocEditor/asset/img/' . $file . '" value="' . $file . '"></option>';
+                      }
+                    }
+                    ?>
+                  </select>
+                </div>
+              </div>
+              <br />
+              <div class="row">
+                <div class="col">
+                  <button id="dropzoneSubmit" class="btn btn-primary">Enregistrer</button>
+                </div>
+                <div class="col align-self-end">
+                  <button id="selectImg" class="btn btn-info">Sélectionner</button>
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
-    </div>
+      </div>
     </div> <!-- .main-content -->
   </div>
   <script>
-    var pageId = <?php echo $page[0]->id; ?> ;
+    var pageId = <?php echo $page[0]->id; ?>;
   </script>
   <!-- load JS files -->
   <script src="/blocEditor/js/dependances/jquery-3.4.1.min.js"></script> <!-- jQuery (https://jquery.com/download/) -->
@@ -204,12 +207,13 @@
   <script src="/blocEditor/view/preview/js/jquery.singlePageNav.min.js"></script> <!-- Single Page Nav (https://github.com/ChrisWojcik/single-page-nav) -->
   <script src="/blocEditor/js/dependances/owl.carousel.js"></script>
   <script src="/blocEditor/js/dependances/ekko-lightbox.min.js"></script>
+  <script src="/blocEditor/js/blockInit.js"></script>
   <script src="/blocEditor/js/dependances/lightbox.min.js"></script>
   <script>
     /* DOM is ready
         ------------------------------------------------*/
     $(function() {
-      var bhf=$('#backEdit').attr('href');
+      var bhf = $('#backEdit').attr('href');
       $('#backEdit').attr('href', bhf + '?jwt=' + getCookie('jwt'))
       // Change top navbar on scroll
       $(window).on("scroll", function() {
@@ -255,7 +259,7 @@
 
       $('.tm-current-year').text(new Date().getFullYear()); // Update year in copyright
 
-    }); 
+    });
     <?php
     if ($nav === null) {
       echo "$('.dropdown-item').removeAttr('href')";
@@ -270,7 +274,6 @@
   <script src="/blocEditor/js/previewUI.js"></script>
   <script src="/blocEditor/js/pageEditUI.js"></script>
   <script src="/blocEditor/js/pageEditNew.js"></script>
-
 
 </body>
 

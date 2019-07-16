@@ -2,6 +2,7 @@ $(document).ready(function() {
     var pdfDropzone = new Dropzone("#pdfDropZone", {
         url: "/block/uploadFile",
         paramName: "file",
+        params: { jwt: getCookie('jwt')},
         autoProcessQueue: false,
         uploadMultiple: false,
         parallelUploads: 100,

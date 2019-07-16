@@ -118,7 +118,8 @@ function editImgBlock(targetElement, operation, previousContent) {
                     orderBlock: idNewBlock,
                     idBlockType: 2,
                     nombreCol: 1,
-                    innerBlocks: ""
+                    innerBlocks: "",
+                    jwt: getCookie('jwt')
                 })
             );
         } else if (operation === "update") {
@@ -140,7 +141,8 @@ function editImgBlock(targetElement, operation, previousContent) {
                             orderBlock: block.orderBlock,
                             idBlockType: block.idBlockType,
                             nombreCol: block.nombreCol,
-                            innerBlocks: block.innerBlocks
+                            innerBlocks: block.innerBlocks,
+                            jwt: getCookie("jwt")
                         })
                     );
                 }

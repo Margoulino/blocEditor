@@ -1,3 +1,19 @@
+function getCookie(cname) {
+    var name = cname + "=";
+    var decodedCookie = decodeURIComponent(document.cookie);
+    var ca = decodedCookie.split(';');
+    for (var i = 0; i < ca.length; i++) {
+        var c = ca[i];
+        while (c.charAt(0) == ' ') {
+            c = c.substring(1);
+        }
+        if (c.indexOf(name) == 0) {
+            return c.substring(name.length, c.length);
+        }
+    }
+    return "";
+}
+
 //------SAVE BLOCKS------
 
 /**
@@ -17,6 +33,7 @@ function saveBlock(data) {
                 reject(JSON.parse(xhr.response).message);
             }
         };
+        data.jwt = getCookie('jwt');
         xhr.open("POST", "/block/addBlockToPage", true);
         xhr.setRequestHeader("Content-type", "application/json");
         xhr.send(data);
@@ -37,6 +54,7 @@ function saveBlockIntoBlock(data) {
                 reject(JSON.parse(xhr.status).message);
             }
         };
+        data.jwt = getCookie('jwt');
         xhr.open("POST", "/block/addBlockToBlock", true);
         xhr.setRequestHeader("Content-type", "application/json");
         xhr.send(data);
@@ -61,7 +79,8 @@ function deleteBlock(blockId) {
         xhr.setRequestHeader("Content-type", "application/json");
         xhr.send(
             JSON.stringify({
-                id: blockId
+                id: blockId,
+                jwt: getCookie('jwt')
             })
         );
     });
@@ -86,7 +105,8 @@ function loadTemplateData(blockTypeId, callbackFunc, templates) {
     xhr.setRequestHeader("Content-type", "application/json");
     xhr.send(
         JSON.stringify({
-            id: blockTypeId
+            id: blockTypeId,
+            jwt: getCookie('jwt')
         })
     );
 }
@@ -138,6 +158,7 @@ function deleteCategory(data) {
                 reject(JSON.parse(xhr.response).message);
             }
         };
+        data.jwt = getCookie('jwt');
         xhr.open("POST", "/page/removeCategory");
         xhr.setRequestHeader("Content-type", "application/json");
         xhr.send(data);
@@ -158,6 +179,7 @@ function addCategory(data) {
                 reject(JSON.parse(xhr.response).message);
             }
         };
+        data.jwt = getCookie('jwt');
         xhr.open("POST", "/page/addCategory");
         xhr.setRequestHeader("Content-type", "application/json");
         xhr.send(data);
@@ -178,6 +200,7 @@ function createNewCategory(data) {
                 reject(JSON.parse(xhr.response).message);
             }
         };
+        data.jwt = getCookie('jwt');
         xhr.open("POST", "/category/addCategory");
         xhr.setRequestHeader("Content-type", "application/json");
         xhr.send(data);
@@ -198,6 +221,7 @@ function findCategoryByName(data) {
                 reject();
             }
         };
+        data.jwt = getCookie('jwt');
         xhr.open("POST", "/category/findByname");
         xhr.setRequestHeader("Content-type", "application/json");
         xhr.send(data);
@@ -303,13 +327,15 @@ function moveBlockDown(event, blocks) {
         var dataBlockToMove = {
             id: blockToMoveObj.id,
             pageId: blockToMoveObj.pageId,
-            orderBlock: blockToMoveObj.orderBlock
+            orderBlock: blockToMoveObj.orderBlock,
+            jwt: getCookie('jwt')
         };
         updateBlock(JSON.stringify(dataBlockToMove)).then(function() {
             var dataNextBlock = {
                 id: nextBlockObj.id,
                 pageId: nextBlockObj.pageId,
-                orderBlock: nextBlockObj.orderBlock
+                orderBlock: nextBlockObj.orderBlock,
+                jwt: getCookie('jwt')
             };
             updateBlock(JSON.stringify(dataNextBlock)).then(function() {
                 location.reload();
@@ -345,13 +371,15 @@ function moveBlockUp(event, blocks) {
         var dataUpdateBlock = {
             id: blockToMoveObj.id,
             pageId: blockToMoveObj.pageId,
-            orderBlock: blockToMoveObj.orderBlock
+            orderBlock: blockToMoveObj.orderBlock,
+            jwt: getCookie('jwt')
         };
         updateBlock(JSON.stringify(dataUpdateBlock)).then(function() {
             var dataAntecBlock = {
                 id: antecBlockObj.id,
                 pageId: antecBlockObj.pageId,
-                orderBlock: antecBlockObj.orderBlock
+                orderBlock: antecBlockObj.orderBlock,
+                jwt: getCookie('jwt')
             };
             updateBlock(JSON.stringify(dataAntecBlock)).then(function() {
                 location.reload();
@@ -404,7 +432,8 @@ function publishPage(id) {
             }
         };
         var data = {
-            pageId: id
+            pageId: id,
+            jwt: getCookie('jwt')
         };
         xhr.open("POST", "/page/publishPage/");
         xhr.setRequestHeader("Content-type", "application/json");
@@ -427,7 +456,8 @@ function depublishPage(id) {
             }
         };
         var data = {
-            pageId: id
+            pageId: id,
+            jwt: getCookie('jwt')
         };
         xhr.open("POST", "/page/depublishPage/");
         xhr.setRequestHeader("Content-type", "application/json");
@@ -486,7 +516,8 @@ function saveDescription(id, description) {
         };
         var data = {
             pageId: id,
-            description: escapeHtml(description)
+            description: escapeHtml(description),
+            jwt: getCookie('jwt')
         };
         xhr.open("POST", "/page/changeDescription/");
         xhr.setRequestHeader("Content-type", "application/json");
@@ -520,6 +551,7 @@ function saveKeywords(data) {
                 reject(JSON.parse(xhr.response).message);
             }
         };
+        data.jwt = getCookie('jwt');
         xhr.open("POST", "/page/changeKeywords/");
         xhr.setRequestHeader("Content-type", "application/json");
         xhr.send(JSON.stringify(data));
@@ -540,6 +572,7 @@ function saveNameCompletion(data) {
                 reject(JSON.parse(xhr.response).message);
             }
         };
+        data.jwt = getCookie('jwt');
         xhr.open("POST", "/page/changeNameCompletion/");
         xhr.setRequestHeader("Content-type", "application/json");
         xhr.send(JSON.stringify(data));
@@ -559,3 +592,7 @@ function escapeHtml(text) {
         return map[m];
     });
 }
+$(document).ready(function () {
+    var bhf = $('#pagePreview').attr('href');
+    $('#pagePreview').attr('href', bhf + '?jwt=' + getCookie('jwt'));
+})

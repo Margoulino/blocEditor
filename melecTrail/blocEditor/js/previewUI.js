@@ -1,4 +1,8 @@
+<<<<<<< Updated upstream
 $(document).ready(function () {
+=======
+$(document).ready(function(){
+>>>>>>> Stashed changes
     //Suppression des boutons ajoutés via le js dans les blocks, au chargement de la page
     var blocks = document.querySelectorAll(".block-unit, .block-unit-complex");
     blocks.forEach(block => {
@@ -8,22 +12,6 @@ $(document).ready(function () {
                 child.parentElement.removeChild(child);
             }
         });
-    });
-
-    //Suppression des lignes {col...} qui apparaissent dans les colonnes des blocks colonne
-    var columns = document.querySelectorAll(".row.block");
-    columns.forEach(col => {
-        var colChildren = [].slice.call(col.children);
-        colChildren.forEach(colChild => {
-            if (/^{col/.test(colChild.innerHTML.trim())) {
-                colChild.innerHTML = "";
-            }
-        });
-    });
-    //Suppression des boutons "+" des colonnes vides des blocs colonnes
-    var divBtn = document.querySelectorAll(".text-center");
-    divBtn.forEach(divB => {
-        divB.parentElement.removeChild(divB);
     });
 });
 
@@ -38,7 +26,8 @@ function publishPage(id) {
             }
         };
         var data = {
-            pageId: id
+            pageId: id,
+            jwt: getCookie('jwt')
         }
         xhr.open("POST", "/page/publishPage/");
         xhr.setRequestHeader("Content-type", "application/json");
@@ -57,7 +46,8 @@ function depublishPage(id) {
             }
         };
         var data = {
-            pageId: id
+            pageId: id,
+            jwt: getCookie('jwt')
         }
         xhr.open("POST", "/page/depublishPage/");
         xhr.setRequestHeader("Content-type", "application/json");
@@ -94,6 +84,7 @@ $(document).ready(function() {
     var myDropzone = new Dropzone("#myDropzone", {
         url: "/block/uploadImage",
         paramName: "file",
+        params: {jwt: getCookie('jwt')},
         autoProcessQueue: false,
         uploadMultiple: false,
         parallelUploads: 100,
@@ -155,7 +146,8 @@ $(document).on('click','.editBannerBg', function () {
             id: $(button).closest('.innerPage-banner-bg').attr('id'),
             pageId: pageId,
             idBlockType: "8",
-            content: $(".image_picker_selector .selected img").attr("src")
+            content: $(".image_picker_selector .selected img").attr("src"),
+            jwt : getCookie('jwt')
         });
         console.log(data);
         updateBlock(data).then(function() {

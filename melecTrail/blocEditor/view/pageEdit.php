@@ -172,7 +172,7 @@
         <hr>
         <div class="row">
             <div class="col">
-                <a id="pagePreview" class="btn btn-info" href="/page/previewPage/<?php echo $page[0]->name; ?>">Prévisualiser</a>
+                <a id="pagePreview" class="btn btn-info" href="/page/previewPage/<?php echo $page[0]->name; ?>" >Prévisualiser</a>
                 <?php
                 if ($page[0]->public == 0) {
                     echo '<a id="pagePublish" class="btn btn-success" href="">Publier</a>';

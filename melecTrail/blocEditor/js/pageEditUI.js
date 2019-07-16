@@ -44,7 +44,8 @@ blockTextBtn.addEventListener("click", function() {
                 pageId: pageId,
                 orderBlock: idNewBlock,
                 idBlockType: 5,
-                styleBlock: ""
+                styleBlock: "",
+                jwt : getCookie('jwt')
             };
             saveBlock(JSON.stringify(data)).then(function() {
                 location.reload();
@@ -99,7 +100,8 @@ $(".editBlock").one("click", function(event) {
                 idBlockType: blockToUpdate.idBlockType,
                 idParent: blockToUpdate.idParent,
                 idColumn: blockToUpdate.idColumn,
-                styleBlock: blockToUpdate.styleBlock
+                styleBlock: blockToUpdate.styleBlock,
+                jwt: getCookie('jwt')
             };
             updateBlock(JSON.stringify(data)).then(function() {
                 location.reload();

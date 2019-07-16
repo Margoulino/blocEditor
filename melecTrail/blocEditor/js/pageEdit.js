@@ -29,7 +29,7 @@ function deleteBlock(node) {
         url: "/block/deleteBlock",
         type: "POST",
         contentType: 'application/json',
-        data: JSON.stringify({ "id": $(node).attr('id') }),
+        data: JSON.stringify({ "id": $(node).attr('id') , "jwt": getCookie('jwt')}),
         success: function (result) {
             console.log(result);
             window.location.reload();
@@ -94,7 +94,8 @@ function htmlEditorInit(targetElement, operation, previousContent) {
                     orderBlock: idNewBlock,
                     idBlockType: 1,
                     nombreCol: 1,
-                    innerBlocks: ""
+                    innerBlocks: "",
+                    jwt: getCookie('jwt')
                 })
             );
         } else if (operation === "update") {
@@ -113,7 +114,8 @@ function htmlEditorInit(targetElement, operation, previousContent) {
                             orderBlock: block.orderBlock,
                             idBlockType: block.idBlockType,
                             nombreCol: block.nombreCol,
-                            innerBlocks: block.innerBlocks
+                            innerBlocks: block.innerBlocks,
+                            jwt: getCookie('jwt')
                         })
                     );
                 }
@@ -127,7 +129,7 @@ function htmlEditorInit(targetElement, operation, previousContent) {
                 url: "/block/deleteFromCol",
                 type: "POST",
                 contentType: 'application/json',
-                data: JSON.stringify({ "idParent": $('#' + blockId).parent().parent().parent().attr('id'), "idChild": blockId }),
+                data: JSON.stringify({ "idParent": $('#' + blockId).parent().parent().parent().attr('id'), "idChild": blockId, "jwt": getCookie('jwt') }),
                 success: function (result) {
                     console.log(result);
                 },
@@ -219,7 +221,8 @@ function moveBlockDown(event) {
                         orderBlock: nextBlockPrev.orderBlock,
                         idBlockType: nextBlockPrev.idBlockType,
                         nombreCol: nextBlockPrev.nombreCol,
-                        innerBlocks: nextBlockPrev.innerBlocks
+                        innerBlocks: nextBlockPrev.innerBlocks,
+                        jwt: getCookie('jwt')
                     })
                 );
             }
@@ -235,7 +238,8 @@ function moveBlockDown(event) {
                 orderBlock: blockToMovePrev.orderBlock,
                 idBlockType: blockToMovePrev.idBlockType,
                 nombreCol: blockToMovePrev.nombreCol,
-                innerBlocks: blockToMovePrev.innerBlocks
+                innerBlocks: blockToMovePrev.innerBlocks,
+                jwt: getCookie('jwt')
             })
         );
     }
@@ -292,7 +296,8 @@ function moveBlockUp(event) {
                         orderBlock: antecBlockPrev.orderBlock,
                         idBlockType: antecBlockPrev.idBlockType,
                         nombreCol: antecBlockPrev.nombreCol,
-                        innerBlocks: antecBlockPrev.innerBlocks
+                        innerBlocks: antecBlockPrev.innerBlocks,
+                        jwt: getCookie('jwt')
                     })
                 );
             }
@@ -308,7 +313,8 @@ function moveBlockUp(event) {
                 orderBlock: blockToMovePrev.orderBlock,
                 idBlockType: blockToMovePrev.idBlockType,
                 nombreCol: blockToMovePrev.nombreCol,
-                innerBlocks: blockToMovePrev.innerBlocks
+                innerBlocks: blockToMovePrev.innerBlocks,
+                jwt: getCookie('jwt')
             })
         );
     }
@@ -381,7 +387,8 @@ function saveNewCategSelect(selectedOption, pageId) {
     xhr.send(
         JSON.stringify({
             pageId: pageId,
-            categoryId: selectedOption.value
+            categoryId: selectedOption.value,
+            jwt: getCookie('jwt')
         })
     )
 }

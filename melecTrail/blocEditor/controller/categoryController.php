@@ -28,7 +28,6 @@ class CategoryController
 
     function delete(){
         $data = json_decode(file_get_contents("php://input"));
-        var_dump($data);
         try{
             $category = CategoryModel::findByname($data->name);
             $pageCat = PageCategoryModel::findByIdCategory($category[0]->id);

@@ -5,12 +5,13 @@ $('.addPage').on('click', function () {
     $('#addPageModal').find('#catnameinput').val(idcat);
 });
 
+//Fonction de sérialisation 
 $.fn.serializeObject = function () {
     var o = {};
     var a = this.serializeArray();
-    $.each(a,function() {
-        if(o[this.name] !== undefined) {
-            if(!o[this.name].push) {
+    $.each(a, function () {
+        if (o[this.name] !== undefined) {
+            if (!o[this.name].push) {
                 o[this.name] = [o[this.name]];
             }
             o[this.name].push(this.value || '');
@@ -19,12 +20,33 @@ $.fn.serializeObject = function () {
         }
     });
     return o;
+};
+function getCookie(cname) {
+    var name = cname + "=";
+    var decodedCookie = decodeURIComponent(document.cookie);
+    var ca = decodedCookie.split(';');
+    for (var i = 0; i < ca.length; i++) {
+        var c = ca[i];
+        while (c.charAt(0) == ' ') {
+            c = c.substring(1);
+        }
+        if (c.indexOf(name) == 0) {
+            return c.substring(name.length, c.length);
+        }
+    }
+    return "";
 }
 
 
 $('#nav-tabContent a').on('click', function () {
-    if (confirm('Modifier la page ' + $(this).attr('id') + ' ?')) {
-        window.location.href = "/page/editionPage/" + $(this).attr('id');
+    if (confirm('Modifier la page ' + $(this).attr('id') + '?')) {
+        window.location.href = "/page/editionPage/" + $(this).attr('id') + '?jwt='+getCookie('jwt');
+        // $.ajax({
+        //     url: "page/editionPage",
+        //     type: "POST",
+        //     contentType: "application/json",
+        //     data: JSON.stringify({"idPage": $(this).attr('id'), "jwt": getCookie('jwt')})
+        // })
     };
 })
 
@@ -46,7 +68,7 @@ $('.deletePage').on('click', function () {
             url: "/page/deletepage",
             type: "POST",
             contentType: 'application/json',
-            data: JSON.stringify({ "page": view, "category": cat }),
+            data: JSON.stringify({ "page": view, "category": cat, "jwt":getCookie('jwt') }),
             success: function (result) {
                 window.location.reload();
             },
@@ -60,8 +82,9 @@ $('.deletePage').on('click', function () {
 
 
 $(document).on('submit', '#tree_form', function () {
-    var signup_form = $(this);
-    var form_data = JSON.stringify(signup_form.serializeObject());
+    var signup_form = $(this).serializeObject();
+    signup_form.jwt = getCookie('jwt');
+    var form_data = JSON.stringify(signup_form);
     $.ajax({
         url: "/page/addpage",
         type: "POST",
@@ -80,15 +103,17 @@ $(document).on('submit', '#tree_form', function () {
 
 //
 $(document).on('submit', '#cat_form', function () {
-    var cat_form = $(this);
-    var form_data = JSON.stringify(cat_form.serializeObject());
+    var cat_form = $(this).serializeObject();
+    cat_form.jwt = getCookie('jwt');
+    var form_data = JSON.stringify(cat_form);
+    console.log(form_data);
     $.ajax({
         url: "/category/addcategory",
         type: "POST",
         contentType: "application/json",
         data: form_data,
         success: function (result) {
-            window.location.reload();
+          // window.location.reload();
         },
         error: function (xhr, resp, text) {
             if (xhr.status == 409) {
@@ -109,7 +134,8 @@ $(document).on('click', '.deleteCat', function () {
             type: "POST",
             contentType: "application/json",
             data: JSON.stringify({
-                name: name
+                name: name,
+                jwt: getCookie('jwt')
             }),
             success: function(result) {
                 window.alert('Catégorie supprimée avec succès ! ');

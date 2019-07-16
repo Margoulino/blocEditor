@@ -1,4 +1,20 @@
 <?php
+require $_SERVER['DOCUMENT_ROOT'] . '/vendor/autoload.php';
+
+use \Firebase\JWT\JWT;
+
+/** 
+ * Validate Json Web Token function :
+ * Checks if the given JWT is valid and decodes it 
+ * 
+ */
+function validateJWT($jwt)
+{
+    if ($decoded = JWT::decode($jwt, "63-trUY^f4ER", array('HS256'))) {
+        return $decoded->data->username;
+    } else return null;
+}
+
 error_reporting(E_ALL);
 ini_set('display_errors', 'on');
 //var_dump($_GET);
@@ -71,7 +87,22 @@ if ($path_split === '/') {
      *Check if Controller Exist
      *@return void;
      */
-    if ($req_controller == "page" || $req_controller == "image" || $req_controller == "category" || $req_controller == "block" || $req_controller == "blockType") {
+    if ($req_controller == "page" || $req_controller == "category" || $req_controller == "block" || $req_controller == "blockType") {
+        if ($req_method !== 'index' && $req_method !== '') {
+            if ($req_method === 'editionPage' || $req_method === 'previewPage' || $req_method === '') {
+                $jwt = $_GET['jwt'];
+            } elseif($req_method === 'uploadImage' || $req_method === 'uploadFile') {
+                $jwt = $_POST['jwt'];
+            } else {
+                $data = json_decode(file_get_contents("php://input"));
+                $jwt = $data->jwt;
+            }
+            if(validateJWT($jwt) !== 'admin'){
+                http_response_code(403);
+                echo json_encode(array("message" => "bad credentials"));
+                return;
+            }
+        }
         $req_controller_exist =  __DIR__ . '/blocEditor/controller/' . $req_controller . 'Controller.php';
         require_once __DIR__ . '/blocEditor/model/' . $req_controller . 'Model.php';
         require_once __DIR__ . '/blocEditor/controller/' . $req_controller . 'Controller.php';
@@ -93,8 +124,7 @@ if ($path_split === '/') {
              */
             print $ControllerObj->index();
         }
-
-    } elseif ($req_controller == "nav"){
+    } elseif ($req_controller == "nav") {
         $req_controller_exist =  __DIR__ . '/blocEditor/controller/' . $req_controller . 'Controller.php';
         require_once __DIR__ . '/blocEditor/model/' . $req_controller . 'Model.php';
         require_once __DIR__ . '/blocEditor/controller/' . $req_controller . 'Controller.php';
