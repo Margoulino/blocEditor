@@ -1,6 +1,31 @@
 <?xml version="1.0" encoding="UTF-8"?>
             <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-            <url>
-            <loc>http://www.couriraplumelec.fr/nav/aqrsgf</loc>
-            <priority>0.5</priority>
-            </url></urlset>
+                <url>
+                    <loc>http://www.couriraplumelec.fr</loc>
+                    <priority>1</priority>
+                </url>
+                <url>
+                    <loc>http://www.couriraplumelec.fr/pageNew.php</loc>
+                    <priority>0.8</priority>
+                </url>
+            
+                <url>
+                    <loc>http://www.couriraplumelec.fr/nav/XMLL</loc>
+                    <priority>0.5</priority>
+                </url>
+                <url>
+                    <loc>http://www.couriraplumelec.fr/nav/indexJog</loc>
+                    <priority>0.5</priority>
+                </url>
+                <url>
+                    <loc>http://www.couriraplumelec.fr/nav/Inscription</loc>
+                    <priority>0.5</priority>
+                </url>
+                <url>
+                    <loc>http://www.couriraplumelec.fr/nav/fdfd</loc>
+                    <priority>0.5</priority>
+                </url>
+                <url>
+                    <loc>http://www.couriraplumelec.fr/nav/ééàà</loc>
+                    <priority>0.5</priority>
+                </url></urlset>
