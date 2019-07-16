@@ -127,7 +127,8 @@ docPdfButton.addEventListener("click", function() {
             pageId: pageId,
             orderBlock: idNewBlock,
             idBlockType: 9,
-            styleBlock: ""
+            styleBlock: "",
+            jwt:getCookie('jwt')
         };
         saveBlock(JSON.stringify(data)).then(function() {
             location.reload();
@@ -143,7 +144,8 @@ $(".editBlockPdf").on("click", function(e) {
         var data = {
             id: e.currentTarget.parentElement.getAttribute("id"),
             content: selPdf.value,
-            pageId: pageId
+            pageId: pageId,
+            jwt: getCookie('jwt')
         };
         updateBlock(JSON.stringify(data)).then(function() {
             location.reload();
