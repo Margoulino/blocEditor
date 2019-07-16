@@ -174,10 +174,10 @@ body {
     padding: 20px;
 }
 
-.editBlock .fa-edit {
+.editBlock .fa-edit, .editBlockPdf .fa-edit {
     color: #f1f1f1;
 }
-.editBlock {
+.editBlock, .editBlockPdf {
     position: absolute;
     bottom: 5px;
     right: 5px;

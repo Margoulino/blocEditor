@@ -52,7 +52,8 @@
                     <p id="2colOption" class="col menuOptions"><span class="iconify menuIcons" data-icon="feather:columns" data-inline="false"></span></p>
                     <p id="3colOption" class="col menuOptions"><span class="iconify menuIcons" data-icon="fe:columns" data-inline="false"></span></p>
                     <p id="sliderOption" class="col menuOptions"><span class="iconify menuIcons" data-icon="ic:outline-view-carousel" data-inline="false"></span></p>
-                    <p id="galleryOption" class="col menuOptions" style="margin-bottom: 10px !important;"><i class="fas fa-images menuIcons"></i></p>
+                    <p id="galleryOption" class="col menuOptions"><i class="fas fa-images menuIcons"></i></p>
+                    <p id="docPdfOption" class="col menuOptions"><i class="fas fa-file-pdf menuIcons"></i></p>
                 </div>
             </div>
         </div>
@@ -96,6 +97,11 @@
                             if ($block->idBlockType === '5') {
                                 echo '<button class="btn-xs btn btn-info editBlock float-right"><i class="fas fa-edit"></i></button>';
                             }
+                        } else if($block->idBlockType === '9') {
+                            echo '<div id="' . $block->id . '" class="block-unit" style="height:992px;">';
+                            echo '<button class="btn-xs btn btn-danger deleteBlock float-right"><i class="float-right fas fa-times"></i></button><div><i id="orderUp' . $block->id . '" i class="fas fa-arrow-up"></i>   <i id="orderDown' . $block->id . '" class="fas fa-arrow-down"></i></div>';
+                            echo str_replace(array('{$block->content}', '{$block->style}'), array($block->content, $block->styleBlock), $categHTML[$block->idBlockType]);
+                            echo '<button class="btn-xs btn btn-info editBlockPdf float-right"><i class="fas fa-edit"></i></button>';
                         } else {
                             echo '<div id="' . $block->id . '" class="block-unit-complex">';
                             echo '<i class="float-right deleteBlock fas fa-times"></i><div><i id="orderUp' . $block->id . '" i class="fas fa-arrow-up"></i>   <i id="orderDown' . $block->id . '"class="fas fa-arrow-down"></i></div>';

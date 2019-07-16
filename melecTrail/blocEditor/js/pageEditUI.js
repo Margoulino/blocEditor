@@ -113,6 +113,42 @@ $(".editBlock").one("click", function(event) {
     });
 });
 
+var docPdfButton = document.getElementById("docPdfOption");
+docPdfButton.addEventListener("click", function() {
+    $("#uploadFileModal").modal("show");
+    var btnPdfSelect = document.getElementById("pdfSelect");
+    var selPdf = document.querySelector(".pdfFilesSel");
+    btnPdfSelect.addEventListener("click", function() {
+        var data = {
+            name: nomPage + "_" + idNewBlock,
+            content: selPdf.value,
+            pageId: pageId,
+            orderBlock: idNewBlock,
+            idBlockType: 9,
+            styleBlock: ""
+        };
+        saveBlock(JSON.stringify(data)).then(function() {
+            location.reload();
+        });
+    });
+});
+
+$(".editBlockPdf").on("click", function(e) {
+    $("#uploadFileModal").modal("show");
+    var btnPdfSelect = document.getElementById("pdfSelect");
+    var selPdf = document.querySelector(".pdfFilesSel");
+    btnPdfSelect.addEventListener("click", function() {
+        var data = {
+            id: e.currentTarget.parentElement.getAttribute("id"),
+            content: selPdf.value,
+            pageId: pageId
+        };
+        updateBlock(JSON.stringify(data)).then(function() {
+            location.reload();
+        });
+    });
+});
+
 //Modif ordre block
 var downArrows = document.querySelectorAll("[id^=orderDown]");
 downArrows.forEach(arrow => {
@@ -220,7 +256,7 @@ if (depublishBtn !== undefined && depublishBtn !== null) {
 //Enregistrement de la description
 var saveDescrBtn = document.getElementById("descriptionSave");
 saveDescrBtn.addEventListener("click", function() {
-    if(confirm("Êtes-vous sûr de vouloir publier cette description ?")) {
+    if (confirm("Êtes-vous sûr de vouloir publier cette description ?")) {
         var descrContent = document.getElementById("description").value;
         saveDescription(pageId, descrContent).then(function() {
             location.reload();
@@ -246,14 +282,14 @@ saveNewKeyword.addEventListener("click", function(e) {
     };
     saveKeywords(data).then(function() {
         location.reload();
-    })
+    });
 });
 
 //Suppression de mot clés
 var removeKeywordBtns = document.querySelectorAll(".removeKeyword");
 removeKeywordBtns.forEach(btn => {
     btn.addEventListener("click", function(e) {
-        if(confirm("Êtes-vous sûr de vouloir supprimer ce mot clé ?")) {
+        if (confirm("Êtes-vous sûr de vouloir supprimer ce mot clé ?")) {
             var keywordContainer = e.target.parentElement.parentElement;
             keywordContainer.removeChild(e.target.parentElement);
             var kwArr = getAllKeywords();
@@ -271,7 +307,7 @@ removeKeywordBtns.forEach(btn => {
 //Ajout d'un complément de titre à la page
 var nameCompletionBtn = document.querySelectorAll(".nameCompletionSave")[0];
 nameCompletionBtn.addEventListener("click", function() {
-    if(confirm("Êtes-vous sûr de vouloir enregistrer ce complement de titre ?")) {
+    if (confirm("Êtes-vous sûr de vouloir enregistrer ce complement de titre ?")) {
         var nameCompletionValue = document.querySelectorAll(".nameCompletion")[0].value;
         var data = {
             pageId: pageId,
@@ -285,12 +321,15 @@ nameCompletionBtn.addEventListener("click", function() {
 
 function escapeHtml(text) {
     var map = {
-      '&': '&amp;',
-      '<': '&lt;',
-      '>': '&gt;',
-      '"': '&quot;',
-      "'": '&#039;'
+        "&": "&amp;",
+        "<": "&lt;",
+        ">": "&gt;",
+        '"': "&quot;",
+        "'": "&#039;"
     };
-  
-    return text.replace(/[&<>"']/g, function(m) { return map[m]; });
-  }
+
+    return text.replace(/[&<>"']/g, function(m) {
+        return map[m];
+    });
+}
+
