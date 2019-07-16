@@ -8,6 +8,7 @@ require_once $_SERVER['DOCUMENT_ROOT'] . '/blocEditor/model/blockTypeModel.php';
 require_once $_SERVER['DOCUMENT_ROOT'] . '/blocEditor/controller/blockController.php';
 require_once $_SERVER['DOCUMENT_ROOT'] . '/blocEditor/controller/navController.php';
 require $_SERVER['DOCUMENT_ROOT'] . '/vendor/autoload.php';
+
 use \Firebase\JWT\JWT;
 
 class PageController
@@ -24,18 +25,6 @@ class PageController
         header("Access-Control-Allow-Methods: POST");
         header("Access-Control-Max-Age: 3600");
         header("Access-Control-Allow-Headers: Content-Type, Access-Control-Allow-Headers, Authorization, X-Requested-With");
-    }
-
-    /** 
-     * Validate Json Web Token function :
-     * Checks if the given JWT is valid and decodes it 
-     * 
-     */
-    function validateJWT($jwt)
-    {
-        if ($decoded = JWT::decode($jwt, "63-trUY^f4ER", array('HS256'))) {
-            return $decoded->data->username;
-        } else return null;
     }
 
     function sortViews()
@@ -57,19 +46,10 @@ class PageController
 
     function index()
     {
-        // $data = json_decode(file_get_contents("php://input"));
-        // try {
-        //     $username = $this->validateJWT($data->jwt);
-        // } catch (Exception $e) {
-        //     http_response_code(403);
-        //     echo json_encode(array("message" => "bad credentials"));
-        //     return;
-        // }
         $pages = null;
         try {
             $pages = PageModel::findAll();
             $sortedViews = $this->sortViews();
-            //echo json_encode(array("message" => $pages[0]->name));
             require(__DIR__ . '/../view/indexEditor.php');
         } catch (Exception $e) {
             echo $e;
@@ -92,15 +72,15 @@ class PageController
                     if (PageCategoryModel::save($pageCat)) {
                         NavController::updateSitemap();
                         $data = array();
-                        $data['id']= '1';
-                        $data['name']= $newpage->name.'_1';
-                        $data['content']= '';
+                        $data['id'] = '1';
+                        $data['name'] = $newpage->name . '_1';
+                        $data['content'] = '';
                         $data['pageId'] = PageModel::findByName($newpage->name)[0]->id;
                         $data['orderBlock'] = null;
                         $data['idBlockType'] = '8';
-                        $data['styleBlock'] =null;
+                        $data['styleBlock'] = null;
                         $data['idParent'] = null;
-                        $data['idColumn'] = null ;
+                        $data['idColumn'] = null;
                         $data['dateCreation'] = null;
 
                         $banner = new BlockModel($data);
@@ -174,7 +154,7 @@ class PageController
                 foreach ($blocks as $block) {
                     if ($block->idParent === null) {
                         if ($block->idBlockType === '1' || $block->idBlockType === '2') {
-                            $block->content = BlockController::setColumnChilds($block, $categHTML, 0);
+                            $block->content = BlockController::setColumnChildsEdit($block, $categHTML, 0);
                         } else if ($block->idBlockType === '3' || $block->idBlockType === '6') {
                             $block->content = BlockController::buildCarouselAndGallery($block, $categHTML);
                         }
@@ -239,14 +219,14 @@ class PageController
                 }
             } else {
                 throw new Exception("Error page does not exists");
-             }
-        } catch(Exception $e) {
+            }
+        } catch (Exception $e) {
             http_response_code(404);
             echo json_encode(array('message' => $e->getMessage()));
         }
     }
 
-    public static function previewPage($name,$nav=null)
+    public static function previewPage($name, $nav = null)
     {
         try {
             $page = PageModel::findByName($name[0]);
@@ -256,30 +236,35 @@ class PageController
                 $categHTML = array();
                 foreach ($blocks as $block) {
                     if (!array_key_exists($block->idBlockType, $categJs)) {
-                        $blockType = BlockTypeModel::findById($block->idBlockType);
-
-                        $categJs[$block->idBlockType] = $blockType[0]->js;
-                        $categHTML[$block->idBlockType] = $blockType[0]->templateBlock;
-                        $subLevel[$block->idBlockType] = $blockType[0]->subLevels;
+                        if ($block->idBlockType !== '1' && $block->idBlockType !== '2') {
+                            $blockType = BlockTypeModel::findById($block->idBlockType);
+                            $categJs[$block->idBlockType] = $blockType[0]->js;
+                            $categHTML[$block->idBlockType] = $blockType[0]->templateBlock;
+                            $subLevel[$block->idBlockType] = $blockType[0]->subLevels;
+                        } else {
+                            $blockType = BlockTypeModel::findById($block->idBlockType);
+                            $categHTML[$block->idBlockType] = $blockType[0]->templateBlock;
+                            $subLevel[$block->idBlockType] = $blockType[0]->subLevels;
+                        }
                     }
                 }
                 $header = BlockController::buildHeader(BlockTypeModel::findById(7)[0]->templateBlock);
                 $jsFile = $_SERVER['DOCUMENT_ROOT'] . "/blocEditor/js/blockInit.js";
-                 $fileHandler = fopen($jsFile,'w');
-                 fwrite($fileHandler,"$(document).ready(function () {");
+                $fileHandler = fopen($jsFile, 'w');
+                fwrite($fileHandler, "$(document).ready(function () {");
                 fclose($fileHandler);
-                 $fileHandler = fopen($jsFile, 'a');
-                 foreach($categJs as $js){
-                     fwrite($fileHandler,$js);
+                $fileHandler = fopen($jsFile, 'a');
+                foreach ($categJs as $js) {
+                    fwrite($fileHandler, $js);
                 }
-                 fwrite($fileHandler,"});");
+                fwrite($fileHandler, "});");
                 fclose($fileHandler);
                 foreach ($blocks as $block) {
-                    if ($block->idParent === null)  {
-                        if($block->idBlockType === '1' || $block->idBlockType === '2') {
-                              $block->content=BlockController::setColumnChilds($block,$categHTML,0);
-                        } else if ($block->idBlockType === '3' || $block->idBlockType === '6'){
-                            $block->content = BlockController::buildCarouselAndGallery($block,$categHTML);
+                    if ($block->idParent === null) {
+                        if ($block->idBlockType === '1' || $block->idBlockType === '2') {
+                            $block->content = BlockController::setColumnChildsNav($block, $categHTML, 0);
+                        } else if ($block->idBlockType === '3' || $block->idBlockType === '6') {
+                            $block->content = BlockController::buildCarouselAndGallery($block, $categHTML);
                         }
                     }
                     if ($block->idBlockType === '8') {
@@ -295,12 +280,13 @@ class PageController
         }
     }
 
-    public function publishPage() {
+    public function publishPage()
+    {
         $this->setHeader();
         $data = json_decode(file_get_contents("php://input"));
         $page = PageModel::findById($data->pageId);
         try {
-            if(!empty($page)) {
+            if (!empty($page)) {
                 $page->publish();
                 NavController::updateSitemap();
                 http_response_code(200);
@@ -308,18 +294,19 @@ class PageController
             } else {
                 throw new Exception("Page does not exists, can't publish");
             }
-        } catch(Exception $e) {
+        } catch (Exception $e) {
             http_response_code(404);
             echo json_encode(array("message" => $e->getMessage()));
         }
     }
 
-    public function depublishPage() {
+    public function depublishPage()
+    {
         $this->setHeader();
         $data = json_decode(file_get_contents("php://input"));
         $page = PageModel::findById($data->pageId);
         try {
-            if(!empty($page)) {
+            if (!empty($page)) {
                 $page->depublish();
                 NavController::updateSitemap();
                 http_response_code(200);
@@ -327,18 +314,19 @@ class PageController
             } else {
                 throw new Exception("Page does not exists, can't depublish");
             }
-        } catch(Exception $e) {
+        } catch (Exception $e) {
             http_response_code(404);
             echo json_encode(array("message" => $e->getMessage()));
         }
     }
 
-    public function changeDescription() {
+    public function changeDescription()
+    {
         $this->setHeader();
         $data = json_decode(file_get_contents("php://input"));
         $page = PageModel::findById($data->pageId);
         try {
-            if(!empty($page)) {
+            if (!empty($page)) {
                 PageModel::setDescription($data->pageId, $data->description);
                 http_response_code(200);
                 echo json_encode(array("message" => "description successfully changed"));
@@ -351,12 +339,13 @@ class PageController
         }
     }
 
-    public function changeKeywords() {
+    public function changeKeywords()
+    {
         $this->setHeader();
         $data = json_decode(file_get_contents("php://input"));
         $page = PageModel::findById($data->pageId);
         try {
-            if(!empty($page)) {
+            if (!empty($page)) {
                 PageModel::setKeywords($data->pageId, $data->keywords);
                 http_response_code(200);
                 echo json_encode(array("message" => "keywords successfully changed"));
@@ -369,12 +358,13 @@ class PageController
         }
     }
 
-    public function changeNameCompletion() {
+    public function changeNameCompletion()
+    {
         $this->setHeader();
         $data = json_decode(file_get_contents("php://input"));
         $page = PageModel::findById($data->pageId);
         try {
-            if(!empty($page)) {
+            if (!empty($page)) {
                 PageModel::setNameCompletion($data->pageId, $data->nameCompletion);
                 http_response_code(200);
                 echo json_encode(array("message" => "nameCompletion successfully changed"));

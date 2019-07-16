@@ -272,7 +272,7 @@ class BlockController
         }
     }
 
-    public static function setColumnChilds($node, $categHTML, $level)
+    public static function setColumnChildsEdit($node, $categHTML, $level)
     {
         $childs = BlockModel::findChildren($node->id);
         $result = $categHTML[$node->idBlockType];
@@ -305,12 +305,56 @@ class BlockController
             } else {
                 $result = str_replace(
                     '{col' . $level . '.' . $child->idColumn . '}',
-                    "<div class='block-unit-complex' id='" . $child->id . "'><button class='btn-xs btn btn-danger deleteBlock float-right'><i class='float-right fas fa-times'></i></button>" . BlockController::setColumnChilds($child, $categHTML, $level + 1) . "</div>",
+                    "<div class='block-unit-complex' id='" . $child->id . "'><button class='btn-xs btn btn-danger deleteBlock float-right'><i class='float-right fas fa-times'></i></button>" . BlockController::setColumnChildsEdit($child, $categHTML, $level + 1) . "</div>",
                     $result
                 );
             }
         }
         return $result;
+    }
+
+    public static function setColumnChildsNav($node, $categHTML, $level)
+    {
+        $childs = BlockModel::findChildren($node->id);
+        $result = $categHTML[$node->idBlockType];
+        for ($i = 1; $i <= 3; $i++) {
+            $result = str_replace('{col' . $i . '}', '{col' . $level . '.' . $i . '}', $result);
+        }
+        foreach ($childs as $child) {
+            if ($child->idBlockType === '5') {
+                $oldVar = array('{$block->content}', '{$block->style}', '{$block->id}');
+                $newVar = array($child->content, $child->styleBlock, $child->id);
+                $result = str_replace(
+                    '{col' . $level . '.' . $child->idColumn . '}',
+                    "<div class='block-unit' id='" . $child->id . "'>" . str_replace($oldVar, $newVar, $categHTML[$child->idBlockType]) . "</div>",
+                    $result
+                );
+            } elseif ($child->idBlockType === '4') {
+                $oldVar = array('{$block->content}', '{$block->style}', '{$block->id}');
+                $newVar = array($child->content, $child->styleBlock, $child->id);
+                $result = str_replace(
+                    '{col' . $level . '.' . $child->idColumn . '}',
+                    "<div class='block-unit' id='" . $child->id . "'>" . str_replace($oldVar, $newVar, $categHTML[$child->idBlockType]) . "</div>",
+                    $result
+                );
+            } elseif ($child->idBlockType === '3' || $child->idBlockType === '6') {
+                $result = str_replace(
+                    '{col' .  $level . '.' . $child->idColumn . '}',
+                    "<div class='block-unit-complex' id='" . $child->id . "'>" . BlockController::buildCarouselAndGallery($child, $categHTML) . "</div>",
+                    $result
+                );
+            } else {
+                $result = str_replace(
+                    '{col' . $level . '.' . $child->idColumn . '}',
+                    "<div class='block-unit-complex' id='" . $child->id . "'>" . BlockController::setColumnChildsNav($child, $categHTML, $level + 1) . "</div>",
+                    $result
+                );
+            }
+        }
+        for ($i=0; $i<=2; $i++) {
+            $result = str_replace('{'.BlockController::get_string_between($result,'{','}').'}','',$result);
+        }
+        return str_replace(BlockController::get_string_between($result,'{','}'),'',$result);
     }
 
     public static function buildCarouselAndGallery($block, $templateHTML)
