@@ -209,26 +209,23 @@ body {
     text-align: center;
 }
 
-.ui-resizable {
+div.ui-resizable {
     border: 1px dotted #818181;
     padding: 8px;
     margin-bottom: 16px;
     border-radius: 4px;
 }
 
-.block-unit-complex .resizebtn {
+.block-unit-complex .resizebtn, .block-unit .resizePdfBtn {
     position: absolute;
 }
 
 .blockSave,
-.resizebtn {
+.resizebtn,
+.resizePdfBtn {
     position: absolute;
     bottom: 10px;
     left: 10px;
-}
-
-.resizebtn {
-    position: absolute;
 }
 
 a img {
@@ -291,4 +288,8 @@ figure {
 
 [id^=pdf] {
     margin: 8px 0;
+}
+
+#docPdfOption {
+    flex-grow: 0.42;
 }
