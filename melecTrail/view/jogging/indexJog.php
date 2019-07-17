@@ -57,7 +57,7 @@
     </div>
     <br />
     <br />
-    <table class="table table-sm table-striped col-sm-10">
+    <!-- <table class="table table-sm table-striped col-sm-10">
         <thead>
             <tr>
                 <th scope="col">Lieu de départ</th>
@@ -67,24 +67,40 @@
         </thead>
         <tbody id="jogsTab">
             <div class="phpTag">
-                <?php
-                foreach ($tab_jog as $t) {
-                    echo
-                        '<tr class="jogs">
-                        <td scope="row" class="departure">' . $t["departure"] . '</td>
-                        <td scope="row"class="dateJogs">' . date("l d F Y", strtotime($t["date"])) . '</td>
-                        <td> <button type="button" class="btn btn-info btn-xs glyphicon glyphicon-info-sign" data-toggle="modal" data-target="#detailModal" 
-                                data-idJogging ="' . $t["id"] . '" data-creator="' . $t["creator"] . '" data-departure="' . $t["departure"] . '"
-                                data-date="' . $t["date"] . '" data-description="' . $t["description"] . '" data-nbAtt="' . count(explode(" ; ", $t['attendees'])) . '">
-                                Détails
-                             </button>
-                        </td>
-                    </tr>';
-                };
-                ?>
+  
             </div>
         </tbody>
-    </table>
+    </table> -->
+    <div id="loginModal" class="modal fade">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title">Connexion</h5>
+            <button type="button" class="close" data-dismiss="modal">&times;</button>
+          </div>
+          <div class="modal-body">
+            <form id='login_form' action="/user/login" method="post">
+              <div class="form-group">
+                <label for="username">Nom d'utilisateur</label>
+                <input type="text" class="form-control" name="username" id="username" required />
+              </div>
+              <div class="form-group">
+                <label for="password">Mot de passe</label>
+                <input type="password" class="form-control" name="password" id="password" required />
+              </div>
+              <div class="row">
+                <div class="col">
+                  <div id="responseModal"></div>
+                </div>
+              </div>
+
+              <button type='submit' class='btn btn-primary'>se connecter</button>
+              <i class="fa fa-spinner fa-spin" style="display: none"></i>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
     <p>
         <button type="button" class="btn btn-info btn-sm" id="addJogButton">
             Ajouter un jogging <span class="glyphicon glyphicon-plus"></span>

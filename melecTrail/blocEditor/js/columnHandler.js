@@ -6,8 +6,7 @@ $("#2colOption").on("click", function() {
         name: nomPage + "_" + idNewBlock,
         orderBlock: idNewBlock,
         pageId: pageId,
-        idBlockType: "1",
-        jwt: getCookie('jwt')
+        idBlockType: "1"
     });
     saveBlock(data).then(function() {
         location.reload();
@@ -22,8 +21,7 @@ $("#3colOption").on("click", function() {
         name: nomPage + "_" + idNewBlock,
         orderBlock: idNewBlock,
         pageId: pageId,
-        idBlockType: "2",
-        jwt: getCookie('jwt')
+        idBlockType: "2"
     });
     saveBlock(data).then(function() {
         location.reload();
@@ -73,8 +71,7 @@ $(document).ready(function() {
                         idBlockType: 5,
                         idParent: idBlockParent,
                         idColumn: idCol,
-                        styleBlock: "",
-                        jwt: getCookie('jwt')
+                        styleBlock: ""
                     };
                     //Vérification du sous niveau du block qu'on veut ajouter
                     if (subLevels[blockParent.idBlockType] > parentCounter(blockParent.id, previousBlocks)) {
@@ -106,8 +103,7 @@ $(document).ready(function() {
                     idColumn: idColumn,
                     orderBlock: null,
                     idBlockType: "4",
-                    pageId: pageId,
-                    jwt: getCookie('jwt')
+                    pageId: pageId
                 });
                 //Vérification du sous niveau du block qu'on veut ajouter
                 if (subLevels[blockParent.idBlockType] > parentCounter(blockParent.id, previousBlocks)) {
@@ -141,8 +137,7 @@ $(document).ready(function() {
                     idColumn: idColumn,
                     orderBlock: null,
                     idBlockType: "3",
-                    pageId: pageId,
-                    jwt: getCookie('jwt')
+                    pageId: pageId
                 });
                 //Vérification du sous niveau du block qu'on veut ajouter
                 if (subLevels[blockParent.idBlockType] > parentCounter(blockParent.id, previousBlocks)) {
@@ -176,8 +171,7 @@ $(document).ready(function() {
                     idColumn: idColumn,
                     orderBlock: null,
                     idBlockType: "6",
-                    pageId: pageId,
-                    jwt: getCookie('jwt')
+                    pageId: pageId
                 });
                 //Vérification du sous niveau du block qu'on veut ajouter
                 if (subLevels[blockParent.idBlockType] > parentCounter(blockParent.id, previousBlocks)) {
@@ -200,8 +194,7 @@ $(document).ready(function() {
                 idColumn: idColumn,
                 orderBlock: null,
                 idBlockType: "1",
-                pageId: pageId,
-                jwt: getCookie('jwt')
+                pageId: pageId
             });
             //Vérification du sous niveau du block qu'on veut ajouter
             if (subLevels[blockParent.idBlockType] > parentCounter(blockParent.id, previousBlocks)+1) {
@@ -223,8 +216,7 @@ $(document).ready(function() {
                 idColumn: idColumn,
                 orderBlock: null,
                 idBlockType: "2",
-                pageId: pageId,
-                jwt: getCookie('jwt')
+                pageId: pageId
             });
             //Vérification du sous niveau du block qu'on veut ajouter
             if (subLevels[blockParent.idBlockType] > parentCounter(blockParent.id, previousBlocks)+1) {

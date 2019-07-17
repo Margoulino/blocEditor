@@ -44,8 +44,7 @@ blockTextBtn.addEventListener("click", function() {
                 pageId: pageId,
                 orderBlock: idNewBlock,
                 idBlockType: 5,
-                styleBlock: "",
-                jwt: getCookie("jwt")
+                styleBlock: ""
             };
             saveBlock(JSON.stringify(data)).then(function() {
                 location.reload();
@@ -100,8 +99,7 @@ $(".editBlock").one("click", function(event) {
                 idBlockType: blockToUpdate.idBlockType,
                 idParent: blockToUpdate.idParent,
                 idColumn: blockToUpdate.idColumn,
-                styleBlock: blockToUpdate.styleBlock,
-                jwt: getCookie("jwt")
+                styleBlock: blockToUpdate.styleBlock
             };
             updateBlock(JSON.stringify(data)).then(function() {
                 location.reload();
@@ -127,8 +125,7 @@ docPdfButton.addEventListener("click", function() {
             pageId: pageId,
             orderBlock: idNewBlock,
             idBlockType: 9,
-            styleBlock: "",
-            jwt: getCookie('jwt')
+            styleBlock: ""
         };
         saveBlock(JSON.stringify(data)).then(function() {
             location.reload();
@@ -144,8 +141,7 @@ $(".editBlockPdf").on("click", function(e) {
         var data = {
             id: e.currentTarget.parentElement.getAttribute("id"),
             content: selPdf.value,
-            pageId: pageId,
-            jwt: getCookie('jwt')
+            pageId: pageId
         };
         updateBlock(JSON.stringify(data)).then(function() {
             location.reload();
@@ -174,15 +170,14 @@ $(".resizePdfBtn").on("click", function(e) {
         var data = {
             style: $(pdfViewer).height() + "px",
             pageId: pageId,
-            id: id,
-            jwt: getCookie('jwt')
+            id: id
         };
         updateBlock(JSON.stringify(data)).then(function() {
             $(buttonSave).remove();
             $(button).show();
         });
     });
-    //Update le block avec les infos de style, et pageId et block Id, JWT ?
+    //Update le block avec les infos de style, et pageId et block Id, 
 });
 
 //Modif ordre block
@@ -208,8 +203,7 @@ removeCategs.forEach(remCat => {
             var categoryId = e.target.getAttribute("id");
             var data = {
                 pageId: pageId,
-                categoryId: categoryId,
-                jwt: getCookie('jwt')
+                categoryId: categoryId
             };
             deleteCategory(JSON.stringify(data)).then(function() {
                 location.reload();
@@ -226,8 +220,7 @@ addExistingCateg.forEach(categChoice => {
             var categoryId = e.target.getAttribute("id");
             var data = {
                 pageId: pageId,
-                categoryId: categoryId,
-                jwt : getCookie('jwt')
+                categoryId: categoryId
             };
             addCategory(JSON.stringify(data)).then(function() {
                 location.reload();
@@ -256,8 +249,7 @@ saveNewCategBtn.addEventListener("click", function() {
                 findCategoryByName(JSON.stringify(data)).then(function(response) {
                     var dataAdd = {
                         pageId: pageId,
-                        categoryId: response[0],
-                        jwt: getCookie('jwt')
+                        categoryId: response[0]
                     };
                     addCategory(JSON.stringify(dataAdd)).then(function() {
                         location.reload();

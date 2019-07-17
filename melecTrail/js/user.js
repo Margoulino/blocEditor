@@ -8,7 +8,6 @@ $(document).on('click', '#addUser', function () {
 
 $(document).on('submit', '#adduser_form', function () {
     var adduser_form = $(this).serializeObject();
-    adduser_form.jwt = getCookie('jwt');
     var form_data = JSON.stringify(adduser_form);
     $.ajax({
         url: "/user/addUserAdmin",
@@ -39,8 +38,7 @@ $(document).on('click', '.deleteUser', function() {
             type: "POST",
             contentType: "application/json",
             data: JSON.stringify({
-                id: $(this).attr('id'),
-                jwt: getCookie('jwt')
+                id: $(this).attr('id')
             }
             ),
             success: function(result) {
@@ -51,6 +49,29 @@ $(document).on('click', '.deleteUser', function() {
                 console.log(resp);
                 window.alert('Erreur lors de la suppression, veuillez réessayer.');
                 
+            }
+        })
+    }
+})
+$(document).on('click', '.updatePassw', function() {
+    var newPasswd = window.prompt('Entrez le nouveau mot de passe de l\'utilisateur : ');
+    if (newPasswd === null) { window.alert('Le mot de passe ne peut être vide !')}
+    else {
+        $.ajax({
+            url : "/user/updatePassword",
+            type: "POST",
+            contentType: "application/json",
+            data : JSON.stringify({
+                password : newPasswd,
+                id : $(this).attr('id')
+            }),
+            success: function(result) {
+                window.alert('Mot de passe modifié avec succès.');
+                location.reload();
+            },
+            error: function (xhr,resp,text) {
+                window.alert('Erreur lors de la modification, veuillez réessayer.');
+                location.reload();
             }
         })
     }

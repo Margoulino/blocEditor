@@ -40,13 +40,7 @@ function getCookie(cname) {
 
 $('#nav-tabContent a').on('click', function () {
     if (confirm('Modifier la page ' + $(this).attr('id') + '?')) {
-        window.location.href = "/page/editionPage/" + $(this).attr('id') + '?jwt='+getCookie('jwt');
-        // $.ajax({
-        //     url: "page/editionPage",
-        //     type: "POST",
-        //     contentType: "application/json",
-        //     data: JSON.stringify({"idPage": $(this).attr('id'), "jwt": getCookie('jwt')})
-        // })
+        window.location.href = "/page/editionPage/" + $(this).attr('id');
     };
 })
 
@@ -68,7 +62,7 @@ $('.deletePage').on('click', function () {
             url: "/page/deletepage",
             type: "POST",
             contentType: 'application/json',
-            data: JSON.stringify({ "page": view, "category": cat, "jwt":getCookie('jwt') }),
+            data: JSON.stringify({ "page": view, "category": cat }),
             success: function (result) {
                 window.location.reload();
             },
@@ -83,7 +77,6 @@ $('.deletePage').on('click', function () {
 
 $(document).on('submit', '#tree_form', function () {
     var signup_form = $(this).serializeObject();
-    signup_form.jwt = getCookie('jwt');
     var form_data = JSON.stringify(signup_form);
     $.ajax({
         url: "/page/addpage",
@@ -104,7 +97,6 @@ $(document).on('submit', '#tree_form', function () {
 //
 $(document).on('submit', '#cat_form', function () {
     var cat_form = $(this).serializeObject();
-    cat_form.jwt = getCookie('jwt');
     var form_data = JSON.stringify(cat_form);
     console.log(form_data);
     $.ajax({
@@ -134,8 +126,7 @@ $(document).on('click', '.deleteCat', function () {
             type: "POST",
             contentType: "application/json",
             data: JSON.stringify({
-                name: name,
-                jwt: getCookie('jwt')
+                name: name
             }),
             success: function(result) {
                 window.alert('Catégorie supprimée avec succès ! ');

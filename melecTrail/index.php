@@ -94,15 +94,7 @@ if ($path_split === '/') {
      */
     if ($req_controller == "page" || $req_controller == "category" || $req_controller == "block" || $req_controller == "blockType") {
         if ($req_method !== 'index' && $req_method !== '') {
-            if ($req_method === 'editionPage' || $req_method === 'previewPage' || $req_method === '') {
-                $jwt = $_GET['jwt'];
-            } elseif ($req_method === 'uploadImage' || $req_method === 'uploadFile') {
-                $jwt = $_POST['jwt'];
-            } else {
-                $data = json_decode(file_get_contents("php://input"));
-                $jwt = $data->jwt;
-            }
-            if (validateJWT($jwt) !== 'admin') {
+            if (validateJWT($_COOKIE['jwt']) !== 'admin') {
                 http_response_code(403);
                 echo json_encode(array("message" => "bad credentials"));
                 return;

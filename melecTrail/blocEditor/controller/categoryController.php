@@ -4,7 +4,7 @@ require_once $_SERVER['DOCUMENT_ROOT'] . '/blocEditor/model/pageModel.php';
 require_once $_SERVER['DOCUMENT_ROOT'] . '/blocEditor/model/pageCategoryModel.php';
 require_once $_SERVER['DOCUMENT_ROOT'] . '/blocEditor/model/categoryModel.php';
 require $_SERVER['DOCUMENT_ROOT'] . '/vendor/autoload.php';
-use \Firebase\JWT\JWT;
+
 
 class CategoryController
 {

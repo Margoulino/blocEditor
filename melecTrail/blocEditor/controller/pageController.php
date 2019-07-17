@@ -9,8 +9,6 @@ require_once $_SERVER['DOCUMENT_ROOT'] . '/blocEditor/controller/blockController
 require_once $_SERVER['DOCUMENT_ROOT'] . '/blocEditor/controller/navController.php';
 require $_SERVER['DOCUMENT_ROOT'] . '/vendor/autoload.php';
 
-use \Firebase\JWT\JWT;
-
 class PageController
 {
     /** 

@@ -1,109 +1,74 @@
-<nav class="navbar navbar-expand-md navbar-dark bg-dark fixed-top">
-    <a class="navbar-brand" href="#">Melec'Trail</a>
-    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
-        <span class="navbar-toggler-icon"></span>
-    </button>
-    <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
-        <div class="navbar-nav mr-auto">
-            <a class="glyphicon glyphicon-user" href="#"></a>
-            <a class="nav-item nav-link" href="/" id='home'>Accueil</a>
-            <a class="nav-item nav-link" href="#" id='login'>Connexion</a>
-            <a class="nav-item nav-link" href="#" id='sign_up'>Inscription</a>
-            <form id="myJogsForm" action="/jogging/getJogsByCreator" method="post">
-                <a class="nav-item nav-link" href="#" id='myjogs'>Mes joggings</a>
-                <input type="hidden" class="form-control jwtToken" name="jwt" required />
-            </form>
-            <form id="manageUsers" action="/user/showUsers" method="post" style="display: none;">
-                <a class="nav-item nav-link" href="#" id="showUsers">Gestion des utilisateurs</a>
-                <input type="hidden" class="form-control jwtToken" name="jwt" required />
-            </form>
-            <div class="dropdown-container">
-                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownList" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                    Mon compte
+<div class="tm-top-bar-bg"></div>
+<div class="tm-top-bar" id="tm-top-bar">
+    <div class="container">
+        <div class="row">
+            <nav class="navbar navbar-expand-lg narbar-light">
+                <a class="navbar-brand mr-auto" style="width:25%;" href="./">
+                    <img src="../../trail-plumelec/logo.gif" alt="LE MELEC TRAIL">
+                    <img src="../../trail-plumelec/lemelectrail.png" style="width:60%;" alt="LE MELEC TRAIL">
+                    <!-- Le Melec Trail -->
                 </a>
-                <div class="dropdown-menu" aria-labelledby="navbarDropdownList">
-                    <form id="manageAccount" action="/user/update_redirect" method="post">
-                        <a class="dropdown-item" href="#" id="editAccount">Modifier mon comtpe</a>
-                        <input type="hidden" class="form-control jwtToken" name="jwt" required />
-                    </form>
-                    <a class="dropdown-item" href="#" id='logout'>Déconnexion</a>
-                </div>
+                <button type="button" id="nav-toggle" class="navbar-toggler collapsed" data-toggle="collapse" data-target="#mainNav" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div id="mainNav" class="collapse navbar-collapse tm-bg-white">
+                    <ul class="navbar-nav ml-auto">
+                        <li class="nav-item dropdown">
+                            <a class="nav-link" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">Le Melec Trail</a>
+                            <div class="dropdown-menu">
+                                <a class="dropdown-item" href="#">En construction</a>
+                            </div>
+                        </li>
+                        <li class="nav-item dropdown">
+                            <a class="nav-link" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">Inscrivez-vous !</a>
+                            <div class="dropdown-menu">
+                                <a class="dropdown-item" target="_blank" href="https://www.sportinnovation.fr/inscription3.1/inscription.php?crs=3667">Trail 8,5 Km</a>
+                                <a class="dropdown-item" target="_blank" href="https://www.sportinnovation.fr/inscription3.1/inscription.php?crs=3668">Trail 15 Km</a>
+                                <a class="dropdown-item" target="_blank" href="https://www.sportinnovation.fr/inscription3.1/inscription.php?crs=3669">Trail 24 Km</a>
+                            </div>
+                        </li>
+                        <?php 
+                        if (isset($_COOKIE['jwt'])) {
+                           echo' <li><a class="nav-link" href="/jogging" id="alljogs">Nos sorties</a>
+                        </li>';} ?>
+                        <li class="nav-item dropdown">
+                            <a class="nav-link" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">Espace adhérent</a>
+                            <div class="dropdown-menu">
+                                <?php
+                                if (isset($_COOKIE['jwt'])) {
+                                    echo '<a class="dropdown-item" href="#" id="showUsers">Liste des adhérents</a>
+                                        <a class="dropdown-item" href="#" id="editAccount">Modifier mon comtpe</a>';
+                                } else {
+                                    echo '<a class="dropdown-item" href="#" id="sign_up">Inscription</a>
+                                        <a class="dropdown-item" href="#" id="login">Connexion</a>';
+                                }
+                                ?>
+                            </div>
+                        </li>
+                        <?php
+                        if (isset($_COOKIE['jwt'])) {
+                            echo '    <li>
+                            <a class="nav-link" href="#" id="logoutUser">Déconnexion</a>
+                        </li>';}
+                            ?>
+                        </ul>
+                    </div>
+                </nav>
+            </div> <!-- row -->
+        </div> <!-- container -->
+    </div> <!-- .tm-top-bar -->
+
+
+
+
+
+
+
+    <!-- <main role="main" class="container starter-template">
+
+        <div class="row">
+            <div class="col">
+                <div id="response"></div>
             </div>
         </div>
-    </div>
-</nav>
-
-<div id="loginModal" class="modal fade">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title">Connexion</h5>
-                <button type="button" class="close" data-dismiss="modal">&times;</button>
-            </div>
-            <div class="modal-body">
-                <form id='login_form'>
-                    <div class="form-group">
-                        <label for="username">Nom d'utilisateur</label>
-                        <input type="text" class="form-control" name="username" id="username" required />
-                    </div>
-                    <div class="form-group">
-                        <label for="password">Mot de passe</label>
-                        <input type="password" class="form-control" name="password" id="password" required />
-                    </div>
-                    <div class="row">
-                        <div class="col">
-                            <div id="responseModal"></div>
-                        </div>
-                    </div>
-
-                    <button type='submit' class='btn btn-primary'>se connecter</button>
-                    <i class="fas fa-spinner fa-spin" style="display: none"></i>
-                </form>
-            </div>
-        </div>
-    </div>
-</div>
-<div id="signupModal" class="modal fade">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title">Inscription</h5>
-                <button type="button" class="close" data-dismiss="modal">&times;</button>
-            </div>
-            <div class="modal-body">
-                <form id="signup_form">
-                    <div class="form-group">
-                        <label for="username">Nom d'utilisateur</label>
-                        <input type="text" class="form-control" name="username" id="username" required />
-                    </div>
-                    <div class="form-group">
-                        <label for="email">Email</label>
-                        <input type="email" class="form-control" name="email" id="email" required />
-                    </div>
-                    <div class="form-group">
-                        <label for="password">Mot de passe</label>
-                        <input type="password" class="form-control" name="password" id="password" required />
-                    </div>
-                    <div class="form-group">
-                        <label for="code">Mot de passe fourni par l'administrateur</label>
-                        <input type="text" class="form-control" name="code" id="code" required />
-                    </div>
-                    <div class="form-group">
-                        <input type="checkbox"  id="alertnews" name="alertnews">
-                        <label for="alertnews">Être alerté lorsqu'une sortie est publiée.</label>
-                    </div>
-                    <button type='submit' class='btn btn-primary'>S'inscrire</button>
-                </form>
-            </div>
-        </div>
-    </div>
-</div>
-
-<main role="main" class="container starter-template">
-
-    <div class="row">
-        <div class="col">
-            <div id="response"></div>
-        </div>
-    </div>
-</main>
+    </main> -->

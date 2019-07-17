@@ -4,7 +4,6 @@ require_once $_SERVER['DOCUMENT_ROOT'] . '/model/userModel.php';
 require $_SERVER['DOCUMENT_ROOT'] . '/vendor/autoload.php';
 use \Firebase\JWT\JWT;
 use PHPMailer\PHPMailer\PHPMailer;
-//use PHPMailer\PHPMailer\Exception;
 
 class UserController
 {
@@ -36,6 +35,9 @@ class UserController
                 $user->email = $data->email;
                 $user->password = $data->password;
                 $user->role = "USER";
+                $user->tel = $data->tel;
+                if(isset($data->filepond))
+                {$user->pic = json_decode($data->filepond)->data;}
                 if (isset($data->alertnews)) {
                     $user->alert = true;
                 } else {
@@ -65,29 +67,22 @@ class UserController
      */
     function login()
     {
-        $this->setHeader();
-        $data = json_decode(file_get_contents("php://input"));
-        if ($user = UserModel::findByUsername($data->username)) {
-            if (password_verify($data->password, $user->password)) {
+        if ($user = UserModel::findByUsername($_POST['username'])) {
+            if (password_verify($_POST['password'], $user->password)) {
                 $token = array(
-                    "exp" => time() + 7000,
+                    "exp" => time() + 5000,
                     "data" => array(
                         "username" => $user->username,
                         "email" => $user->username
                     )
                 );
-                http_response_code(200);
                 $jwt = JWT::encode($token, "63-trUY^f4ER");
-                echo json_encode(
-                    array(
-                        "message" => "Successful login.",
-                        "jwt" => $jwt,
-                        "role" => $user->role
-                    )
-                );
+                setcookie("jwt", $jwt, time()+7000,"/",'',false,true);
+                header("location: /page");
             } else {
                 http_response_code(401);
-                echo json_encode(array("message" => "Login failed."));
+                echo json_encode(array("message" => "Login Failed, please try again."));
+                header("Location: /home.php");
             }
         } else {
             http_response_code(401);
@@ -98,19 +93,19 @@ class UserController
     function showUsers()
     {
         try {
-            $user = $this->validateJWT($_POST['jwt']);
+            $user = $this->validateJWT($_COOKIE['jwt']);
         } catch (Exception $e) {
             http_response_code(403);
             echo json_encode(array("message" => "Bad credentials."));
             header("Location: /jogging");
         }
-        $user = UserModel::findByUsername($user);
-        if ($user->role === "ADMIN") {
+        try {
+        $u = UserModel::findByUsername($user);
             $users = UserModel::findAll();
             require(__DIR__ . "/../view/user/listUsers.php");
-        } else {
+        } catch (Exception $e) {
             http_response_code(403);
-            echo json_encode(array("message" => "Bad credentials."));
+            echo json_encode(array("message" => "error when loading users"));
             header("Location: /jogging");
         }
     }
@@ -124,44 +119,46 @@ class UserController
         $this->setHeader();
         $data = json_decode(file_get_contents("php://input"));
         try {
-            $username = $this->validateJWT($data->jwt);
+            $username = $this->validateJWT($_COOKIE['jwt']);
         } catch (Exception $e) {
             http_response_code(403);
             echo json_encode(array("message" => "bad credentials"));
             return;
         }
-        $userdb = UserModel::findByUsername($username);
-        if (isset($data->alertnews)) {
+        try
+    {    $userdb = UserModel::findByUsername($username);
+        if (isset($_POST['alertnews'])) {
             $userdb->alert = true;
         } else {
             $userdb->alert = 0;
         }
-        if ($data->email != $userdb->email || $data->username != $userdb->username) {
-            $userdb->email = $data->email;
-            $userdb->username = $data->username;
+        if ($_POST['email'] != $userdb->email || $_POST['username'] != $userdb->username) {
+            $userdb->email = $_POST['email'];
+            $userdb->username = $_POST['username'];
             $token = JWT::encode(array(
                 "exp" => time() + 5000,
                 "data" => array(
-                    "username" => $data->username,
-                    "email" => $data->username
+                    "username" => $_POST['username'],
+                    "email" => $_POST['username']
                 )
             ), "63-trUY^f4ER");
-        } else {
-            $token = "";
+            setcookie("jwt", $token, time()+7000,"/",'',false,true);
+        } 
+        if($_POST['tel'] != $userdb->tel) {
+            $userdb->tel =$_POST['tel'];
         }
-        if ($data->password != "") {
-            $userdb->password = $data->password;
+        if($_POST['filepond'] != ""){
+            $userdb->pic = json_decode($_POST['filepond'])->data;
+        }
+        if ($_POST['password'] != "") {
+            $userdb->password = $_POST['password'];
             $userdb->update();
         } else {
             $userdb->update($userdb->password);
+        }header('Location: /user/update_redirect');} catch (Exception $e) {
+            echo json_encode(array("message" => $e));
         }
 
-        http_response_code(200);
-
-        echo json_encode(array(
-            "message" => "user successfully updated",
-            "jwt" => $token
-        ));
     }
 
     function encryptEmailAES($email){
@@ -175,7 +172,7 @@ class UserController
         $this->setHeader();
         $data = json_decode(file_get_contents("php://input"));
         try {
-            $username = $this->validateJWT($data->jwt);
+            $username = $this->validateJWT($_COOKIE['jwt']);
         } catch (Exception $e) {
             http_response_code(403);
             echo "bad credentials";
@@ -187,6 +184,7 @@ class UserController
                 $code = $this->encryptEmailAES($data->email);
                 $to = $data->email;
                 $mail = new PHPMailer(true);
+                $mail->CharSet = "utf-8";
                 $mail->IsSMTP();
                 $mail->SMTPDebug = 0;
                 $mail->SMTPAuth = true;
@@ -225,7 +223,7 @@ class UserController
     function update_redirect()
     {
         try {
-            $username = $this->validateJWT($_POST['jwt']);
+            $username = $this->validateJWT($_COOKIE['jwt']);
         } catch (Exception $e) {
             http_response_code(403);
             echo json_encode(array("message" => "Bad credentials."));
@@ -242,7 +240,7 @@ class UserController
     function delete() {
             $data = json_decode(file_get_contents("php://input"));
             try {
-                $username = $this->validateJWT($data->jwt);
+                $username = $this->validateJWT($_COOKIE['jwt']);
             } catch (Exception $e) {
                 http_response_code(403);
                 echo json_encode(array("message" => $e));
@@ -258,6 +256,37 @@ class UserController
                 echo json_encode(array("message" => $e));
                 return;
             }
+    }
+
+    function logoutUser() {
+        unset($_COOKIE['jwt']); 
+        setcookie('jwt', null, -1, '/'); 
+        header('Location: /jogging');
+    }
+    function updatePassword() {
+        $data = json_decode(file_get_contents('php://input'));
+        try {
+            $username = $this->validateJWT($_COOKIE['jwt']);
+            $user = UserModel::findByUsername($username);
+            if($user->role !== 'ADMIN'){
+                throw new Exception("Bad Credentials", 1);
+            }
+        } catch (Exception $e) {
+            http_response_code(403);
+            echo json_encode(array("message" => "Bad Credentials"));
+            return ;
+        }
+        try{
+            $user2Update = UserModel::findById($data->id);
+            $user2Update->password = $data->password;
+            $user2Update->update();
+            http_response_code(200);
+            echo json_encode(array("message" => "Password successfully updated"));
+        } catch (Exception $e) {
+            http_response_code(404);
+            echo json_encode((array("message" => "Error.")));
+        }
+
     }
     /** 
      * Validate Json Web Token function :
