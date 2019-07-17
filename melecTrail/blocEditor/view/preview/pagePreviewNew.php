@@ -95,7 +95,7 @@
                       echo '<div id="' . $block->id . '" class="block-unit">';
                       echo str_replace(array('{$block->content}', '{$block->style}'), array($block->content, $block->styleBlock), $categHTML[$block->idBlockType]);
                     } else if($block->idBlockType === '9') {
-                      echo '<div id="' . $block->id . '" class="block-unit" style="height:400px;">';
+                      echo '<div id="' . $block->id . '" class="block-unit>';
                       echo str_replace(array('{$block->content}', '{$block->style}'), array($block->content, $block->styleBlock), $categHTML[$block->idBlockType]);
                     } else {
                       echo '<div id="' . $block->id . '" class="block-unit-complex">';
