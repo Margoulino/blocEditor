@@ -102,7 +102,7 @@
                             echo '<button class="btn-xs btn btn-danger deleteBlock float-right"><i class="float-right fas fa-times"></i></button><div><i id="orderUp' . $block->id . '" i class="fas fa-arrow-up"></i>   <i id="orderDown' . $block->id . '" class="fas fa-arrow-down"></i></div>';
                             echo str_replace(array('{$block->content}', '{$block->style}'), array($block->content, $block->styleBlock), $categHTML[$block->idBlockType]);
                             echo '<button class="btn-xs btn btn-info editBlockPdf float-right"><i class="fas fa-edit"></i></button>';
-                            echo '<button class="btn btn-xs btn-info resizePdfBtn"><i class="fas fa-expand-arrows-alt"></i></button>';
+                            echo '<button class="btn btn-xs btn-info resizePdfBtn" data-toggle="tooltip" data-placement="top" title="Redimensionnement PDF"><i class="fas fa-expand-arrows-alt"></i></button>';
                         } else {
                             echo '<div id="' . $block->id . '" class="block-unit-complex">';
                             echo '<i class="float-right deleteBlock fas fa-times"></i><div><i id="orderUp' . $block->id . '" i class="fas fa-arrow-up"></i>   <i id="orderDown' . $block->id . '"class="fas fa-arrow-down"></i></div>';

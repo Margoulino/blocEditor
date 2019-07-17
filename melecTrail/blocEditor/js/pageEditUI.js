@@ -161,11 +161,15 @@ $(".resizePdfBtn").on("click", function(e) {
     $(pdfViewer).resizable({
         handles: "s"
     });
+
+    //Ajout d'un bouton de sauvegarde de la taille du pdf
     var buttonSaveContainer = document.createElement("div");
     buttonSaveContainer.innerHTML = '<a id="blockSave" class="btn btn-success" href="#">Sauvegarder le bloc</a>';
     $(this)
         .parent()
         .append($(buttonSaveContainer));
+    //-----
+
     $(buttonSaveContainer.firstElementChild).first().on("click", function() {
         var data = {
             style: $(pdfViewer).height() + "px",
