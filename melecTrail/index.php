@@ -10,9 +10,14 @@ use \Firebase\JWT\JWT;
  */
 function validateJWT($jwt)
 {
-    if ($decoded = JWT::decode($jwt, "63-trUY^f4ER", array('HS256'))) {
-        return $decoded->data->username;
-    } else return null;
+    try {
+        if ($decoded = JWT::decode($jwt, "63-trUY^f4ER", array('HS256'))) {
+            return $decoded->data->username;
+        }
+    } catch (\Firebase\JWT\ExpiredException $e) {
+        echo 'Caught exception: ',  $e->getMessage(), "\n";
+        echo '<script>window.alert("Votre session est expirée, veuillez vous reconnecter.");window.location.href="/";</script>';
+    }
 }
 
 error_reporting(E_ALL);
@@ -91,13 +96,13 @@ if ($path_split === '/') {
         if ($req_method !== 'index' && $req_method !== '') {
             if ($req_method === 'editionPage' || $req_method === 'previewPage' || $req_method === '') {
                 $jwt = $_GET['jwt'];
-            } elseif($req_method === 'uploadImage' || $req_method === 'uploadFile') {
+            } elseif ($req_method === 'uploadImage' || $req_method === 'uploadFile') {
                 $jwt = $_POST['jwt'];
             } else {
                 $data = json_decode(file_get_contents("php://input"));
                 $jwt = $data->jwt;
             }
-            if(validateJWT($jwt) !== 'admin'){
+            if (validateJWT($jwt) !== 'admin') {
                 http_response_code(403);
                 echo json_encode(array("message" => "bad credentials"));
                 return;

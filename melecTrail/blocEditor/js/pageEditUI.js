@@ -204,7 +204,8 @@ removeCategs.forEach(remCat => {
             var categoryId = e.target.getAttribute("id");
             var data = {
                 pageId: pageId,
-                categoryId: categoryId
+                categoryId: categoryId,
+                jwt: getCookie('jwt')
             };
             deleteCategory(JSON.stringify(data)).then(function() {
                 location.reload();
@@ -221,7 +222,8 @@ addExistingCateg.forEach(categChoice => {
             var categoryId = e.target.getAttribute("id");
             var data = {
                 pageId: pageId,
-                categoryId: categoryId
+                categoryId: categoryId,
+                jwt : getCookie('jwt')
             };
             addCategory(JSON.stringify(data)).then(function() {
                 location.reload();
@@ -250,7 +252,8 @@ saveNewCategBtn.addEventListener("click", function() {
                 findCategoryByName(JSON.stringify(data)).then(function(response) {
                     var dataAdd = {
                         pageId: pageId,
-                        categoryId: response[0]
+                        categoryId: response[0],
+                        jwt: getCookie('jwt')
                     };
                     addCategory(JSON.stringify(dataAdd)).then(function() {
                         location.reload();

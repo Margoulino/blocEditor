@@ -268,7 +268,6 @@
   <script src="/blocEditor/js/dependances/dropzone.js"></script>
   <script src="/blocEditor/js/dependances/image-picker.js"></script>
   <script src="/blocEditor/js/dependances/lightbox.min.js"></script>
-  <script src="/blocEditor/js/dependances/interact.min.js"></script>
   <script src="/blocEditor/js/dependances/jquery-ui.js"></script>
   <script src="/blocEditor/js/blockInit.js"></script>
   <script src="/blocEditor/js/previewUI.js"></script>

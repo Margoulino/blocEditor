@@ -179,7 +179,6 @@ function addCategory(data) {
                 reject(JSON.parse(xhr.response).message);
             }
         };
-        data.jwt = getCookie('jwt');
         xhr.open("POST", "/page/addCategory");
         xhr.setRequestHeader("Content-type", "application/json");
         xhr.send(data);
