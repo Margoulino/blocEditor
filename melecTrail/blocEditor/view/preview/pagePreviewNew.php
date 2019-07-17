@@ -213,8 +213,6 @@
     /* DOM is ready
         ------------------------------------------------*/
     $(function() {
-      var bhf = $('#backEdit').attr('href');
-      $('#backEdit').attr('href', bhf + '?jwt=' + getCookie('jwt'))
       // Change top navbar on scroll
       $(window).on("scroll", function() {
         if ($(window).scrollTop() > 100) {
