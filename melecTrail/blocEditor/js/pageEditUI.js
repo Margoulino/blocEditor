@@ -36,7 +36,7 @@ blockTextBtn.addEventListener("click", function() {
         closeNav();
         var btnSave = document.getElementById("blockSave");
         var btnDel = document.getElementById("blockDelete");
-        interfaceBlock.scrollIntoView({behavior: "smooth"});
+        interfaceBlock.scrollIntoView({ behavior: "smooth" });
         btnSave.addEventListener("click", function() {
             var data = {
                 name: nomPage + "_" + idNewBlock,
@@ -45,7 +45,7 @@ blockTextBtn.addEventListener("click", function() {
                 orderBlock: idNewBlock,
                 idBlockType: 5,
                 styleBlock: "",
-                jwt : getCookie('jwt')
+                jwt: getCookie("jwt")
             };
             saveBlock(JSON.stringify(data)).then(function() {
                 location.reload();
@@ -101,7 +101,7 @@ $(".editBlock").one("click", function(event) {
                 idParent: blockToUpdate.idParent,
                 idColumn: blockToUpdate.idColumn,
                 styleBlock: blockToUpdate.styleBlock,
-                jwt: getCookie('jwt')
+                jwt: getCookie("jwt")
             };
             updateBlock(JSON.stringify(data)).then(function() {
                 location.reload();
@@ -127,7 +127,8 @@ docPdfButton.addEventListener("click", function() {
             pageId: pageId,
             orderBlock: idNewBlock,
             idBlockType: 9,
-            styleBlock: ""
+            styleBlock: "",
+            jwt: getCookie('jwt')
         };
         saveBlock(JSON.stringify(data)).then(function() {
             location.reload();
@@ -143,12 +144,41 @@ $(".editBlockPdf").on("click", function(e) {
         var data = {
             id: e.currentTarget.parentElement.getAttribute("id"),
             content: selPdf.value,
-            pageId: pageId
+            pageId: pageId,
+            jwt: getCookie('jwt')
         };
         updateBlock(JSON.stringify(data)).then(function() {
             location.reload();
         });
     });
+});
+
+$(".resizePdfBtn").on("click", function(e) {
+    var id = e.currentTarget.parentElement.getAttribute("id");
+    var button = $(this);
+    $(button).hide();
+    var pdfViewer = $(this).parent().find(".resizePdf")[0];
+    $(pdfViewer).resizable({
+        handles: "s"
+    });
+    var buttonSaveContainer = document.createElement("div");
+    buttonSaveContainer.innerHTML = '<a id="blockSave" class="btn btn-success" href="#">Sauvegarder le bloc</a>';
+    $(this)
+        .parent()
+        .append($(buttonSaveContainer));
+    $(buttonSaveContainer.firstElementChild).first().on("click", function() {
+        var data = {
+            style: $(pdfViewer).height() + "px",
+            pageId: pageId,
+            id: id,
+            jwt: getCookie('jwt')
+        };
+        updateBlock(JSON.stringify(data)).then(function() {
+            $(buttonSave).remove();
+            $(button).show();
+        });
+    });
+    //Update le block avec les infos de style, et pageId et block Id, JWT ?
 });
 
 //Modif ordre block
@@ -334,4 +364,3 @@ function escapeHtml(text) {
         return map[m];
     });
 }
-
