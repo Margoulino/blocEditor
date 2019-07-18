@@ -47,13 +47,13 @@
                     </div>
                 </div>
                 <div class="row">
-                    <p id="textOption" class="col menuOptions"><i class="fas fa-align-left menuIcons"></i></p>
-                    <p id="imgOption" class="col menuOptions"><i class="fas fa-image menuIcons"></i></p>
-                    <p id="2colOption" class="col menuOptions"><span class="iconify menuIcons" data-icon="feather:columns" data-inline="false"></span></p>
-                    <p id="3colOption" class="col menuOptions"><span class="iconify menuIcons" data-icon="fe:columns" data-inline="false"></span></p>
-                    <p id="sliderOption" class="col menuOptions"><span class="iconify menuIcons" data-icon="ic:outline-view-carousel" data-inline="false"></span></p>
-                    <p id="galleryOption" class="col menuOptions"><i class="fas fa-images menuIcons"></i></p>
-                    <p id="docPdfOption" class="col menuOptions"><i class="fas fa-file-pdf menuIcons"></i></p>
+                    <p id="textOption" class="col menuOptions" data-toggle="tooltip" data-placement="top" title="Bloc texte"><i class="fas fa-align-left menuIcons"></i></p>
+                    <p id="imgOption" class="col menuOptions" data-toggle="tooltip" data-placement="top" title="Bloc image"><i class="fas fa-image menuIcons"></i></p>
+                    <p id="2colOption" class="col menuOptions" data-toggle="tooltip" data-placement="top" title="Bloc 2 colonnes"><span class="iconify menuIcons" data-icon="feather:columns" data-inline="false"></span></p>
+                    <p id="3colOption" class="col menuOptions" data-toggle="tooltip" data-placement="top" title="Bloc 3 colonnes"><span class="iconify menuIcons" data-icon="fe:columns" data-inline="false"></span></p>
+                    <p id="sliderOption" class="col menuOptions" data-toggle="tooltip" data-placement="top" title="Bloc carousel"><span class="iconify menuIcons" data-icon="ic:outline-view-carousel" data-inline="false"></span></p>
+                    <p id="galleryOption" class="col menuOptions" data-toggle="tooltip" data-placement="top" title="Bloc gallerie"><i class="fas fa-images menuIcons"></i></p>
+                    <p id="docPdfOption" class="col menuOptions" data-toggle="tooltip" data-placement="top" title="Bloc PDF"><i class="fas fa-file-pdf menuIcons"></i></p>
                 </div>
             </div>
         </div>
