@@ -73,7 +73,8 @@ class UserController
                     "exp" => time() + 5000,
                     "data" => array(
                         "username" => $user->username,
-                        "email" => $user->username
+                        "email" => $user->username,
+                        "role" => $user->role
                     )
                 );
                 $jwt = JWT::encode($token, "63-trUY^f4ER");

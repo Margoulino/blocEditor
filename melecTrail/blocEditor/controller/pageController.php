@@ -8,7 +8,7 @@ require_once $_SERVER['DOCUMENT_ROOT'] . '/blocEditor/model/blockTypeModel.php';
 require_once $_SERVER['DOCUMENT_ROOT'] . '/blocEditor/controller/blockController.php';
 require_once $_SERVER['DOCUMENT_ROOT'] . '/blocEditor/controller/navController.php';
 require $_SERVER['DOCUMENT_ROOT'] . '/vendor/autoload.php';
-
+use \Firebase\JWT\JWT;
 class PageController
 {
     /** 
@@ -246,6 +246,7 @@ class PageController
                         }
                     }
                 }
+                $userRole = PageController::validateJWT($_COOKIE['jwt']);
                 $header = BlockController::buildHeader(BlockTypeModel::findById(7)[0]->templateBlock);
                 $jsFile = $_SERVER['DOCUMENT_ROOT'] . "/blocEditor/js/blockInit.js";
                 $fileHandler = fopen($jsFile, 'w');
@@ -372,6 +373,17 @@ class PageController
         } catch (Exception $e) {
             http_response_code(404);
             echo json_encode(array("message" => $e->getMessage()));
+        }
+    }
+    public static function validateJWT($jwt)
+    {
+        try {
+            if ($decoded = JWT::decode($jwt, "63-trUY^f4ER", array('HS256'))) {
+                return $decoded->data->role;
+            }
+        } catch (\Firebase\JWT\ExpiredException $e) {
+            echo 'Caught exception: ',  $e->getMessage(), "\n";
+            echo '<script>window.alert("Votre session est expirée, veuillez vous reconnecter.");window.location.href="/";</script>';
         }
     }
 }

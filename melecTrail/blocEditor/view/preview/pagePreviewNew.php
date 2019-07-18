@@ -196,6 +196,10 @@
       </div>
     </div> <!-- .main-content -->
   </div>
+  <?php
+      if($nav !== null && $userRole === 'ADMIN') 
+      { echo '<button class="btn btn-primary">Modifier le site</button>' ;} 
+  ?>
   <script>
     var pageId = <?php echo $page[0]->id; ?>;
   </script>
