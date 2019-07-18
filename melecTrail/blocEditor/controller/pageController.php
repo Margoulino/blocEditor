@@ -204,7 +204,7 @@ class PageController
         try {
             if (!empty(PageModel::findById($data->pageId))) {
                 if (!empty(CategoryModel::findById($data->categoryId))) {
-                    if (!count(PageCategoryModel::findByIdPage($data->pageId)) <= 1) {
+                    if (!(count(PageCategoryModel::findByIdPage($data->pageId)) < 2)) {
                         PageCategoryModel::delete($data->pageId, $data->categoryId);
                         NavController::updateSitemap();
                         http_response_code(200);

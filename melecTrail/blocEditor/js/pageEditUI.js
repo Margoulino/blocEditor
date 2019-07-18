@@ -207,6 +207,8 @@ removeCategs.forEach(remCat => {
             };
             deleteCategory(JSON.stringify(data)).then(function() {
                 location.reload();
+            }).catch(function(e) {
+                alert(e);
             });
         }
     });
