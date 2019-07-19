@@ -301,6 +301,14 @@ class BlockController
                     "<div class='block-unit-complex' id='" . $child->id . "'><button class='btn-xs btn btn-danger deleteBlock float-right'><i class='float-right fas fa-times'></i></button>" . BlockController::buildCarouselAndGallery($child, $categHTML) . "<button class='btn btn-outline-info contentSlider'>Ajouter/Supprimer une image</button></div>",
                     $result
                 );
+            } elseif($child->idBlockType === '9') {
+                $oldVar = array('{$block->content}', '{$block->style}', '{$block->id}');
+                $newVar = array($child->content, $child->styleBlock, $child->id);
+                $result = str_replace(
+                    '{col' . $level . '.' . $child->idColumn . '}',
+                    "<div class='block-unit' id='" . $child->id . "'><button class='btn-xs btn btn-danger deleteBlock float-right'><i class='float-right fas fa-times'></i></button><button class='btn-xs btn btn-info editBlockPdf float-right'><i class='fas fa-edit'></i></button>" . str_replace($oldVar, $newVar, $categHTML[$child->idBlockType]) . "</div>",
+                    $result
+                );
             } else {
                 $result = str_replace(
                     '{col' . $level . '.' . $child->idColumn . '}',

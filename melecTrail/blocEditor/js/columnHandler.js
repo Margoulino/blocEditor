@@ -227,5 +227,27 @@ $(document).ready(function() {
                 alert("Ajout impossible, ce bloc se situe à un sous niveau trop élevé");
             }
         });
+        $("#docPdfBlock").one("click", function(e) {
+            e.preventDefault();
+            e.stopImmediatePropagation();
+            $("#innerBlockModal").modal("toggle");
+            $("#uploadFileModal").modal("show");
+            var btnPdfSelect = document.getElementById("pdfSelect");
+            var selPdf = document.querySelector(".pdfFilesSel");
+            btnPdfSelect.addEventListener("click", function() {
+                var data = {
+                    name: nomPage + "_" + idNewBlock,
+                    content: selPdf.value,
+                    idParent: idParent,
+                    idColumn: idColumn,
+                    orderBlock: null,
+                    idBlockType: "9",
+                    pageId: pageId
+                };
+                saveBlock(JSON.stringify(data)).then(function() {
+                    location.reload();
+                });
+            });
+        });
     });
 });

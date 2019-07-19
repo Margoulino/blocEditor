@@ -283,6 +283,11 @@
                         <button id="2ColBlock" class="col btn btn-info menuOptions"><span class="iconify menuIcons" data-icon="feather:columns" data-inline="false"></span></button>
                         <button id="3ColBlock" class="col btn btn-info menuOptions"><span class="iconify menuIcons" data-icon="fe:columns" data-inline="false"></span></button>
                         <button id="carouselBlock" class="col btn btn-info menuOptions"><span class="iconify menuIcons" data-icon="ic:outline-view-carousel" data-inline="false"></span></button>
+                        <div class="row" style="flex-grow:0.14;">
+                            <div class="col">
+                                <button id="docPdfBlock" class="col btn btn-info menuOptions"><i class="fas fa-file-pdf fa-5x"></i></button>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
