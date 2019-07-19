@@ -306,7 +306,7 @@ class BlockController
                 $newVar = array($child->content, $child->styleBlock, $child->id);
                 $result = str_replace(
                     '{col' . $level . '.' . $child->idColumn . '}',
-                    "<div class='block-unit' id='" . $child->id . "'><button class='btn-xs btn btn-danger deleteBlock float-right'><i class='float-right fas fa-times'></i></button><button class='btn-xs btn btn-info editBlockPdf float-right'><i class='fas fa-edit'></i></button>" . str_replace($oldVar, $newVar, $categHTML[$child->idBlockType]) . "</div>",
+                    "<div class='block-unit' id='" . $child->id . "'><button class='btn-xs btn btn-danger deleteBlock float-right'><i class='float-right fas fa-times'></i></button><button class='btn-xs btn btn-info editBlockPdf float-right'><i class='fas fa-edit'></i></button>" . str_replace($oldVar, $newVar, $categHTML[$child->idBlockType]) . "<button class='btn btn-xs btn-info resizePdfBtn' data-toggle='tooltip' data-placement='top' title='Redimensionnement PDF'><i class='fas fa-expand-arrows-alt'></i></button></div>",
                     $result
                 );
             } else {
@@ -348,6 +348,14 @@ class BlockController
                 $result = str_replace(
                     '{col' .  $level . '.' . $child->idColumn . '}',
                     "<div class='block-unit-complex' id='" . $child->id . "'>" . BlockController::buildCarouselAndGallery($child, $categHTML) . "</div>",
+                    $result
+                );
+            }  elseif ($child->idBlockType === '9') {
+                $oldVar = array('{$block->content}', '{$block->style}', '{$block->id}');
+                $newVar = array($child->content, $child->styleBlock, $child->id);
+                $result = str_replace(
+                    '{col' . $level . '.' . $child->idColumn . '}',
+                    "<div class='block-unit' id='" . $child->id . "'>" . str_replace($oldVar, $newVar, $categHTML[$child->idBlockType]) . "</div>",
                     $result
                 );
             } else {
